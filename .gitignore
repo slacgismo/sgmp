@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Certs and configs
+/edge_devices/config.py
+/edge_devices/certs
