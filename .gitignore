@@ -130,5 +130,5 @@ dmypy.json
 
 # Certs and configs
 /edge_devices/config.py
-/edge_devices/certs/*
+edge_devices/certs/*
 .idea/
