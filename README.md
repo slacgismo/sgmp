@@ -6,7 +6,7 @@
 Since the team is working on a mono repo, certain rules might apply for every one to better contribute to the project.
 
 ## Branches
-- `master` branch is a protected branch. We directly modify it only when necessary and with great caution. Instead, it is more appropriate to create a pull request to `master` so we can examine possible conflicts and provide feedbacks on the changes.
+- `master/main` branch is a protected branch. We directly modify it only when necessary and with great caution. Instead, it is more appropriate to create a pull request to `master/main` so we can examine possible conflicts and provide feedbacks on the changes.
 - Most of the time, team members work on their own branch, which is prefixed by their Andrew ID. One example would be for Haotian (`hzheng3`), he should work on `hzheng3/dev`, `hzheng3/fix`, and other branches that explictly have `hzheng3/` as prefix. One can decide their own naming system after the `<andrew-id>/` prefix.
 - Tags follow the same prefix conventions. 
 ## Folders
