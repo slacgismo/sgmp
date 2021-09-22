@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0D51EE0926F27EDF00BCAAB3"
-               BuildableName = "SGMP-Moble.app"
+               BuildableName = "SGMP-Mobile.app"
                BlueprintName = "SGMP-Mobile"
                ReferencedContainer = "container:SGMP-Mobile.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0D51EE0926F27EDF00BCAAB3"
-            BuildableName = "SGMP-Moble.app"
+            BuildableName = "SGMP-Mobile.app"
             BlueprintName = "SGMP-Mobile"
             ReferencedContainer = "container:SGMP-Mobile.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0D51EE0926F27EDF00BCAAB3"
-            BuildableName = "SGMP-Moble.app"
+            BuildableName = "SGMP-Mobile.app"
             BlueprintName = "SGMP-Mobile"
             ReferencedContainer = "container:SGMP-Mobile.xcodeproj">
          </BuildableReference>

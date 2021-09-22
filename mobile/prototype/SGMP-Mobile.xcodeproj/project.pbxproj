@@ -11,6 +11,10 @@
 		0D51EE1226F27EDF00BCAAB3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D51EE1126F27EDF00BCAAB3 /* Assets.xcassets */; };
 		0D51EE1526F27EDF00BCAAB3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D51EE1426F27EDF00BCAAB3 /* Preview Assets.xcassets */; };
 		0D51EE1C26F27FCC00BCAAB3 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D51EE1B26F27FCC00BCAAB3 /* MainTabView.swift */; };
+		0D73893F26FA97CF000C43A6 /* ARInteractiveViewNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D73893E26FA97CF000C43A6 /* ARInteractiveViewNode.swift */; };
+		0D73894226FAA242000C43A6 /* ARTouchNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D73894126FAA242000C43A6 /* ARTouchNode.swift */; };
+		0D73894426FAA68F000C43A6 /* ScaffoldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D73894326FAA68F000C43A6 /* ScaffoldView.swift */; };
+		0D73894626FAA72B000C43A6 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D73894526FAA72B000C43A6 /* ToastView.swift */; };
 		0DE2E79826F6DEDB00932B41 /* ARImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE2E79726F6DEDB00932B41 /* ARImageView.swift */; };
 		0DE2E79C26F85C9A00932B41 /* BaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE2E79B26F85C9A00932B41 /* BaseManager.swift */; };
 		0DE2E7AB26F85DA100932B41 /* Bundle+Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE2E79F26F85DA100932B41 /* Bundle+Version.swift */; };
@@ -20,7 +24,7 @@
 		0DE2E7C126F8625200932B41 /* SummaryTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE2E7C026F8625200932B41 /* SummaryTabView.swift */; };
 		0DE2E7C326F8625600932B41 /* CameraTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE2E7C226F8625600932B41 /* CameraTabView.swift */; };
 		0DE2E7C526F8625C00932B41 /* SettingsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE2E7C426F8625C00932B41 /* SettingsTabView.swift */; };
-		0DE2E7C826F99DF800932B41 /* ARNodeUpdateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE2E7C726F99DF800932B41 /* ARNodeUpdateProtocol.swift */; };
+		0DE2E7C826F99DF800932B41 /* ARNodeProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE2E7C726F99DF800932B41 /* ARNodeProtocol.swift */; };
 		0DE2E7CA26F99F3E00932B41 /* ARRefImageNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE2E7C926F99F3E00932B41 /* ARRefImageNode.swift */; };
 		0DE2E7CC26F9A4AB00932B41 /* ARRefImageCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE2E7CB26F9A4AB00932B41 /* ARRefImageCoverView.swift */; };
 		0DE2E7D126F9B6B900932B41 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 0DE2E7D026F9B6B900932B41 /* Defaults */; };
@@ -32,6 +36,10 @@
 		0D51EE1126F27EDF00BCAAB3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0D51EE1426F27EDF00BCAAB3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		0D51EE1B26F27FCC00BCAAB3 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		0D73893E26FA97CF000C43A6 /* ARInteractiveViewNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARInteractiveViewNode.swift; sourceTree = "<group>"; };
+		0D73894126FAA242000C43A6 /* ARTouchNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARTouchNode.swift; sourceTree = "<group>"; };
+		0D73894326FAA68F000C43A6 /* ScaffoldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaffoldView.swift; sourceTree = "<group>"; };
+		0D73894526FAA72B000C43A6 /* ToastView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		0DE2E79726F6DEDB00932B41 /* ARImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARImageView.swift; sourceTree = "<group>"; };
 		0DE2E79B26F85C9A00932B41 /* BaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseManager.swift; sourceTree = "<group>"; };
 		0DE2E79F26F85DA100932B41 /* Bundle+Version.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+Version.swift"; sourceTree = "<group>"; };
@@ -41,7 +49,7 @@
 		0DE2E7C026F8625200932B41 /* SummaryTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryTabView.swift; sourceTree = "<group>"; };
 		0DE2E7C226F8625600932B41 /* CameraTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraTabView.swift; sourceTree = "<group>"; };
 		0DE2E7C426F8625C00932B41 /* SettingsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTabView.swift; sourceTree = "<group>"; };
-		0DE2E7C726F99DF800932B41 /* ARNodeUpdateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARNodeUpdateProtocol.swift; sourceTree = "<group>"; };
+		0DE2E7C726F99DF800932B41 /* ARNodeProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARNodeProtocol.swift; sourceTree = "<group>"; };
 		0DE2E7C926F99F3E00932B41 /* ARRefImageNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARRefImageNode.swift; sourceTree = "<group>"; };
 		0DE2E7CB26F9A4AB00932B41 /* ARRefImageCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARRefImageCoverView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -96,13 +104,32 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		0D73894026FA9827000C43A6 /* Touch */ = {
+			isa = PBXGroup;
+			children = (
+				0D73894126FAA242000C43A6 /* ARTouchNode.swift */,
+				0D73893E26FA97CF000C43A6 /* ARInteractiveViewNode.swift */,
+			);
+			path = Touch;
+			sourceTree = "<group>";
+		};
+		0D73894726FAA72E000C43A6 /* Decorations */ = {
+			isa = PBXGroup;
+			children = (
+				0D73894526FAA72B000C43A6 /* ToastView.swift */,
+			);
+			path = Decorations;
+			sourceTree = "<group>";
+		};
 		0DE2E79526F6DCA200932B41 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0D73894326FAA68F000C43A6 /* ScaffoldView.swift */,
 				0D51EE1B26F27FCC00BCAAB3 /* MainTabView.swift */,
 				0DE2E7C026F8625200932B41 /* SummaryTabView.swift */,
 				0DE2E7C226F8625600932B41 /* CameraTabView.swift */,
 				0DE2E7C426F8625C00932B41 /* SettingsTabView.swift */,
+				0D73894726FAA72E000C43A6 /* Decorations */,
 				0DE2E7C626F99B0500932B41 /* AR */,
 			);
 			path = Views;
@@ -145,8 +172,10 @@
 		0DE2E7C626F99B0500932B41 /* AR */ = {
 			isa = PBXGroup;
 			children = (
+				0DE2E79726F6DEDB00932B41 /* ARImageView.swift */,
+				0D73894026FA9827000C43A6 /* Touch */,
 				0DE2E7D226FA5D7600932B41 /* ImageRef */,
-				0DE2E7C726F99DF800932B41 /* ARNodeUpdateProtocol.swift */,
+				0DE2E7C726F99DF800932B41 /* ARNodeProtocol.swift */,
 			);
 			path = AR;
 			sourceTree = "<group>";
@@ -154,7 +183,6 @@
 		0DE2E7D226FA5D7600932B41 /* ImageRef */ = {
 			isa = PBXGroup;
 			children = (
-				0DE2E79726F6DEDB00932B41 /* ARImageView.swift */,
 				0DE2E7C926F99F3E00932B41 /* ARRefImageNode.swift */,
 				0DE2E7CB26F9A4AB00932B41 /* ARRefImageCoverView.swift */,
 			);
@@ -240,16 +268,20 @@
 				0DE2E79C26F85C9A00932B41 /* BaseManager.swift in Sources */,
 				0DE2E7CC26F9A4AB00932B41 /* ARRefImageCoverView.swift in Sources */,
 				0DE2E79826F6DEDB00932B41 /* ARImageView.swift in Sources */,
+				0D73894426FAA68F000C43A6 /* ScaffoldView.swift in Sources */,
 				0DE2E7BD26F8601200932B41 /* EnvironmentManager.swift in Sources */,
 				0DE2E7CA26F99F3E00932B41 /* ARRefImageNode.swift in Sources */,
-				0DE2E7C826F99DF800932B41 /* ARNodeUpdateProtocol.swift in Sources */,
+				0DE2E7C826F99DF800932B41 /* ARNodeProtocol.swift in Sources */,
 				0DE2E7C326F8625600932B41 /* CameraTabView.swift in Sources */,
 				0D51EE1C26F27FCC00BCAAB3 /* MainTabView.swift in Sources */,
+				0D73894226FAA242000C43A6 /* ARTouchNode.swift in Sources */,
 				0DE2E7C526F8625C00932B41 /* SettingsTabView.swift in Sources */,
 				0DE2E7BA26F85FAD00932B41 /* State.swift in Sources */,
 				0DE2E7C126F8625200932B41 /* SummaryTabView.swift in Sources */,
 				0DE2E7AB26F85DA100932B41 /* Bundle+Version.swift in Sources */,
+				0D73893F26FA97CF000C43A6 /* ARInteractiveViewNode.swift in Sources */,
 				0DE2E7B026F85DA100932B41 /* Class+Runtime.swift in Sources */,
+				0D73894626FAA72B000C43A6 /* ToastView.swift in Sources */,
 				0D51EE0E26F27EDF00BCAAB3 /* SgmpApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

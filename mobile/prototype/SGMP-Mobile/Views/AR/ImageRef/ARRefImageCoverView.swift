@@ -10,9 +10,9 @@ import SwiftUI
 struct ARRefImageCoverView: View {
     var body: some View {
         ZStack {
-            Color(uiColor: UIColor.tertiarySystemBackground)
+            Color(uiColor: UIColor.tertiarySystemBackground).opacity(0.4)
             ZStack {
-                Color(uiColor: UIColor.systemBackground).padding()
+                Color(uiColor: UIColor.systemBackground).opacity(0.4).padding()
                 VStack {
                     Text("SGMP UI Layer")
                     Button {
@@ -20,6 +20,9 @@ struct ARRefImageCoverView: View {
                     } label: {
                         Text("Button")
                     }
+                    
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
 
                     Slider(value: .constant(0.5), in: 0...1)
                 }

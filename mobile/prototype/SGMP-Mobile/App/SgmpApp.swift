@@ -15,7 +15,7 @@ struct SgmpApp: App {
     
     var body: some Scene {
         WindowGroup {
-            MainTabView()
+            ScaffoldView()
                 .environmentObject(EnvironmentManager.shared.env)
         }
     }

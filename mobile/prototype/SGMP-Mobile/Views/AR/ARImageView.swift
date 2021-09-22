@@ -73,7 +73,15 @@ class ARRefImageView : ARSCNView, ARSCNViewDelegate, ARSessionDelegate {
     
     // MARK: - ARSessionDelegate
     func session(_ session: ARSession, cameraDidChangeTrackingState camera: ARCamera) {
-        
+        let env = EnvironmentManager.shared.env
+        switch camera.trackingState {
+        case .notAvailable:
+            env.showDecoration(view: AnyView(ToastView(title: "Camera Not Available")), forTime: .seconds(1))
+        case .limited(_):
+            env.showDecoration(view: AnyView(ToastView(title: "Tracking Limited")), forTime: .seconds(1))
+        case .normal:
+            env.showDecoration(view: AnyView(ToastView(title: "Tracking Normal")), forTime: .seconds(1))
+        }
     }
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
@@ -83,6 +91,14 @@ class ARRefImageView : ARSCNView, ARSCNViewDelegate, ARSessionDelegate {
     // MARK: - UIRespondor
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
+        
+        // TODO: dispatch touch events to all nodes that conforms to the touch protocol
+        touches.forEach { touch in
+            let result = self.hitTest(touch.location(in: self), options: [.searchMode:SCNHitTestSearchMode.closest])
+            if let firstHit = result.first, let hitNode = firstHit.node as? ARNodeTouchProtocol {
+                hitNode.hit(hitResult: firstHit)
+            }
+        }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {

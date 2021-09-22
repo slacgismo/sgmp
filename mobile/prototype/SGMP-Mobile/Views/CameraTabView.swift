@@ -11,20 +11,18 @@ struct CameraTabView: View {
     var body: some View {
         List {
             Section {
-                NavigationLink("CoreML / Vision") {
-                    
-                }
-                
-                NavigationLink("ARKit (Object)") {
-                    
-                }
-                
-                NavigationLink("ARKit (Image)") {
+                NavigationLink("Open Camera") {
                     ARRefImageViewRepresentable()
                         .ignoresSafeArea()
                 }
             } header: {
                 Text("AR Modes")
+            }
+            
+            Section {
+                Text("Looking for QR code")
+            } header: {
+                Text("Guidelines")
             }
             
             

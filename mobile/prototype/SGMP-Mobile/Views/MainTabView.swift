@@ -34,6 +34,11 @@ struct MainTabView: View {
                 Label("Settings", systemImage: "gear")
             }
         }
+        .onChange(of: env.showLogin, perform: { showing in
+            if showing {
+                env.showDecoration(view: AnyView(ToastView(title: "Please Login")), forTime: .seconds(1))
+            }
+        })
         .sheet(isPresented: $env.showLogin) {
             
         } content: {
