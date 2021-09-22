@@ -12,11 +12,11 @@ struct CameraTabView: View {
         List {
             Section {
                 NavigationLink("Open Camera") {
-                    ARRefImageViewRepresentable()
+                    ARGridViewControllerRepresentable()
                         .ignoresSafeArea()
                 }
             } header: {
-                Text("AR Modes")
+                Text("See Grid in AR")
             }
             
             Section {

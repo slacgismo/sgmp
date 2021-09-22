@@ -25,16 +25,15 @@ class ARRefImageNode : SCNNode, ARNodeUpdateProtocol {
         planeNode.eulerAngles.x = -.pi / 2
         
         DispatchQueue.main.async {
-            let view : UIView = UIHostingController(rootView: ARRefImageCoverView()).view
+            let vc = UIHostingController(rootView: ARRefImageCoverView())
+            let view : UIView = vc.view
+            view.isOpaque = false
             view.backgroundColor = UIColor.clear
             view.frame = CGRect.init(x: 0, y: 0, width: 300, height: 300)
-            let parentView = UIView(frame: view.bounds)
-            view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-            parentView.addSubview(view)
             let material = SCNMaterial()
             material.lightingModel = .constant
             material.isDoubleSided = true
-            material.diffuse.contents = parentView
+            material.diffuse.contents = view
             planeNode.geometry?.materials = [material]
         }
         

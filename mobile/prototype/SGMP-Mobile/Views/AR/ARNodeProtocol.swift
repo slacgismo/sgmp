@@ -11,8 +11,3 @@ import ARKit
 protocol ARNodeUpdateProtocol {
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval)
 }
-
-protocol ARNodeTouchProtocol {
-    func hit(hitResult : SCNHitTestResult)
-}
-

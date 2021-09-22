@@ -11,11 +11,14 @@
 		0D51EE1226F27EDF00BCAAB3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D51EE1126F27EDF00BCAAB3 /* Assets.xcassets */; };
 		0D51EE1526F27EDF00BCAAB3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D51EE1426F27EDF00BCAAB3 /* Preview Assets.xcassets */; };
 		0D51EE1C26F27FCC00BCAAB3 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D51EE1B26F27FCC00BCAAB3 /* MainTabView.swift */; };
+		0D5F79E526FB2D660013AAB1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F79E426FB2D660013AAB1 /* Main.storyboard */; };
 		0D73893F26FA97CF000C43A6 /* ARInteractiveViewNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D73893E26FA97CF000C43A6 /* ARInteractiveViewNode.swift */; };
 		0D73894226FAA242000C43A6 /* ARTouchNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D73894126FAA242000C43A6 /* ARTouchNode.swift */; };
 		0D73894426FAA68F000C43A6 /* ScaffoldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D73894326FAA68F000C43A6 /* ScaffoldView.swift */; };
 		0D73894626FAA72B000C43A6 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D73894526FAA72B000C43A6 /* ToastView.swift */; };
-		0DE2E79826F6DEDB00932B41 /* ARImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE2E79726F6DEDB00932B41 /* ARImageView.swift */; };
+		0D73894A26FB1492000C43A6 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 0D73894926FB1492000C43A6 /* Introspect */; };
+		0D73894C26FB1656000C43A6 /* UIRespondor+Hierarchy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D73894B26FB1656000C43A6 /* UIRespondor+Hierarchy.swift */; };
+		0DE2E79826F6DEDB00932B41 /* ARGridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE2E79726F6DEDB00932B41 /* ARGridViewController.swift */; };
 		0DE2E79C26F85C9A00932B41 /* BaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE2E79B26F85C9A00932B41 /* BaseManager.swift */; };
 		0DE2E7AB26F85DA100932B41 /* Bundle+Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE2E79F26F85DA100932B41 /* Bundle+Version.swift */; };
 		0DE2E7B026F85DA100932B41 /* Class+Runtime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE2E7A426F85DA100932B41 /* Class+Runtime.swift */; };
@@ -36,11 +39,14 @@
 		0D51EE1126F27EDF00BCAAB3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0D51EE1426F27EDF00BCAAB3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		0D51EE1B26F27FCC00BCAAB3 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		0D5F79E426FB2D660013AAB1 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		0D5F79E626FB2DCA0013AAB1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		0D73893E26FA97CF000C43A6 /* ARInteractiveViewNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARInteractiveViewNode.swift; sourceTree = "<group>"; };
 		0D73894126FAA242000C43A6 /* ARTouchNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARTouchNode.swift; sourceTree = "<group>"; };
 		0D73894326FAA68F000C43A6 /* ScaffoldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaffoldView.swift; sourceTree = "<group>"; };
 		0D73894526FAA72B000C43A6 /* ToastView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
-		0DE2E79726F6DEDB00932B41 /* ARImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARImageView.swift; sourceTree = "<group>"; };
+		0D73894B26FB1656000C43A6 /* UIRespondor+Hierarchy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIRespondor+Hierarchy.swift"; sourceTree = "<group>"; };
+		0DE2E79726F6DEDB00932B41 /* ARGridViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARGridViewController.swift; sourceTree = "<group>"; };
 		0DE2E79B26F85C9A00932B41 /* BaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseManager.swift; sourceTree = "<group>"; };
 		0DE2E79F26F85DA100932B41 /* Bundle+Version.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+Version.swift"; sourceTree = "<group>"; };
 		0DE2E7A426F85DA100932B41 /* Class+Runtime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Class+Runtime.swift"; sourceTree = "<group>"; };
@@ -60,6 +66,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0DE2E7D126F9B6B900932B41 /* Defaults in Frameworks */,
+				0D73894A26FB1492000C43A6 /* Introspect in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +92,7 @@
 		0D51EE0C26F27EDF00BCAAB3 /* SGMP-Mobile */ = {
 			isa = PBXGroup;
 			children = (
+				0D5F79E626FB2DCA0013AAB1 /* Info.plist */,
 				0DE2E79626F6DCA900932B41 /* App */,
 				0DE2E7BB26F85FC800932B41 /* Data */,
 				0DE2E79D26F85C9C00932B41 /* Manager */,
@@ -92,6 +100,7 @@
 				0DE2E79E26F85DA100932B41 /* Helper */,
 				0D51EE1126F27EDF00BCAAB3 /* Assets.xcassets */,
 				0D51EE1326F27EDF00BCAAB3 /* Preview Content */,
+				0D5F79E426FB2D660013AAB1 /* Main.storyboard */,
 			);
 			path = "SGMP-Mobile";
 			sourceTree = "<group>";
@@ -157,6 +166,7 @@
 			children = (
 				0DE2E79F26F85DA100932B41 /* Bundle+Version.swift */,
 				0DE2E7A426F85DA100932B41 /* Class+Runtime.swift */,
+				0D73894B26FB1656000C43A6 /* UIRespondor+Hierarchy.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -172,7 +182,7 @@
 		0DE2E7C626F99B0500932B41 /* AR */ = {
 			isa = PBXGroup;
 			children = (
-				0DE2E79726F6DEDB00932B41 /* ARImageView.swift */,
+				0DE2E79726F6DEDB00932B41 /* ARGridViewController.swift */,
 				0D73894026FA9827000C43A6 /* Touch */,
 				0DE2E7D226FA5D7600932B41 /* ImageRef */,
 				0DE2E7C726F99DF800932B41 /* ARNodeProtocol.swift */,
@@ -207,6 +217,7 @@
 			name = "SGMP-Mobile";
 			packageProductDependencies = (
 				0DE2E7D026F9B6B900932B41 /* Defaults */,
+				0D73894926FB1492000C43A6 /* Introspect */,
 			);
 			productName = "SGMP-AR-Samples";
 			productReference = 0D51EE0A26F27EDF00BCAAB3 /* SGMP-Mobile.app */;
@@ -238,6 +249,7 @@
 			mainGroup = 0D51EE0126F27EDF00BCAAB3;
 			packageReferences = (
 				0DE2E7CF26F9B6B900932B41 /* XCRemoteSwiftPackageReference "Defaults" */,
+				0D73894826FB1492000C43A6 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 			);
 			productRefGroup = 0D51EE0B26F27EDF00BCAAB3 /* Products */;
 			projectDirPath = "";
@@ -253,6 +265,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D5F79E526FB2D660013AAB1 /* Main.storyboard in Resources */,
 				0D51EE1526F27EDF00BCAAB3 /* Preview Assets.xcassets in Resources */,
 				0D51EE1226F27EDF00BCAAB3 /* Assets.xcassets in Resources */,
 			);
@@ -267,10 +280,11 @@
 			files = (
 				0DE2E79C26F85C9A00932B41 /* BaseManager.swift in Sources */,
 				0DE2E7CC26F9A4AB00932B41 /* ARRefImageCoverView.swift in Sources */,
-				0DE2E79826F6DEDB00932B41 /* ARImageView.swift in Sources */,
+				0DE2E79826F6DEDB00932B41 /* ARGridViewController.swift in Sources */,
 				0D73894426FAA68F000C43A6 /* ScaffoldView.swift in Sources */,
 				0DE2E7BD26F8601200932B41 /* EnvironmentManager.swift in Sources */,
 				0DE2E7CA26F99F3E00932B41 /* ARRefImageNode.swift in Sources */,
+				0D73894C26FB1656000C43A6 /* UIRespondor+Hierarchy.swift in Sources */,
 				0DE2E7C826F99DF800932B41 /* ARNodeProtocol.swift in Sources */,
 				0DE2E7C326F8625600932B41 /* CameraTabView.swift in Sources */,
 				0D51EE1C26F27FCC00BCAAB3 /* MainTabView.swift in Sources */,
@@ -416,10 +430,11 @@
 				DEVELOPMENT_TEAM = 9QJ8M25J77;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "SGMP-Mobile/Info.plist";
 				INFOPLIST_KEY_NSCameraUsageDescription = "For showing AR layers";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -448,10 +463,11 @@
 				DEVELOPMENT_TEAM = 9QJ8M25J77;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "SGMP-Mobile/Info.plist";
 				INFOPLIST_KEY_NSCameraUsageDescription = "For showing AR layers";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -493,6 +509,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0D73894826FB1492000C43A6 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.3;
+			};
+		};
 		0DE2E7CF26F9B6B900932B41 /* XCRemoteSwiftPackageReference "Defaults" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/Defaults";
@@ -504,6 +528,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0D73894926FB1492000C43A6 /* Introspect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0D73894826FB1492000C43A6 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = Introspect;
+		};
 		0DE2E7D026F9B6B900932B41 /* Defaults */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0DE2E7CF26F9B6B900932B41 /* XCRemoteSwiftPackageReference "Defaults" */;

@@ -8,29 +8,43 @@
 import SwiftUI
 
 struct ARRefImageCoverView: View {
+    @State var clicked = false
+    @State var toggled = false
+    @State var slider = 0.5
     var body: some View {
         ZStack {
-            Color(uiColor: UIColor.tertiarySystemBackground).opacity(0.4)
+            Color(uiColor: UIColor.tertiarySystemBackground).opacity(0.8)
             ZStack {
-                Color(uiColor: UIColor.systemBackground).opacity(0.4).padding()
+                Color(uiColor: UIColor.systemBackground).opacity(0.8).padding()
                 VStack {
                     Text("SGMP UI Layer")
                     Button {
-                        
+                        DispatchQueue.main.async {
+                            clicked.toggle()
+                        }
                     } label: {
-                        Text("Button")
+                        Text("Button \(clicked ? "1" : "0")")
+                    }
+                    .padding()
+                    
+                    Toggle(isOn: $toggled) {
+                        Text("Toggle")
                     }
                     
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle())
+                        .padding()
 
-                    Slider(value: .constant(0.5), in: 0...1)
+                    Slider(value: $slider, in: 0...1)
                 }
                 .padding()
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         .edgesIgnoringSafeArea(.all)
+        .onTapGesture {
+            print("tap")
+        }
     }
 }
 

@@ -9,19 +9,21 @@ import Foundation
 import SwiftUI
 
 @main
-struct SgmpApp: App {
-    
-    @UIApplicationDelegateAdaptor(SgmpAppDelegate.self) var appDelegate
-    
-    var body: some Scene {
-        WindowGroup {
-            ScaffoldView()
-                .environmentObject(EnvironmentManager.shared.env)
-        }
-    }
-}
+//struct SgmpApp: App {
+//
+//    @UIApplicationDelegateAdaptor(SgmpAppDelegate.self) var appDelegate
+//
+//    var body: some Scene {
+//        WindowGroup {
+////            ScaffoldView()
+//            ARGridViewControllerRepresentable()
+//                .environmentObject(EnvironmentManager.shared.env)
+//        }
+//    }
+//}
 
 class SgmpAppDelegate : UIResponder, UIApplicationDelegate {
+    var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         return true
@@ -30,5 +32,21 @@ class SgmpAppDelegate : UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         setupAllBaseManagers()
         return true
+    }
+}
+
+struct RootView: View {
+    var body: some View {
+        ScaffoldView().environmentObject(EnvironmentManager.shared.env)
+    }
+}
+
+class SgmpHostingController : UIHostingController<RootView> {
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder,rootView: RootView());
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
     }
 }
