@@ -48,13 +48,11 @@ class ARInteractiveSwiftUINode<Content> : SCNNode where Content : View {
     var viewSize : CGSize = CGSize.zero
     var planeSize : CGSize = CGSize.zero
     var view : Content?
-    var controller : UIViewController?
     
-    init(viewSize : CGSize, planeSize : CGSize, view : Content, controller : UIViewController) {
+    init(viewSize : CGSize, planeSize : CGSize, view : Content) {
         self.view = view
         self.viewSize = viewSize
         self.planeSize = planeSize
-        self.controller = controller
         super.init()
         postInit()
     }
@@ -64,15 +62,10 @@ class ARInteractiveSwiftUINode<Content> : SCNNode where Content : View {
     }
     
     func postInit() {
+        let vc = UIHostingController(rootView: self.view)
         let plane = SCNPlane(width: planeSize.width,
                              height: planeSize.height)
         DispatchQueue.main.async {
-            let vc = UIHostingController(rootView: self.view)
-            if let controller = self.controller {
-                vc.willMove(toParent: controller)
-                controller.addChild(vc)
-                controller.view.addSubview(vc.view)
-            }
             vc.view.backgroundColor = .clear
             vc.view.frame = CGRect.init(origin: .zero, size: self.viewSize)
             vc.view.isOpaque = false

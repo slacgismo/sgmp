@@ -36,15 +36,13 @@ struct ARRefImageCoverView: View {
                         .padding()
 
                     Slider(value: $slider, in: 0...1)
+                        .padding()
                 }
                 .padding()
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         .edgesIgnoringSafeArea(.all)
-        .onTapGesture {
-            print("tap")
-        }
     }
 }
 

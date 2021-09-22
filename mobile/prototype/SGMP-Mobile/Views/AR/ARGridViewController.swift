@@ -23,7 +23,7 @@ class ARGridViewController : UIViewController, ARSCNViewDelegate, ARSessionDeleg
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         let config = ARWorldTrackingConfiguration()
-//        config.frameSemantics.insert(.personSegmentation)
+        config.frameSemantics.insert(.personSegmentationWithDepth)
         config.maximumNumberOfTrackedImages = 4
         if let referenceImages = ARReferenceImage.referenceImages(inGroupNamed: "ARResources", bundle: nil) {
             config.detectionImages = referenceImages
@@ -36,15 +36,21 @@ class ARGridViewController : UIViewController, ARSCNViewDelegate, ARSessionDeleg
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         arView.session.pause()
+        UIApplication.shared.windows.forEach { window in
+            if window != UIApplication.shared.keyWindow {
+                window.isHidden = true
+            }
+        }
     }
     
     // MARK: - ARSCNViewDelegate
     func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
         if let anchor = anchor as? ARImageAnchor {
-            return ARInteractiveSwiftUINode(viewSize: .init(width: 300, height: 300),
+            let node = ARInteractiveSwiftUINode(viewSize: .init(width: 300, height: 300),
                                             planeSize: .init(width: anchor.referenceImage.physicalSize.width, height: anchor.referenceImage.physicalSize.height),
-                                            view: ARRefImageCoverView(),
-                                            controller: self)
+                                            view: ARRefImageCoverView())
+            return node
+            
         }
         return nil
     }
@@ -58,10 +64,7 @@ class ARGridViewController : UIViewController, ARSCNViewDelegate, ARSessionDeleg
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
-        if let anchor = anchor as? ARImageAnchor
-        {
-            node.simdTransform = anchor.transform
-        }
+        
     }
     
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
@@ -104,7 +107,7 @@ struct ARGridViewControllerRepresentable : UIViewControllerRepresentable {
     }
     
     static func dismantleUIViewController(_ uiViewController: ARGridViewController, coordinator: ()) {
-        
+
     }
     
     typealias UIViewControllerType = ARGridViewController
