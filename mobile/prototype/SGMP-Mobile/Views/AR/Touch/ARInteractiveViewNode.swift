@@ -65,6 +65,13 @@ class ARInteractiveSwiftUINode<Content> : SCNNode where Content : View {
         let vc = UIHostingController(rootView: self.view)
         let plane = SCNPlane(width: planeSize.width,
                              height: planeSize.height)
+        let tempMaterial = SCNMaterial()
+        tempMaterial.lightingModel = .constant
+        tempMaterial.diffuse.contents = UIColor.clear
+        plane.materials = [tempMaterial]
+        let container = SCNNode(geometry: plane)
+        container.eulerAngles.x = -.pi / 2
+        container.opacity = 0
         DispatchQueue.main.async {
             vc.view.backgroundColor = .clear
             vc.view.frame = CGRect.init(origin: .zero, size: self.viewSize)
@@ -74,9 +81,12 @@ class ARInteractiveSwiftUINode<Content> : SCNNode where Content : View {
             material.isDoubleSided = true
             material.diffuse.contents = vc.view
             plane.materials = [material]
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                SCNTransaction.animationDuration = 1
+                SCNTransaction.animationTimingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+                container.opacity = 1
+            }
         }
-        let container = SCNNode(geometry: plane)
-        container.eulerAngles.x = -.pi / 2
         self.addChildNode(container)
     }
 }

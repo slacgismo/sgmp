@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "device-123.png",
+      "filename" : "slac.jpg",
       "idiom" : "universal"
     }
   ],
@@ -10,7 +10,6 @@
     "version" : 1
   },
   "properties" : {
-    "unit" : "centimeters",
-    "width" : 8
+    "width" : 45
   }
 }

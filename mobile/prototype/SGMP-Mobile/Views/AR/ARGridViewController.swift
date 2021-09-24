@@ -46,10 +46,13 @@ class ARGridViewController : UIViewController, ARSCNViewDelegate, ARSessionDeleg
     // MARK: - ARSCNViewDelegate
     func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
         if let anchor = anchor as? ARImageAnchor {
-            let node = ARInteractiveSwiftUINode(viewSize: .init(width: 300, height: 300),
-                                            planeSize: .init(width: anchor.referenceImage.physicalSize.width, height: anchor.referenceImage.physicalSize.height),
-                                            view: ARRefImageCoverView())
-            return node
+            if anchor.name == "slac" {
+                let node = ARInteractiveSwiftUINode(viewSize: .init(width: 650/2.0, height: 250/2.0),
+                                                    planeSize: .init(width: anchor.referenceImage.physicalSize.width * anchor.estimatedScaleFactor,
+                                                                 height: anchor.referenceImage.physicalSize.height * anchor.estimatedScaleFactor),
+                                                view: ARRefImageSlacView())
+                return node
+            }
             
         }
         return nil
@@ -84,11 +87,18 @@ class ARGridViewController : UIViewController, ARSCNViewDelegate, ARSessionDeleg
             switch camera.trackingState {
             case .notAvailable:
                 env.showDecoration(view: AnyView(ToastView(title: "Camera Not Available")), forTime: .seconds(1))
-            case .limited(_):
-                env.showDecoration(view: AnyView(ToastView(title: "Tracking Limited")), forTime: .seconds(1))
             case .normal:
                 env.showDecoration(view: AnyView(ToastView(title: "Tracking Normal")), forTime: .seconds(1))
+            case .limited(_):
+                break
             }
+        }
+    }
+    
+    func sessionWasInterrupted(_ session: ARSession) {
+        let env = EnvironmentManager.shared.env
+        DispatchQueue.main.async {
+            env.showDecoration(view: AnyView(ToastView(title: "Tracking Interrupted")), forTime: .seconds(1))
         }
     }
     

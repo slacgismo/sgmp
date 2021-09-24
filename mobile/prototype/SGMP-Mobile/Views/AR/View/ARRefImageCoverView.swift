@@ -11,6 +11,7 @@ struct ARRefImageCoverView: View {
     @State var clicked = false
     @State var toggled = false
     @State var slider = 0.5
+    @State var input = ""
     var body: some View {
         ZStack {
             Color(uiColor: UIColor.tertiarySystemBackground).opacity(0.8)
@@ -30,6 +31,9 @@ struct ARRefImageCoverView: View {
                     Toggle(isOn: $toggled) {
                         Text("Toggle")
                     }
+                    
+                    TextField("Input", text: $input)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
                     
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle())
