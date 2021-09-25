@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "name": "Gustavo Czer",
+    "firstName": "Gustavo",
+    "lastName": "Czer",
+    "email": "gcezar@stanford.edu",
+    "role": "Administrator",
+    "joinDate": 1632499200000,
+    "expireDate": 1704010200000
+  },
+  {
+    "id": 2,
+    "name": "Yingdong Chen",
+    "firstName": "Yingdong",
+    "lastName": "Chen",
+    "email": "yingdonc@andrew.cmu.edu",
+    "role": "Visitor",
+    "joinDate": 1632499200000,
+    "expireDate": 1639999200000
+  },
+  {
+    "id": 3,
+    "name": "Mike Chiang",
+    "firstName": "Mike",
+    "lastName": "Chiang",
+    "email": "mikechiang@cmu.edu",
+    "role": "Visitor",
+    "joinDate": 1632499200000,
+    "expireDate": 1639999200000
+  },
+  {
+    "id": 4,
+    "name": "A B",
+    "firstName": "A",
+    "lastName": "B",
+    "email": "ab@stanford.edu",
+    "role": "Researcher",
+    "joinDate": 1632499200000,
+    "expireDate": 1704010200000
+  },
+  {
+    "id": 5,
+    "name": "Chih-Wei Fang",
+    "firstName": "Chih-Wei",
+    "lastName": "Fang",
+    "email": "chihweif@andrew.cmu.edu",
+    "role": "Visitor",
+    "joinDate": 1632499200000,
+    "expireDate": 1639999200000
+  },
+  {
+    "id": 6,
+    "name": "C D",
+    "firstName": "C",
+    "lastName": "D",
+    "email": "cd@stanford.edu",
+    "role": "Researcher",
+    "joinDate": 1632499200000,
+    "expireDate": 1704010200000
+  },
+  {
+    "id": 7,
+    "name": "E F",
+    "firstName": "E",
+    "lastName": "F",
+    "email": "ef@stanford.edu",
+    "role": "Researcher",
+    "joinDate": 1632499200000,
+    "expireDate": 1704010200000
+  },
+  {
+    "id": 8,
+    "name": "Huilin Liu",
+    "firstName": "Huilin",
+    "lastName": "Liu",
+    "email": "huilinl@cmu.edu",
+    "role": "Visitor",
+    "joinDate": 1632499200000,
+    "expireDate": 1639999200000
+  },
+  {
+    "id": 9,
+    "name": "G H",
+    "firstName": "G",
+    "lastName": "H",
+    "email": "gh@stanford.edu",
+    "role": "Researcher",
+    "joinDate": 1632499200000,
+    "expireDate": 1704010200000
+  },
+  {
+    "id": 10,
+    "name": "Haotian Zheng",
+    "firstName": "Haotian",
+    "lastName": "Zheng",
+    "email": "hzheng3@cmu.edu",
+    "role": "Visitor",
+    "joinDate": 1632499200000,
+    "expireDate": 1639999200000
+  }
+]
