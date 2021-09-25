@@ -20,7 +20,10 @@ struct CameraTabView: View {
             }
             
             Section {
-                Text("Looking for QR code")
+                Text("Looking for labels like this one")
+                Image("slac-template")
+                    .resizable()
+                    .scaledToFit()
             } header: {
                 Text("Guidelines")
             }

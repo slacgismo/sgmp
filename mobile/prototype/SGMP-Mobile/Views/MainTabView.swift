@@ -10,13 +10,13 @@ struct MainTabView: View {
     
     var body: some View {
         TabView {
-            NavigationView {
-                SummaryTabView()
-            }
-            .navigationViewStyle(StackNavigationViewStyle())
-            .tabItem {
-                Label("Summary", systemImage: "square.stack.3d.up")
-            }
+//            NavigationView {
+//                SummaryTabView()
+//            }
+//            .navigationViewStyle(StackNavigationViewStyle())
+//            .tabItem {
+//                Label("Summary", systemImage: "square.stack.3d.up")
+//            }
             
             NavigationView {
                 CameraTabView()

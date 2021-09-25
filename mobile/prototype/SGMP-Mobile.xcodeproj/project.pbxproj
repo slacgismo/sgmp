@@ -11,12 +11,12 @@
 		0D51EE1226F27EDF00BCAAB3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D51EE1126F27EDF00BCAAB3 /* Assets.xcassets */; };
 		0D51EE1526F27EDF00BCAAB3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D51EE1426F27EDF00BCAAB3 /* Preview Assets.xcassets */; };
 		0D51EE1C26F27FCC00BCAAB3 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D51EE1B26F27FCC00BCAAB3 /* MainTabView.swift */; };
+		0D5E22AD26FEEE77002B0A4B /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 0D5E22AC26FEEE77002B0A4B /* Defaults */; };
+		0D5E22AF26FEF427002B0A4B /* AboutAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5E22AE26FEF427002B0A4B /* AboutAppView.swift */; };
 		0D5F79E526FB2D660013AAB1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F79E426FB2D660013AAB1 /* Main.storyboard */; };
-		0D5F7A0D26FB351B0013AAB1 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 0D5F7A0C26FB351B0013AAB1 /* Defaults */; };
 		0D73893F26FA97CF000C43A6 /* ARInteractiveViewNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D73893E26FA97CF000C43A6 /* ARInteractiveViewNode.swift */; };
 		0D73894426FAA68F000C43A6 /* ScaffoldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D73894326FAA68F000C43A6 /* ScaffoldView.swift */; };
 		0D73894626FAA72B000C43A6 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D73894526FAA72B000C43A6 /* ToastView.swift */; };
-		0D73894A26FB1492000C43A6 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 0D73894926FB1492000C43A6 /* Introspect */; };
 		0D73894C26FB1656000C43A6 /* UIRespondor+Hierarchy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D73894B26FB1656000C43A6 /* UIRespondor+Hierarchy.swift */; };
 		0D7C332826FD8EBA00B219E7 /* ARRefImageSlacView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7C332726FD8EBA00B219E7 /* ARRefImageSlacView.swift */; };
 		0D7C332A26FDA76100B219E7 /* Button+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7C332926FDA76100B219E7 /* Button+Style.swift */; };
@@ -39,6 +39,7 @@
 		0D51EE1126F27EDF00BCAAB3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0D51EE1426F27EDF00BCAAB3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		0D51EE1B26F27FCC00BCAAB3 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		0D5E22AE26FEF427002B0A4B /* AboutAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppView.swift; sourceTree = "<group>"; };
 		0D5F79E426FB2D660013AAB1 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		0D5F79E626FB2DCA0013AAB1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		0D5F7A0726FB33380013AAB1 /* SGMP-Mobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SGMP-Mobile.entitlements"; sourceTree = "<group>"; };
@@ -66,8 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D5F7A0D26FB351B0013AAB1 /* Defaults in Frameworks */,
-				0D73894A26FB1492000C43A6 /* Introspect in Frameworks */,
+				0D5E22AD26FEEE77002B0A4B /* Defaults in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,6 +139,7 @@
 				0DE2E7C026F8625200932B41 /* SummaryTabView.swift */,
 				0DE2E7C226F8625600932B41 /* CameraTabView.swift */,
 				0DE2E7C426F8625C00932B41 /* SettingsTabView.swift */,
+				0D5E22AE26FEF427002B0A4B /* AboutAppView.swift */,
 				0D73894726FAA72E000C43A6 /* Decorations */,
 				0DE2E7C626F99B0500932B41 /* AR */,
 			);
@@ -218,8 +219,7 @@
 			);
 			name = "SGMP-Mobile";
 			packageProductDependencies = (
-				0D73894926FB1492000C43A6 /* Introspect */,
-				0D5F7A0C26FB351B0013AAB1 /* Defaults */,
+				0D5E22AC26FEEE77002B0A4B /* Defaults */,
 			);
 			productName = "SGMP-AR-Samples";
 			productReference = 0D51EE0A26F27EDF00BCAAB3 /* SGMP-Mobile.app */;
@@ -250,8 +250,7 @@
 			);
 			mainGroup = 0D51EE0126F27EDF00BCAAB3;
 			packageReferences = (
-				0D73894826FB1492000C43A6 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
-				0D5F7A0B26FB351B0013AAB1 /* XCRemoteSwiftPackageReference "Defaults" */,
+				0D5E22AB26FEEE77002B0A4B /* XCRemoteSwiftPackageReference "Defaults" */,
 			);
 			productRefGroup = 0D51EE0B26F27EDF00BCAAB3 /* Products */;
 			projectDirPath = "";
@@ -296,6 +295,7 @@
 				0DE2E7AB26F85DA100932B41 /* Bundle+Version.swift in Sources */,
 				0D7C332A26FDA76100B219E7 /* Button+Style.swift in Sources */,
 				0D73893F26FA97CF000C43A6 /* ARInteractiveViewNode.swift in Sources */,
+				0D5E22AF26FEF427002B0A4B /* AboutAppView.swift in Sources */,
 				0DE2E7B026F85DA100932B41 /* Class+Runtime.swift in Sources */,
 				0D73894626FAA72B000C43A6 /* ToastView.swift in Sources */,
 				0D51EE0E26F27EDF00BCAAB3 /* SgmpApp.swift in Sources */,
@@ -426,9 +426,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "SGMP-Mobile/SGMP-Mobile.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"SGMP-Mobile/Preview Content\"";
 				DEVELOPMENT_TEAM = 9QJ8M25J77;
 				ENABLE_PREVIEWS = YES;
@@ -446,7 +447,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.0.1;
+				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.JustZht.SGMP-Mobile";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -460,9 +461,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "SGMP-Mobile/SGMP-Mobile.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"SGMP-Mobile/Preview Content\"";
 				DEVELOPMENT_TEAM = 9QJ8M25J77;
 				ENABLE_PREVIEWS = YES;
@@ -480,7 +482,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.0.1;
+				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.JustZht.SGMP-Mobile";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -513,34 +515,21 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		0D5F7A0B26FB351B0013AAB1 /* XCRemoteSwiftPackageReference "Defaults" */ = {
+		0D5E22AB26FEEE77002B0A4B /* XCRemoteSwiftPackageReference "Defaults" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sindresorhus/Defaults";
+			repositoryURL = "https://github.com/automactic/Defaults/";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
-			};
-		};
-		0D73894826FB1492000C43A6 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.1.3;
+				branch = xcode13;
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0D5F7A0C26FB351B0013AAB1 /* Defaults */ = {
+		0D5E22AC26FEEE77002B0A4B /* Defaults */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0D5F7A0B26FB351B0013AAB1 /* XCRemoteSwiftPackageReference "Defaults" */;
+			package = 0D5E22AB26FEEE77002B0A4B /* XCRemoteSwiftPackageReference "Defaults" */;
 			productName = Defaults;
-		};
-		0D73894926FB1492000C43A6 /* Introspect */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 0D73894826FB1492000C43A6 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
-			productName = Introspect;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

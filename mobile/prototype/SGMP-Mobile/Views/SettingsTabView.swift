@@ -14,6 +14,7 @@ struct SettingsTabView: View {
     
     var body: some View {
         List {
+            
             Section {
                 Text("\(loginEmailAddress)")
                 
@@ -27,6 +28,7 @@ struct SettingsTabView: View {
             }
             
             Section {
+                NavigationLink("About", destination: AboutAppView())
                 Toggle(isOn: .constant(false)) {
                     Text("Debug")
                 }

@@ -1,0 +1,43 @@
+//
+//  AboutAppView.swift
+//  SGMP-Mobile
+//
+//  Created by fincher on 9/24/21.
+//
+
+import SwiftUI
+
+struct AboutAppView: View {
+    var body: some View {
+        List {
+            Section {
+                VStack(alignment: .center, spacing: 0) {
+                    Image("icon")
+                        .resizable()
+                        .frame(width: 128, height: 128, alignment: .center)
+                        .mask(RoundedRectangle(cornerRadius: 24))
+                        .padding()
+                        .shadow(radius: 12)
+                        .padding(.top, 32)
+                    Text("SGMP Mobile")
+                        .font(.title.bold().smallCaps())
+                    Text("Ver \(Bundle.main.versionString ?? "-")")
+                        .font(.footnote.bold().smallCaps())
+                        .padding(.bottom, 32)
+                        .foregroundColor(.init(UIColor.secondaryLabel))
+                }.frame(maxWidth: .infinity)
+            } footer: {
+//                Text("SGMP (Smart Grid Management Platform project) is in active development by CMU INI Team Energizer for SLAC National Accelerator Laboratory")
+//                    .font(.body.smallCaps())
+            }
+
+        }
+        .navigationTitle("About")
+    }
+}
+
+struct AboutAppView_Previews: PreviewProvider {
+    static var previews: some View {
+        AboutAppView()
+    }
+}
