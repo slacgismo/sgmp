@@ -6,6 +6,9 @@ import sonnen_local_api
 import egauge_local_api
 import batt_tests
 
+TOPIC_PUB_EGAUGE = config.TOPIC_PUBLISH_EGAUGE
+TOPIC_PUB_SONNEN = config.TOPIC_PUBLISH_SONNEN
+CLIENT_ID = config.CLIENT_ID
 
 def publish(client, topic, payload, Device_ID):
     payload = {'DeviceID': Device_ID, 'DeviceInformation': payload}
@@ -28,24 +31,27 @@ def do_every(period,f,**kwargs):
         f(**kwargs)
 
 def publish2topic(**der_data):
-    # der_data = {'egauge_info':['eg_client', 'eg_topic', 'eg_payload', 'eg_devID'],
-    # 'sonnen_info': ['so_client', 'so_topic', 'so_payload', 'so_devID'],
-    # 'sonnen_dc':['dc_client', 'dc_topic', 'dc_payload', 'dc_devID']}
-    egauge_params = der_data['egauge_info']
+    mqtt_client = der_data['mqtt_client']
+    egauge_obj = der_data['egauge_obj']
+    egauge_payload = egauge_obj.processing_egauge_data()
+    egauge_params = [mqtt_client,TOPIC_PUB_EGAUGE,egauge_payload,CLIENT_ID]
     try:
         egauge_params[0].publish(egauge_params[1], json.dumps(egauge_params[2]), 1)
         print("Message published in topic: ", egauge_params[1])
     except Exception as e:
         print('Publish error in egauge: ', e)
 
-    sonnen_params = der_data['sonnen_info']
+    sonnen_obj = der_data['sonnen_obj']
+    sonnen_info_payload = sonnen_obj.batt_mode(mode='status')
+    sonnen_params = [mqtt_client,TOPIC_PUB_SONNEN,sonnen_info_payload,CLIENT_ID]
     try:
         sonnen_params[0].publish(sonnen_params[1], json.dumps(sonnen_params[2]), 1)
         print("Info message published in topic: ", sonnen_params[1])
     except Exception as e:
         print('Publish error in sonnen_info: ', e)
 
-    sonnenDC_params = der_data['sonnen_dc']
+    sonnen_dc_payload = sonnen_obj.batt_info()
+    sonnenDC_params = [mqtt_client,TOPIC_PUB_SONNEN,sonnen_dc_payload,CLIENT_ID]
     try:
         sonnenDC_params[0].publish(sonnenDC_params[1], json.dumps(sonnenDC_params[2]), 1)
         print("DC message published in topic: ", sonnenDC_params[1])
