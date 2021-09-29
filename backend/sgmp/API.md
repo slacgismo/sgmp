@@ -141,7 +141,7 @@ Sample response:
 
 ## Data
 
-We have two types of data. The first is raw readings from the device itself. Another one is analytics, which is defined by the user. The user can define an analytics by specifying the formula, for example if they have a eGauge with 4 current transformers on the load line, the user can make a `total_load` analytics with the formula being `egague.0 + egauge.1 + egauge.2 + egague.3`. All of the device and analytics configuration are pushed to the edge device. The edge device will make periodical readings from the devices using the configuration and calculates the analytics results using the formula specified by the user.
+We have two types of data. The first is raw readings from the device itself. Another one is analytics, which is defined by the user. The user can define an analytics by specifying the formula, for example if they have a eGauge with 4 current transformers on the load line, the user can make a `total_load` analytics with the formula being `egague.0 + egauge.1 + egauge.2 + egague.3`. All of the device configurations are pushed to the edge device. The edge device will make periodical readings from the devices using the configuration and publish to IoT core. To save disk space the analytics will only be performed when the data is read.
 
 ### `/api/data/read`
 
