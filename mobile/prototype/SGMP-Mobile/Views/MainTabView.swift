@@ -1,5 +1,6 @@
 import SwiftUI
 import Defaults
+import ARKit
 
 struct MainTabView: View {
     @EnvironmentObject var env : Env
@@ -10,20 +11,22 @@ struct MainTabView: View {
     
     var body: some View {
         TabView {
-//            NavigationView {
-//                SummaryTabView()
-//            }
-//            .navigationViewStyle(StackNavigationViewStyle())
-//            .tabItem {
-//                Label("Summary", systemImage: "square.stack.3d.up")
-//            }
-            
             NavigationView {
-                CameraTabView()
+                SummaryTabView()
             }
             .navigationViewStyle(StackNavigationViewStyle())
             .tabItem {
-                Label("Camera", systemImage: "arkit")
+                Label("Summary", systemImage: "square.stack.3d.up")
+            }
+            
+            if ARWorldTrackingConfiguration.isSupported {
+                NavigationView {
+                    CameraTabView()
+                }
+                .navigationViewStyle(StackNavigationViewStyle())
+                .tabItem {
+                    Label("Camera", systemImage: "arkit")
+                }
             }
             
             NavigationView {
