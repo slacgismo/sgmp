@@ -217,9 +217,27 @@ Sample response for analytics (returns the calculation result):
 }
 ```
 
+### `/api/device/list`
+
+Lists all device.
+
+Sample response:
+```
+{
+    "status": "ok",
+    "devices": [
+        {
+            "device_id": 12345,
+            "name": "sonnen",
+            "description": "Sonnen controller inside the house"
+        }
+    ]
+}
+```
+
 ### `/api/device/create`
 
-Creates a device. The device type should be specified. The config field is a JSON object and its format is defined by the device type. The device name is unique and can only contain alphabets, numbers and underscore, and cannot start with a number.
+Creates a device. The device type should be specified. The config field is a JSON object and its format is defined by the device type. The device name is unique and can only contain alphabets, numbers and underscore, and cannot start with a number. The device ID will be assigned by the database automatically.
 
 Sample request:
 ```
