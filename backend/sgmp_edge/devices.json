@@ -1,0 +1,22 @@
+{
+  "devices": [
+    {
+      "device_id": 1,
+      "name": "sonnen",
+      "type": "sonnen",
+      "config": {
+        "ip": "198.129.119.220"
+      }
+    },
+    {
+      "device_id": 2,
+      "name": "egauge",
+      "type": "egauge",
+      "config": {
+        "ip": "198.129.116.113",
+        "t_sample": 5,
+        "keys": ["A.Battery", "A.SubPanel", "A.GridPower", "A.Solar", "A.EV", "ts"]
+      }
+    }
+  ]
+}
