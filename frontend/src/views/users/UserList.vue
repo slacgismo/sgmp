@@ -48,7 +48,111 @@
           />
         </div>
         <div>
-          <div>
+          <Menu as="div" class="relative inline-block text-left">
+            <div>
+              <MenuButton
+                class="
+                  inline-flex
+                  justify-center
+                  w-full
+                  px-4
+                  py-2
+                  text-sm
+                  font-medium
+                  text-white
+                  rounded-md
+                  bg-gray-400
+                  hover:bg-gray-300
+                  focus:outline-none
+                  focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75
+                "
+              >
+                Actions
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="w-5 h-5 ml-2 -mr-1 text-violet-200 hover:text-violet-100"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </MenuButton>
+            </div>
+
+            <transition
+              enter-active-class="transition duration-100 ease-out"
+              enter-from-class="transform scale-95 opacity-0"
+              enter-to-class="transform scale-100 opacity-100"
+              leave-active-class="transition duration-75 ease-in"
+              leave-from-class="transform scale-100 opacity-100"
+              leave-to-class="transform scale-95 opacity-0"
+            >
+              <MenuItems
+                class="
+                  absolute
+                  right-0
+                  w-32
+                  mt-1
+                  origin-top-right
+                  bg-white
+                  divide-y divide-gray-100
+                  rounded-md
+                  shadow-lg
+                  ring-1 ring-black ring-opacity-5
+                  z-50
+                  focus:outline-none
+                "
+              >
+                <div class="px-1 py-1">
+                  <MenuItem v-slot="{ active }">
+                    <button
+                      :class="[
+                        active ? 'bg-gray-400 text-white' : 'text-gray-900',
+                        'group flex rounded-md items-center w-full px-2 py-2 text-sm',
+                      ]"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-5 h-5 mr-2"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                      Add User
+                    </button>
+                  </MenuItem>
+                  <MenuItem v-slot="{ active }">
+                    <button
+                      :class="[
+                        active ? 'bg-red-800 text-white' : 'text-gray-900',
+                        'group flex rounded-md items-center w-full px-2 py-2 text-sm',
+                      ]"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-5 h-5 mr-2 text-violet-400"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        />
+                      </svg>
+                      Delete
+                    </button>
+                  </MenuItem>
+                </div>
+              </MenuItems>
+            </transition>
+          </Menu>
+          <!-- <div>
             <button class="flex items-center bg-red-900 p-2 text-white rounded text-sm pr-3 hover:bg-red-800">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +165,7 @@
               </svg>
               Add User
             </button>
-          </div>
+          </div> -->
         </div>
       </div>
       <table class="w-full mt-2 text-gray-500">
@@ -74,11 +178,11 @@
                 class="h-5 w-5 text-blue-500 border-gray-300 rounded cursor-pointer focus:ring-0"
               />
             </th>
-            <th class="text-left text-gray-600">USER</th>
-            <th class="text-left text-gray-600">ROLE</th>
-            <th class="text-left text-gray-600">JOIN DATE</th>
-            <th class="text-left text-gray-600">EXPIRATION</th>
-            <th class="text-right text-gray-600">ACTIONS</th>
+            <th class="text-left text-gray-600">User</th>
+            <th class="text-left text-gray-600">Role</th>
+            <th class="text-left text-gray-600">Join Date</th>
+            <th class="text-left text-gray-600">Expiration</th>
+            <th class="text-left text-gray-600">Last Activity</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
@@ -104,117 +208,7 @@
             <td>{{ user.role }}</td>
             <td>{{ formatDate(user.joinDate) }}</td>
             <td>{{ formatDate(user.expireDate) }}</td>
-            <td class="text-right">
-              <Menu as="div" class="relative inline-block text-left">
-                <div>
-                  <MenuButton
-                    class="
-                      inline-flex
-                      justify-center
-                      w-full
-                      px-4
-                      py-2
-                      text-sm
-                      font-medium
-                      text-white
-                      rounded-md
-                      bg-gray-400
-                      hover:bg-gray-300
-                      focus:outline-none
-                      focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75
-                    "
-                  >
-                    Actions
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="w-5 h-5 ml-2 -mr-1 text-violet-200 hover:text-violet-100"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </MenuButton>
-                </div>
-
-                <transition
-                  enter-active-class="transition duration-100 ease-out"
-                  enter-from-class="transform scale-95 opacity-0"
-                  enter-to-class="transform scale-100 opacity-100"
-                  leave-active-class="transition duration-75 ease-in"
-                  leave-from-class="transform scale-100 opacity-100"
-                  leave-to-class="transform scale-95 opacity-0"
-                >
-                  <MenuItems
-                    class="
-                      absolute
-                      right-0
-                      w-32
-                      mt-1
-                      origin-top-right
-                      bg-white
-                      divide-y divide-gray-100
-                      rounded-md
-                      shadow-lg
-                      ring-1 ring-black ring-opacity-5
-                      z-50
-                      focus:outline-none
-                    "
-                  >
-                    <div class="px-1 py-1">
-                      <MenuItem v-slot="{ active }">
-                        <button
-                          :class="[
-                            active ? 'bg-gray-400 text-white' : 'text-gray-900',
-                            'group flex rounded-md items-center w-full px-2 py-2 text-sm',
-                          ]"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="w-5 h-5 mr-2 text-violet-400"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                            />
-                          </svg>
-                          Edit
-                        </button>
-                      </MenuItem>
-                      <MenuItem v-slot="{ active }">
-                        <button
-                          :class="[
-                            active ? 'bg-red-800 text-white' : 'text-gray-900',
-                            'group flex rounded-md items-center w-full px-2 py-2 text-sm',
-                          ]"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="w-5 h-5 mr-2 text-violet-400"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                            />
-                          </svg>
-                          Delete
-                        </button>
-                      </MenuItem>
-                    </div>
-                  </MenuItems>
-                </transition>
-              </Menu>
-            </td>
+            <td>{{ formatDays(user.lastActivity) }}</td>
           </tr>
         </tbody>
         <tfoot>
@@ -342,6 +336,14 @@ export default {
       };
 
       return `${new Date(timestamp).toLocaleDateString("en", options)}`;
+    },
+    formatDays(timestamp) {
+      const msPerDay = 1000 * 60 * 60 * 24;
+      let days = Math.floor((new Date() - new Date(timestamp)) / msPerDay);
+      if (days >= 0)
+        return `${days} days ago`;
+      else
+        return '-';
     },
 
     getAvatar(firstName, lastName) {

@@ -7,6 +7,7 @@
     "email": "gcezar@stanford.edu",
     "role": "Administrator",
     "joinDate": 1632499200000,
+    "lastActivity": 1632499200000,
     "expireDate": 1704010200000
   },
   {
@@ -17,6 +18,7 @@
     "email": "yingdonc@andrew.cmu.edu",
     "role": "Visitor",
     "joinDate": 1632499200000,
+    "lastActivity": 1632499200000,
     "expireDate": 1639999200000
   },
   {
@@ -27,6 +29,7 @@
     "email": "mikechiang@cmu.edu",
     "role": "Visitor",
     "joinDate": 1632499200000,
+    "lastActivity": 1632499200000,
     "expireDate": 1639999200000
   },
   {
@@ -37,6 +40,7 @@
     "email": "ab@stanford.edu",
     "role": "Researcher",
     "joinDate": 1632499200000,
+    "lastActivity": 1632499200000,
     "expireDate": 1704010200000
   },
   {
@@ -47,6 +51,7 @@
     "email": "chihweif@andrew.cmu.edu",
     "role": "Visitor",
     "joinDate": 1632499200000,
+    "lastActivity": 1632499200000,
     "expireDate": 1639999200000
   },
   {
@@ -57,6 +62,7 @@
     "email": "cd@stanford.edu",
     "role": "Researcher",
     "joinDate": 1632499200000,
+    "lastActivity": 1632499200000,
     "expireDate": 1704010200000
   },
   {
@@ -67,6 +73,7 @@
     "email": "ef@stanford.edu",
     "role": "Researcher",
     "joinDate": 1632499200000,
+    "lastActivity": 1632499200000,
     "expireDate": 1704010200000
   },
   {
@@ -77,6 +84,7 @@
     "email": "huilinl@cmu.edu",
     "role": "Visitor",
     "joinDate": 1632499200000,
+    "lastActivity": 1632499200000,
     "expireDate": 1639999200000
   },
   {
@@ -87,6 +95,7 @@
     "email": "gh@stanford.edu",
     "role": "Researcher",
     "joinDate": 1632499200000,
+    "lastActivity": 1632499200000,
     "expireDate": 1704010200000
   },
   {
@@ -97,6 +106,7 @@
     "email": "hzheng3@cmu.edu",
     "role": "Visitor",
     "joinDate": 1632499200000,
+    "lastActivity": 1632499200000,
     "expireDate": 1639999200000
   }
 ]
