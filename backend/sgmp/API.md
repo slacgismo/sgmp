@@ -235,6 +235,34 @@ Sample response:
 }
 ```
 
+### `/api/device/details`
+
+Get the details for one device.
+
+Sample request:
+```
+{
+    "device_id": 1
+}
+```
+
+Sample response:
+```
+{
+    "status": "ok",
+    "device": {
+        "name": "sonnen",
+        "description": "Sonnen controller inside the house",
+        "type": "sonnen",
+        "config": {
+            "ip": "1.2.3.4",
+            "username": "user",
+            "password": "password"
+        }
+    }
+}
+```
+
 ### `/api/device/create`
 
 Creates a device. The device type should be specified. The config field is a JSON object and its format is defined by the device type. The device name is unique and can only contain alphabets, numbers and underscore, and cannot start with a number. The device ID will be assigned by the database automatically.
@@ -252,6 +280,17 @@ Sample request:
     }
 }
 ```
+
+Sample response:
+```
+{
+    "status": "ok"
+}
+```
+
+### `/api/device/sync`
+
+Synchronize the device list to the edge device. Publishes the deivce list to AWS IoT Core.
 
 Sample response:
 ```
