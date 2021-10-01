@@ -27,24 +27,37 @@ while not(mqtt_connect):
 
 print('Connected!')
 
-# Read device configuration
+# Define the correspondance between device type and the class
 device_types = {
     'sonnen': sonnen_local_api.SonnenLocalApi,
     'egauge': egauge_local_api.EgaugeInterface
 }
 
+# This function populates the device list with a object instance of the corresponding type
+def instantiate_devices(devices):
+    for device in devices:
+        device['instance'] = device_types[device['type']](device['config'])
+    return devices
+
+# Read device config
 devices = []
 with open('devices.json', 'r') as devices_file:
     devices = json.loads(devices_file.read())['devices']
 
+# This is used when new device list is being received
+new_devices_lock = threading.Lock()
+new_devices = None
+
 # Instantiate a device instance for each device
-for device in devices:
-    device['instance'] = device_types[device['type']](device['config'])
+instantiate_devices(devices)
 
 def collect_and_publish():
     timestamp = int(round(time.time() * 1000))
     def device_func(device):
         topic = 'gismolab_sgmp_read/' + str(device['device_id']) + '/' + str(timestamp) + '/data'
+        if config.DRY_RUN:
+            print('Dry run: read and publish data to %s' % topic)
+            return
         result = device['instance'].read()
         print('[%s]' % topic, result)
         mqtt.publish(topic, json.dumps(result), QoS=1)
@@ -54,6 +67,18 @@ def collect_and_publish():
         th.start()
     for th in threads:
         th.join()
+
+# Subscribe to config update action
+def config_update_callback(client, userdata, message):
+    global new_devices, new_devices_lock
+    print('Received config update!')
+    new_devices_lock.acquire()
+    new_devices = json.loads(message.payload.decode('utf-8'))
+    with open('devices.json', 'w') as devices_file:
+        json.dump({'devices': new_devices}, devices_file)
+    new_devices_lock.release()
+
+mqtt.subscribe('gismolab_sgmp_config/devices', QoS=1, callback=config_update_callback)
 
 terminate = False
 while not terminate:
@@ -65,3 +90,12 @@ while not terminate:
         print('Received KeyboardInterrupt. Please wait while the publisher finishes its tasks.')
         th.join()
         terminate = True
+        continue
+    # Check if new devices are pushed
+    new_devices_lock.acquire()
+    if new_devices is not None:
+        th.join()
+        devices = new_devices
+        new_devices = None
+        instantiate_devices(devices)
+    new_devices_lock.release()
