@@ -2,139 +2,139 @@
     "Load": [
       {
         "timestamp": 1632499200000,
-        "power": 23
+        "data": 23
       },
       {
         "timestamp": 1632502800000,
-        "power": 11
+        "data": 11
       },
       {
         "timestamp": 1632506400000,
-        "power": 22
+        "data": 22
       },
       {
         "timestamp": 1632510000000,
-        "power": 27
+        "data": 27
       },
       {
         "timestamp": 1632513600000,
-        "power": 13
+        "data": 13
       },
       {
         "timestamp": 1632517200000,
-        "power": 22
+        "data": 22
       },
       {
         "timestamp": 1632520800000,
-        "power": 37
+        "data": 37
       },
       {
         "timestamp": 1632524400000,
-        "power": 21
+        "data": 21
       },
       {
         "timestamp": 1632528000000,
-        "power": 44
+        "data": 44
       },
       {
         "timestamp": 1632531600000,
-        "power": 22
+        "data": 22
       },
       {
         "timestamp": 1632535200000,
-        "power": 30
+        "data": 30
       }
     ],
     "EV": [
       {
         "timestamp": 1632499200000,
-        "power": 44
+        "data": 44
       },
       {
         "timestamp": 1632502800000,
-        "power": 55
+        "data": 55
       },
       {
         "timestamp": 1632506400000,
-        "power": 41
+        "data": 41
       },
       {
         "timestamp": 1632510000000,
-        "power": 67
+        "data": 67
       },
       {
         "timestamp": 1632513600000,
-        "power": 22
+        "data": 22
       },
       {
         "timestamp": 1632517200000,
-        "power": 43
+        "data": 43
       },
       {
         "timestamp": 1632520800000,
-        "power": 21
+        "data": 21
       },
       {
         "timestamp": 1632524400000,
-        "power": 41
+        "data": 41
       },
       {
         "timestamp": 1632528000000,
-        "power": 56
+        "data": 56
       },
       {
         "timestamp": 1632531600000,
-        "power": 27
+        "data": 27
       },
       {
         "timestamp": 1632535200000,
-        "power": 43
+        "data": 43
       }
     ],
     "Battery": [
       {
         "timestamp": 1632499200000,
-        "power": 30
+        "data": 30
       },
       {
         "timestamp": 1632502800000,
-        "power": 36
+        "data": 36
       },
       {
         "timestamp": 1632506400000,
-        "power": 22
+        "data": 22
       },
       {
         "timestamp": 1632510000000,
-        "power": 18
+        "data": 18
       },
       {
         "timestamp": 1632513600000,
-        "power": 36
+        "data": 36
       },
       {
         "timestamp": 1632517200000,
-        "power": 26
+        "data": 26
       },
       {
         "timestamp": 1632520800000,
-        "power": 32
+        "data": 32
       },
       {
         "timestamp": 1632524400000,
-        "power": 37
+        "data": 37
       },
       {
         "timestamp": 1632528000000,
-        "power": 41
+        "data": 41
       },
       {
         "timestamp": 1632531600000,
-        "power": 31
+        "data": 31
       },
       {
         "timestamp": 1632535200000,
-        "power": 25
+        "data": 25
       }
     ]
   }
