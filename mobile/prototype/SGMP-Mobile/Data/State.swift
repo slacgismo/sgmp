@@ -5,7 +5,6 @@ import Defaults
 class Env: ObservableObject {
     var showLogin = true
     
-    
     @Published var showDecorationView : Bool = false
     @Published var decorationView : AnyView = AnyView(Color.clear)
 
@@ -35,5 +34,6 @@ class Env: ObservableObject {
 }
 
 extension Defaults.Keys {
+    static let debugMode = Key<Bool>("debugMode", default: false)
     static let loginEmailAddress = Key<String>("loginEmailAddress", default: "")
 }

@@ -50,7 +50,7 @@ class ARGridViewController : UIViewController, ARSCNViewDelegate, ARSessionDeleg
                 let node = ARInteractiveSwiftUINode(viewSize: .init(width: 650/2.0, height: 250/2.0),
                                                     planeSize: .init(width: anchor.referenceImage.physicalSize.width * anchor.estimatedScaleFactor,
                                                                  height: anchor.referenceImage.physicalSize.height * anchor.estimatedScaleFactor),
-                                                view: ARRefImageSlacView())
+                                                    view: ARRefImageSlacView())
                 return node
             }
             

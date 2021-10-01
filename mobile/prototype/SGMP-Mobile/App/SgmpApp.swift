@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Amplify
 
 @main
 //struct SgmpApp: App {
@@ -26,10 +27,16 @@ class SgmpAppDelegate : UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+
         return true
     }
     
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        do {
+            try Amplify.configure()
+        } catch (let error) {
+            print (error.localizedDescription)
+        }
         setupAllBaseManagers()
         return true
     }

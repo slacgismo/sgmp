@@ -11,6 +11,7 @@ import SwiftUI
 struct SettingsTabView: View {
     @EnvironmentObject var env : Env
     @Default(.loginEmailAddress) var loginEmailAddress
+    @Default(.debugMode) var debugMode
     
     var body: some View {
         List {
@@ -29,7 +30,7 @@ struct SettingsTabView: View {
             
             Section {
                 NavigationLink("About", destination: AboutAppView())
-                Toggle(isOn: .constant(false)) {
+                Toggle(isOn: $debugMode) {
                     Text("Debug")
                 }
             } header: {

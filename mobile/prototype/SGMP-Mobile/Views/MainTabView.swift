@@ -5,10 +5,6 @@ import ARKit
 struct MainTabView: View {
     @EnvironmentObject var env : Env
     
-    @State private var emailAddress = ""
-    @State private var password = ""
-    @Default(.loginEmailAddress) var loginEmailAddress
-    
     var body: some View {
         TabView {
             NavigationView {
@@ -40,31 +36,7 @@ struct MainTabView: View {
         .sheet(isPresented: $env.showLogin) {
             
         } content: {
-            NavigationView {
-                List {
-                    Section {
-                        TextField("Email", text: $emailAddress)
-                            .keyboardType(.emailAddress)
-                            .autocapitalization(.none)
-                            .disableAutocorrection(true)
-                        SecureField("Password", text: $password)
-                    } header: {
-                        Text("Credentials")
-                    } footer: {
-                        Link("Forgot login info?", destination: URL(string: "https://www6.slac.stanford.edu/")!)
-                    }
-
-                    Button {
-                        loginEmailAddress = emailAddress
-                        emailAddress = ""
-                        password = ""
-                    } label: {
-                        Text("Login")
-                    }
-                    .disabled(emailAddress.isEmpty || password.isEmpty)
-                }.navigationTitle("Login")
-            }
-            .interactiveDismissDisabled(true)
+            LoginView()
         }
     }
 }
