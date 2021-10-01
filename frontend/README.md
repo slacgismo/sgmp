@@ -16,3 +16,7 @@ npm run dev
 ```
 
 Afterwards, go to http://localhost:3000
+
+### Icon Licensing
+Some icons and images are modified from SVG Repo.
+https://www.svgrepo.com/page/licensing
