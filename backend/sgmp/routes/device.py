@@ -81,6 +81,21 @@ def device_create():
 
     return jsonify({'status': 'ok'})
 
+@api_device.route('/delete', methods=['POST'])
+def device_delete():
+    data = request.json
+
+    # Validate input
+    if 'device_id' not in data:
+        return err_json('bad request')
+    device_id = int(data['device_id'])
+
+    # Delete data from database
+    Device.query.filter_by(device_id=device_id).delete()
+    db.session.commit()
+
+    return jsonify({'status': 'ok'})
+
 @api_device.route('/sync', methods=['GET'])
 def device_sync():
     # This is the data to be published

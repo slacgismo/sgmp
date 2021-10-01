@@ -330,7 +330,7 @@ Deletes a device.
 Sample request:
 ```
 {
-    "name": "sonnen"
+    "device_id": 1
 }
 ```
 
