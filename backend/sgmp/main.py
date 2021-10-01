@@ -1,3 +1,5 @@
+import decimal
+import json
 from flask import Flask, jsonify
 
 from routes.data import api_data
@@ -10,6 +12,14 @@ from models.shared import db
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.sqlite'
 db.init_app(app)
+
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, decimal.Decimal):
+            return int(obj)
+        return super(DecimalEncoder, self).default(obj)
+
+app.json_encoder = DecimalEncoder
 
 app.register_blueprint(api_data, url_prefix='/api/data')
 app.register_blueprint(api_role, url_prefix='/api/role')
