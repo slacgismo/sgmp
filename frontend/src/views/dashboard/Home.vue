@@ -12,21 +12,23 @@
   </div>
 
   <div class="grid grid-cols-1 gap-4 px-4 mt-8 lg:grid-cols-2 xl:grid-cols-4 sm:px-8">
-    <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
-      <div class="p-4">
-        <!-- https://www.svgrepo.com/svg/16916/sun -->
-        <img src="/sun.svg" class="h-12 w-12" />
+    <router-link :to="{ name: 'solar' }">
+      <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
+        <div class="p-4">
+          <!-- https://www.svgrepo.com/svg/16916/sun -->
+          <img src="../../assets/img/sun.svg" class="h-12 w-12" />
+        </div>
+        <div class="text-gray-700">
+          <h3 class="text-sm tracking-wider">Solar Power</h3>
+          <p class="text-3xl">128 Walt</p>
+        </div>
       </div>
-      <div class="text-gray-700">
-        <h3 class="text-sm tracking-wider">Solar Power</h3>
-        <p class="text-3xl">128 Walt</p>
-      </div>
-    </div>
+    </router-link>
 
     <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
       <div class="p-4">
         <!-- https://www.svgrepo.com/svg/326915/battery-charging-sharp -->
-        <img src="/battery.svg" class="h-12 w-12" />
+        <img src="../../assets/img/battery.svg" class="h-12 w-12" />
       </div>
       <div class="text-gray-700">
         <h3 class="text-sm tracking-wider">Battery Discharging</h3>
@@ -37,7 +39,7 @@
     <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
       <div class="p-4">
         <!-- https://www.svgrepo.com/svg/17490/car -->
-        <img src="/car.svg" class="h-12 w-12" />
+        <img src="../../assets/img/car.svg" class="h-12 w-12" />
       </div>
       <div class="text-gray-700">
         <h3 class="text-sm tracking-wider">EV Charging</h3>
@@ -48,7 +50,7 @@
     <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
       <div class="p-4">
         <!-- Credit: modified from https://www.svgrepo.com/svg/137351/rounded-plug -->
-        <img src="/load.svg" class="h-12 w-12" />
+        <img src="../../assets/img/load.svg" class="h-12 w-12" />
       </div>
       <div class="text-gray-700">
         <h3 class="text-sm tracking-wider">Loads</h3>
