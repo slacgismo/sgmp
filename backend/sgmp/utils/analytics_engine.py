@@ -44,11 +44,36 @@ class AnalyticsEngine:
         self.expr_stack[:] = []
         self.ctxt = {}
 
-    def evaluate(self, expr, ctxt):
+    def parse_expression(self, expr):
         self.expr_stack[:] = []
-        self.ctxt = ctxt
         parser = self._get_parser()
         parser.parseString(expr, parseAll=True)
+        return self.expr_stack[:]
+
+    def collect_identifiers(self):
+        idents = set()
+        
+        def is_identifier(op):
+            if isinstance(op, tuple):
+                return False
+            if op == "unary -":
+                return False
+            if op in "+-*/^":
+                return False
+            elif op == "PI" or op == "E":
+                return False
+            elif op in self.fn:
+                return False
+            return op[0].isalpha()
+
+        for item in self.expr_stack:
+            if is_identifier(item):
+                idents.add(item)
+
+        return list(idents)
+
+    def evaluate(self, ctxt):
+        self.ctxt = ctxt
         return self._evaluate(self.expr_stack[:])
 
     def _get_parser(self):
@@ -56,7 +81,7 @@ class AnalyticsEngine:
         pi = CaselessKeyword('PI')
 
         fnumber = Regex(r"[=-]?\d+(?:\.\d*)?(?:[eE][+=]?\d+)?")
-        ident = Word(alphas, alphanums + "_$")
+        ident = Word(alphas, alphanums + "_$.")
 
         plus, minus, mult, div = map(Literal, "+-*/")
         lpar, rpar = map(Suppress, "()")
