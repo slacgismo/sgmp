@@ -364,12 +364,12 @@ Sample response:
 
 ### `/api/analytics/update`
 
-Updates an analytics.
+Updates an analytics. Since the name is unique, the name cannot be changed.
 
 Sample request:
 ```
 {
-    "name": "total_load",
+    "analytics_id": "1",
     "description": "Total load, measured from Sonnen",
     "formula": "sonnen.load"
 }
@@ -389,7 +389,7 @@ Delete an analytics.
 Sample request:
 ```
 {
-    "name": "total_load"
+    "analytics_id": "1"
 }
 ```
 
