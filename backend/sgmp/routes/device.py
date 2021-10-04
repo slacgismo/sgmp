@@ -18,7 +18,8 @@ def device_list():
         ret.append({
             'device_id': device.device_id,
             'name': device.name,
-            'description': device.description
+            'description': device.description,
+            'type': device.type
         })
     
     return jsonify({'status': 'ok', 'devices': ret})

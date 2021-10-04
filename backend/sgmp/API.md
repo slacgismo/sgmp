@@ -229,6 +229,7 @@ Sample response:
         {
             "device_id": 12345,
             "name": "sonnen",
+            "type": "sonnen",
             "description": "Sonnen controller inside the house"
         }
     ]
