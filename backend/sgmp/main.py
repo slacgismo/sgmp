@@ -1,6 +1,7 @@
 import decimal
 import json
 from flask import Flask, jsonify
+from flask_cors import CORS
 
 from routes.data import api_data
 from routes.role import api_role
@@ -10,6 +11,7 @@ from routes.device import api_device
 from models.shared import db
 
 app = Flask(__name__)
+CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.sqlite'
 db.init_app(app)
 
