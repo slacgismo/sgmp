@@ -146,9 +146,9 @@ class AnalyticsEngine:
             args = reversed([self._evaluate(s) for _ in range(num_args)])
             return self.fn[op](*args)
         elif op[0].isalpha():
-            if op[0] in self.ctxt:
-                return self.ctxt[op[0]]
-            raise Exception('identifier not found in context: %s' % op[0])
+            if op in self.ctxt:
+                return self.ctxt[op]
+            raise Exception('identifier not found in context: %s' % op)
         else:
             try:
                 return int(op)
