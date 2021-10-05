@@ -36,3 +36,17 @@ def health_check():
         'status': 'ok',
         'message': 'i\'m healthy'
     })
+
+@app.errorhandler(404)
+def page_not_found(_):
+    return jsonify({
+        'status': 'error',
+        'message': 'not found'
+    }), 404
+
+@app.errorhandler(500)
+def server_error(_):
+    return jsonify({
+        'status': 'error',
+        'message': 'internal server error'
+    }), 500
