@@ -10,7 +10,13 @@ import SceneKit
 import UIKit
 import SwiftUI
 
-class ARInteractiveUIViewNode : SCNNode {
+protocol ARInterativeViewNodeProtocol {
+    func postInit() -> Void
+    func didAddToScene() -> Void
+    func  didRemoveFromScene() -> Void
+}
+
+class ARInteractiveUIViewNode : SCNNode, ARInterativeViewNodeProtocol {
     var viewSize : CGSize = CGSize.zero
     var planeSize : CGSize = CGSize.zero
     var view : UIView = UIView()
@@ -30,21 +36,41 @@ class ARInteractiveUIViewNode : SCNNode {
     func postInit() {
         let plane = SCNPlane(width: planeSize.width,
                              height: planeSize.height)
+        let tempMaterial = SCNMaterial()
+        tempMaterial.lightingModel = .constant
+        tempMaterial.diffuse.contents = UIColor.clear
+        plane.materials = [tempMaterial]
+        let container = SCNNode(geometry: plane)
+        container.eulerAngles.x = -.pi / 2
+        container.opacity = 0
         DispatchQueue.main.async {
+            self.view.backgroundColor = .clear
             self.view.frame = CGRect.init(origin: .zero, size: self.viewSize)
+            self.view.isOpaque = false
             let material = SCNMaterial()
             material.lightingModel = .constant
             material.isDoubleSided = true
             material.diffuse.contents = self.view
             plane.materials = [material]
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                SCNTransaction.animationDuration = 1
+                SCNTransaction.animationTimingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+                container.opacity = 1
+            }
         }
-        let container = SCNNode(geometry: plane)
-        container.eulerAngles.x = -.pi / 2
         self.addChildNode(container)
+    }
+    
+    func didAddToScene() {
+        
+    }
+    
+    func didRemoveFromScene() {
+        
     }
 }
 
-class ARInteractiveSwiftUINode<Content> : SCNNode where Content : View {
+class ARInteractiveSwiftUINode<Content> : SCNNode, ARInterativeViewNodeProtocol where Content : View {
     var viewSize : CGSize = CGSize.zero
     var planeSize : CGSize = CGSize.zero
     var view : Content?
@@ -88,5 +114,13 @@ class ARInteractiveSwiftUINode<Content> : SCNNode where Content : View {
             }
         }
         self.addChildNode(container)
+    }
+    
+    func didAddToScene() {
+        
+    }
+    
+    func didRemoveFromScene() {
+        
     }
 }

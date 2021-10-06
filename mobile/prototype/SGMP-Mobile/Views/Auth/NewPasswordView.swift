@@ -71,6 +71,11 @@ struct NewPasswordView: View {
             .navigationTitle("Additional Steps")
         }
         .interactiveDismissDisabled(true)
+        .onAppear {
+            newPassword = ""
+            errorMsg = ""
+            networking = false
+        }
     }
 }
 

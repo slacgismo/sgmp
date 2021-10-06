@@ -5,8 +5,16 @@ import Amplify
 
 class Env: ObservableObject {
     
-    @Published var authState : AuthStates? = nil
+    // MARK: - User
+    @Published var authState : AuthStates? = nil {
+        didSet {
+            
+        }
+    }
     @Published var authUser : AuthUser? = nil
+    
+    // MARK: - AR
+    @Published var arCameraTrackingState : ARCameraTrackingState = .notAvailable
     
     init() {
         

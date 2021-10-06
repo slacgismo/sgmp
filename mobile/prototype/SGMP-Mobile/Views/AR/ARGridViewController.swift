@@ -83,20 +83,9 @@ class ARGridViewController : UIViewController, ARSCNViewDelegate, ARSessionDeleg
     
     // MARK: - ARSessionDelegate
     func session(_ session: ARSession, cameraDidChangeTrackingState camera: ARCamera) {
-//        let env = EnvironmentManager.shared.env
-//        switch camera.trackingState {
-//        case .notAvailable:
-//            env.showDecoration(view: AnyView(ToastView(title: "Camera Not Available")), forTime: .seconds(1))
-//        case .normal:
-//            env.showDecoration(view: AnyView(ToastView(title: "Tracking Normal")), forTime: .seconds(1))
-//        case .limited(_):
-//            break
-//        }
-    }
-    
-    func sessionWasInterrupted(_ session: ARSession) {
-//        let env = EnvironmentManager.shared.env
-//        env.showDecoration(view: AnyView(ToastView(title: "Tracking Interrupted")), forTime: .seconds(1))
+        DispatchQueue.main.async {
+            EnvironmentManager.shared.env.arCameraTrackingState = .init(from: camera.trackingState)
+        }
     }
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {

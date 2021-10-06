@@ -4,6 +4,8 @@ import ARKit
 
 struct MainTabView: View {
     @EnvironmentObject var env : Env
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @Environment(\.verticalSizeClass) var verticalSizeClass
     
     var body: some View {
         TabView {
@@ -39,7 +41,7 @@ struct MainTabView: View {
             switch state {
             case .login:
                 LoginView()
-            case .requestReset:
+            case .resetPassword(let info):
                 ResetPasswordView()
             case .confirmSignInWithNewPassword(let info):
                 NewPasswordView()

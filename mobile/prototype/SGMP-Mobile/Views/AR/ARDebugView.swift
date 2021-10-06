@@ -14,9 +14,11 @@ struct ARDebugView: View {
     
     var body: some View {
         VStack {
-            Text("AR Tracking")
             if debugMode {
                 Color.clear
+            } else {
+                Text("AR Tracking \(env.arCameraTrackingState.desc)")
+                    .font(.caption.smallCaps())
             }
         }
         .padding()

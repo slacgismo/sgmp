@@ -24,8 +24,6 @@ public enum AuthStates : Identifiable {
                 return 1
             case .login:
                 return 0
-            case .requestReset:
-                return -1
             }
         }
     }
@@ -52,7 +50,6 @@ public enum AuthStates : Identifiable {
     case confirmSignUp(AdditionalInfo?)
     
     case login
-    case requestReset
     
     init?(from step : AuthSignInStep) {
         switch step {

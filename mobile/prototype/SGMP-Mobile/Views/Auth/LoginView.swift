@@ -40,7 +40,7 @@ struct LoginView: View {
                         Link("Register", destination: URL(string: "https://www6.slac.stanford.edu/")!)
                         Text(" / ")
                         Button("Reset") {
-                            env.authState = .requestReset
+                            env.authState = .resetPassword(nil)
                         }
                     }
                 }
@@ -73,6 +73,12 @@ struct LoginView: View {
             }.navigationTitle("Login")
         }
         .interactiveDismissDisabled(true)
+        .onAppear {
+            username = ""
+            password = ""
+            errorMsg = ""
+            networking = false
+        }
     }
 }
 

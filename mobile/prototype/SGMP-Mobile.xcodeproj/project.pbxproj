@@ -11,12 +11,13 @@
 		0D4BF611270D166900B4496B /* AWSCognitoAuthPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 0D4BF610270D166900B4496B /* AWSCognitoAuthPlugin */; };
 		0D4BF613270D166900B4496B /* AWSPluginsCore in Frameworks */ = {isa = PBXBuildFile; productRef = 0D4BF612270D166900B4496B /* AWSPluginsCore */; };
 		0D4BF615270D166900B4496B /* Amplify in Frameworks */ = {isa = PBXBuildFile; productRef = 0D4BF614270D166900B4496B /* Amplify */; };
-		0D4BF617270D375900B4496B /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4BF616270D375900B4496B /* Auth.swift */; };
+		0D4BF617270D375900B4496B /* AuthDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4BF616270D375900B4496B /* AuthDataModel.swift */; };
 		0D4BF61A270D3E9200B4496B /* NewPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4BF619270D3E9200B4496B /* NewPasswordView.swift */; };
 		0D51EE0E26F27EDF00BCAAB3 /* SgmpApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D51EE0D26F27EDF00BCAAB3 /* SgmpApp.swift */; };
 		0D51EE1226F27EDF00BCAAB3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D51EE1126F27EDF00BCAAB3 /* Assets.xcassets */; };
 		0D51EE1526F27EDF00BCAAB3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D51EE1426F27EDF00BCAAB3 /* Preview Assets.xcassets */; };
 		0D51EE1C26F27FCC00BCAAB3 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D51EE1B26F27FCC00BCAAB3 /* MainTabView.swift */; };
+		0D5543A4270D5C5B009A9B87 /* ArDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5543A3270D5C5B009A9B87 /* ArDataModel.swift */; };
 		0D5E22AD26FEEE77002B0A4B /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 0D5E22AC26FEEE77002B0A4B /* Defaults */; };
 		0D5E22AF26FEF427002B0A4B /* AboutAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5E22AE26FEF427002B0A4B /* AboutAppView.swift */; };
 		0D5F79E526FB2D660013AAB1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F79E426FB2D660013AAB1 /* Main.storyboard */; };
@@ -49,13 +50,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0D4BF616270D375900B4496B /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
+		0D4BF616270D375900B4496B /* AuthDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDataModel.swift; sourceTree = "<group>"; };
 		0D4BF619270D3E9200B4496B /* NewPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordView.swift; sourceTree = "<group>"; };
 		0D51EE0A26F27EDF00BCAAB3 /* SGMP-Mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SGMP-Mobile.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D51EE0D26F27EDF00BCAAB3 /* SgmpApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SgmpApp.swift; sourceTree = "<group>"; };
 		0D51EE1126F27EDF00BCAAB3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0D51EE1426F27EDF00BCAAB3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		0D51EE1B26F27FCC00BCAAB3 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		0D5543A3270D5C5B009A9B87 /* ArDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArDataModel.swift; sourceTree = "<group>"; };
 		0D5E22AE26FEF427002B0A4B /* AboutAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppView.swift; sourceTree = "<group>"; };
 		0D5F79E426FB2D660013AAB1 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		0D5F79E626FB2DCA0013AAB1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -223,7 +225,8 @@
 			isa = PBXGroup;
 			children = (
 				0DE2E7B926F85FAD00932B41 /* State.swift */,
-				0D4BF616270D375900B4496B /* Auth.swift */,
+				0D4BF616270D375900B4496B /* AuthDataModel.swift */,
+				0D5543A3270D5C5B009A9B87 /* ArDataModel.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -339,9 +342,10 @@
 				0DE2E7CC26F9A4AB00932B41 /* ARRefImageCoverView.swift in Sources */,
 				0DE2E79826F6DEDB00932B41 /* ARGridViewController.swift in Sources */,
 				0D6E5B8C270D4EF200576AA4 /* ResetPasswordView.swift in Sources */,
+				0D5543A4270D5C5B009A9B87 /* ArDataModel.swift in Sources */,
 				0D73894426FAA68F000C43A6 /* ScaffoldView.swift in Sources */,
 				0DE2E7BD26F8601200932B41 /* EnvironmentManager.swift in Sources */,
-				0D4BF617270D375900B4496B /* Auth.swift in Sources */,
+				0D4BF617270D375900B4496B /* AuthDataModel.swift in Sources */,
 				0D73894C26FB1656000C43A6 /* UIRespondor+Hierarchy.swift in Sources */,
 				0DE2E7C826F99DF800932B41 /* ARNodeProtocol.swift in Sources */,
 				0DE2E7C326F8625600932B41 /* CameraTabView.swift in Sources */,
@@ -494,7 +498,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "SGMP-Mobile/SGMP-Mobile.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"SGMP-Mobile/Preview Content\"";
 				DEVELOPMENT_TEAM = 9QJ8M25J77;
 				ENABLE_PREVIEWS = YES;
@@ -529,7 +533,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "SGMP-Mobile/SGMP-Mobile.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"SGMP-Mobile/Preview Content\"";
 				DEVELOPMENT_TEAM = 9QJ8M25J77;
 				ENABLE_PREVIEWS = YES;

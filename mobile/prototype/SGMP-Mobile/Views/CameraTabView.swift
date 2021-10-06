@@ -10,20 +10,21 @@ import ARKit
 
 struct CameraTabView: View {
     @State var showCameraSheet : Bool = false
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+    
     var body: some View {
         List {
             Section {
-                Button("Open Camera") {
-                    showCameraSheet.toggle()
+                if horizontalSizeClass == UserInterfaceSizeClass.compact {
+                    Button("Open Camera") {
+                        showCameraSheet.toggle()
+                    }
+                } else {
+                    NavigationLink("Open Camera") {
+                        ARGridView()
+                    }
                 }
-//                NavigationLink("Open Camera") {
-//                    VStack {
-//                        ARGridViewControllerRepresentable()
-//                        ARDebugView()
-//                    }
-//                    .navigationBarTitleDisplayMode(.inline)
-//                    .navigationTitle("AR Grid")
-//                }
             } header: {
                 Text("See Grid in AR")
             }
@@ -54,8 +55,8 @@ struct CameraTabView: View {
                 }
                 .buttonStyle(PlainButtonStyle())
                 .padding()
-
             }
+            .interactiveDismissDisabled()
         })
         .navigationTitle("Camera")
     }

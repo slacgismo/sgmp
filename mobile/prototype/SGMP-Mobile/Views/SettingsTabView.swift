@@ -15,9 +15,20 @@ struct SettingsTabView: View {
     
     var body: some View {
         List {
-            
             Section {
-                Text("Username \(env.authUser?.username ?? "")")
+                VStack(alignment: .center, spacing: 0) {
+                    Circle()
+                        .foregroundColor(.yellow)
+                        .overlay(content: {
+                            Text("🤔")
+                                .font(.largeTitle)
+                        })
+                        .frame(width: 128, height: 128, alignment: .center)
+                        .padding(.bottom)
+                    Text("User Name")
+                        .font(.body.bold())
+                }.frame(maxWidth: .infinity)
+                .padding()
                 
                 Button {
                     Amplify.Auth.signOut() { result in
@@ -42,6 +53,22 @@ struct SettingsTabView: View {
                 }
             } header: {
                 Text("Misc")
+            }
+            
+            if debugMode {
+                Section {
+                    Text("SGMP \(Bundle.main.versionString ?? "NULL") (\(Bundle.main.buildString ?? "NULL"))")
+                        .font(.caption.monospaced())
+                    Text("User ID \(env.authUser?.userId ?? "NULL")")
+                        .font(.caption.monospaced())
+                    Text("Model \(UIDevice.current.model) (\(UIDevice.current.name))")
+                        .font(.caption.monospaced())
+                    Text("System \(UIDevice.current.systemName) \(UIDevice.current.systemVersion)")
+                        .font(.caption.monospaced())
+                } header: {
+                    Text("Debug Info")
+                }
+
             }
 
         }.navigationTitle("Settings")
