@@ -33,11 +33,17 @@ struct MainTabView: View {
                 Label("Settings", systemImage: "gear")
             }
         }
-        .sheet(isPresented: $env.showLogin) {
+        .sheet(item: $env.authState) {
             
-        } content: {
-            LoginView()
+        } content: { state in
+            switch state {
+            case .login:
+                LoginView()
+            default:
+                ZStack {}
+            }
         }
+
     }
 }
 

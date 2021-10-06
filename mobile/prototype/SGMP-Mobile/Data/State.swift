@@ -1,9 +1,11 @@
 import Foundation
 import SwiftUI
 import Defaults
+import Amplify
 
 class Env: ObservableObject {
-    var showLogin = true
+    
+    @Published var authState : AuthStates? = nil
     
     @Published var showDecorationView : Bool = false
     @Published var decorationView : AnyView = AnyView(Color.clear)
@@ -26,14 +28,10 @@ class Env: ObservableObject {
     }
     
     init() {
-        Defaults.observe(.loginEmailAddress) { change in
-            print("loginEmailAddress \(change.oldValue) - \(change.newValue) - showLogin \(change.newValue.isEmpty)")
-            self.showLogin = change.newValue.isEmpty
-        }.tieToLifetime(of: self)
+        
     }
 }
 
 extension Defaults.Keys {
     static let debugMode = Key<Bool>("debugMode", default: false)
-    static let loginEmailAddress = Key<String>("loginEmailAddress", default: "")
 }

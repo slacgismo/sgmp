@@ -2,6 +2,7 @@ import Foundation
 import ARKit
 import UIKit
 import SwiftUI
+import Defaults
 
 class ARGridViewController : UIViewController, ARSCNViewDelegate, ARSessionDelegate {
     
@@ -13,7 +14,7 @@ class ARGridViewController : UIViewController, ARSCNViewDelegate, ARSessionDeleg
         arView.frame = self.view.bounds
         arView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         arView.delegate = self
-        arView.showsStatistics = true
+//        arView.showsStatistics = Defaults.
         arView.session = ARSession()
         arView.session.delegate = self
         arView.isUserInteractionEnabled = true
@@ -50,7 +51,7 @@ class ARGridViewController : UIViewController, ARSCNViewDelegate, ARSessionDeleg
                 let node = ARInteractiveSwiftUINode(viewSize: .init(width: 650/2.0, height: 250/2.0),
                                                     planeSize: .init(width: anchor.referenceImage.physicalSize.width * anchor.estimatedScaleFactor,
                                                                  height: anchor.referenceImage.physicalSize.height * anchor.estimatedScaleFactor),
-                                                    view: ARRefImageSlacView())
+                                                    view: ARRefImageSlacView(width: 1300.0/4.0, height: 500.0/4.0, requireLoadDetail: {result in }))
                 return node
             }
             

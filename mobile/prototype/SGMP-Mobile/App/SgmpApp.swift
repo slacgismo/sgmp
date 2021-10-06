@@ -10,33 +10,20 @@ import SwiftUI
 import Amplify
 
 @main
-//struct SgmpApp: App {
-//
-//    @UIApplicationDelegateAdaptor(SgmpAppDelegate.self) var appDelegate
-//
-//    var body: some Scene {
-//        WindowGroup {
-////            ScaffoldView()
-//            ARGridViewControllerRepresentable()
-//                .environmentObject(EnvironmentManager.shared.env)
-//        }
-//    }
-//}
 
 class SgmpAppDelegate : UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-
+        if #available(iOS 15.0, *) {
+            let apparence = UITabBarAppearance()
+            apparence.configureWithOpaqueBackground()
+            UITabBar.appearance().scrollEdgeAppearance = apparence
+        }
         return true
     }
     
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        do {
-            try Amplify.configure()
-        } catch (let error) {
-            print (error.localizedDescription)
-        }
         setupAllBaseManagers()
         return true
     }

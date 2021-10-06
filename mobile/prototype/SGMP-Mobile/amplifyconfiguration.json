@@ -1,0 +1,36 @@
+{
+    "auth": {
+        "plugins": {
+            "awsCognitoAuthPlugin": {
+                "IdentityManager": {
+                    "Default": {}
+                },
+                "CognitoUserPool": {
+                    "Default": {
+                        "PoolId": "us-west-1_opTsFEaul",
+                        "AppClientId": "225gul2k0qlq0vjh81cd3va4h",
+                        "Region": "us-west-1"
+                    }
+                },
+                "Auth": {
+                    "Default": {
+                        "authenticationFlowType": "USER_SRP_AUTH",
+                        "OAuth": {
+                            "WebDomain": "https://sgmp.auth.us-west-1.amazoncognito.com",
+                            "AppClientId": "225gul2k0qlq0vjh81cd3va4h",
+                            "SignInRedirectURI": "sgmp://]",
+                            "SignOutRedirectURI": "sgmp://]",
+                            "Scopes": [
+                                "phone",
+                                "email",
+                                "openid",
+                                "profile",
+                                "aws.cognito.signin.user.admin"
+                            ]
+                        },
+                    }
+                }
+            }
+        }
+    }
+}

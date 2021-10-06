@@ -10,17 +10,16 @@ import SwiftUI
 
 struct SettingsTabView: View {
     @EnvironmentObject var env : Env
-    @Default(.loginEmailAddress) var loginEmailAddress
     @Default(.debugMode) var debugMode
     
     var body: some View {
         List {
             
             Section {
-                Text("\(loginEmailAddress)")
+                Text("Username")
                 
                 Button {
-                    loginEmailAddress = ""
+//                    loginEmailAddress = ""
                 } label: {
                     Text("Logout")
                 }

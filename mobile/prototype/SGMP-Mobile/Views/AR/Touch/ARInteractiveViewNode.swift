@@ -62,7 +62,6 @@ class ARInteractiveSwiftUINode<Content> : SCNNode where Content : View {
     }
     
     func postInit() {
-        let vc = UIHostingController(rootView: self.view)
         let plane = SCNPlane(width: planeSize.width,
                              height: planeSize.height)
         let tempMaterial = SCNMaterial()
@@ -73,6 +72,7 @@ class ARInteractiveSwiftUINode<Content> : SCNNode where Content : View {
         container.eulerAngles.x = -.pi / 2
         container.opacity = 0
         DispatchQueue.main.async {
+            let vc = UIHostingController(rootView: self.view?.environmentObject(EnvironmentManager.shared.env))
             vc.view.backgroundColor = .clear
             vc.view.frame = CGRect.init(origin: .zero, size: self.viewSize)
             vc.view.isOpaque = false

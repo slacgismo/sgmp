@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D4BF60F270D166900B4496B /* AWSAPIPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 0D4BF60E270D166900B4496B /* AWSAPIPlugin */; };
+		0D4BF611270D166900B4496B /* AWSCognitoAuthPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 0D4BF610270D166900B4496B /* AWSCognitoAuthPlugin */; };
+		0D4BF613270D166900B4496B /* AWSPluginsCore in Frameworks */ = {isa = PBXBuildFile; productRef = 0D4BF612270D166900B4496B /* AWSPluginsCore */; };
+		0D4BF615270D166900B4496B /* Amplify in Frameworks */ = {isa = PBXBuildFile; productRef = 0D4BF614270D166900B4496B /* Amplify */; };
+		0D4BF617270D375900B4496B /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4BF616270D375900B4496B /* Auth.swift */; };
 		0D51EE0E26F27EDF00BCAAB3 /* SgmpApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D51EE0D26F27EDF00BCAAB3 /* SgmpApp.swift */; };
 		0D51EE1226F27EDF00BCAAB3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D51EE1126F27EDF00BCAAB3 /* Assets.xcassets */; };
 		0D51EE1526F27EDF00BCAAB3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D51EE1426F27EDF00BCAAB3 /* Preview Assets.xcassets */; };
@@ -20,8 +25,6 @@
 		0D73894C26FB1656000C43A6 /* UIRespondor+Hierarchy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D73894B26FB1656000C43A6 /* UIRespondor+Hierarchy.swift */; };
 		0D7C332826FD8EBA00B219E7 /* ARRefImageSlacView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7C332726FD8EBA00B219E7 /* ARRefImageSlacView.swift */; };
 		0D7C332A26FDA76100B219E7 /* Button+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7C332926FDA76100B219E7 /* Button+Style.swift */; };
-		0D9CDDAB27050CB600804A57 /* AWSAPIPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 0D9CDDAA27050CB600804A57 /* AWSAPIPlugin */; };
-		0D9CDDAD27050CB600804A57 /* AWSCognitoAuthPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 0D9CDDAC27050CB600804A57 /* AWSCognitoAuthPlugin */; };
 		0D9CDDAF27050D6F00804A57 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9CDDAE27050D6F00804A57 /* UserManager.swift */; };
 		0D9CDDB12705144900804A57 /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 0D9CDDB02705144900804A57 /* amplifyconfiguration.json */; };
 		0D9CDDB32705163C00804A57 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9CDDB22705163C00804A57 /* LoginView.swift */; };
@@ -36,9 +39,13 @@
 		0DE2E7C526F8625C00932B41 /* SettingsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE2E7C426F8625C00932B41 /* SettingsTabView.swift */; };
 		0DE2E7C826F99DF800932B41 /* ARNodeProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE2E7C726F99DF800932B41 /* ARNodeProtocol.swift */; };
 		0DE2E7CC26F9A4AB00932B41 /* ARRefImageCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE2E7CB26F9A4AB00932B41 /* ARRefImageCoverView.swift */; };
+		0DECB8B6270BA269001A93F9 /* CardGroupBoxStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DECB8B5270BA269001A93F9 /* CardGroupBoxStyle.swift */; };
+		0DECB8BC270BA7AF001A93F9 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 0DECB8BB270BA7AF001A93F9 /* SwiftUICharts */; };
+		0DECB8BE270BA7C2001A93F9 /* DashboardGlanceCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DECB8BD270BA7C2001A93F9 /* DashboardGlanceCellView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0D4BF616270D375900B4496B /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		0D51EE0A26F27EDF00BCAAB3 /* SGMP-Mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SGMP-Mobile.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D51EE0D26F27EDF00BCAAB3 /* SgmpApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SgmpApp.swift; sourceTree = "<group>"; };
 		0D51EE1126F27EDF00BCAAB3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -68,6 +75,8 @@
 		0DE2E7C426F8625C00932B41 /* SettingsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTabView.swift; sourceTree = "<group>"; };
 		0DE2E7C726F99DF800932B41 /* ARNodeProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARNodeProtocol.swift; sourceTree = "<group>"; };
 		0DE2E7CB26F9A4AB00932B41 /* ARRefImageCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARRefImageCoverView.swift; sourceTree = "<group>"; };
+		0DECB8B5270BA269001A93F9 /* CardGroupBoxStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardGroupBoxStyle.swift; sourceTree = "<group>"; };
+		0DECB8BD270BA7C2001A93F9 /* DashboardGlanceCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardGlanceCellView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,15 +84,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D9CDDAB27050CB600804A57 /* AWSAPIPlugin in Frameworks */,
+				0D4BF60F270D166900B4496B /* AWSAPIPlugin in Frameworks */,
+				0DECB8BC270BA7AF001A93F9 /* SwiftUICharts in Frameworks */,
 				0D5E22AD26FEEE77002B0A4B /* Defaults in Frameworks */,
-				0D9CDDAD27050CB600804A57 /* AWSCognitoAuthPlugin in Frameworks */,
+				0D4BF615270D166900B4496B /* Amplify in Frameworks */,
+				0D4BF611270D166900B4496B /* AWSCognitoAuthPlugin in Frameworks */,
+				0D4BF613270D166900B4496B /* AWSPluginsCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0D4BF618270D3D1400B4496B /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				0D9CDDB22705163C00804A57 /* LoginView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		0D51EE0126F27EDF00BCAAB3 = {
 			isa = PBXGroup;
 			children = (
@@ -138,6 +158,8 @@
 			isa = PBXGroup;
 			children = (
 				0D73894526FAA72B000C43A6 /* ToastView.swift */,
+				0DECB8B5270BA269001A93F9 /* CardGroupBoxStyle.swift */,
+				0DECB8BD270BA7C2001A93F9 /* DashboardGlanceCellView.swift */,
 			);
 			path = Decorations;
 			sourceTree = "<group>";
@@ -147,7 +169,7 @@
 			children = (
 				0D73894326FAA68F000C43A6 /* ScaffoldView.swift */,
 				0D51EE1B26F27FCC00BCAAB3 /* MainTabView.swift */,
-				0D9CDDB22705163C00804A57 /* LoginView.swift */,
+				0D4BF618270D3D1400B4496B /* Auth */,
 				0DE2E7C026F8625200932B41 /* SummaryTabView.swift */,
 				0DE2E7C226F8625600932B41 /* CameraTabView.swift */,
 				0DE2E7C426F8625C00932B41 /* SettingsTabView.swift */,
@@ -191,6 +213,7 @@
 			isa = PBXGroup;
 			children = (
 				0DE2E7B926F85FAD00932B41 /* State.swift */,
+				0D4BF616270D375900B4496B /* Auth.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -233,8 +256,11 @@
 			name = "SGMP-Mobile";
 			packageProductDependencies = (
 				0D5E22AC26FEEE77002B0A4B /* Defaults */,
-				0D9CDDAA27050CB600804A57 /* AWSAPIPlugin */,
-				0D9CDDAC27050CB600804A57 /* AWSCognitoAuthPlugin */,
+				0DECB8BB270BA7AF001A93F9 /* SwiftUICharts */,
+				0D4BF60E270D166900B4496B /* AWSAPIPlugin */,
+				0D4BF610270D166900B4496B /* AWSCognitoAuthPlugin */,
+				0D4BF612270D166900B4496B /* AWSPluginsCore */,
+				0D4BF614270D166900B4496B /* Amplify */,
 			);
 			productName = "SGMP-AR-Samples";
 			productReference = 0D51EE0A26F27EDF00BCAAB3 /* SGMP-Mobile.app */;
@@ -266,7 +292,8 @@
 			mainGroup = 0D51EE0126F27EDF00BCAAB3;
 			packageReferences = (
 				0D5E22AB26FEEE77002B0A4B /* XCRemoteSwiftPackageReference "Defaults" */,
-				0D9CDDA927050CB600804A57 /* XCRemoteSwiftPackageReference "amplify-ios" */,
+				0DECB8BA270BA7AF001A93F9 /* XCRemoteSwiftPackageReference "SwiftUICharts" */,
+				0D4BF60D270D166900B4496B /* XCRemoteSwiftPackageReference "amplify-ios" */,
 			);
 			productRefGroup = 0D51EE0B26F27EDF00BCAAB3 /* Products */;
 			projectDirPath = "";
@@ -301,6 +328,7 @@
 				0DE2E79826F6DEDB00932B41 /* ARGridViewController.swift in Sources */,
 				0D73894426FAA68F000C43A6 /* ScaffoldView.swift in Sources */,
 				0DE2E7BD26F8601200932B41 /* EnvironmentManager.swift in Sources */,
+				0D4BF617270D375900B4496B /* Auth.swift in Sources */,
 				0D73894C26FB1656000C43A6 /* UIRespondor+Hierarchy.swift in Sources */,
 				0DE2E7C826F99DF800932B41 /* ARNodeProtocol.swift in Sources */,
 				0DE2E7C326F8625600932B41 /* CameraTabView.swift in Sources */,
@@ -308,6 +336,8 @@
 				0D51EE1C26F27FCC00BCAAB3 /* MainTabView.swift in Sources */,
 				0D9CDDAF27050D6F00804A57 /* UserManager.swift in Sources */,
 				0DE2E7C526F8625C00932B41 /* SettingsTabView.swift in Sources */,
+				0DECB8B6270BA269001A93F9 /* CardGroupBoxStyle.swift in Sources */,
+				0DECB8BE270BA7C2001A93F9 /* DashboardGlanceCellView.swift in Sources */,
 				0DE2E7BA26F85FAD00932B41 /* State.swift in Sources */,
 				0DE2E7C126F8625200932B41 /* SummaryTabView.swift in Sources */,
 				0D7C332826FD8EBA00B219E7 /* ARRefImageSlacView.swift in Sources */,
@@ -534,6 +564,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0D4BF60D270D166900B4496B /* XCRemoteSwiftPackageReference "amplify-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/aws-amplify/amplify-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		0D5E22AB26FEEE77002B0A4B /* XCRemoteSwiftPackageReference "Defaults" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/automactic/Defaults/";
@@ -542,31 +580,46 @@
 				kind = branch;
 			};
 		};
-		0D9CDDA927050CB600804A57 /* XCRemoteSwiftPackageReference "amplify-ios" */ = {
+		0DECB8BA270BA7AF001A93F9 /* XCRemoteSwiftPackageReference "SwiftUICharts" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/aws-amplify/amplify-ios";
+			repositoryURL = "https://github.com/willdale/SwiftUICharts";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
+				minimumVersion = 2.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0D4BF60E270D166900B4496B /* AWSAPIPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0D4BF60D270D166900B4496B /* XCRemoteSwiftPackageReference "amplify-ios" */;
+			productName = AWSAPIPlugin;
+		};
+		0D4BF610270D166900B4496B /* AWSCognitoAuthPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0D4BF60D270D166900B4496B /* XCRemoteSwiftPackageReference "amplify-ios" */;
+			productName = AWSCognitoAuthPlugin;
+		};
+		0D4BF612270D166900B4496B /* AWSPluginsCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0D4BF60D270D166900B4496B /* XCRemoteSwiftPackageReference "amplify-ios" */;
+			productName = AWSPluginsCore;
+		};
+		0D4BF614270D166900B4496B /* Amplify */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0D4BF60D270D166900B4496B /* XCRemoteSwiftPackageReference "amplify-ios" */;
+			productName = Amplify;
+		};
 		0D5E22AC26FEEE77002B0A4B /* Defaults */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0D5E22AB26FEEE77002B0A4B /* XCRemoteSwiftPackageReference "Defaults" */;
 			productName = Defaults;
 		};
-		0D9CDDAA27050CB600804A57 /* AWSAPIPlugin */ = {
+		0DECB8BB270BA7AF001A93F9 /* SwiftUICharts */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0D9CDDA927050CB600804A57 /* XCRemoteSwiftPackageReference "amplify-ios" */;
-			productName = AWSAPIPlugin;
-		};
-		0D9CDDAC27050CB600804A57 /* AWSCognitoAuthPlugin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 0D9CDDA927050CB600804A57 /* XCRemoteSwiftPackageReference "amplify-ios" */;
-			productName = AWSCognitoAuthPlugin;
+			package = 0DECB8BA270BA7AF001A93F9 /* XCRemoteSwiftPackageReference "SwiftUICharts" */;
+			productName = SwiftUICharts;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

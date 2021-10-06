@@ -5,20 +5,20 @@
 //  Created by fincher on 9/29/21.
 //
 
+import Amplify
 import SwiftUI
 import Defaults
 
 struct LoginView: View {
     @EnvironmentObject var env : Env
-    @State private var emailAddress = ""
+    @State private var username = ""
     @State private var password = ""
-    @Default(.loginEmailAddress) var loginEmailAddress
     
     var body: some View {
         NavigationView {
             List {
                 Section {
-                    TextField("Email", text: $emailAddress)
+                    TextField("Username", text: $username)
                         .keyboardType(.emailAddress)
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
@@ -30,14 +30,23 @@ struct LoginView: View {
                 }
 
                 Button {
-                    loginEmailAddress = emailAddress
-                    emailAddress = ""
+                    Amplify.Auth.signIn(username: username, password: password) {  result in
+                        do {
+                            // refer to https://docs.amplify.aws/lib/auth/signin_next_steps/q/platform/ios/
+                            let signinResult = try result.get()
+                            DispatchQueue.main.async {
+                                env.authState = .init(from: signinResult.nextStep)
+                            }
+                        } catch {
+                            print ("Sign in failed \(error)")
+                        }
+                    }
+                    username = ""
                     password = ""
-//                    UserManager.shared.
                 } label: {
                     Text("Login")
                 }
-                .disabled(emailAddress.isEmpty || password.isEmpty)
+                .disabled(username.isEmpty || password.isEmpty)
             }.navigationTitle("Login")
         }
         .interactiveDismissDisabled(true)
