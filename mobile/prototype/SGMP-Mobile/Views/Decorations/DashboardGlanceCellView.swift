@@ -15,30 +15,28 @@ struct DashboardGlanceCellView: View {
     @State var number : String = "128 KWH"
     
     var body: some View {
-        GroupBox {
-            HStack {
-                ZStack {
-                    Image(systemName: iconName)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .foregroundColor(iconColor)
-                }
-                .frame(maxHeight: 48)
-                .padding()
-                .aspectRatio(1, contentMode: .fit)
-                .padding(.leading)
-                
-                VStack(alignment: .leading, spacing: 0) {
-                    Text(title)
-                        .font(.headline)
-                    Text(number)
-                        .font(.title).bold()
-                }
-                Spacer()
+        HStack {
+            ZStack {
+                Image(systemName: iconName)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .foregroundColor(iconColor)
             }
+            .frame(maxHeight: 48)
+            .padding()
+            .aspectRatio(1, contentMode: .fit)
+//            .padding(.leading)
+            
+            VStack(alignment: .leading, spacing: 0) {
+                Text(title)
+                    .font(.headline)
+                Text(number)
+                    .font(.title).bold()
+            }
+            Spacer()
         }
-        .groupBoxStyle(ListCardGroupBoxStyle())
-        .shadow(color: Color(uiColor: UIColor.secondaryLabel).opacity(0.3), radius: 4, x: 0, y: 2)
+//        .groupBoxStyle(ListCardGroupBoxStyle())
+//        .shadow(color: Color(uiColor: UIColor.secondaryLabel).opacity(0.3), radius: 4, x: 0, y: 2)
     }
 }
 

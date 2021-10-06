@@ -12,6 +12,7 @@
 		0D4BF613270D166900B4496B /* AWSPluginsCore in Frameworks */ = {isa = PBXBuildFile; productRef = 0D4BF612270D166900B4496B /* AWSPluginsCore */; };
 		0D4BF615270D166900B4496B /* Amplify in Frameworks */ = {isa = PBXBuildFile; productRef = 0D4BF614270D166900B4496B /* Amplify */; };
 		0D4BF617270D375900B4496B /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4BF616270D375900B4496B /* Auth.swift */; };
+		0D4BF61A270D3E9200B4496B /* NewPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4BF619270D3E9200B4496B /* NewPasswordView.swift */; };
 		0D51EE0E26F27EDF00BCAAB3 /* SgmpApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D51EE0D26F27EDF00BCAAB3 /* SgmpApp.swift */; };
 		0D51EE1226F27EDF00BCAAB3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D51EE1126F27EDF00BCAAB3 /* Assets.xcassets */; };
 		0D51EE1526F27EDF00BCAAB3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D51EE1426F27EDF00BCAAB3 /* Preview Assets.xcassets */; };
@@ -46,6 +47,7 @@
 
 /* Begin PBXFileReference section */
 		0D4BF616270D375900B4496B /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
+		0D4BF619270D3E9200B4496B /* NewPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordView.swift; sourceTree = "<group>"; };
 		0D51EE0A26F27EDF00BCAAB3 /* SGMP-Mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SGMP-Mobile.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D51EE0D26F27EDF00BCAAB3 /* SgmpApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SgmpApp.swift; sourceTree = "<group>"; };
 		0D51EE1126F27EDF00BCAAB3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				0D9CDDB22705163C00804A57 /* LoginView.swift */,
+				0D4BF619270D3E9200B4496B /* NewPasswordView.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -347,6 +350,7 @@
 				0D5E22AF26FEF427002B0A4B /* AboutAppView.swift in Sources */,
 				0DE2E7B026F85DA100932B41 /* Class+Runtime.swift in Sources */,
 				0D73894626FAA72B000C43A6 /* ToastView.swift in Sources */,
+				0D4BF61A270D3E9200B4496B /* NewPasswordView.swift in Sources */,
 				0D51EE0E26F27EDF00BCAAB3 /* SgmpApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -478,7 +482,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "SGMP-Mobile/SGMP-Mobile.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"SGMP-Mobile/Preview Content\"";
 				DEVELOPMENT_TEAM = 9QJ8M25J77;
 				ENABLE_PREVIEWS = YES;
@@ -513,7 +517,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "SGMP-Mobile/SGMP-Mobile.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"SGMP-Mobile/Preview Content\"";
 				DEVELOPMENT_TEAM = 9QJ8M25J77;
 				ENABLE_PREVIEWS = YES;

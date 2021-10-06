@@ -1,21 +1,18 @@
 //
-//  LoginView.swift
+//  NewPasswordView.swift
 //  SGMP-Mobile
 //
-//  Created by fincher on 9/29/21.
+//  Created by fincher on 10/5/21.
 //
 
-import Amplify
 import SwiftUI
-import Defaults
+import Amplify
 
-struct LoginView: View {
+struct NewPasswordView: View {
     @EnvironmentObject var env : Env
-    @State private var username = ""
-    @State private var password = ""
+    @State private var newPassword = ""
     @State private var errorMsg : String = ""
     @State private var networking : Bool = false
-    
     var body: some View {
         NavigationView {
             List {
@@ -27,22 +24,18 @@ struct LoginView: View {
                             .frame(maxWidth: .infinity)
                     }
                     else {
-                        TextField("Username", text: $username)
-                            .keyboardType(.emailAddress)
-                            .autocapitalization(.none)
-                            .disableAutocorrection(true)
-                        SecureField("Password", text: $password)
+                        SecureField("New Password", text: $newPassword)
                     }
                 } header: {
                     Text("Credentials")
                 } footer: {
-                    Link("Forgot login info?", destination: URL(string: "https://www6.slac.stanford.edu/")!)
+                    Text("You need to set a new password in order to sign in")
                 }
 
                 Section {
                     Button {
                         networking = true
-                        Amplify.Auth.signIn(username: username, password: password) { result in
+                        Amplify.Auth.confirmSignIn(challengeResponse: newPassword, options: nil) { result in
                             do {
                                 // refer to https://docs.amplify.aws/lib/auth/signin_next_steps/q/platform/ios/
                                 let signinResult = try result.get()
@@ -55,24 +48,24 @@ struct LoginView: View {
                             }
                             networking = false
                         }
-                        username = ""
-                        password = ""
+                        newPassword = ""
                     } label: {
-                        Text(networking ? "Please wait ..." : "Login")
+                        Text(networking ? "Please wait ..." : "Set")
                     }
-                    .disabled(username.isEmpty || password.isEmpty)
+                    .disabled(newPassword.isEmpty)
                 } footer: {
                     Text(errorMsg)
                         .foregroundColor(.red)
                 }
-            }.navigationTitle("Login")
+
+            }.navigationTitle("Additional Steps")
         }
         .interactiveDismissDisabled(true)
     }
 }
 
-struct LoginView_Previews: PreviewProvider {
+struct NewPasswordView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView()
+        NewPasswordView()
     }
 }

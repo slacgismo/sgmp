@@ -25,7 +25,7 @@ class UserManager : BaseManager {
             switch payload.eventName {
                 case HubPayload.EventName.Auth.signedIn:
                     print("User signed in")
-                    // Update UI
+                    UserManager.shared.refreshLoginState()
 
                 case HubPayload.EventName.Auth.sessionExpired:
                     print("Session expired")
@@ -33,18 +33,15 @@ class UserManager : BaseManager {
 
                 case HubPayload.EventName.Auth.signedOut:
                     print("User signed out")
-                    // Update UI
+                    UserManager.shared.refreshLoginState()
                 default:
                     break
             }
         }
     
-    override func setup() {
-        do {
-            Amplify.Logging.logLevel = .verbose
-            try Amplify.add(plugin: AWSCognitoAuthPlugin())
-            try Amplify.configure()
-            _ = Amplify.Auth.fetchAuthSession { result in
+    func refreshLoginState() -> Void {
+        _ = Amplify.Auth.fetchAuthSession { result in
+            DispatchQueue.main.async {
                 switch result {
                 case .success(let session):
                     print("Is user signed in - \(session.isSignedIn)")
@@ -54,6 +51,15 @@ class UserManager : BaseManager {
                     EnvironmentManager.shared.env.authState = .login
                 }
             }
+        }
+    }
+    
+    override func setup() {
+        do {
+            Amplify.Logging.logLevel = .verbose
+            try Amplify.add(plugin: AWSCognitoAuthPlugin())
+            try Amplify.configure()
+            refreshLoginState()
         } catch {
             print("Failed to initialize Amplify with \(error)")
         }

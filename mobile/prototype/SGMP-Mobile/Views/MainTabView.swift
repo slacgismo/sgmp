@@ -39,6 +39,8 @@ struct MainTabView: View {
             switch state {
             case .login:
                 LoginView()
+            case .confirmSignInWithNewPassword(let info):
+                NewPasswordView()
             default:
                 ZStack {}
             }

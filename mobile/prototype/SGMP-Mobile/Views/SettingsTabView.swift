@@ -7,6 +7,7 @@
 
 import Defaults
 import SwiftUI
+import Amplify
 
 struct SettingsTabView: View {
     @EnvironmentObject var env : Env
@@ -16,10 +17,17 @@ struct SettingsTabView: View {
         List {
             
             Section {
-                Text("Username")
+//                Text("Username \(env.)")
                 
                 Button {
-//                    loginEmailAddress = ""
+                    Amplify.Auth.signOut() { result in
+                        switch result {
+                        case .success:
+                            print("Successfully signed out")
+                        case .failure(let error):
+                            print("Sign out failed with error \(error)")
+                        }
+                    }
                 } label: {
                     Text("Logout")
                 }
