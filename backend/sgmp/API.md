@@ -18,12 +18,14 @@ Sample response:
         {
             "email": "chihweif@andrew.cmu.edu",
             "name": "Chih-Wei Fang",
-            "role": "admin"
+            "role": ["admin"],
+            "created date": "Fri, 01 Oct 2021 21:43:22 GMT"
         },
         {
             "email": "yingdonc@andrew.cmu.edu",
             "name": "Yingdong Chen",
-            "role": "admin"
+            "role": ["visitor"],
+            "created date": "Fri, 01 Oct 2021 21:43:22 GMT"
         }
     ]
 }
@@ -36,9 +38,27 @@ Creates a new user. The role must exist in the system and the email must be uniq
 Sample request:
 ```
 {
-    "email": "chihweif@andrew.cmu.edu",
-    "name": "Chih-Wei Fang",
-    "role": "admin"
+    "email": "yingdonc@andrew.cmu.edu",
+    "name: "yingdong chen"
+}
+```
+
+Sample response:
+```
+{
+    "status": "ok"
+}
+```
+
+### `/api/user/login`
+
+Validate the user's identification.
+
+Sample request:
+```
+{
+    "email": "yingdonc@andrew.cmu.edu",
+    "passowrd": "Aa123456!"
 }
 ```
 

@@ -1,24 +1,124 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
+import boto3
+import datetime
+import random
+import string
+
 
 api_user = Blueprint('user', __name__)
+client = boto3.client('cognito-idp')
 
+#### helper function ########
+# generate a 16 digit random password
+def random_password_generator ():
+    lower = string.ascii_lowercase
+    upper = string.ascii_uppercase
+    num = string.digits
+    symbol = string.punctuation
+    password = "Aa!9"
+    all = lower + upper + num + symbol
+
+    temp = random.sample(all, 8)
+    password += ("".join(temp))
+
+    return password
+
+def search_role_for_user (email):
+    response = client.admin_list_groups_for_user(
+        Username=email,
+        UserPoolId='us-west-1_opTsFEaul',
+    )
+
+    groups = []
+    for group in response['Groups']:
+        groups.append(group['GroupName'])
+
+    return groups
+##############################
+
+#list the users
 @api_user.route('/list', methods=['GET'])
 def user_list():
-    # List the users
+    us_pool_id = 'us-west-1_opTsFEaul'
+    response_list_users = client.list_users(
+        UserPoolId=us_pool_id,
+        Limit=30,
+    )
+
+    user_list = []
+
+    for user_entry in response_list_users['Users']:
+        user_list_entry = {}
+        user_list_entry['create_time'] = user_entry['UserCreateDate']
+        for attribute in user_entry['Attributes']:
+            if attribute['Name'] == 'email':
+                user_list_entry['email'] = attribute['Value']
+            if attribute['Name'] == 'name':
+                user_list_entry['name'] = attribute['Value']
+
+        user_list_entry['role'] = search_role_for_user(user_list_entry['email'])
+        
+        user_list.append(user_list_entry)
     return jsonify({
-        'status': 'ok'
+        'status': 'ok',
+        'user_list': user_list,
+        'response_list_users': response_list_users
+
     })
 
+# user creation
 @api_user.route('/create', methods=['POST'])
 def user_create():
-    # Check the email does not exist
+    status = 'ok'
+    email = request.form.get("email")
+    name = request.form.get("name")
+    user_pool_id = 'us-west-1_opTsFEaul'
+    try:
+        response = client.admin_create_user(
+            UserPoolId=user_pool_id,
+            Username=email,
+            UserAttributes=[
+                {
+                    'Name': 'name',
+                    'Value': name
+                },
+            ],
+            TemporaryPassword=random_password_generator(),
+            DesiredDeliveryMediums=[
+                'EMAIL'
+            ]
+        )
+    except Exception as e:
+        print(e)
+        status = 'error'
 
-    # Check the role exists
-
-    # Create the user
     return jsonify({
-        'status': 'ok'
+        'status': status
     })
+
+# user authentication
+@api_user.route('/login', methods=['POST']) 
+def user_login():
+    # validate the user's identification and return a access token
+    email = request.form.get("email")
+    password = request.form.get("password")
+    status = 'ok'
+    try:
+        response = client.initiate_auth(
+            AuthFlow='USER_PASSWORD_AUTH',
+            AuthParameters={
+                'USERNAME': email,
+                'PASSWORD': password
+            },
+            ClientId='225gul2k0qlq0vjh81cd3va4h',
+        )
+    except Exception:
+        status = 'Incorrect password or username'
+    return jsonify({
+        'status': status,
+        'payload': response
+    })
+
 
 @api_user.route('/update', methods=['POST'])
 def user_update():
