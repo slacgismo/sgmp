@@ -28,19 +28,58 @@
           </li>
         </router-link>
 
-        <li class="px-4 hover:bg-gray-100">
-          <a href="#" class="py-3 flex items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5 mr-2"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+        <li>
+          <Disclosure v-slot="{ open }" :default-open="true">
+            <DisclosureButton
+              class="px-4 py-3 flex items-center w-52 hover:bg-gray-100"
+              :class="open ? 'bg-gray-100' : ''"
             >
-              <path d="M10.281,1.781C5.75,1.781,2.062,5.469,2.062,10s3.688,8.219,8.219,8.219S18.5,14.531,18.5,10S14.812,1.781,10.281,1.781M10.714,2.659c3.712,0.216,6.691,3.197,6.907,6.908h-6.907V2.659z M10.281,17.354c-4.055,0-7.354-3.298-7.354-7.354c0-3.911,3.067-7.116,6.921-7.341V10c0,0.115,0.045,0.225,0.127,0.305l5.186,5.189C13.863,16.648,12.154,17.354,10.281,17.354M15.775,14.882l-4.449-4.449h6.295C17.522,12.135,16.842,13.684,15.775,14.882" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path d="M10.281,1.781C5.75,1.781,2.062,5.469,2.062,10s3.688,8.219,8.219,8.219S18.5,14.531,18.5,10S14.812,1.781,10.281,1.781M10.714,2.659c3.712,0.216,6.691,3.197,6.907,6.908h-6.907V2.659z M10.281,17.354c-4.055,0-7.354-3.298-7.354-7.354c0-3.911,3.067-7.116,6.921-7.341V10c0,0.115,0.045,0.225,0.127,0.305l5.186,5.189C13.863,16.648,12.154,17.354,10.281,17.354M15.775,14.882l-4.449-4.449h6.295C17.522,12.135,16.842,13.684,15.775,14.882" />
             </svg>
-            Reports
-          </a>
+              Reports
+              <span class="ml-auto">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  :class="open ? 'transform rotate-90' : ''"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </span>
+            </DisclosureButton>
+            <DisclosurePanel>
+              <ul>
+                <router-link v-slot="{ isExactActive, href, navigate }" :to="{ name: 'solar' }">
+                  <li class="pl-8" :class="[isExactActive ? 'bg-white text-red-900' : 'hover:bg-gray-100']">
+                    <a class="py-3 flex items-center" :href="href" @click="navigate">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                      </svg>
+                      Solar
+                    </a>
+                  </li>
+                </router-link>
+                <li class="px-8 hover:bg-gray-100">
+                  <a href="#" class="py-3 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 16 16">
+                      <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                    </svg>
+                    Battery
+                  </a>
+                </li>
+              </ul>
+            </DisclosurePanel>
+          </Disclosure>
         </li>
         
         <!-- <router-link v-slot="{ isExactActive, href, navigate }" :to="{ name: 'outage' }"> -->

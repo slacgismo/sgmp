@@ -15,7 +15,7 @@
     <router-link :to="{ name: 'solar' }">
       <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
         <div class="p-4">
-          <!-- https://www.svgrepo.com/svg/16916/sun -->
+          <!-- https://uxwing.com/solar-energy-icon/ -->
           <img src="../../assets/img/sun.svg" class="h-12 w-12" />
         </div>
         <div class="text-gray-700">
@@ -206,9 +206,19 @@ export default {
       }
     }
 
+    const colorBlue = '#008FFB';
+    const colorOrange = '#00E396';
+    const colorGreen = '#FEB019';
+
+    const format = {
+      month: "short",
+      day: "numeric",
+      hour: '2-digit',
+      minute:'2-digit'
+    };
     let timeLabels = [], freq = [], volt = []
     for (let i = 0; i < frequency.length; i++) {
-      timeLabels.push(new Date(frequency[i].timestamp).getHours())
+      timeLabels.push(new Date(frequency[i].timestamp).toLocaleTimeString("en", format))
       freq.push(frequency[i].data)
       volt.push(voltage[i].data)
     }
@@ -223,16 +233,73 @@ export default {
       },
       yaxis: [
         {
+          axisTicks: {
+            show: true,
+          },
+          axisBorder: {
+            show: true,
+            color: colorBlue
+          },
+          labels: {
+            style: {
+              colors: colorBlue
+            }
+          },
           title: {
-            text: 'Grid frequency (Hz)',
+            text: "Grid frequency (Hz)",
+            style: {
+              color: colorBlue
+            }
+          },
+          tooltip: {
+            enabled: true
           }
         },
         {
+          seriesName: 'Voltage1',
           opposite: true,
+          axisTicks: {
+            show: true,
+          },
+          axisBorder: {
+            show: true,
+            color: colorOrange
+          },
+          labels: {
+            style: {
+              colors: colorOrange
+            }
+          },
           title: {
-            text: "Voltage (V)"
+            text: "L1 Voltage (V)",
+            style: {
+              color: colorOrange
+            }
+          },
+        },
+        {
+          seriesName: 'Voltage2',
+          opposite: true,
+          axisTicks: {
+            show: true,
+          },
+          axisBorder: {
+            show: true,
+            color: colorGreen
+          },
+          labels: {
+            style: {
+              colors: colorGreen
+            },
+          },
+          title: {
+            text: "L2 Voltage (V)",
+            style: {
+              color: colorGreen
+            }
           }
         }
+        
       ],
       tooltip: {
         shared: true,
@@ -255,6 +322,15 @@ export default {
               return y;
         
             }
+          },
+          {
+            formatter: function (y) {
+              if (typeof y !== "undefined") {
+                return y + " V";
+              }
+              return y;
+        
+            }
           }
         ]
       }
@@ -262,11 +338,15 @@ export default {
 
     const freqSeries = [{
       name: 'Grid frequency',
-      type: 'line',
+      type: 'column',
       data: freq
     }, {
-      name: 'Voltage',
-      type: 'area',
+      name: 'L1 Voltage',
+      type: 'line',
+      data: volt
+    }, {
+      name: 'L2 Voltage',
+      type: 'line',
       data: volt
     }]
 
