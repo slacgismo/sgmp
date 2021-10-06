@@ -26,11 +26,11 @@ struct AboutAppView: View {
                         .padding(.bottom, 32)
                         .foregroundColor(.init(UIColor.secondaryLabel))
                 }.frame(maxWidth: .infinity)
-            } footer: {
-//                Text("SGMP (Smart Grid Management Platform project) is in active development by CMU INI Team Energizer for SLAC National Accelerator Laboratory")
-//                    .font(.body.smallCaps())
+                
+                Link("Email", destination: URL(string: "mailto:gcezar@stanford.edu")!)
+                Link("Slack", destination: URL(string: "https://practicum2021-team3.slack.com/archives/C02CT9C9BN2")!)
             }
-
+            
         }
         .navigationTitle("About")
     }

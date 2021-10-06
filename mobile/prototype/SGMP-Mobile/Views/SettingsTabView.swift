@@ -17,7 +17,7 @@ struct SettingsTabView: View {
         List {
             
             Section {
-//                Text("Username \(env.)")
+                Text("Username \(env.authUser?.username ?? "")")
                 
                 Button {
                     Amplify.Auth.signOut() { result in

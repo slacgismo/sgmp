@@ -58,7 +58,17 @@ struct NewPasswordView: View {
                         .foregroundColor(.red)
                 }
 
-            }.navigationTitle("Additional Steps")
+            }
+            .toolbar(content: {
+                ToolbarItem(placement: .automatic) {
+                    Button {
+                        UserManager.shared.refreshLoginState()
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                }
+            })
+            .navigationTitle("Additional Steps")
         }
         .interactiveDismissDisabled(true)
     }

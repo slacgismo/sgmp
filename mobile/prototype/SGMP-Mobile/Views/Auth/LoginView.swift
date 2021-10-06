@@ -36,7 +36,13 @@ struct LoginView: View {
                 } header: {
                     Text("Credentials")
                 } footer: {
-                    Link("Forgot login info?", destination: URL(string: "https://www6.slac.stanford.edu/")!)
+                    HStack {
+                        Link("Register", destination: URL(string: "https://www6.slac.stanford.edu/")!)
+                        Text(" / ")
+                        Button("Reset") {
+                            env.authState = .requestReset
+                        }
+                    }
                 }
 
                 Section {
@@ -55,7 +61,6 @@ struct LoginView: View {
                             }
                             networking = false
                         }
-                        username = ""
                         password = ""
                     } label: {
                         Text(networking ? "Please wait ..." : "Login")

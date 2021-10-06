@@ -6,15 +6,24 @@
 //
 
 import SwiftUI
+import ARKit
 
 struct CameraTabView: View {
+    @State var showCameraSheet : Bool = false
     var body: some View {
         List {
             Section {
-                NavigationLink("Open Camera") {
-                    ARGridViewControllerRepresentable()
-                        .ignoresSafeArea()
+                Button("Open Camera") {
+                    showCameraSheet.toggle()
                 }
+//                NavigationLink("Open Camera") {
+//                    VStack {
+//                        ARGridViewControllerRepresentable()
+//                        ARDebugView()
+//                    }
+//                    .navigationBarTitleDisplayMode(.inline)
+//                    .navigationTitle("AR Grid")
+//                }
             } header: {
                 Text("See Grid in AR")
             }
@@ -29,7 +38,26 @@ struct CameraTabView: View {
             }
             
             
-        }.navigationTitle("Camera")
+        }
+        .sheet(isPresented: $showCameraSheet, onDismiss: {
+            
+        }, content: {
+            ZStack(alignment: .topTrailing) {
+                ARGridView()
+                Button {
+                    showCameraSheet = false
+                } label: {
+                    Image(systemName: "xmark")
+                        .foregroundColor(.init(uiColor: UIColor.label))
+                        .padding()
+                        .background(.ultraThinMaterial, in: Circle())
+                }
+                .buttonStyle(PlainButtonStyle())
+                .padding()
+
+            }
+        })
+        .navigationTitle("Camera")
     }
 }
 

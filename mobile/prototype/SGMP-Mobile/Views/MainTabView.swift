@@ -39,6 +39,8 @@ struct MainTabView: View {
             switch state {
             case .login:
                 LoginView()
+            case .requestReset:
+                ResetPasswordView()
             case .confirmSignInWithNewPassword(let info):
                 NewPasswordView()
             default:
