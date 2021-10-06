@@ -15,6 +15,11 @@ const routes = [
         name: 'users',
         component: () => import('@/views/users/UserList.vue'),
       },
+      {
+        path: '/reports/solar',
+        name: 'solar',
+        component: () => import('@/views/reports/Solar.vue'),
+      },
       // TODO
       // {
       //   path: '/outage',

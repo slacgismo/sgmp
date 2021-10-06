@@ -18,5 +18,6 @@ npm run dev
 Afterwards, go to http://localhost:3000
 
 ### Icon Licensing
-Some icons and images are modified from SVG Repo.
+Some icons and images are modified from SVG Repo and UXWing.
 https://www.svgrepo.com/page/licensing
+https://uxwing.com/license/
