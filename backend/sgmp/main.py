@@ -11,6 +11,7 @@ from routes.device import api_device
 from routes.analytics import api_analytics
 
 from models.shared import db
+
 import models.analytics
 import models.device
 
