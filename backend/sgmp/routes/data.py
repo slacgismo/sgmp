@@ -164,7 +164,7 @@ def data_read():
             })
         return jsonify({
             'status': 'ok',
-            'result': result,
+            'data': result,
             'message': evaluate_message,
         })
 
