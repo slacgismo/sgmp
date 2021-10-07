@@ -2,7 +2,8 @@
   <aside class="hidden w-52 bg-gray-200 sm:block">
     <div class="py-4 text-2xl uppercase text-center tracking-widest bg-red-900 border-b-2 border-gray-800 mb-4">
       <router-link to="/">
-        <img class="px-2" src="https://www6.slac.stanford.edu/sites/all/themes/slac_www/logo.png" alt="" />
+        <!-- https://www6.slac.stanford.edu/about/logo-resources -->
+        <img class="px-2" src="https://www6.slac.stanford.edu/sites/www6.slac.stanford.edu/files/SLAC_LogoSD_W.png" alt="" />
       </router-link>
     </div>
 
