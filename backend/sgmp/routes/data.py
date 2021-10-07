@@ -182,11 +182,11 @@ def process_analytics_postgresql(data, ident):
     if 'average' in data:
         # Special case #2: average bucket
         timespan = str(data['average']) + ' milliseconds'
-        sql = 'SELECT time_bucket(%s, timestamp) AS time, AVG(value_decimal) AS average FROM data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND device_id = %s AND field = %s GROUP BY time ORDER BY time'
+        sql = 'SELECT time_bucket(%s, timestamp) AS time, AVG(value_decimal) AS average FROM data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND device_id = %s AND field = %s GROUP BY time ORDER BY time ASC'
         cursor.execute(sql, (timespan, start_time, end_time, device_id, field))
     else:
         # Construct query
-        sql = 'SELECT timestamp, value_decimal FROM data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND device_id = %s AND field = %s'
+        sql = 'SELECT timestamp, value_decimal FROM data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND device_id = %s AND field = %s ORDER BY timestamp ASC'
         cursor.execute(sql, (start_time, end_time, device_id, field))
 
     # Retrieve results
