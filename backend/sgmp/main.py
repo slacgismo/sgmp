@@ -1,5 +1,6 @@
 import decimal
 import json
+import numpy as np
 from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_migrate import Migrate
@@ -21,13 +22,17 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.sqlite'
 db.init_app(app)
 migrate = Migrate(app, db)
 
-class DecimalEncoder(json.JSONEncoder):
+class SGMPJsonEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, decimal.Decimal):
             return int(obj)
-        return super(DecimalEncoder, self).default(obj)
+        if isinstance(obj, np.integer):
+            return int(obj)
+        if isinstance(obj, np.floating):
+            return float(obj)
+        return super(SGMPJsonEncoder, self).default(obj)
 
-app.json_encoder = DecimalEncoder
+app.json_encoder = SGMPJsonEncoder
 
 app.register_blueprint(api_data, url_prefix='/api/data')
 app.register_blueprint(api_role, url_prefix='/api/role')

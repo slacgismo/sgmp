@@ -1,5 +1,5 @@
 from decimal import Decimal
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, json, jsonify, request
 import boto3
 from boto3.dynamodb.conditions import Key
 import numpy as np
@@ -60,21 +60,38 @@ def data_read():
 
     # Process analytics data read
     if data['type'] == 'analytics':
-        if 'analytics_id' not in data:
+        agg_functions = {
+            'min': np.min,
+            'max': np.max,
+            'avg': np.mean
+        }
+        if 'analytics_id' not in data and 'formula' not in data:
             return err_json('bad request')
+        if 'agg_function' in data:
+            if data['agg_function'] not in agg_functions:
+                return err_json('agg_function is invalid')
 
+        # Read request data
         start_time = int(data['start_time'])
         end_time = int(data['end_time'])
-        analytics_id = int(data['analytics_id'])
 
-        analytics = Analytics.query.filter_by(analytics_id=analytics_id).first()
-        if analytics is None:
-            return err_json('analytics not found')
+        formula = ''
+
+        if 'analytics_id' in data:
+            analytics_id = int(data['analytics_id'])
+
+            # Retrieve Analytics object
+            analytics = Analytics.query.filter_by(analytics_id=analytics_id).first()
+            if analytics is None:
+                return err_json('analytics not found')
+            
+            formula = analytics.formula
+        else:
+            formula = data['formula']
 
         # Parse the formula expression
         evaluate_message = ''
         engine = AnalyticsEngine()
-        formula = analytics.formula
         try:
             stack = engine.parse_expression(formula)
         except Exception as e:
@@ -133,12 +150,13 @@ def data_read():
                 for path in req['path']:
                     value = get_obj_path(item['device_data'], path)
                     if value is None:
-                        evaluate_message += 'Cannot get %s for %s at time %d!\n' % ('.'.join(path), device_name, ts)
+                        evaluate_message += 'Cannot get %s for %s at time %d!\n' % (path, device_name, ts)
                         value = 0
 
                     if isinstance(value, Decimal): value = float(value)
                     readings['%s.%s' % (device_name, path)][ts] = value
-
+        
+        # Populate the evaluation context
         array_dict = dict()
         ts_list = sorted(list(ts_list))
         for path, path_dict in readings.items():
@@ -151,11 +169,24 @@ def data_read():
                 array_dict[path].append(value)
             array_dict[path] = np.array(array_dict[path])
 
+        # Perform the evaluation
         try:
             result_time_series = engine.evaluate(array_dict)
         except Exception as e:
             return err_json(str(e))
 
+        # Evaluate aggregrate function if specified
+        if 'agg_function' in data:
+            agg = data['agg_function']
+            fn = agg_functions[agg]
+            value = fn(result_time_series)
+            return jsonify({
+                'status': 'ok',
+                'value': value,
+                'message': evaluate_message
+            })
+
+        # Return whole time series data
         result = []
         for i in range(len(ts_list)):
             result.append({

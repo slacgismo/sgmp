@@ -145,7 +145,7 @@ We have two types of data. The first is raw readings from the device itself. Ano
 
 ### `/api/data/read`
 
-Reads data from a given time period. Device means raw readings from a device, analytics means user-defined analytics data.
+Reads data from a given time period. Device means raw readings from a device, analytics means user-defined analytics data. If the type is `analytics`, you can refer to a pre-defined analytics item by specifying `analytics_id` or by entering the expression directly by using `formula` field (can be very convenient for testing). For `analytics` data type, an optional parameter `agg_function` can be specified. The time-series data will be aggregated using the function specified into a single value. Current supported values of `agg_functions` are `min`, `max` and `avg`.
 
 Sample request:
 ```
@@ -163,6 +163,25 @@ Sample request:
     "end_time": 1632502800000,
     "type": "analytics",
     "analytics_id": 12345
+}
+```
+
+```
+{
+    "start_time": 1632499200000,
+    "end_time": 1632502800000,
+    "type": "analytics",
+    "formula": "sonnen.status.Production_W"
+}
+```
+
+```
+{
+    "start_time": 1633575301000,
+    "end_time": 1633575401000,
+    "type": "analytics",
+    "agg_function": "max",
+    "formula": "sonnen.status.Production_W"
 }
 ```
 
@@ -214,6 +233,14 @@ Sample response for analytics (returns the calculation result):
             "value": 3.0
         }
     ]
+}
+```
+
+Sample response for analytics (returns aggregated data):
+```
+{
+    "status": "ok",
+    "value": 78.4
 }
 ```
 
