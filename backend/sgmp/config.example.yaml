@@ -1,0 +1,8 @@
+TSDB_HOST: 1.1.1.1
+TSDB_USER: postgres
+TSDB_PASS: mytopsecretpassword
+TSDB_DATABASE: sgmp
+IOT_ENDPOINT: abcdefg-ats.iot.us-west-1.amazonaws.com
+IOT_CERT_PATH: iot_certs/device.crt
+IOT_KEY_PATH: iot_certs/private.key
+IOT_ROOT_PATH: iot_certs/AmazonRootCA1.pem

@@ -1,13 +1,27 @@
 import os
+import yaml
 
-DATABASE_URL = os.environ.get('DATABASE_URL', 'sqlite:///test.sqlite')
-DYNAMODB_TALBE = os.environ.get('DYNAMODB_TABLE', 'GismoLab_sgmp_device')
-TSDB_HOST = os.environ.get('TSDB_HOST')
-TSDB_USER = os.environ.get('TSDB_USER')
-TSDB_PASS = os.environ.get('TSDB_PASS')
-TSDB_DATABASE = os.environ.get('TSDB_DATABASE')
-IOT_CLIENT_ID = os.environ.get('IOT_CLIENT_ID')
-IOT_ENDPOINT = os.environ.get('IOT_ENDPOINT')
-IOT_CERT_PATH = os.environ.get('IOT_CERT_PATH')
-IOT_KEY_PATH = os.environ.get('IOT_KEY_PATH')
-IOT_ROOT_PATH = os.environ.get('IOT_ROOT_PATH')
+config = {}
+try:
+    with open('config.yaml', 'r') as f:
+        config = yaml.load(f)
+except:
+    pass
+
+def get_config(key, default=None):
+    if key in config:
+        return config[key]
+
+    return os.environ.get(key, default)
+
+DATABASE_URL = get_config('DATABASE_URL', 'sqlite:///test.sqlite')
+DYNAMODB_TALBE = get_config('DYNAMODB_TABLE')
+TSDB_HOST = get_config('TSDB_HOST')
+TSDB_USER = get_config('TSDB_USER')
+TSDB_PASS = get_config('TSDB_PASS')
+TSDB_DATABASE = get_config('TSDB_DATABASE')
+IOT_CLIENT_ID = get_config('IOT_CLIENT_ID')
+IOT_ENDPOINT = get_config('IOT_ENDPOINT')
+IOT_CERT_PATH = get_config('IOT_CERT_PATH')
+IOT_KEY_PATH = get_config('IOT_KEY_PATH')
+IOT_ROOT_PATH = get_config('IOT_ROOT_PATH')

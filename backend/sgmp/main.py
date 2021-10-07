@@ -1,5 +1,6 @@
 import decimal
 import json
+import os
 import numpy as np
 from flask import Flask, jsonify, g
 from flask_cors import CORS
@@ -17,10 +18,11 @@ import models.analytics
 import models.device
 
 from utils.tsdb import put_tsdb_conn
+import utils.config as config
 
 app = Flask(__name__)
 CORS(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.sqlite'
+app.config['SQLALCHEMY_DATABASE_URI'] = config.DATABASE_URL
 db.init_app(app)
 migrate = Migrate(app, db)
 
@@ -68,3 +70,7 @@ def server_error(_):
         'status': 'error',
         'message': 'internal server error'
     }), 500
+
+# Develop server
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', '5000')))
