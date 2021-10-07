@@ -17,7 +17,11 @@ npm run dev
 
 Afterwards, go to http://localhost:3000
 
-### Icon Licensing
+### Licensing
+#### Icon
 Some icons and images are modified from SVG Repo and UXWing. <br />
 https://www.svgrepo.com/page/licensing <br />
 https://uxwing.com/license/
+#### Plugin
+The loading indicator is modified from vuejs-loading-plugin:<br />
+https://github.com/noxludio/vuejs-loading-plugin/blob/master/LICENSE
