@@ -65,11 +65,17 @@ def data_read():
             'max': np.max,
             'avg': np.mean
         }
+        arg_functions = {
+            'min': np.argmin,
+            'max': np.argmax
+        }
         if 'analytics_id' not in data and 'formula' not in data:
             return err_json('bad request')
         if 'agg_function' in data:
             if data['agg_function'] not in agg_functions:
                 return err_json('agg_function is invalid')
+        if 'agg_function' in data and 'average' in 'data':
+            return err_json('bad request')
 
         # Read request data
         start_time = int(data['start_time'])
@@ -136,25 +142,39 @@ def data_read():
         table = dynamodb.Table(config.DYNAMODB_TALBE)
         for device_name, req in device_reqs.items():
             device_id = req['id']
-            response = table.query(
-                ScanIndexForward=False,
-                KeyConditionExpression=
-                    Key('device_id').eq(device_id) &
-                    Key('timestamp').between(start_time, end_time)
-            )
-            lst = []
-            for item in response['Items']:
-                ts = int(item['timestamp'])
-                ts_list.add(ts)
+            first = True
+            last_evaluated_key = None
+            # Take care of pagination for large result set
+            while first or last_evaluated_key is not None:
+                first = False
+                if last_evaluated_key is not None:
+                    response = table.query(
+                        ScanIndexForward=False,
+                        KeyConditionExpression=
+                            Key('device_id').eq(device_id) &
+                            Key('timestamp').between(start_time, end_time),
+                        ExclusiveStartKey=last_evaluated_key
+                    )
+                else:
+                    response = table.query(
+                        ScanIndexForward=False,
+                        KeyConditionExpression=
+                            Key('device_id').eq(device_id) &
+                            Key('timestamp').between(start_time, end_time)
+                    )
+                last_evaluated_key = response.get('LastEvaluatedKey')
+                for item in response['Items']:
+                    ts = int(item['timestamp'])
+                    ts_list.add(ts)
 
-                for path in req['path']:
-                    value = get_obj_path(item['device_data'], path)
-                    if value is None:
-                        evaluate_message += 'Cannot get %s for %s at time %d!\n' % (path, device_name, ts)
-                        value = 0
+                    for path in req['path']:
+                        value = get_obj_path(item['device_data'], path)
+                        if value is None:
+                            evaluate_message += 'Cannot get %s for %s at time %d!\n' % (path, device_name, ts)
+                            value = 0
 
-                    if isinstance(value, Decimal): value = float(value)
-                    readings['%s.%s' % (device_name, path)][ts] = value
+                        if isinstance(value, Decimal): value = float(value)
+                        readings['%s.%s' % (device_name, path)][ts] = value
         
         # Populate the evaluation context
         array_dict = dict()
@@ -180,19 +200,51 @@ def data_read():
             agg = data['agg_function']
             fn = agg_functions[agg]
             value = fn(result_time_series)
-            return jsonify({
+            ret = {
                 'status': 'ok',
                 'value': value,
                 'message': evaluate_message
-            })
+            }
+            if agg in arg_functions:
+                idx = arg_functions[agg](result_time_series)
+                ts = ts_list[idx]
+                ret['timestamp'] = ts
 
-        # Return whole time series data
+            return jsonify(ret)
+
         result = []
-        for i in range(len(ts_list)):
+        if 'average' in data and len(ts_list) > 0:
+            # Perform average operation if specified
+            avg_span = int(data['average'])
+            start_ts = ts_list[0]
+            data_span = []
+            for i in range(len(ts_list)):
+                current_ts = ts_list[i]
+                if current_ts - start_ts >= avg_span:
+                    # Aggregate if cumulative time exceeds timespan
+                    avg = np.mean(np.array(data_span))
+                    result.append({
+                        'timestamp': start_ts,
+                        'value': avg
+                    })
+                    # Reset current window
+                    data_span = [result_time_series[i]]
+                    start_ts = current_ts
+                else:
+                    data_span.append(result_time_series[i])
+            # Pick up remaining data
+            avg = np.mean(np.array(data_span))
             result.append({
-                'timestamp': ts_list[i],
-                'value': result_time_series[i]
+                'timestamp': start_ts,
+                'value': avg
             })
+        else:
+            # Return whole time series data
+            for i in range(len(ts_list)):
+                result.append({
+                    'timestamp': ts_list[i],
+                    'value': result_time_series[i]
+                })
         return jsonify({
             'status': 'ok',
             'data': result,

@@ -145,7 +145,7 @@ We have two types of data. The first is raw readings from the device itself. Ano
 
 ### `/api/data/read`
 
-Reads data from a given time period. Device means raw readings from a device, analytics means user-defined analytics data. If the type is `analytics`, you can refer to a pre-defined analytics item by specifying `analytics_id` or by entering the expression directly by using `formula` field (can be very convenient for testing). For `analytics` data type, an optional parameter `agg_function` can be specified. The time-series data will be aggregated using the function specified into a single value. Current supported values of `agg_functions` are `min`, `max` and `avg`.
+Reads data from a given time period. Device means raw readings from a device, analytics means user-defined analytics data. If the type is `analytics`, you can refer to a pre-defined analytics item by specifying `analytics_id` or by entering the expression directly by using `formula` field (can be very convenient for testing). For `analytics` data type, an optional parameter `agg_function` can be specified. The time-series data will be aggregated using the function specified into a single value. Current supported values of `agg_function` are `min`, `max` and `avg`. Another optional parameter `average` is available for `analytics` data type. By specifying a timespan (in milliseconds) the data averaged over the timespan will be returned. The `average` and `agg_function` parameters conflict with each other.
 
 Sample request:
 ```
@@ -171,6 +171,16 @@ Sample request:
     "start_time": 1632499200000,
     "end_time": 1632502800000,
     "type": "analytics",
+    "formula": "sonnen.status.Production_W"
+}
+```
+
+```
+{
+    "start_time": 1632416400000,
+    "end_time": 1632502800000,
+    "type": "analytics",
+    "average": 3600000,
     "formula": "sonnen.status.Production_W"
 }
 ```
