@@ -15,5 +15,8 @@ conn_pool = psycopg2.pool.SimpleConnectionPool(
 
 def get_tsdb_conn():
     if 'tsdb' not in g:
-        g.db = conn_pool.getconn()
-    return g.db
+        g.tsdb = conn_pool.getconn()
+    return g.tsdb
+
+def put_tsdb_conn(conn):
+    conn_pool.putconn(conn)

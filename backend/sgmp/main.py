@@ -1,7 +1,7 @@
 import decimal
 import json
 import numpy as np
-from flask import Flask, jsonify
+from flask import Flask, jsonify, g
 from flask_cors import CORS
 from flask_migrate import Migrate
 
@@ -15,6 +15,8 @@ from models.shared import db
 
 import models.analytics
 import models.device
+
+from utils.tsdb import put_tsdb_conn
 
 app = Flask(__name__)
 CORS(app)
@@ -39,6 +41,12 @@ app.register_blueprint(api_role, url_prefix='/api/role')
 app.register_blueprint(api_user, url_prefix='/api/user')
 app.register_blueprint(api_device, url_prefix='/api/device')
 app.register_blueprint(api_analytics, url_prefix='/api/analytics')
+
+@app.teardown_appcontext
+def close_conn(e):
+    db = g.pop('tsdb', None)
+    if db is not None:
+        put_tsdb_conn(db)
 
 @app.route('/api')
 def health_check():
