@@ -1,133 +1,58 @@
 <template>
   <div class="px-4 py-2 bg-white border rounded-md overflow-hidden shadow">
     <h3 class="text-xl text-gray-600 mb-4">{{ title }}</h3>
-    <apexchart
+    <div>
+      <loading v-show="!loaded"/>
+      <apexchart v-show="loaded"
+      ref="realtimeChart"
       type="line"
       :height="300"
       :options="options"
-      :series="series"
-    ></apexchart>
+      :series="series" />
+    </div>
   </div>
 </template>
 
 <script>
 import VueApexCharts from "vue3-apexcharts";
+import Loading from '@/components/Loading.vue';
 
 export default {
   name: "LineColumnChart",
-  components: { apexchart: VueApexCharts },
+  components: { apexchart: VueApexCharts, Loading },
   props: {
     title: String,
+    request: String
+  },
+  created() {
+    // POST request to fetch data for the line-column chart
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: this.request
+    };
+    fetch('http://ec2-18-144-174-142.us-west-1.compute.amazonaws.com:5000/api/data/read', requestOptions)
+      .then(async response => {
+        const data = await response.json();
+
+        // check for error response
+        if (!response.ok) {
+          // get error message from body or default to response status
+          const error = (data && data.message) || response.status;
+          return Promise.reject(error);
+        }
+
+        this.updateChart(data.data);
+      })
+      .catch(error => {
+        this.errorMessage = error;
+        console.error('There was an error!', error);
+      });
   },
   setup() {
-    var options = {
-      chart: {
-        height: 350,
-        type: "line",
-      },
-      stroke: {
-        width: [0, 4],
-      },
-      dataLabels: {
-        enabled: true,
-        enabledOnSeries: [1],
-      },
-      labels: [
-        "13:00",
-        "13:05",
-        "13:10",
-        "13:15",
-        "13:20",
-        "13:25",
-        "13:30",
-        "13:35",
-        "13:40",
-        "13:45",
-        "13:50",
-        "13:55",
-        "14:00",
-      ],
-      xaxis: {
-        type: "time",
-      },
-      yaxis: [
-        {
-          title: {
-            text: "Average Power (kW)",
-          },
-        },
-        {
-          opposite: true,
-          title: {
-            text: "Average Energy (kWh)",
-          },
-        },
-      ],
-    };
-
-    var series = [
-      {
-        name: "Average Power (kW)",
-        type: "column",
-        data: [390, 440, 505, 414, 671, 227, 413, 201, 352, 752, 320, 257, 160],
-      },
-      {
-        name: "Average Energy (kWh)",
-        type: "line",
-        data: [18, 23, 42, 35, 27, 43, 22, 17, 31, 22, 22, 12, 16],
-      },
-    ];
-
-    // let supplySeries = [],
-    //   supplyLabels = [];
-    // supplyLabels.push("Solar");
-    // supplySeries.push(78);
-
-    // const supplyOptions = {
-    //   chart: {
-    //     id: "solar-chart",
-    //   },
-    //   // plotOptions: {
-    //   //   radialBar: {
-    //   //     startAngle: -90,
-    //   //     endAngle: 90,
-    //   //     track: {
-    //   //       // background: '#333',
-    //   //       startAngle: -90,
-    //   //       endAngle: 90,
-    //   //     },
-    //   //     dataLabels: {
-    //   //       name: {
-    //   //         show: false,
-    //   //       },
-    //   //       // value: {
-    //   //       //   fontSize: "30px",
-    //   //       //   show: true
-    //   //       // }
-    //   //     }
-    //   //   }
-    //   // },
-    //   labels: supplyLabels,
-    //   legend: {
-    //     position: "right",
-    //   },
-    //   tooltip: {
-    //     shared: true,
-    //     intersect: false,
-    //     y: {
-    //       formatter: function (y) {
-    //         if (typeof y !== "undefined") {
-    //           return y + " kWh";
-    //         }
-    //         return y;
-    //       },
-    //     },
-    //   },
-    // };
-
     return {
-      options,
-      series
+      options: {},
+      series:[]
     };
   },
   watch: {
@@ -136,6 +61,76 @@ export default {
       handler() {
         document.title = this.title;
       }
+    },
+    request: {
+      immediate: true,
+      handler() {
+        document.request = this.request;
+      }
+    }
+  },
+  data() {
+    return {
+      loaded: false
+    };
+  },
+  methods: {
+    updateChart(data) {
+      if (!data) {
+        return;
+      }
+      let timeLabels = [], powerSeries = [], energySeries = []
+      let cumulativeEnergy = 0;
+      for (let i = 0; i < data.length; i++) {
+        timeLabels.push(new Date(data[i].timestamp).toLocaleTimeString("en", {hour: "numeric", minute:"numeric"}))
+        powerSeries.push(data[i].value)
+        cumulativeEnergy += (data[i].value / 12000) // interval 5 min = 1/12 h, W = 1/1000 kW
+        energySeries.push(cumulativeEnergy.toFixed(2))
+      }
+
+      const leftAxis = "Average Power (W)";
+      const rightAxis = "Average Energy (kWh)";
+      this.options = {
+        chart: {
+          height: 350,
+          type: "line",
+        },
+        stroke: {
+          width: [0, 4],
+        },
+        labels: timeLabels,
+        series: [
+          {
+            name: leftAxis,
+            type: "column",
+            data: powerSeries
+          },
+          {
+            name: rightAxis,
+            type: "line",
+            data: energySeries
+          },
+        ],
+        xaxis: {
+          type: "time",
+        },
+        yaxis: [
+          {
+            title: {
+              text: leftAxis,
+            }
+          },
+          {
+            opposite: true,
+            title: {
+              text: rightAxis,
+            },
+          },
+        ],
+      };
+
+      this.$refs.realtimeChart.updateOptions(this.options, true);
+      this.loaded = true;
     }
   }
 };

@@ -34,16 +34,25 @@
       <tab title="Last 24 hours">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
           <!-- https://www.svgrepo.com/svg/285729/award-champion -->
-          <analytic-card title="Peak Solar Production" img="champion.svg"
-           value="4 kW" :time="getTime()" />
+          <analytic-card :isPower="true" title="Peak Solar Production" 
+            img="champion.svg" :request="getAggRequest(State.Day, 'max')" />
           <!-- https://www.svgrepo.com/svg/165281/medium -->
-          <analytic-card title="Average Energy Generation" img="medium.svg"
-           value="16 kWh" :time="getDate()" />
+          <analytic-card :isPower="false" title="Average Energy Generation" img="medium.svg"
+           :request="getAggRequest(State.Day, 'avg')" :date="getDate()" />
         </div>
-
-        <line-column-chart title="Solar Generation"/>
+        <line-column-chart title="Solar Generation" :request="getTSRequest()"/>
       </tab>
-      <tab title="Last 7 days">Week</tab>
+
+      <tab title="Last 7 days">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          <analytic-card :isPower="true" title="Peak Solar Production" 
+            img="champion.svg" :request="getAggRequest(State.Week, 'max')" />
+          <analytic-card :isPower="false" title="Average Energy Generation" img="medium.svg"
+           :request="getAggRequest(State.Week, 'avg')" :date="getDate()" />
+        </div>
+        <line-column-chart title="Solar Generation" :request="getTSRequest()"/>
+      </tab>
+      
       <tab :title="getCurrentMonth()">Month</tab>
     </tabs>
   </div>
@@ -56,14 +65,20 @@ import Tab from "@/components/tab/Tab.vue";
 import LineColumnChart from "@/components/chart/LineColumnChart.vue";
 import AnalyticCard from '@/components/card/AnalyticCard.vue';
 import { ref } from "vue";
+const State = Object.freeze({ Day: 0, Week: 1, Month: 2 });
 
 export default {
   components: { apexchart: VueApexCharts, Tabs, Tab, LineColumnChart, AnalyticCard },
   setup() {
-    const active = ref(1);
+    const active = ref(0);
     return {
       active,
     };
+  },
+  data() {
+    return {
+      State
+    }
   },
   methods: {
     getCurrentMonth() {
@@ -72,12 +87,36 @@ export default {
     getDate() {
       return `${new Date().toLocaleDateString("en", {month: "short", day:"numeric"})}`;
     },
-    getTime() {
-      // var d = new Date();
-      // let date = d.toLocaleDateString("en", {month: "short", day:"numeric"});
-      // let time = d.toLocaleTimeString("en", {hour: "numeric", minute:"numeric"});
-      // return `${date + "\n" + time}`;
-      return `${new Date().toLocaleTimeString("en", {hour: "numeric", minute:"numeric"})}`;
+    getTSRequest() {
+      const now = new Date().getTime();
+      return JSON.stringify({
+        "start_time": now - 3600000, // 1000 * 3600 * 24 = 86400000
+        "end_time": now,
+        "type": "analytics",
+        "analytics_id": 2
+      });
+    },
+    getAggRequest(type, aggFunc) {
+      const now = new Date().getTime();
+      let start;
+      switch (type) {
+        case State.Month:
+          start = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
+          break;
+        case State.Week:
+          start = now - 3600000; // 1000 * 3600 * 24 * 7 = 604800000
+          break;
+        default:  // default is today
+          start = now - 3600000; // 1000 * 3600 * 24 = 86400000
+      }
+
+      return JSON.stringify({
+        "start_time": start,
+        "end_time": now,
+        "type": "analytics",
+        "agg_function": aggFunc,
+        "formula": "sonnen.status.Production_W"
+      });
     }
   }
 };
