@@ -103,6 +103,8 @@ def user_login():
     email = request.form.get("email")
     password = request.form.get("password")
     status = 'ok'
+    response = ""
+    access_token = ""
     try:
         response = client.initiate_auth(
             AuthFlow='USER_PASSWORD_AUTH',
@@ -112,13 +114,32 @@ def user_login():
             },
             ClientId='225gul2k0qlq0vjh81cd3va4h',
         )
+        access_token = ""
+        # get access token
+        if 'AuthenticationResult' in response:
+            access_token = response['AuthenticationResult']['AccessToken']
     except Exception:
-        status = 'Incorrect password or username'
+        status = 'incorrect password/email'
+    
     return jsonify({
         'status': status,
-        'payload': response
+        'accesstoken': access_token
     })
 
+@api_user.route('/changePassword', methods=['POST'])
+def user_change_password():
+    email = request.form.get("email")
+    new_password = request.form.get("password")
+    response = client.admin_set_user_password(
+        UserPoolId='us-west-1_opTsFEaul',
+        Username=email,
+        Password=new_password,
+        Permanent=True
+    )
+
+    return jsonify({
+        'status': 'ok'
+    })
 
 @api_user.route('/update', methods=['POST'])
 def user_update():

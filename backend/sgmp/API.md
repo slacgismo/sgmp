@@ -66,6 +66,25 @@ Sample response:
 ```
 {
     "status": "ok"
+    "accesstoken": "xxxxxxxxx"
+}
+```
+
+### `/api/user/changePassword`
+
+Change user's  password
+
+Sample request:
+```
+{
+    "email": "yingdonc@andrew.cmu.edu",
+    "password": "Aa123456!"
+}
+```
+Sample response:
+```
+{
+    "status" "ok"
 }
 ```
 
