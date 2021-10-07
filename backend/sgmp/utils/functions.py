@@ -21,4 +21,7 @@ def get_obj_path(obj, path):
             return None
         cursor = cursor[component]
 
+    if isinstance(cursor, str):
+        cursor = float(cursor)
+
     return cursor
