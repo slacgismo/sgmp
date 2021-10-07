@@ -34,26 +34,34 @@
       <tab title="Last 24 hours">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
           <!-- https://www.svgrepo.com/svg/285729/award-champion -->
-          <analytic-card :isPower="true" title="Peak Solar Production" 
+          <analytic-card :isPower="true" :title="PEAK"
             img="champion.svg" :request="getAggRequest(State.Day, 'max')" />
           <!-- https://www.svgrepo.com/svg/165281/medium -->
-          <analytic-card :isPower="false" title="Average Energy Generation" img="medium.svg"
-           :request="getAggRequest(State.Day, 'avg')" :date="getDate()" />
+          <analytic-card :isPower="false" :title="AVG" img="medium.svg"
+           :request="getAggRequest(State.Day, 'avg')" :period="getPeriod(State.Day)" />
         </div>
-        <line-column-chart title="Solar Generation" :request="getTSRequest()"/>
+        <line-column-chart title="Solar Generation" :request="getTSRequest(State.Day)"/>
       </tab>
 
       <tab title="Last 7 days">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-          <analytic-card :isPower="true" title="Peak Solar Production" 
+          <analytic-card :isPower="true" :title="PEAK"
             img="champion.svg" :request="getAggRequest(State.Week, 'max')" />
-          <analytic-card :isPower="false" title="Average Energy Generation" img="medium.svg"
-           :request="getAggRequest(State.Week, 'avg')" :date="getDate()" />
+          <analytic-card :isPower="false" :title="AVG" img="medium.svg"
+           :request="getAggRequest(State.Week, 'avg')" :period="getPeriod(State.Week)" />
         </div>
-        <line-column-chart title="Solar Generation" :request="getTSRequest()"/>
+        <line-column-chart title="Solar Generation" :request="getTSRequest(State.Day)"/>
       </tab>
       
-      <tab :title="getCurrentMonth()">Month</tab>
+      <tab :title="getCurrentMonth()">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          <analytic-card :isPower="true" :title="PEAK"
+            img="champion.svg" :request="getAggRequest(State.Month, 'max')" />
+          <analytic-card :isPower="false" :title="AVG" img="medium.svg"
+           :request="getAggRequest(State.Month, 'avg')" :period="getPeriod(State.Month)" />
+        </div>
+        <line-column-chart title="Solar Generation" :request="getTSRequest(State.Day)"/>
+      </tab>
     </tabs>
   </div>
 </template>
@@ -66,6 +74,9 @@ import LineColumnChart from "@/components/chart/LineColumnChart.vue";
 import AnalyticCard from '@/components/card/AnalyticCard.vue';
 import { ref } from "vue";
 const State = Object.freeze({ Day: 0, Week: 1, Month: 2 });
+const PEAK = "Peak Solar Production";
+const AVG = "Average Energy Generation";
+const now = new Date();
 
 export default {
   components: { apexchart: VueApexCharts, Tabs, Tab, LineColumnChart, AnalyticCard },
@@ -77,46 +88,53 @@ export default {
   },
   data() {
     return {
-      State
+      State,
+      PEAK,
+      AVG,
+      now
     }
   },
   methods: {
     getCurrentMonth() {
-      return `${new Date().toLocaleDateString("en", {month: "long"})}`;
+      return `${now.toLocaleDateString("en", {month: "long"})}`;
     },
-    getDate() {
-      return `${new Date().toLocaleDateString("en", {month: "short", day:"numeric"})}`;
+    getPeriod(type) {
+      const format = {month: "short", day:"numeric", hour: "numeric", minute:"numeric"};
+      let start = new Date(this.getStartTime(now, type));
+      return `${start.toLocaleDateString("en", format) +
+        ` ~\n` + now.toLocaleDateString("en", format)}`;
     },
-    getTSRequest() {
-      const now = new Date().getTime();
+    getTSRequest(type) {
       return JSON.stringify({
-        "start_time": now - 3600000, // 1000 * 3600 * 24 = 86400000
-        "end_time": now,
+        "start_time": this.getStartTime(now, type),
+        "end_time": now.getTime(),
         "type": "analytics",
         "analytics_id": 2
       });
     },
     getAggRequest(type, aggFunc) {
-      const now = new Date().getTime();
+      return JSON.stringify({
+        "start_time": this.getStartTime(now, type),
+        "end_time": now.getTime(),
+        "type": "analytics",
+        "agg_function": aggFunc,
+        "formula": "sonnen.status.Production_W"
+      });
+    },
+    getStartTime(now, type) {
+      let cur = now.getTime();
       let start;
       switch (type) {
         case State.Month:
           start = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
           break;
         case State.Week:
-          start = now - 3600000; // 1000 * 3600 * 24 * 7 = 604800000
+          start = cur - 604800000; // 1000 * 3600 * 24 * 7 = 604800000
           break;
         default:  // default is today
-          start = now - 3600000; // 1000 * 3600 * 24 = 86400000
+          start = cur - 3600000; // 1000 * 3600 * 24 = 86400000
       }
-
-      return JSON.stringify({
-        "start_time": start,
-        "end_time": now,
-        "type": "analytics",
-        "agg_function": aggFunc,
-        "formula": "sonnen.status.Production_W"
-      });
+      return start;
     }
   }
 };

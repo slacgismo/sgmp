@@ -83,12 +83,12 @@ export default {
       let cumulativeEnergy = 0;
       for (let i = 0; i < data.length; i++) {
         timeLabels.push(new Date(data[i].timestamp).toLocaleTimeString("en", {hour: "numeric", minute:"numeric"}))
-        powerSeries.push(data[i].value)
+        powerSeries.push((data[i].value / 1000).toFixed(2)) // W = 1/1000 kW
         cumulativeEnergy += (data[i].value / 12000) // interval 5 min = 1/12 h, W = 1/1000 kW
         energySeries.push(cumulativeEnergy.toFixed(2))
       }
 
-      const leftAxis = "Average Power (W)";
+      const leftAxis = "Average Power (kW)";
       const rightAxis = "Average Energy (kWh)";
       this.options = {
         chart: {

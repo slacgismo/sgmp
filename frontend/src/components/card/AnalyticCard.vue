@@ -12,7 +12,7 @@
         <!-- https://www.svgrepo.com/svg/305138/arrowhead-left -->
         <img src="/src/assets/img/arrow.svg" class="h-12 w-12" />
         <!-- <span class="text-8xl font-thin text-gray-300 italic">/</span> -->
-        <p class="text-xl text-right tracking-wider pr-4">{{ time }}</p>
+        <p class="text-xl sm:text-base text-right tracking-wider pr-4 whitespace-pre-line">{{ time }}</p>
       </div>
     </div>
   </div>
@@ -26,7 +26,7 @@ export default {
     isPower: Boolean, // either power (W) or energy (kWh)
     title: String,
     img: String,
-    date: String,
+    period: String,
     request: String
   },
   data() {
@@ -55,15 +55,16 @@ export default {
         }
 
         if (this.isPower) {
-          this.value = data.value + " W";
+          this.value = (data.value / 1000).toFixed(2) + " kW";
         } else {
           // TODO: update formula sonnen.status.Production_W?
-          this.value = (data.value / 1000).toFixed(2) + " kWh";
+          this.value = (data.value / 12000).toFixed(2) + " kWh";
         }
         
         if (!this.time) {
           this.time = new Date(data.timestamp)
-          .toLocaleTimeString("en", {hour: "numeric", minute:"numeric"});
+          .toLocaleDateString("en", {month: "short", day:"numeric", hour: "numeric", minute:"numeric"});
+          // .toLocaleTimeString("en", {day:"numeric", hour: "numeric", minute:"numeric"});
         }
         this.visible = true;
       })
@@ -86,10 +87,10 @@ export default {
         document.title = this.title;
       }
     },
-    date: {
+    period: {
       immediate: true,
       handler() {
-        this.time = this.date;
+        this.time = this.period;
       }
     },
     request: {
