@@ -203,15 +203,15 @@ Sample response for analytics (returns the calculation result):
     "data": [
         {
             "timestamp": 1632499200000,
-            "data": 1.0
+            "value": 1.0
         },
         {
             "timestamp": 1632499201000,
-            "data": 2.0
+            "value": 2.0
         }
         {
             "timestamp": 1632499202000,
-            "data": 3.0
+            "value": 3.0
         }
     ]
 }

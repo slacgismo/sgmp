@@ -2,6 +2,7 @@ import decimal
 import json
 from flask import Flask, jsonify
 from flask_cors import CORS
+from flask_migrate import Migrate
 
 from routes.data import api_data
 from routes.role import api_role
@@ -11,10 +12,14 @@ from routes.analytics import api_analytics
 
 from models.shared import db
 
+import models.analytics
+import models.device
+
 app = Flask(__name__)
 CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.sqlite'
 db.init_app(app)
+migrate = Migrate(app, db)
 
 class DecimalEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -36,3 +41,17 @@ def health_check():
         'status': 'ok',
         'message': 'i\'m healthy'
     })
+
+@app.errorhandler(404)
+def page_not_found(_):
+    return jsonify({
+        'status': 'error',
+        'message': 'not found'
+    }), 404
+
+@app.errorhandler(500)
+def server_error(_):
+    return jsonify({
+        'status': 'error',
+        'message': 'internal server error'
+    }), 500
