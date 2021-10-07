@@ -140,20 +140,40 @@ def process_analytics_postgresql(data, ident):
     # Special case #1: aggregate function
     if 'agg_function' in data:
         agg = data['agg_function']
-        agg_mapping = {'min': 'MIN', 'max': 'MAX', 'avg': 'AVG'}
-        sql = 'SELECT ' + agg_mapping[agg] + '(value_decimal) FROM data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND device_id = %s AND field = %s'
 
         # Execute query
         conn = get_tsdb_conn()
         cursor = conn.cursor()
-        cursor.execute(sql, (start_time, end_time, device_id, field))
-        row = cursor.fetchone()
-        cursor.close()
 
-        return jsonify({
-            'status': 'ok',
-            'value': row[0]
-        })
+        if agg == 'min':
+            sql = 'SELECT DISTINCT ON (device_id) timestamp, value_decimal FROM data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND device_id = %s AND field = %s ORDER BY device_id, value_decimal ASC'
+            cursor.execute(sql, (start_time, end_time, device_id, field))
+            row = cursor.fetchone()
+            cursor.close()
+            return jsonify({
+                'status': 'ok',
+                'timestamp': int(row[0].timestamp() * 1000),
+                'value': row[1]
+            })
+        elif agg == 'max':
+            sql = 'SELECT DISTINCT ON (device_id) timestamp, value_decimal FROM data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND device_id = %s AND field = %s ORDER BY device_id, value_decimal DESC'
+            cursor.execute(sql, (start_time, end_time, device_id, field))
+            row = cursor.fetchone()
+            cursor.close()
+            return jsonify({
+                'status': 'ok',
+                'timestamp': int(row[0].timestamp() * 1000),
+                'value': row[1]
+            })
+        elif agg == 'avg':
+            sql = 'SELECT AVG(value_decimal) FROM data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND device_id = %s AND field = %s'
+            cursor.execute(sql, (start_time, end_time, device_id, field))
+            row = cursor.fetchone()
+            cursor.close()
+            return jsonify({
+                'status': 'ok',
+                'value': row[0]
+            })
 
     # Execute query
     conn = get_tsdb_conn()
