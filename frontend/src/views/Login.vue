@@ -1,7 +1,8 @@
 <template>
   <div class="min-h-screen flex items-center justify-center px-4">
     <div class="max-w-md w-full">
-      <img src="https://sagex.org/wp-content/uploads/2018/11/SLAC_Logo_hires-768x275.jpg" alt="" />
+      <!-- https://www6.slac.stanford.edu/about/logo-resources -->
+      <img src="https://www6.slac.stanford.edu/sites/www6.slac.stanford.edu/files/SLAC-lab-hires.jpg" alt="" />
       <h2 class="py-8 text-center text-2xl font-bold text-gray-800 mb-6">Sign in to SGMP</h2>
 
       <form class="space-y-4" @submit.prevent="$router.push({ name: 'dashboard' })">
