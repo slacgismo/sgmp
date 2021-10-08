@@ -30,7 +30,6 @@ Sample response:
     ]
 }
 ```
-
 ### `/api/user/create`
 
 Creates a new user. The role must exist in the system and the email must be unique. The system will send an email with a temporary password to the user.
@@ -149,7 +148,7 @@ Creates a new role. The role name must not exist in the system.
 Sample request:
 ```
 {
-    "name": "new_role"
+    "role": "new_role"
 }
 ```
 
@@ -159,6 +158,7 @@ Sample response:
     "status": "ok"
 }
 ```
+
 
 ### `/api/role/delete`
 
@@ -167,7 +167,7 @@ Deletes a role. There must be no user with that role.
 Sample request:
 ```
 {
-    "name": "new_role"
+    "role": "new_role"
 }
 ```
 
@@ -176,8 +176,13 @@ Sample response:
 {
     "status": "ok"
 }
-```
 
+ if there is still some users belonging to the role, the role will not be deleted, and 
+ it will reply a status with error message
+{
+    "status": "some users still in list"
+}
+```
 ## Data
 
 We have two types of data. The first is raw readings from the device itself. Another one is analytics, which is defined by the user. The user can define an analytics by specifying the formula, for example if they have a eGauge with 4 current transformers on the load line, the user can make a `total_load` analytics with the formula being `egague.0 + egauge.1 + egauge.2 + egague.3`. All of the device configurations are pushed to the edge device. The edge device will make periodical readings from the devices using the configuration and publish to IoT core. To save disk space the analytics will only be performed when the data is read.
