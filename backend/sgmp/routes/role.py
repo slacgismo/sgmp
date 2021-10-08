@@ -5,7 +5,7 @@ import boto3
 
 user_pool_id = 'us-west-1_opTsFEaul'
 api_role = Blueprint('role', __name__)
-client = boto3.client('cognito-idp')
+client = boto3.client('cognito-idp', region_name='us-west-1')
 
 ###### Helper function ##########
 # list user in the group

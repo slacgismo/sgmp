@@ -2,6 +2,7 @@ import decimal
 import json
 import os
 import numpy as np
+from datetime import datetime
 from flask import Flask, jsonify, g
 from flask_cors import CORS
 from flask_migrate import Migrate
@@ -34,6 +35,8 @@ class SGMPJsonEncoder(json.JSONEncoder):
             return int(obj)
         if isinstance(obj, np.floating):
             return float(obj)
+        if isinstance(obj, datetime):
+            return int(obj.timestamp() * 1000)
         return super(SGMPJsonEncoder, self).default(obj)
 
 app.json_encoder = SGMPJsonEncoder

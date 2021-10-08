@@ -7,7 +7,7 @@ import string
 
 
 api_user = Blueprint('user', __name__)
-client = boto3.client('cognito-idp')
+client = boto3.client('cognito-idp', region_name='us-west-1')
 user_pool_id = 'us-west-1_opTsFEaul'
 app_client_id = '225gul2k0qlq0vjh81cd3va4h'
 
