@@ -8,23 +8,27 @@
 import Defaults
 import SwiftUI
 import Amplify
+import Kingfisher
 
 struct SettingsTabView: View {
     @EnvironmentObject var env : Env
     @Default(.debugMode) var debugMode
+    @Default(.crashAnalytics) var crashAnalytics
     
     var body: some View {
         List {
             Section {
                 VStack(alignment: .center, spacing: 0) {
-                    Circle()
-                        .foregroundColor(.yellow)
-                        .overlay(content: {
-                            Text("🤔")
-                                .font(.largeTitle)
+                    KFImage.url(URL(string: "https://ui-avatars.com/api/?name=User+Name&size=256&bold=true")!)
+                        .resizable()
+                        .placeholder({ progress in
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle())
                         })
+                        .clipShape(Circle())
                         .frame(width: 128, height: 128, alignment: .center)
                         .padding(.bottom)
+                    
                     Text("User Name")
                         .font(.body.bold())
                 }.frame(maxWidth: .infinity)
@@ -48,15 +52,19 @@ struct SettingsTabView: View {
             
             Section {
                 NavigationLink("About", destination: AboutAppView())
-                Toggle(isOn: $debugMode) {
-                    Text("Debug")
+                Toggle(isOn: $crashAnalytics) {
+                    Text("Crash Analytics")
                 }
             } header: {
                 Text("Misc")
             }
             
-            if debugMode {
-                Section {
+            Section {
+                Toggle(isOn: $debugMode) {
+                    Text("Debug")
+                }
+                
+                if debugMode {
                     Text("SGMP \(Bundle.main.versionString ?? "NULL") (\(Bundle.main.buildString ?? "NULL"))")
                         .font(.caption.monospaced())
                     Text("User ID \(env.authUser?.userId ?? "NULL")")
@@ -65,10 +73,9 @@ struct SettingsTabView: View {
                         .font(.caption.monospaced())
                     Text("System \(UIDevice.current.systemName) \(UIDevice.current.systemVersion)")
                         .font(.caption.monospaced())
-                } header: {
-                    Text("Debug Info")
                 }
-
+            } header: {
+                Text("Debug Info")
             }
 
         }.navigationTitle("Settings")

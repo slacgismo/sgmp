@@ -8,6 +8,8 @@
 import Foundation
 import SwiftUI
 import Amplify
+import Sentry
+import Defaults
 
 @main
 
@@ -15,7 +17,6 @@ class SgmpAppDelegate : UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        
         setupAllBaseManagers()
         if #available(iOS 15.0, *) {
             let apparence = UITabBarAppearance()

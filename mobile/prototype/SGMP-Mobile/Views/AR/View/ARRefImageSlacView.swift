@@ -9,8 +9,7 @@ import SwiftUI
 
 struct ARRefImageSlacView: View {
     @State var showDetail = false
-    let width : CGFloat
-    let height : CGFloat
+    static let preferredSize : CGSize = CGSize.init(width: 1300.0/4, height: 500.0/4)
     var requireLoadDetail : ((@escaping (Int) -> Void) -> ())?
     
     var body: some View {
@@ -44,10 +43,10 @@ struct ARRefImageSlacView: View {
                     RoundedRectangle(cornerRadius: 8).foregroundColor(.red)
                 }
             }
-            .frame(width: showDetail ? width * 0.8423 : height * 0.512,
-                   height: showDetail ? height * 0.646 : height * 0.512, alignment: .center)
-            .position(x: showDetail ? width * 0.5 : width * 0.81231,
-                      y: showDetail ? height * 0.516 : height * 0.516)
+            .frame(width: showDetail ? ARRefImageSlacView.preferredSize.width * 0.8423 : ARRefImageSlacView.preferredSize.height  * 0.512,
+                   height: showDetail ? ARRefImageSlacView.preferredSize.height  * 0.646 : ARRefImageSlacView.preferredSize.height  * 0.512, alignment: .center)
+            .position(x: showDetail ? ARRefImageSlacView.preferredSize.width * 0.5 : ARRefImageSlacView.preferredSize.width * 0.81231,
+                      y: showDetail ? ARRefImageSlacView.preferredSize.height  * 0.516 : ARRefImageSlacView.preferredSize.height  * 0.516)
             .contentShape(Rectangle())
             .onTapGesture {
                 showDetail.toggle()
@@ -61,8 +60,8 @@ struct ARRefImageSlacView: View {
 
 struct ARRefImageSlacView_Previews: PreviewProvider {
     static var previews: some View {
-        ARRefImageSlacView(width: 1300.0/4.0, height: 500.0/4.0, requireLoadDetail: {result in })
-            .frame(width: 1300/4.0, height: 500/4.0, alignment: .center)
+        ARRefImageSlacView(requireLoadDetail: {result in })
+            .frame(width: ARRefImageSlacView.preferredSize.width, height: ARRefImageSlacView.preferredSize.height , alignment: .center)
             .environmentObject(EnvironmentManager.shared.env)
     }
 }

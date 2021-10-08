@@ -44,7 +44,6 @@ class UserManager : BaseManager {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let session):
-                    print("Is user signed in - \(session.isSignedIn)")
                     EnvironmentManager.shared.env.authState = session.isSignedIn ? nil : .login
                     EnvironmentManager.shared.env.authUser = session.isSignedIn ? Amplify.Auth.getCurrentUser() : nil
                 case .failure(let error):

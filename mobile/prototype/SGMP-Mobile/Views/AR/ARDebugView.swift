@@ -15,7 +15,28 @@ struct ARDebugView: View {
     var body: some View {
         VStack {
             if debugMode {
-                Color.clear
+                ZStack {
+                    VStack {
+                        Text("Debug")
+                            .font(.caption.smallCaps())
+                        HStack(alignment: .top) {
+                            if let debugInfo : ARDebugDataModel = env.arDebugInfo {
+                                Image(uiImage: debugInfo.croppedImage)
+                                    .resizable()
+                                    .scaledToFit()
+                                VStack(alignment: .leading) {
+                                    HStack {
+                                        Image(systemName: debugInfo.decodeString.isEmpty ? "xmark" : "checkmark")
+                                        Text("Parsed QR")
+                                            .font(.body.bold())
+                                    }
+                                    Text(debugInfo.decodeString)
+                                        .font(.caption.monospaced())
+                                }
+                            }
+                        }
+                    }
+                }
             } else {
                 Text("AR Tracking \(env.arCameraTrackingState.desc)")
                     .font(.caption.smallCaps())

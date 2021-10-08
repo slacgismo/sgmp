@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D0D54C6270F8CB700C50FDA /* Image+Crop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0D54C5270F8CB700C50FDA /* Image+Crop.swift */; };
+		0D20B25B270E436400786A05 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 0D20B25A270E436400786A05 /* Kingfisher */; };
+		0D20B25E270E451F00786A05 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = 0D20B25D270E451F00786A05 /* Sentry */; };
+		0D20B260270E479300786A05 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D20B25F270E479300786A05 /* EventManager.swift */; };
 		0D4BF60F270D166900B4496B /* AWSAPIPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 0D4BF60E270D166900B4496B /* AWSAPIPlugin */; };
 		0D4BF611270D166900B4496B /* AWSCognitoAuthPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 0D4BF610270D166900B4496B /* AWSCognitoAuthPlugin */; };
 		0D4BF613270D166900B4496B /* AWSPluginsCore in Frameworks */ = {isa = PBXBuildFile; productRef = 0D4BF612270D166900B4496B /* AWSPluginsCore */; };
@@ -33,6 +37,8 @@
 		0D9CDDAF27050D6F00804A57 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9CDDAE27050D6F00804A57 /* UserManager.swift */; };
 		0D9CDDB12705144900804A57 /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 0D9CDDB02705144900804A57 /* amplifyconfiguration.json */; };
 		0D9CDDB32705163C00804A57 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9CDDB22705163C00804A57 /* LoginView.swift */; };
+		0DE1F782270FC0E900714744 /* ARInteractiveViewSlacNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE1F781270FC0E900714744 /* ARInteractiveViewSlacNode.swift */; };
+		0DE1F784270FC30A00714744 /* ARInteractiveViewNode+QR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE1F783270FC30A00714744 /* ARInteractiveViewNode+QR.swift */; };
 		0DE2E79826F6DEDB00932B41 /* ARGridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE2E79726F6DEDB00932B41 /* ARGridViewController.swift */; };
 		0DE2E79C26F85C9A00932B41 /* BaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE2E79B26F85C9A00932B41 /* BaseManager.swift */; };
 		0DE2E7AB26F85DA100932B41 /* Bundle+Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE2E79F26F85DA100932B41 /* Bundle+Version.swift */; };
@@ -50,6 +56,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0D0D54C5270F8CB700C50FDA /* Image+Crop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Crop.swift"; sourceTree = "<group>"; };
+		0D20B25F270E479300786A05 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
 		0D4BF616270D375900B4496B /* AuthDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDataModel.swift; sourceTree = "<group>"; };
 		0D4BF619270D3E9200B4496B /* NewPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordView.swift; sourceTree = "<group>"; };
 		0D51EE0A26F27EDF00BCAAB3 /* SGMP-Mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SGMP-Mobile.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -74,6 +82,8 @@
 		0D9CDDAE27050D6F00804A57 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		0D9CDDB02705144900804A57 /* amplifyconfiguration.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 		0D9CDDB22705163C00804A57 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		0DE1F781270FC0E900714744 /* ARInteractiveViewSlacNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARInteractiveViewSlacNode.swift; sourceTree = "<group>"; };
+		0DE1F783270FC30A00714744 /* ARInteractiveViewNode+QR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ARInteractiveViewNode+QR.swift"; sourceTree = "<group>"; };
 		0DE2E79726F6DEDB00932B41 /* ARGridViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARGridViewController.swift; sourceTree = "<group>"; };
 		0DE2E79B26F85C9A00932B41 /* BaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseManager.swift; sourceTree = "<group>"; };
 		0DE2E79F26F85DA100932B41 /* Bundle+Version.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+Version.swift"; sourceTree = "<group>"; };
@@ -96,6 +106,8 @@
 			files = (
 				0D4BF60F270D166900B4496B /* AWSAPIPlugin in Frameworks */,
 				0DECB8BC270BA7AF001A93F9 /* SwiftUICharts in Frameworks */,
+				0D20B25B270E436400786A05 /* Kingfisher in Frameworks */,
+				0D20B25E270E451F00786A05 /* Sentry in Frameworks */,
 				0D5E22AD26FEEE77002B0A4B /* Defaults in Frameworks */,
 				0D4BF615270D166900B4496B /* Amplify in Frameworks */,
 				0D4BF611270D166900B4496B /* AWSCognitoAuthPlugin in Frameworks */,
@@ -162,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				0D73893E26FA97CF000C43A6 /* ARInteractiveViewNode.swift */,
+				0DE1F781270FC0E900714744 /* ARInteractiveViewSlacNode.swift */,
 			);
 			path = Touch;
 			sourceTree = "<group>";
@@ -206,6 +219,7 @@
 				0DE2E7BC26F8601200932B41 /* EnvironmentManager.swift */,
 				0D9CDDAE27050D6F00804A57 /* UserManager.swift */,
 				0DE2E79B26F85C9A00932B41 /* BaseManager.swift */,
+				0D20B25F270E479300786A05 /* EventManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -213,10 +227,12 @@
 		0DE2E79E26F85DA100932B41 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				0DE1F783270FC30A00714744 /* ARInteractiveViewNode+QR.swift */,
 				0DE2E79F26F85DA100932B41 /* Bundle+Version.swift */,
 				0DE2E7A426F85DA100932B41 /* Class+Runtime.swift */,
 				0D73894B26FB1656000C43A6 /* UIRespondor+Hierarchy.swift */,
 				0D7C332926FDA76100B219E7 /* Button+Style.swift */,
+				0D0D54C5270F8CB700C50FDA /* Image+Crop.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -276,6 +292,8 @@
 				0D4BF610270D166900B4496B /* AWSCognitoAuthPlugin */,
 				0D4BF612270D166900B4496B /* AWSPluginsCore */,
 				0D4BF614270D166900B4496B /* Amplify */,
+				0D20B25A270E436400786A05 /* Kingfisher */,
+				0D20B25D270E451F00786A05 /* Sentry */,
 			);
 			productName = "SGMP-AR-Samples";
 			productReference = 0D51EE0A26F27EDF00BCAAB3 /* SGMP-Mobile.app */;
@@ -309,6 +327,8 @@
 				0D5E22AB26FEEE77002B0A4B /* XCRemoteSwiftPackageReference "Defaults" */,
 				0DECB8BA270BA7AF001A93F9 /* XCRemoteSwiftPackageReference "SwiftUICharts" */,
 				0D4BF60D270D166900B4496B /* XCRemoteSwiftPackageReference "amplify-ios" */,
+				0D20B259270E436400786A05 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				0D20B25C270E451F00786A05 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 			);
 			productRefGroup = 0D51EE0B26F27EDF00BCAAB3 /* Products */;
 			projectDirPath = "";
@@ -351,6 +371,7 @@
 				0DE2E7C326F8625600932B41 /* CameraTabView.swift in Sources */,
 				0D9CDDB32705163C00804A57 /* LoginView.swift in Sources */,
 				0D51EE1C26F27FCC00BCAAB3 /* MainTabView.swift in Sources */,
+				0D0D54C6270F8CB700C50FDA /* Image+Crop.swift in Sources */,
 				0D9CDDAF27050D6F00804A57 /* UserManager.swift in Sources */,
 				0D6E5B8E270D55AE00576AA4 /* ARDebugView.swift in Sources */,
 				0DE2E7C526F8625C00932B41 /* SettingsTabView.swift in Sources */,
@@ -359,9 +380,12 @@
 				0DE2E7BA26F85FAD00932B41 /* State.swift in Sources */,
 				0DE2E7C126F8625200932B41 /* SummaryTabView.swift in Sources */,
 				0D7C332826FD8EBA00B219E7 /* ARRefImageSlacView.swift in Sources */,
+				0DE1F782270FC0E900714744 /* ARInteractiveViewSlacNode.swift in Sources */,
 				0DE2E7AB26F85DA100932B41 /* Bundle+Version.swift in Sources */,
 				0D6E5B90270D572D00576AA4 /* ARGridView.swift in Sources */,
+				0DE1F784270FC30A00714744 /* ARInteractiveViewNode+QR.swift in Sources */,
 				0D7C332A26FDA76100B219E7 /* Button+Style.swift in Sources */,
+				0D20B260270E479300786A05 /* EventManager.swift in Sources */,
 				0D73893F26FA97CF000C43A6 /* ARInteractiveViewNode.swift in Sources */,
 				0D5E22AF26FEF427002B0A4B /* AboutAppView.swift in Sources */,
 				0DE2E7B026F85DA100932B41 /* Class+Runtime.swift in Sources */,
@@ -584,6 +608,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0D20B259270E436400786A05 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
+		0D20B25C270E451F00786A05 /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/getsentry/sentry-cocoa";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
 		0D4BF60D270D166900B4496B /* XCRemoteSwiftPackageReference "amplify-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/aws-amplify/amplify-ios";
@@ -611,6 +651,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0D20B25A270E436400786A05 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0D20B259270E436400786A05 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		0D20B25D270E451F00786A05 /* Sentry */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0D20B25C270E451F00786A05 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
+			productName = Sentry;
+		};
 		0D4BF60E270D166900B4496B /* AWSAPIPlugin */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0D4BF60D270D166900B4496B /* XCRemoteSwiftPackageReference "amplify-ios" */;

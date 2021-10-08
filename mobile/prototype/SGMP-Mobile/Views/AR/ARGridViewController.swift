@@ -24,7 +24,7 @@ class ARGridViewController : UIViewController, ARSCNViewDelegate, ARSessionDeleg
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         let config = ARWorldTrackingConfiguration()
-        config.frameSemantics.insert(.personSegmentationWithDepth)
+//        config.frameSemantics.insert(.personSegmentationWithDepth)
         config.maximumNumberOfTrackedImages = 4
         if let referenceImages = ARReferenceImage.referenceImages(inGroupNamed: "ARResources", bundle: nil) {
             config.detectionImages = referenceImages
@@ -48,27 +48,39 @@ class ARGridViewController : UIViewController, ARSCNViewDelegate, ARSessionDeleg
     func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
         if let anchor = anchor as? ARImageAnchor {
             if anchor.name == "slac" {
-                let node = ARInteractiveSwiftUINode(viewSize: .init(width: 650/2.0, height: 250/2.0),
-                                                    planeSize: .init(width: anchor.referenceImage.physicalSize.width * anchor.estimatedScaleFactor,
-                                                                 height: anchor.referenceImage.physicalSize.height * anchor.estimatedScaleFactor),
-                                                    view: ARRefImageSlacView(width: 1300.0/4.0, height: 500.0/4.0, requireLoadDetail: {result in }))
+                let node = ARInteractiveViewSlacNode(planeSize: .init(
+                    width: anchor.referenceImage.physicalSize.width * anchor.estimatedScaleFactor,
+                    height: anchor.referenceImage.physicalSize.height * anchor.estimatedScaleFactor
+                ))
                 return node
             }
-            
         }
         return nil
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        
+        node.simdTransform = anchor.transform
+        if let anchor = anchor as? ARImageAnchor, anchor.name == "slac" {
+            if let anchorNode = node as? ARNodeAnchorProtocol {
+                anchorNode.didAddToScene(renderer, view: self.arView, anchor: anchor)
+            }
+        }
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didRemove node: SCNNode, for anchor: ARAnchor) {
-        
+        if let anchor = anchor as? ARImageAnchor, anchor.name == "slac" {
+            if let anchorNode = node as? ARNodeAnchorProtocol {
+                anchorNode.didRemoveFromScene(renderer, view: self.arView, anchor: anchor)
+            }
+        }
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
-        
+        if let anchor = anchor as? ARImageAnchor, anchor.name == "slac" {
+            if let anchorNode = node as? ARNodeAnchorProtocol {
+                anchorNode.didUpdateInScene(renderer, view: self.arView, anchor: anchor)
+            }
+        }
     }
     
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {

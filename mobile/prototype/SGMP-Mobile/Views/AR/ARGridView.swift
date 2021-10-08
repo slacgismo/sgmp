@@ -17,9 +17,10 @@ struct ARGridView: View {
                     .ignoresSafeArea()
                 ARDebugView()
                     .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 8))
-                    .frame(maxWidth: proxy.size.width * 1.0, maxHeight: proxy.size.height * 0.4, alignment: .bottom)
+                    .frame(maxWidth: proxy.size.width * 1.0, maxHeight: proxy.size.height * 0.28, alignment: .bottom)
                     .padding()
             }
+            .animation(.easeInOut)
         }
     }
 }
