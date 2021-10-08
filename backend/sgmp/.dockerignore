@@ -1,0 +1,6 @@
+*.pyc
+*.md
+__pycache__
+iot_certs
+test.sqlite
+config.yaml

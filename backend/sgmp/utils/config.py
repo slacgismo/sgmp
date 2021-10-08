@@ -4,7 +4,7 @@ import yaml
 config = {}
 try:
     with open('config.yaml', 'r') as f:
-        config = yaml.load(f)
+        config = yaml.load(f, Loader=yaml.SafeLoader)
 except:
     pass
 
