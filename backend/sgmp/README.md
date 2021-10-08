@@ -9,7 +9,7 @@ pip install -r requirements.txt
 
 ## Configuration
 
-Please copy `config.example.yaml` to `config.yaml` and fill in the values.
+Please copy `config.example.yaml` to `config.yaml` and fill in the values. Alternatively you can inject the configuration via environment variables.
 
 ## Running
 

@@ -1,8 +1,4 @@
-from decimal import Decimal
-import enum
-from flask import Blueprint, json, jsonify, request
-import boto3
-from boto3.dynamodb.conditions import Key
+from flask import Blueprint, jsonify, request
 import numpy as np
 
 from models.analytics import Analytics
@@ -11,7 +7,6 @@ from models.device import Device
 from utils.functions import err_json, get_obj_path
 from utils.analytics_engine import AnalyticsEngine
 from utils.tsdb import get_tsdb_conn
-import utils.config as config
 
 api_data = Blueprint('data', __name__)
 
@@ -44,25 +39,35 @@ def data_read():
     if data['type'] == 'device':
         if 'device_id' not in data:
             return err_json('bad request')
-
-        start_time = int(data['start_time'])
-        end_time = int(data['end_time'])
+        
+        start_time = float(data['start_time']) / 1000
+        end_time = float(data['end_time']) / 1000
         device_id = int(data['device_id'])
 
-        dynamodb = boto3.resource('dynamodb', region_name='us-west-1')
-        table = dynamodb.Table(config.DYNAMODB_TALBE)
-        response = table.query(
-            ScanIndexForward=False,
-            KeyConditionExpression=
-                Key('device_id').eq(device_id) &
-                Key('timestamp').between(start_time, end_time)
-        )
+        sql = 'SELECT timestamp, field, value_decimal, value_text FROM data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND device_id = %s ORDER BY timestamp ASC'
+        
+        conn = get_tsdb_conn()
+        cursor = conn.cursor()
+        cursor.execute(sql, (start_time, end_time, device_id))
+        rows = cursor.fetchall()
+        cursor.close()
+
+        ts_dict = dict()
+        for row in rows:
+            ts = int(row[0].timestamp() * 1000)
+            if ts not in ts_dict:
+                ts_dict[ts] = dict()
+            field = row[1]
+            if row[2] is not None:
+                ts_dict[ts][field] = row[2]
+            else:
+                ts_dict[ts][field] = row[3]
 
         lst = []
-        for item in response['Items']:
+        for ts, fields in ts_dict.items():
             lst.append({
-                'timestamp': item['timestamp'],
-                'data': item['device_data']
+                'timestamp': ts,
+                'data': fields
             })
 
         return jsonify({
@@ -79,10 +84,6 @@ def data_read():
                 return err_json('agg_function is invalid')
         if 'agg_function' in data and 'average' in 'data':
             return err_json('bad request')
-
-        # Read request data
-        start_time = int(data['start_time'])
-        end_time = int(data['end_time'])
 
         formula = ''
 
@@ -110,17 +111,17 @@ def data_read():
 
         if len(stack) == 1 and len(idents) == 1:
             # Use new PostgreSQL store
-            return process_analytics_postgresql(data, idents[0])
+            return process_single_value_read(data, idents[0])
         else:
             # Use DynamoDB
-            return process_analytics_dynaomdb(data, engine, stack, idents)
+            return process_expression(data, engine, stack, idents)
         
 
     return jsonify({
         'status': 'ok'
     })
 
-def process_analytics_postgresql(data, ident):
+def process_single_value_read(data, ident):
     start_time = float(data['start_time']) / 1000
     end_time = float(data['end_time']) / 1000
     components = ident.split('.')
@@ -207,7 +208,7 @@ def process_analytics_postgresql(data, ident):
         'data': result
     })
 
-def process_analytics_dynaomdb(data, engine, stack, idents):
+def process_expression(data, engine, stack, idents):
     evaluate_message = 'Identifiers: '
     device_reqs = dict()
     start_time = float(data['start_time']) / 1000
@@ -243,46 +244,6 @@ def process_analytics_dynaomdb(data, engine, stack, idents):
         
     # Grab all data
     ts_list = set()
-    """
-    dynamodb = boto3.resource('dynamodb', region_name='us-west-1')
-    table = dynamodb.Table(config.DYNAMODB_TALBE)
-    for device_name, req in device_reqs.items():
-        device_id = req['id']
-        first = True
-        last_evaluated_key = None
-        # Take care of pagination for large result set
-        while first or last_evaluated_key is not None:
-            first = False
-            if last_evaluated_key is not None:
-                response = table.query(
-                    ScanIndexForward=False,
-                    KeyConditionExpression=
-                        Key('device_id').eq(device_id) &
-                        Key('timestamp').between(start_time, end_time),
-                    ExclusiveStartKey=last_evaluated_key
-                )
-            else:
-                response = table.query(
-                    ScanIndexForward=False,
-                    KeyConditionExpression=
-                        Key('device_id').eq(device_id) &
-                        Key('timestamp').between(start_time, end_time)
-                )
-            last_evaluated_key = response.get('LastEvaluatedKey')
-            for item in response['Items']:
-                ts = int(item['timestamp'])
-                ts_list.add(ts)
-
-                for path in req['path']:
-                    value = get_obj_path(item['device_data'], path)
-                    if value is None:
-                        evaluate_message += 'Cannot get %s for %s at time %d!\n' % (path, device_name, ts)
-                        value = 0
-
-                    if isinstance(value, Decimal): value = float(value)
-                    readings['%s.%s' % (device_name, path)][ts] = value
-    """
-
     sql = 'SELECT timestamp, value_decimal FROM data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND device_id = %s AND field = %s'
 
     for device_name, req in device_reqs.items():

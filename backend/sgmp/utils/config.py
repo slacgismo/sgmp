@@ -15,7 +15,6 @@ def get_config(key, default=None):
     return os.environ.get(key, default)
 
 DATABASE_URL = get_config('DATABASE_URL', 'sqlite:///test.sqlite')
-DYNAMODB_TALBE = get_config('DYNAMODB_TABLE')
 TSDB_HOST = get_config('TSDB_HOST')
 TSDB_USER = get_config('TSDB_USER')
 TSDB_PASS = get_config('TSDB_PASS')
