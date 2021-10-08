@@ -105,12 +105,16 @@ export default {
         ` ~\n` + now.toLocaleDateString("en", format)}`;
     },
     getTSRequest(type) {
+      let interval = 3600000; // 1 hour = 60 * 60 * 1000
+      if (type == State.Day) {
+        interval = 300000; // 5 min
+      }
       return JSON.stringify({
         "start_time": this.getStartTime(now, type),
         "end_time": now.getTime(),
         "type": "analytics",
         "analytics_id": 2,
-        "average": 300000 // 5 min
+        "average": interval
       });
     },
     getAggRequest(type, aggFunc) {
