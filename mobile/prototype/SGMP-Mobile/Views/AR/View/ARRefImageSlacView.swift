@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ARRefImageSlacView: View {
-    @State var showDetail = false
     static let preferredSize : CGSize = CGSize.init(width: 1300.0/4, height: 500.0/4)
-    var requireLoadDetail : ((@escaping (Int) -> Void) -> ())?
+    @State var showDetail = false
+    var url : String? = nil
+    @State var progress = 0.5
     
     var body: some View {
         ZStack {
@@ -20,25 +22,36 @@ struct ARRefImageSlacView: View {
                 .foregroundColor(.red)
             ZStack {
                 HStack {
+//                    Button {
+//                        showDetail.toggle()
+//                    } label: {
+////                        Image(systemName: "qrcode.viewfinder")
+////                            .renderingMode(.template)
+////                            .resizable()
+////                            .scaledToFit()
+////                            .foregroundColor(.white)
+//                        Text("🤔")
+//                    }
+//                    .buttonStyle(BorderedButtonStyle())
+
                     Image(systemName: "qrcode.viewfinder")
                         .renderingMode(.template)
                         .resizable()
                         .scaledToFit()
                         .foregroundColor(.white)
+//                    Toggle(isOn: $showDetail) {
+//
+//                    }
+                    
                     if showDetail{
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text("QR Parsed")
-                                .font(.headline.smallCaps())
-                                .foregroundColor(.white)
-                            Text("Result")
-                                .font(.headline.smallCaps())
-                                .foregroundColor(.white)
-                        }
+                        Text("\(url ?? "")")
+                            .font(.headline.monospaced())
+                            .foregroundColor(.white)
+                            .lineLimit(nil)
                         Spacer()
                     }
                 }
                 .padding()
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                 .background {
                     RoundedRectangle(cornerRadius: 8).foregroundColor(.red)
                 }
@@ -47,10 +60,10 @@ struct ARRefImageSlacView: View {
                    height: showDetail ? ARRefImageSlacView.preferredSize.height  * 0.646 : ARRefImageSlacView.preferredSize.height  * 0.512, alignment: .center)
             .position(x: showDetail ? ARRefImageSlacView.preferredSize.width * 0.5 : ARRefImageSlacView.preferredSize.width * 0.81231,
                       y: showDetail ? ARRefImageSlacView.preferredSize.height  * 0.516 : ARRefImageSlacView.preferredSize.height  * 0.516)
+            
             .contentShape(Rectangle())
             .onTapGesture {
                 showDetail.toggle()
-                requireLoadDetail?({va in })
             }
         }
         .animation(.easeInOut(duration: 1))
@@ -60,8 +73,7 @@ struct ARRefImageSlacView: View {
 
 struct ARRefImageSlacView_Previews: PreviewProvider {
     static var previews: some View {
-        ARRefImageSlacView(requireLoadDetail: {result in })
+        ARRefImageSlacView()
             .frame(width: ARRefImageSlacView.preferredSize.width, height: ARRefImageSlacView.preferredSize.height , alignment: .center)
-            .environmentObject(EnvironmentManager.shared.env)
     }
 }

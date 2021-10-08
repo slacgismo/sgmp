@@ -52,20 +52,20 @@ class ARInteractiveViewNode : SCNNode, ARNodeAnchorProtocol {
 }
 
 class ARInteractiveUIViewNode : ARInteractiveViewNode {
-    var view : UIView = UIView()
-    
-    init(viewSize : CGSize, planeSize : CGSize, view : UIView) {
-        super.init(viewSize: viewSize, planeSize: planeSize)
-        self.view = view
-        DispatchQueue.main.async {
-            self.view.backgroundColor = .clear
-            self.view.frame = CGRect.init(origin: .zero, size: self.viewSize)
-            self.view.isOpaque = false
+    var view : UIView? {
+        willSet {
             let material = SCNMaterial()
             material.lightingModel = .constant
             material.isDoubleSided = true
-            material.diffuse.contents = self.view
+            material.diffuse.contents = newValue
             self.containerPlaneNode.geometry!.materials = [material]
+        }
+    }
+    
+    init(viewSize : CGSize, planeSize : CGSize, view : UIView?) {
+        super.init(viewSize: viewSize, planeSize: planeSize)
+        DispatchQueue.main.async {
+            self.view = view
         }
     }
     
@@ -76,20 +76,27 @@ class ARInteractiveUIViewNode : ARInteractiveViewNode {
 
 class ARInteractiveSwiftUINode<Content> : ARInteractiveViewNode where Content : View {
     var view : Content?
-    
-    init(viewSize : CGSize, planeSize : CGSize, view : Content) {
-        super.init(viewSize: viewSize, planeSize: planeSize)
-        self.view = view
-        DispatchQueue.main.async {
-            let vc = UIHostingController(rootView: self.view?.environmentObject(EnvironmentManager.shared.env))
-            vc.view.backgroundColor = .clear
-            vc.view.frame = CGRect.init(origin: .zero, size: self.viewSize)
-            vc.view.isOpaque = false
+    {
+        willSet {
+            hostingController?.rootView = newValue
             let material = SCNMaterial()
             material.lightingModel = .constant
             material.isDoubleSided = true
-            material.diffuse.contents = vc.view
+            material.diffuse.contents = hostingController?.view
             self.containerPlaneNode.geometry!.materials = [material]
+        }
+    }
+    
+    var hostingController : UIHostingController<Content?>?
+    
+    init(viewSize : CGSize, planeSize : CGSize, view : Content?) {
+        super.init(viewSize: viewSize, planeSize: planeSize)
+        DispatchQueue.main.async {
+            self.hostingController = UIHostingController(rootView: nil)
+            self.hostingController?.view.backgroundColor = .clear
+            self.hostingController?.view.frame = CGRect.init(origin: .zero, size: self.viewSize)
+            self.hostingController?.view.isOpaque = false
+            self.view = view
         }
     }
     

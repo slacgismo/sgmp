@@ -9,14 +9,14 @@ import Foundation
 import SceneKit
 import ARKit
 
-class ARInteractiveViewSlacNode : ARInteractiveSwiftUINode<ARRefImageSlacView>
+class ARInteractiveViewSlac2Node : ARInteractiveUIViewNode
 {
     var isTracked : Bool = false
     var isParsed : Bool = false
     var scannedResult : String? = nil
     
     init(planeSize: CGSize) {
-        super.init(viewSize: ARRefImageSlacView.preferredSize, planeSize: planeSize, view: ARRefImageSlacView())
+        super.init(viewSize: ARRefImageSlac2View.preferredSize, planeSize: planeSize, view: nil)
         containerPlaneNode.opacity = 0
     }
     
@@ -46,7 +46,7 @@ class ARInteractiveViewSlacNode : ARInteractiveSwiftUINode<ARRefImageSlacView>
                 scannedResult = scanForQRImage(renderer, view: view)
                 if let scannedResult = scannedResult {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        self.view = ARRefImageSlacView(url: scannedResult)
+                        self.view = ARRefImageSlac2View()
                         SCNTransaction.animationDuration = 1
                         SCNTransaction.animationTimingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
                         self.containerPlaneNode.opacity = 1

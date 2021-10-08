@@ -39,6 +39,9 @@
 		0D9CDDB32705163C00804A57 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9CDDB22705163C00804A57 /* LoginView.swift */; };
 		0DE1F782270FC0E900714744 /* ARInteractiveViewSlacNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE1F781270FC0E900714744 /* ARInteractiveViewSlacNode.swift */; };
 		0DE1F784270FC30A00714744 /* ARInteractiveViewNode+QR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE1F783270FC30A00714744 /* ARInteractiveViewNode+QR.swift */; };
+		0DE1F7862710071500714744 /* ARRefImageSlac2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE1F7852710071500714744 /* ARRefImageSlac2View.swift */; };
+		0DE1F7882710072100714744 /* ARRefImageSlac2View.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0DE1F7872710072100714744 /* ARRefImageSlac2View.xib */; };
+		0DE1F78A2710081800714744 /* ARInteractiveViewSlac2Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE1F7892710081800714744 /* ARInteractiveViewSlac2Node.swift */; };
 		0DE2E79826F6DEDB00932B41 /* ARGridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE2E79726F6DEDB00932B41 /* ARGridViewController.swift */; };
 		0DE2E79C26F85C9A00932B41 /* BaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE2E79B26F85C9A00932B41 /* BaseManager.swift */; };
 		0DE2E7AB26F85DA100932B41 /* Bundle+Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE2E79F26F85DA100932B41 /* Bundle+Version.swift */; };
@@ -84,6 +87,9 @@
 		0D9CDDB22705163C00804A57 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		0DE1F781270FC0E900714744 /* ARInteractiveViewSlacNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARInteractiveViewSlacNode.swift; sourceTree = "<group>"; };
 		0DE1F783270FC30A00714744 /* ARInteractiveViewNode+QR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ARInteractiveViewNode+QR.swift"; sourceTree = "<group>"; };
+		0DE1F7852710071500714744 /* ARRefImageSlac2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARRefImageSlac2View.swift; sourceTree = "<group>"; };
+		0DE1F7872710072100714744 /* ARRefImageSlac2View.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ARRefImageSlac2View.xib; sourceTree = "<group>"; };
+		0DE1F7892710081800714744 /* ARInteractiveViewSlac2Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARInteractiveViewSlac2Node.swift; sourceTree = "<group>"; };
 		0DE2E79726F6DEDB00932B41 /* ARGridViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARGridViewController.swift; sourceTree = "<group>"; };
 		0DE2E79B26F85C9A00932B41 /* BaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseManager.swift; sourceTree = "<group>"; };
 		0DE2E79F26F85DA100932B41 /* Bundle+Version.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+Version.swift"; sourceTree = "<group>"; };
@@ -175,6 +181,7 @@
 			children = (
 				0D73893E26FA97CF000C43A6 /* ARInteractiveViewNode.swift */,
 				0DE1F781270FC0E900714744 /* ARInteractiveViewSlacNode.swift */,
+				0DE1F7892710081800714744 /* ARInteractiveViewSlac2Node.swift */,
 			);
 			path = Touch;
 			sourceTree = "<group>";
@@ -265,6 +272,8 @@
 			children = (
 				0DE2E7CB26F9A4AB00932B41 /* ARRefImageCoverView.swift */,
 				0D7C332726FD8EBA00B219E7 /* ARRefImageSlacView.swift */,
+				0DE1F7852710071500714744 /* ARRefImageSlac2View.swift */,
+				0DE1F7872710072100714744 /* ARRefImageSlac2View.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -347,6 +356,7 @@
 				0D5F79E526FB2D660013AAB1 /* Main.storyboard in Resources */,
 				0D51EE1526F27EDF00BCAAB3 /* Preview Assets.xcassets in Resources */,
 				0D51EE1226F27EDF00BCAAB3 /* Assets.xcassets in Resources */,
+				0DE1F7882710072100714744 /* ARRefImageSlac2View.xib in Resources */,
 				0D9CDDB12705144900804A57 /* amplifyconfiguration.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -386,8 +396,10 @@
 				0DE1F784270FC30A00714744 /* ARInteractiveViewNode+QR.swift in Sources */,
 				0D7C332A26FDA76100B219E7 /* Button+Style.swift in Sources */,
 				0D20B260270E479300786A05 /* EventManager.swift in Sources */,
+				0DE1F78A2710081800714744 /* ARInteractiveViewSlac2Node.swift in Sources */,
 				0D73893F26FA97CF000C43A6 /* ARInteractiveViewNode.swift in Sources */,
 				0D5E22AF26FEF427002B0A4B /* AboutAppView.swift in Sources */,
+				0DE1F7862710071500714744 /* ARRefImageSlac2View.swift in Sources */,
 				0DE2E7B026F85DA100932B41 /* Class+Runtime.swift in Sources */,
 				0D73894626FAA72B000C43A6 /* ToastView.swift in Sources */,
 				0D4BF61A270D3E9200B4496B /* NewPasswordView.swift in Sources */,
