@@ -13,16 +13,9 @@
 
   <div class="grid grid-cols-1 gap-4 px-4 mt-8 lg:grid-cols-2 xl:grid-cols-4 sm:px-8">
     <router-link :to="{ name: 'solar' }">
-      <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
-        <div class="p-4">
-          <!-- https://uxwing.com/solar-energy-icon/ -->
-          <img src="../../assets/img/sun.svg" class="h-12 w-12" />
-        </div>
-        <div class="text-gray-700">
-          <h3 class="text-sm tracking-wider">Solar Power</h3>
-          <p class="text-3xl">128 Walt</p>
-        </div>
-      </div>
+      <!-- https://uxwing.com/solar-energy-icon/ -->
+      <dashboard-card :isPower="true" title="Solar Power" img="sun.svg"
+        :request="getCardRequest(FORMULA.Solar)" />
     </router-link>
 
     <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
@@ -81,16 +74,23 @@
 
 <script>
 import VueApexCharts from 'vue3-apexcharts'
+import DashboardCard from '@/components/card/DashboardCard.vue';
 import supply from '@/data/home/supply.json'
 import demand from '@/data/home/demand.json'
 import frequency from '@/data/home/frequency.json'
 import voltage from '@/data/home/voltage.json'
+// Mapping between energy type and formula
+const FORMULA = Object.freeze({ Solar: "sonnen.status.Production_W", Battery: "", EV: "", Load: "" });
+const now = new Date();
 
 export default {
-  components: {
-    apexchart: VueApexCharts
+  components: {apexchart: VueApexCharts, DashboardCard},
+  data() {
+    return {
+      FORMULA,
+      now
+    }
   },
-
   setup() {
     let demandLabels = []
     let loadCons = [], evCons = [], battCons = []
@@ -361,13 +361,22 @@ export default {
   },
   methods: {
     getDate() {
-      const options = {
+      const format = {
         year: "numeric",
         month: "short",
         day: "numeric"
       };
-
-      return `${new Date().toLocaleDateString("en", options)}`;
+      return `${new Date().toLocaleDateString("en", format)}`;
+    },
+    // TODO: update when the backend API is ready to fetch current data
+    getCardRequest(formula) {
+      return JSON.stringify({
+        "start_time": now.getTime()-3600,
+        "end_time": now.getTime(),
+        "type": "analytics",
+        "agg_function": "max",
+        "formula": formula
+      });
     }
   }
 }
