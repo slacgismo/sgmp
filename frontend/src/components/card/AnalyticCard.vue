@@ -23,7 +23,7 @@
 export default {
   name: "AnalyticCard",
   props: {
-    isPower: Boolean, // either power (W) or energy (kWh)
+    isPower: Boolean, // either power (kW) or energy (kWh)
     title: String,
     img: String,
     period: String,

@@ -50,7 +50,7 @@
           <analytic-card :isPower="false" :title="AVG" img="medium.svg"
            :request="getAggRequest(State.Week, 'avg')" :period="getPeriod(State.Week)" />
         </div>
-        <line-column-chart title="Solar Generation" :request="getTSRequest(State.Day)"/>
+        <line-column-chart title="Solar Generation" :request="getTSRequest(State.Week)"/>
       </tab>
       
       <tab :title="getCurrentMonth()">
@@ -60,7 +60,7 @@
           <analytic-card :isPower="false" :title="AVG" img="medium.svg"
            :request="getAggRequest(State.Month, 'avg')" :period="getPeriod(State.Month)" />
         </div>
-        <line-column-chart title="Solar Generation" :request="getTSRequest(State.Day)"/>
+        <line-column-chart title="Solar Generation" :request="getTSRequest(State.Month)"/>
       </tab>
     </tabs>
   </div>
@@ -109,7 +109,8 @@ export default {
         "start_time": this.getStartTime(now, type),
         "end_time": now.getTime(),
         "type": "analytics",
-        "analytics_id": 2
+        "analytics_id": 2,
+        "average": 300000 // 5 min
       });
     },
     getAggRequest(type, aggFunc) {
@@ -132,7 +133,7 @@ export default {
           start = cur - 604800000; // 1000 * 3600 * 24 * 7 = 604800000
           break;
         default:  // default is today
-          start = cur - 3600000; // 1000 * 3600 * 24 = 86400000
+          start = cur - 86400000; // 1000 * 3600 * 24 = 86400000
       }
       return start;
     }

@@ -26,7 +26,7 @@ export default {
   },
   created() {
     // POST request to fetch data for the line-column chart
-    const requestOptions = {
+    let requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: this.request
@@ -82,7 +82,8 @@ export default {
       let timeLabels = [], powerSeries = [], energySeries = []
       let cumulativeEnergy = 0;
       for (let i = 0; i < data.length; i++) {
-        timeLabels.push(new Date(data[i].timestamp).toLocaleTimeString("en", {hour: "numeric", minute:"numeric"}))
+        timeLabels.push(new Date(data[i].timestamp).
+          toLocaleDateString("en", {month: "short", day:"numeric", hour: "numeric", minute:"numeric"}))
         powerSeries.push((data[i].value / 1000).toFixed(2)) // W = 1/1000 kW
         cumulativeEnergy += (data[i].value / 12000) // interval 5 min = 1/12 h, W = 1/1000 kW
         energySeries.push(cumulativeEnergy.toFixed(2))
