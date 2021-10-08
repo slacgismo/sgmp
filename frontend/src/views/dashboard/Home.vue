@@ -65,26 +65,24 @@
   </div>
 
   <div class="grid grid-cols-1 px-4 gap-4 mt-8 sm:px-8">
-    <div class="px-4 py-2 bg-white border rounded-md overflow-hidden shadow">
-      <h3 class="text-xl text-gray-600 mb-4">Grid Frequency and Voltage</h3>
-      <apexchart type="line" :height="300" :options="timeSeries" :series="freqSeries"></apexchart>
-    </div>
+    <three-y-axes-chart title="Grid Frequency and Voltage" leftAxisTitle="Grid frequency (Hz)"
+      rightAxis1Title="L1 Voltage (V)" rightAxis2Title="L2 Voltage (V)" request="" />
   </div>
 </template>
 
 <script>
 import VueApexCharts from 'vue3-apexcharts'
 import DashboardCard from '@/components/card/DashboardCard.vue';
+import ThreeYAxesChart from '@/components/chart/ThreeYAxesChart.vue';
 import supply from '@/data/home/supply.json'
 import demand from '@/data/home/demand.json'
-import frequency from '@/data/home/frequency.json'
-import voltage from '@/data/home/voltage.json'
+
 // Mapping between energy type and formula
 const FORMULA = Object.freeze({ Solar: "sonnen.status.Production_W", Battery: "", EV: "", Load: "" });
 const now = new Date();
 
 export default {
-  components: {apexchart: VueApexCharts, DashboardCard},
+  components: {apexchart: VueApexCharts, DashboardCard, ThreeYAxesChart},
   data() {
     return {
       FORMULA,
@@ -206,157 +204,11 @@ export default {
       }
     }
 
-    const colorBlue = '#008FFB';
-    const colorOrange = '#00E396';
-    const colorGreen = '#FEB019';
-
-    const format = {
-      month: "short",
-      day: "numeric",
-      hour: '2-digit',
-      minute:'2-digit'
-    };
-    let timeLabels = [], freq = [], volt = []
-    for (let i = 0; i < frequency.length; i++) {
-      timeLabels.push(new Date(frequency[i].timestamp).toLocaleTimeString("en", format))
-      freq.push(frequency[i].data)
-      volt.push(voltage[i].data)
-    }
-
-    const timeSeries = {
-      chart: {
-        id: 'grid-freq',
-      },
-      labels: timeLabels,
-      legend: {
-        position: 'bottom',
-      },
-      yaxis: [
-        {
-          axisTicks: {
-            show: true,
-          },
-          axisBorder: {
-            show: true,
-            color: colorBlue
-          },
-          labels: {
-            style: {
-              colors: colorBlue
-            }
-          },
-          title: {
-            text: "Grid frequency (Hz)",
-            style: {
-              color: colorBlue
-            }
-          },
-          tooltip: {
-            enabled: true
-          }
-        },
-        {
-          seriesName: 'Voltage1',
-          opposite: true,
-          axisTicks: {
-            show: true,
-          },
-          axisBorder: {
-            show: true,
-            color: colorOrange
-          },
-          labels: {
-            style: {
-              colors: colorOrange
-            }
-          },
-          title: {
-            text: "L1 Voltage (V)",
-            style: {
-              color: colorOrange
-            }
-          },
-        },
-        {
-          seriesName: 'Voltage2',
-          opposite: true,
-          axisTicks: {
-            show: true,
-          },
-          axisBorder: {
-            show: true,
-            color: colorGreen
-          },
-          labels: {
-            style: {
-              colors: colorGreen
-            },
-          },
-          title: {
-            text: "L2 Voltage (V)",
-            style: {
-              color: colorGreen
-            }
-          }
-        }
-        
-      ],
-      tooltip: {
-        shared: true,
-        intersect: false,
-        y: [
-          {
-            formatter: function (y) {
-              if (typeof y !== "undefined") {
-                return y + " Hz";
-              }
-              return y;
-        
-            }
-          },
-          {
-            formatter: function (y) {
-              if (typeof y !== "undefined") {
-                return y + " V";
-              }
-              return y;
-        
-            }
-          },
-          {
-            formatter: function (y) {
-              if (typeof y !== "undefined") {
-                return y + " V";
-              }
-              return y;
-        
-            }
-          }
-        ]
-      }
-    }
-
-    const freqSeries = [{
-      name: 'Grid frequency',
-      type: 'column',
-      data: freq
-    }, {
-      name: 'L1 Voltage',
-      type: 'line',
-      data: volt
-    }, {
-      name: 'L2 Voltage',
-      type: 'line',
-      data: volt
-    }]
-
     return {
       demandOptions,
       demandSeries,
       supplyOptions,
-      supplySeries,
-      timeSeries,
-      freqSeries
+      supplySeries
     }
   },
   methods: {
