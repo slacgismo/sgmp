@@ -24,7 +24,7 @@ export default {
     title: String,
     request: String
   },
-  created() {
+  mounted() {
     // POST request to fetch data for the line-column chart
     let requestOptions = {
       method: "POST",
@@ -90,7 +90,7 @@ export default {
       }
 
       const leftAxis = "Average Power (kW)";
-      const rightAxis = "Average Energy (kWh)";
+      const rightAxis = "Cumulative Energy (kWh)";
       this.options = {
         chart: {
           height: 350,
