@@ -181,12 +181,12 @@
             <th class="text-left text-gray-600">User</th>
             <th class="text-left text-gray-600">Role</th>
             <th class="text-left text-gray-600">Join Date</th>
-            <th class="text-left text-gray-600">Expiration</th>
-            <th class="text-left text-gray-600">Last Activity</th>
+            <!-- <th class="text-left text-gray-600">Expiration</th>
+            <th class="text-left text-gray-600">Last Activity</th> -->
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
-          <tr v-for="user in userList" :key="user.id">
+          <tr v-for="user in userList" :key="user.email">
             <td class="p-2">
               <input
                 type="checkbox"
@@ -195,7 +195,7 @@
               />
             </td>
             <td class="flex items-center py-4">
-              <img class="inline-block h-12 w-12 rounded-full ring-2 ring-white" :src="getAvatar(user.firstName, user.lastName)" alt="" />
+              <img class="inline-block h-12 w-12 rounded-full ring-2 ring-white" :src="getAvatar(user.name)" alt="" />
               <div class="px-4">
                 <div>
                   <a href="#" class="text-gray-600 font-bolder">{{ user.name }}</a>
@@ -205,10 +205,10 @@
                 </div>
               </div>
             </td>
-            <td>{{ user.role }}</td>
-            <td>{{ formatDate(user.joinDate) }}</td>
-            <td>{{ formatDate(user.expireDate) }}</td>
-            <td>{{ formatDays(user.lastActivity) }}</td>
+            <td>{{ user.role.toString() }}</td>
+            <td>{{ formatDate(user.create_time) }}</td>
+            <!-- <td>{{ formatDate(user.expireDate) }}</td>
+            <td>{{ formatDays(user.lastActivity) }}</td> -->
           </tr>
         </tbody>
         <tfoot>
@@ -307,7 +307,6 @@
 </template>
 
 <script>
-import userList from '@/data/users/userList.json'
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { ref } from 'vue'
 
@@ -318,13 +317,36 @@ export default {
     MenuItems,
     MenuItem,
   },
+  data () {
+    return {
+      userList: []
+    }
+  },
+  mounted() {
+    // GET request to fetch data for the user list
+    fetch('http://ec2-18-144-174-142.us-west-1.compute.amazonaws.com:5000/api/user/list')
+      .then(async response => {
+        const data = await response.json();
+
+        // check for error response
+        if (!response.ok) {
+          // get error message from body or default to response status
+          const error = (data && data.message) || response.status;
+          return Promise.reject(error);
+        }
+
+        this.userList = data.user_list;
+      })
+      .catch(error => {
+        this.errorMessage = error;
+        console.error(error);
+      });
+  },
 
   setup() {
     const selectAll = ref(false)
-
     return {
-      userList,
-      selectAll,
+      selectAll
     }
   },
   methods: {
@@ -346,8 +368,11 @@ export default {
         return '-';
     },
 
-    getAvatar(firstName, lastName) {
-      return `https://ui-avatars.com/api/?name=` + firstName + `+` + lastName + `&background=random`
+    getAvatar(name) {
+      if (!name) {
+        name = "";
+      }
+      return `https://ui-avatars.com/api/?name=` + name + `&background=random`
     }
   }
 }
