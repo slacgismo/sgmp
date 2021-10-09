@@ -7,6 +7,7 @@ from models.device import Device
 from utils.functions import err_json, get_obj_path
 from utils.analytics_engine import AnalyticsEngine
 from utils.tsdb import get_tsdb_conn
+from utils.auth import require_auth
 
 api_data = Blueprint('data', __name__)
 
@@ -21,6 +22,7 @@ arg_functions = {
 }
 
 @api_data.route('/read', methods=['POST'])
+@require_auth()
 def data_read():
     data = request.json
 

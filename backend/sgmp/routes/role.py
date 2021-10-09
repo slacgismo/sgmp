@@ -1,11 +1,11 @@
-import string
 from flask import Blueprint, jsonify
 from flask.globals import request
 import boto3
 
-user_pool_id = 'us-west-1_opTsFEaul'
+import utils.config as config
+
 api_role = Blueprint('role', __name__)
-client = boto3.client('cognito-idp', region_name='us-west-1')
+client = boto3.client('cognito-idp', region_name=config.AWS_REGION)
 
 ###### Helper function ##########
 # list user in the group
@@ -14,7 +14,7 @@ def list_user_in_group (group_name):
     user_list = []
     try:
         response = client.list_users_in_group(
-            UserPoolId=user_pool_id,
+            UserPoolId=config.COGNITO_USER_POOL_ID,
             GroupName=group_name,
         )
         for user in response['Users']:
@@ -28,7 +28,7 @@ def delete_group(group_name) :
     try:
         response = client.delete_group(
             GroupName=group_name,
-            UserPoolId=user_pool_id
+            UserPoolId=config.COGNITO_USER_POOL_ID
         )
     except Exception:
         return None
@@ -41,7 +41,7 @@ def role_list():
     role_list = []
     try:
         response = client.list_groups(
-            UserPoolId=user_pool_id,
+            UserPoolId=config.COGNITO_USER_POOL_ID,
             Limit=20
         )
         for group in response['Groups']:
@@ -64,7 +64,7 @@ def role_create():
     try:
         response = client.create_group(
             GroupName=group_name,
-            UserPoolId=user_pool_id,
+            UserPoolId=config.COGNITO_USER_POOL_ID,
         )
     except Exception as e:
         status = e

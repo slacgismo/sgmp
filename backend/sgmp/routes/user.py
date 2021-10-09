@@ -5,12 +5,10 @@ import datetime
 import random
 import string
 
+import utils.config as config
 
 api_user = Blueprint('user', __name__)
-client = boto3.client('cognito-idp', region_name='us-west-1')
-user_pool_id = 'us-west-1_opTsFEaul'
-app_client_id = '225gul2k0qlq0vjh81cd3va4h'
-
+client = boto3.client('cognito-idp', region_name=config.AWS_REGION)
 
 #### helper function ########
 # generate a 16 digit random password
@@ -30,7 +28,7 @@ def random_password_generator ():
 def search_role_for_user (email):
     response = client.admin_list_groups_for_user(
         Username=email,
-        UserPoolId=user_pool_id,
+        UserPoolId=config.COGNITO_USER_POOL_ID,
     )
 
     groups = []
@@ -54,7 +52,7 @@ def get_user_information_from_email (email):
     response = ""
     try:
         response = client.admin_get_user(
-            UserPoolId=user_pool_id,
+            UserPoolId=config.COGNITO_USER_POOL_ID,
             Username=email
         )
     except Exception as e:
@@ -73,7 +71,7 @@ def update_user_attribute (email, name):
 
     try:
         response = client.admin_update_user_attributes(
-            UserPoolId=user_pool_id,
+            UserPoolId=config.COGNITO_USER_POOL_ID,
             Username=email,
             UserAttributes=[
                 {
@@ -90,7 +88,7 @@ def remove_user_from_role (email, role):
     response = ""
     try:
         response = client.admin_remove_user_from_group(
-            UserPoolId=user_pool_id,
+            UserPoolId=config.COGNITO_USER_POOL_ID,
             Username=email,
             GroupName=role
         )
@@ -102,7 +100,7 @@ def add_user_into_role (email, role):
     response = ""
     try:
         response = client.admin_add_user_to_group(
-            UserPoolId=user_pool_id,
+            UserPoolId=config.COGNITO_USER_POOL_ID,
             Username=email,
             GroupName=role
         )
@@ -115,7 +113,7 @@ def add_user_into_role (email, role):
 #list the users
 @api_user.route('/list', methods=['GET'])
 def user_list():
-    us_pool_id = user_pool_id
+    us_pool_id = config.COGNITO_USER_POOL_ID
     response_list_users = client.list_users(
         UserPoolId=us_pool_id,
         Limit=30,
@@ -148,7 +146,7 @@ def user_create():
     name = request.form.get("name")
     try:
         response = client.admin_create_user(
-            UserPoolId=user_pool_id,
+            UserPoolId=config.COGNITO_USER_POOL_ID,
             Username=email,
             UserAttributes=[
                 {
@@ -184,12 +182,12 @@ def user_login():
                 'USERNAME': email,
                 'PASSWORD': password
             },
-            ClientId=app_client_id,
+            ClientId=config.COGNITO_APP_CLIENT_ID,
         )
         access_token = ""
         # get access token
         if 'AuthenticationResult' in response:
-            access_token = response['AuthenticationResult']['AccessToken']
+            access_token = response['AuthenticationResult']['IdToken']
     except Exception:
         status = 'incorrect password/email'
     
@@ -204,7 +202,7 @@ def user_change_password():
     email = request.form.get("email")
     new_password = request.form.get("password")
     response = client.admin_set_user_password(
-        UserPoolId=user_pool_id,
+        UserPoolId=config.COGNITO_USER_POOL_ID,
         Username=email,
         Password=new_password,
         Permanent=True
@@ -252,7 +250,7 @@ def user_delete():
     status = "ok"
     try:
         response = client.admin_delete_user(
-            UserPoolId=user_pool_id,
+            UserPoolId=config.COGNITO_USER_POOL_ID,
             Username=email
         )
     except Exception:
