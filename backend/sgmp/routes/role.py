@@ -1,31 +1,28 @@
 from flask import Blueprint, jsonify
 from flask.globals import request
-import boto3
 
+from utils.functions import get_boto3_client, err_json
 import utils.config as config
 
 api_role = Blueprint('role', __name__)
-client = boto3.client('cognito-idp', region_name=config.AWS_REGION)
 
 ###### Helper function ##########
 # list user in the group
-def list_user_in_group (group_name):
-    response = ""
+def list_user_in_group(group_name):
     user_list = []
-    try:
-        response = client.list_users_in_group(
-            UserPoolId=config.COGNITO_USER_POOL_ID,
-            GroupName=group_name,
-        )
-        for user in response['Users']:
-            user_list.append(user['Username'])
-    except Exception:
-        return None
+    client = get_boto3_client('cognito-idp')
+    response = client.list_users_in_group(
+        UserPoolId=config.COGNITO_USER_POOL_ID,
+        GroupName=group_name,
+    )
+    for user in response['Users']:
+        user_list.append(user['Username'])
     
     return user_list
 
-def delete_group(group_name) :
+def delete_group(group_name):
     try:
+        client = get_boto3_client('cognito-idp')
         response = client.delete_group(
             GroupName=group_name,
             UserPoolId=config.COGNITO_USER_POOL_ID
@@ -39,15 +36,13 @@ def delete_group(group_name) :
 def role_list():
     # List the roles
     role_list = []
-    try:
-        response = client.list_groups(
-            UserPoolId=config.COGNITO_USER_POOL_ID,
-            Limit=20
-        )
-        for group in response['Groups']:
-            role_list.append(group['GroupName'])
-    except Exception as e:
-        status = e
+    client = get_boto3_client('cognito-idp')
+    response = client.list_groups(
+        UserPoolId=config.COGNITO_USER_POOL_ID,
+        Limit=20
+    )
+    for group in response['Groups']:
+        role_list.append(group['GroupName'])
 
     return jsonify({
         'status': 'ok',
@@ -57,39 +52,36 @@ def role_list():
 # create a role
 @api_role.route('/create', methods=['POST'])
 def role_create():
-    group_name = request.form.get("role")
+    group_name = request.json.get('role')
+    if group_name is None:
+        return err_json('invalid request')
     # Check that the role does not exist
-    status = "ok"
-    response = ""
-    try:
-        response = client.create_group(
-            GroupName=group_name,
-            UserPoolId=config.COGNITO_USER_POOL_ID,
-        )
-    except Exception as e:
-        status = e
+    client = get_boto3_client('cognito-idp')
+    client.create_group(
+        GroupName=group_name,
+        UserPoolId=config.COGNITO_USER_POOL_ID,
+    )
     # Create the role
     return jsonify({
-        'status': status
+        'status': 'ok'
     })
 
 # delete a group
 @api_role.route('/delete', methods=['POST'])
 def role_delete():
-    group_name = request.form.get("role")
-    response = ""
-    status = "ok"
+    group_name = request.json.get('role')
+    if group_name is None:
+        return err_json('invalid request')
     list_user = list_user_in_group(group_name)
 
     if list_user is None:
-        status = "error in listing user"
+        return err_json('error in listing user')
     elif len(list_user) != 0:
-        status = "some users still in list"
+        return err_json('some users still in list')
     else:
         if delete_group(group_name) is None:
-            status = "error in deleting group"
-        status = "ok"
+            return err_json('error in deleting group')
 
     return jsonify({
-        'status': status
+        'status': 'ok'
     })

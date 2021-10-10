@@ -1,4 +1,7 @@
 from flask import jsonify
+import boto3
+
+import utils.config as config
 
 def err_json(message):
     return jsonify({'status': 'error', 'message': message})
@@ -25,3 +28,7 @@ def get_obj_path(obj, path):
         cursor = float(cursor)
 
     return cursor
+
+def get_boto3_client(service):
+    client = boto3.client(service, region_name=config.AWS_REGION)
+    return client

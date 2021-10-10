@@ -23,6 +23,7 @@ import utils.config as config
 
 app = Flask(__name__)
 CORS(app)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = config.DATABASE_URL
 db.init_app(app)
 migrate = Migrate(app, db)

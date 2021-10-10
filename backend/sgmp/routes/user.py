@@ -1,31 +1,29 @@
 from flask import Blueprint, jsonify, request
-from flask.globals import current_app
-import boto3
-import datetime
 import random
 import string
 
 import utils.config as config
+from utils.functions import get_boto3_client, err_json
 
 api_user = Blueprint('user', __name__)
-client = boto3.client('cognito-idp', region_name=config.AWS_REGION)
 
 #### helper function ########
 # generate a 16 digit random password
-def random_password_generator ():
+def random_password_generator():
     lower = string.ascii_lowercase
     upper = string.ascii_uppercase
     num = string.digits
     symbol = string.punctuation
-    password = "Aa!9"
+    password = 'Aa!9'
     all = lower + upper + num + symbol
 
     temp = random.sample(all, 8)
-    password += ("".join(temp))
+    password += (''.join(temp))
 
     return password
 
-def search_role_for_user (email):
+def search_role_for_user(email):
+    client = get_boto3_client('cognito-idp')
     response = client.admin_list_groups_for_user(
         Username=email,
         UserPoolId=config.COGNITO_USER_POOL_ID,
@@ -37,26 +35,12 @@ def search_role_for_user (email):
 
     return groups
 
-def get_user_email_from_accessToken (accesstoken):
-    response = ""
-    try:
-        response = client.get_user(
-            AccessToken=accesstoken
-        )
-    except Exception as e:
-        return e
-
-    return response['Username']
-
-def get_user_information_from_email (email):
-    response = ""
-    try:
-        response = client.admin_get_user(
-            UserPoolId=config.COGNITO_USER_POOL_ID,
-            Username=email
-        )
-    except Exception as e:
-        return e
+def get_user_information_from_email(email):
+    client = get_boto3_client('cognito-idp')
+    response = client.admin_get_user(
+        UserPoolId=config.COGNITO_USER_POOL_ID,
+        Username=email
+    )
     user_info = {}
     user_info['create_date'] = response['UserCreateDate']
     for attribute in response['UserAttributes']:
@@ -67,45 +51,35 @@ def get_user_information_from_email (email):
 
 
 def update_user_attribute (email, name):
-    response = ""
-
-    try:
-        response = client.admin_update_user_attributes(
-            UserPoolId=config.COGNITO_USER_POOL_ID,
-            Username=email,
-            UserAttributes=[
-                {
-                    'Name': 'name',
-                    'Value': name
-                },
-            ]
-        )
-    except Exception as e:
-        return e
+    client = get_boto3_client('cognito-idp')
+    client.admin_update_user_attributes(
+        UserPoolId=config.COGNITO_USER_POOL_ID,
+        Username=email,
+        UserAttributes=[
+            {
+                'Name': 'name',
+                'Value': name
+            },
+        ]
+    )
     return 'ok'
 
 def remove_user_from_role (email, role):
-    response = ""
-    try:
-        response = client.admin_remove_user_from_group(
-            UserPoolId=config.COGNITO_USER_POOL_ID,
-            Username=email,
-            GroupName=role
-        )
-    except Exception as e:
-        return e
+    client = get_boto3_client('cognito-idp')
+    client.admin_remove_user_from_group(
+        UserPoolId=config.COGNITO_USER_POOL_ID,
+        Username=email,
+        GroupName=role
+    )
     return 'ok'
 
 def add_user_into_role (email, role):
-    response = ""
-    try:
-        response = client.admin_add_user_to_group(
-            UserPoolId=config.COGNITO_USER_POOL_ID,
-            Username=email,
-            GroupName=role
-        )
-    except Exception as e:
-        return e
+    client = get_boto3_client('cognito-idp')
+    client.admin_add_user_to_group(
+        UserPoolId=config.COGNITO_USER_POOL_ID,
+        Username=email,
+        GroupName=role
+    )
     return 'ok'
 
 ##############################
@@ -113,6 +87,7 @@ def add_user_into_role (email, role):
 #list the users
 @api_user.route('/list', methods=['GET'])
 def user_list():
+    client = get_boto3_client('cognito-idp')
     us_pool_id = config.COGNITO_USER_POOL_ID
     response_list_users = client.list_users(
         UserPoolId=us_pool_id,
@@ -141,41 +116,41 @@ def user_list():
 # user creation
 @api_user.route('/create', methods=['POST'])
 def user_create():
-    status = 'ok'
-    email = request.form.get("email")
-    name = request.form.get("name")
-    try:
-        response = client.admin_create_user(
-            UserPoolId=config.COGNITO_USER_POOL_ID,
-            Username=email,
-            UserAttributes=[
-                {
-                    'Name': 'name',
-                    'Value': name
-                },
-            ],
-            TemporaryPassword=random_password_generator(),
-            DesiredDeliveryMediums=[
-                'EMAIL'
-            ]
-        )
-    except Exception as e:
-        status = e
+    client = get_boto3_client('cognito-idp')
+    email = request.json.get('email')
+    name = request.json.get('name')
+    if email is None or name is None:
+        return err_json('invalid request')
+    client.admin_create_user(
+        UserPoolId=config.COGNITO_USER_POOL_ID,
+        Username=email,
+        UserAttributes=[
+            {
+                'Name': 'name',
+                'Value': name
+            },
+        ],
+        TemporaryPassword=random_password_generator(),
+        DesiredDeliveryMediums=[
+            'EMAIL'
+        ]
+    )
 
     return jsonify({
-        'status': status
+        'status': 'ok'
     })
 
 # user authentication
 @api_user.route('/login', methods=['POST']) 
 def user_login():
     # validate the user's identification and return a access token
-    email = request.form.get("email")
-    password = request.form.get("password")
-    status = 'ok'
-    response = ""
-    access_token = ""
+    email = request.json.get('email')
+    password = request.json.get('password')
+    if email is None or password is None:
+        return err_json('invalid request')
+    access_token = ''
     try:
+        client = get_boto3_client('cognito-idp')
         response = client.initiate_auth(
             AuthFlow='USER_PASSWORD_AUTH',
             AuthParameters={
@@ -184,24 +159,27 @@ def user_login():
             },
             ClientId=config.COGNITO_APP_CLIENT_ID,
         )
-        access_token = ""
+        access_token = ''
         # get access token
         if 'AuthenticationResult' in response:
             access_token = response['AuthenticationResult']['IdToken']
     except Exception:
-        status = 'incorrect password/email'
+        return err_json('email or password incorrect')
     
     return jsonify({
-        'status': status,
+        'status': 'ok',
         'accesstoken': access_token
     })
 
 # change the user's password
 @api_user.route('/changePassword', methods=['POST'])
 def user_change_password():
-    email = request.form.get("email")
-    new_password = request.form.get("password")
-    response = client.admin_set_user_password(
+    email = request.json.get('email')
+    new_password = request.json.get('password')
+    if email is None or new_password is None:
+        return err_json('invalid request')
+    client = get_boto3_client('cognito-idp')
+    client.admin_set_user_password(
         UserPoolId=config.COGNITO_USER_POOL_ID,
         Username=email,
         Password=new_password,
@@ -216,25 +194,25 @@ def user_change_password():
 @api_user.route('/update', methods=['POST'])
 def user_update():
     # Check the user exists
-    status = "ok"
-    user_info = {}
-    email = request.form.get("email")
-    name = request.form.get("name")
-    role = request.form.get("role")
+    email = request.json.get('email')
+    name = request.json.get('name')
+    role = request.json.get('role')
+    if email is None or name is None or role is None:
+        return err_json('invalid request')
 
     # update name
     if update_user_attribute(email, name) != 'ok':
-        status = 'error in updating name'
+        return err_json('error in updating name')
     # update role
     current_role = search_role_for_user(email)
     if len(current_role) == 0:
         if add_user_into_role(email, role) != 'ok':
-            status = 'error in adding role'
+            return err_json('error in adding role')
     elif current_role[0] != role:
         if remove_user_from_role(email, current_role[0]) != 'ok':
-            status = 'error in removing role'
+            return err_json('error in removing role')
         if add_user_into_role(email, role) != 'ok':
-            status = 'error in adding role'
+            return err_json('error in adding role')
 
     # Update the user
     return jsonify({
@@ -245,17 +223,15 @@ def user_update():
 @api_user.route('/delete', methods=['POST'])
 def user_delete():
     # Delete the user
-    email = request.form.get("email")
-    response = ""
-    status = "ok"
-    try:
-        response = client.admin_delete_user(
-            UserPoolId=config.COGNITO_USER_POOL_ID,
-            Username=email
-        )
-    except Exception:
-        status = "error"
+    email = request.json.get('email')
+    if email is None:
+        return err_json('invalid request')
+    client = get_boto3_client('cognito-idp')
+    client.admin_delete_user(
+        UserPoolId=config.COGNITO_USER_POOL_ID,
+        Username=email
+    )
 
     return jsonify({
-        'status': status
+        'status': 'ok'
     })
