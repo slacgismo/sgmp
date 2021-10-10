@@ -10,7 +10,7 @@ except:
 
 def get_config(key, default=None):
     if key in config:
-        return config[key]
+        return str(config[key])
 
     return os.environ.get(key, default)
 
