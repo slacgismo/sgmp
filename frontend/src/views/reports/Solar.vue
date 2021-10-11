@@ -36,8 +36,8 @@
           <!-- https://www.svgrepo.com/svg/285729/award-champion -->
           <analytic-card :isPower="true" :title="PEAK"
             img="champion.svg" :request="getAggRequest(State.Day, 'max')" />
-          <!-- https://www.svgrepo.com/svg/165281/medium -->
-          <analytic-card :isPower="false" :title="AVG" img="medium.svg"
+          <!-- https://www.svgrepo.com/svg/270552/renewable-energy-power -->
+          <analytic-card :isPower="false" :title="AVG" img="energy.svg"
            :request="getAggRequest(State.Day, 'avg')" :period="getPeriod(State.Day)" />
         </div>
         <line-column-chart title="Solar Generation" :request="getTSRequest(State.Day)"/>
@@ -47,7 +47,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
           <analytic-card :isPower="true" :title="PEAK"
             img="champion.svg" :request="getAggRequest(State.Week, 'max')" />
-          <analytic-card :isPower="false" :title="AVG" img="medium.svg"
+          <analytic-card :isPower="false" :title="AVG" img="energy.svg"
            :request="getAggRequest(State.Week, 'avg')" :period="getPeriod(State.Week)" />
         </div>
         <line-column-chart title="Solar Generation" :request="getTSRequest(State.Week)"/>
@@ -57,7 +57,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
           <analytic-card :isPower="true" :title="PEAK"
             img="champion.svg" :request="getAggRequest(State.Month, 'max')" />
-          <analytic-card :isPower="false" :title="AVG" img="medium.svg"
+          <analytic-card :isPower="false" :title="AVG" img="energy.svg"
            :request="getAggRequest(State.Month, 'avg')" :period="getPeriod(State.Month)" />
         </div>
         <line-column-chart title="Solar Generation" :request="getTSRequest(State.Month)"/>
