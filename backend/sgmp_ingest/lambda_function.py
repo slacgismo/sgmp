@@ -2,7 +2,7 @@ import json
 import psycopg2
 import psycopg2.extras
 
-pg_host = '54.215.115.115'
+pg_host = '54.241.73.105'
 pg_user = 'postgres'
 pg_pass = 'w2XeQwZSmExnGntNjsBteGJUfZkbimEc'
 pg_database = 'sgmp'
