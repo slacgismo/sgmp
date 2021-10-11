@@ -324,7 +324,7 @@ export default {
   },
   mounted() {
     // GET request to fetch data for the user list
-    fetch('http://ec2-18-144-174-142.us-west-1.compute.amazonaws.com:5000/api/user/list')
+    fetch('http://ec2-54-176-53-197.us-west-1.compute.amazonaws.com:5000/api/user/list')
       .then(async response => {
         const data = await response.json();
 

@@ -40,7 +40,10 @@ export default {
     // POST request to fetch data for the 3 y-axis chart
     let requestOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Beaer " + localStorage.token,
+      },
       body: // this.request
       JSON.stringify({
         "start_time": new Date().getTime()-3600000,
@@ -49,7 +52,7 @@ export default {
         "device_id": 2
       })
     };
-    fetch('http://ec2-18-144-174-142.us-west-1.compute.amazonaws.com:5000/api/data/read', requestOptions)
+    fetch('http://ec2-54-176-53-197.us-west-1.compute.amazonaws.com:5000/api/data/read', requestOptions)
       .then(async response => {
         const data = await response.json();
 
