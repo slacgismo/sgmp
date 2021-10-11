@@ -5,7 +5,8 @@
       <img src="https://www6.slac.stanford.edu/sites/www6.slac.stanford.edu/files/SLAC-lab-hires.jpg" alt="" />
       <h2 class="py-8 text-center text-2xl font-bold text-gray-800 mb-6">Sign in to SGMP</h2>
 
-      <form class="space-y-4" @submit.prevent="$router.push({ name: 'dashboard' })">
+      <!-- action="http://ec2-54-176-53-197.us-west-1.compute.amazonaws.com:5000/api/user/login" method="POST" -->
+      <form class="space-y-4" @submit.prevent="validateSignIn">
         <div class="relative text-gray-400">
           <span class="absolute inset-y-0 left-0 flex items-center pl-2">
             <svg
@@ -28,6 +29,7 @@
             name="email"
             type="email"
             autocomplete="email"
+            v-model="email"
             class="
               w-full
               py-4
@@ -64,6 +66,7 @@
             name="password"
             type="password"
             autocomplete="current-password"
+            v-model="password"
             required=""
             class="
               w-full
@@ -127,5 +130,49 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      email: "",
+      password: ""
+    };
+  },
+  methods: {
+    validateSignIn() {
+      // POST request to validate the user's identification
+      let requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Beaer " + localStorage.token,
+        },
+        body: JSON.stringify({
+          "email": this.email,
+          "password": this.password
+        })
+      };
+      fetch('http://ec2-54-176-53-197.us-west-1.compute.amazonaws.com:5000/api/user/login', requestOptions)
+        .then(async response => {
+          const data = await response.json();
+
+          // check for error response
+          if (!response.ok) {
+            // get error message from body or default to response status
+            const error = (data && data.message) || response.status;
+            return Promise.reject(error);
+          }
+          if(data.accesstoken){
+            localStorage.setItem("token", data.accesstoken);
+            this.$router.push({ name: 'home' });
+          } else {
+            alert("Failed to sign in: " + data.status);
+          }
+        })
+        .catch(error => {
+          this.errorMessage = error;
+          alert("Sign in error: " + error);
+        });
+    }
+  }
+}
 </script>
