@@ -4,7 +4,7 @@ import string
 
 import utils.config as config
 from utils.functions import get_boto3_client, err_json
-from utils.auth import require_auth
+from utils.auth import require_auth, decode_id_token
 
 api_user = Blueprint('user', __name__)
 
@@ -178,11 +178,12 @@ def user_login():
     except Exception:
         return err_json('email or password incorrect')
     
-
+    profile = decode_id_token(access_token)
 
     return jsonify({
         'status': 'ok',
-        'accesstoken': access_token
+        'accesstoken': access_token,
+        'profile': profile
     })
 
 # change the user's password

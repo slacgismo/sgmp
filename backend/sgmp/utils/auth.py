@@ -4,6 +4,15 @@ import cognitojwt
 
 import utils.config as config
 
+def decode_id_token(token):
+    claim = cognitojwt.decode(token, config.AWS_REGION, config.COGNITO_USER_POOL_ID, testmode=(config.ENFORCE_AUTHENTICATION == '0'))
+    user = {
+        'roles': claim['cognito:groups'],
+        'email': claim['email'],
+        'name': claim['name']
+    }
+    return user
+
 def require_auth():
     def _require_auth(f):
         @wraps(f)
@@ -13,17 +22,10 @@ def require_auth():
                 token = auth_header.split(' ')[1]
             else:
                 token = ''
-
             if token:
                 try:
-                    claim = cognitojwt.decode(token, config.AWS_REGION, config.COGNITO_USER_POOL_ID, testmode=(config.ENFORCE_AUTHENTICATION == '0'))
-                    user = {
-                        'roles': claim['cognito:groups'],
-                        'email': claim['email'],
-                        'name': claim['name']
-                    }
+                    user = decode_id_token(token)
                     g.user = user
-                    print(g.user)
                 except cognitojwt.exceptions.CognitoJWTException as e:
                     if config.ENFORCE_AUTHENTICATION != '0':
                         return jsonify({
