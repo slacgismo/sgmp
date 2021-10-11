@@ -83,7 +83,12 @@ Sample response:
 ```
 {
     "status": "ok"
-    "accesstoken": "xxxxxxxxx"
+    "accesstoken": "xxxxxxxxx",
+    "profile": {
+        "email": "chihweif@andrew.cmu.edu",
+        "name": "Chih-Wei Fang",
+        "roles": ["visitor"]
+    }
 }
 ```
 
