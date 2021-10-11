@@ -6,6 +6,24 @@ This a very first draft of the API specification. We should move it into other s
 
 The idea is to make the API appear to the frontend as platform-agnostic as possible. We can possibly move the backend user storage between AWS Cognito or a local MySQL database or any other identity provider.
 
+### `/api/user/profile`
+
+Returns the profile of currently logged in user.
+
+Sample response:
+```
+{
+    "profile": {
+        "email": "chihweif@andrew.cmu.edu",
+        "name": "Chih-wei Fang",
+        "roles": [
+            "visitor"
+        ],
+    },
+        "status": "ok"
+    }
+```
+
 ### `/api/user/list`
 
 Lists all users.

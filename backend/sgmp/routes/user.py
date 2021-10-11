@@ -1,9 +1,10 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, g
 import random
 import string
 
 import utils.config as config
 from utils.functions import get_boto3_client, err_json
+from utils.auth import require_auth
 
 api_user = Blueprint('user', __name__)
 
@@ -50,7 +51,7 @@ def get_user_information_from_email(email):
     return user_info
 
 
-def update_user_attribute (email, name):
+def update_user_attribute(email, name):
     client = get_boto3_client('cognito-idp')
     client.admin_update_user_attributes(
         UserPoolId=config.COGNITO_USER_POOL_ID,
@@ -64,7 +65,7 @@ def update_user_attribute (email, name):
     )
     return 'ok'
 
-def remove_user_from_role (email, role):
+def remove_user_from_role(email, role):
     client = get_boto3_client('cognito-idp')
     client.admin_remove_user_from_group(
         UserPoolId=config.COGNITO_USER_POOL_ID,
@@ -73,7 +74,7 @@ def remove_user_from_role (email, role):
     )
     return 'ok'
 
-def add_user_into_role (email, role):
+def add_user_into_role(email, role):
     client = get_boto3_client('cognito-idp')
     client.admin_add_user_to_group(
         UserPoolId=config.COGNITO_USER_POOL_ID,
@@ -83,6 +84,15 @@ def add_user_into_role (email, role):
     return 'ok'
 
 ##############################
+
+# return the profile of currently logged in user
+@api_user.route('/profile', methods=['GET'])
+@require_auth()
+def user_profile():
+    return jsonify({
+        'status': 'ok',
+        'profile': g.user
+    })
 
 #list the users
 @api_user.route('/list', methods=['GET'])
@@ -163,9 +173,13 @@ def user_login():
         # get access token
         if 'AuthenticationResult' in response:
             access_token = response['AuthenticationResult']['IdToken']
+        else:
+            return err_json('failed to login')
     except Exception:
         return err_json('email or password incorrect')
     
+
+
     return jsonify({
         'status': 'ok',
         'accesstoken': access_token
