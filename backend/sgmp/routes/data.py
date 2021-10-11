@@ -153,6 +153,9 @@ def process_single_value_read(data, ident):
             cursor.execute(sql, (start_time, end_time, device_id, field))
             row = cursor.fetchone()
             cursor.close()
+            if row is None:
+                return err_json('no data available')
+
             return jsonify({
                 'status': 'ok',
                 'timestamp': int(row[0].timestamp() * 1000),
@@ -163,6 +166,9 @@ def process_single_value_read(data, ident):
             cursor.execute(sql, (start_time, end_time, device_id, field))
             row = cursor.fetchone()
             cursor.close()
+            if row is None:
+                return err_json('no data available')
+
             return jsonify({
                 'status': 'ok',
                 'timestamp': int(row[0].timestamp() * 1000),
@@ -173,6 +179,9 @@ def process_single_value_read(data, ident):
             cursor.execute(sql, (start_time, end_time, device_id, field))
             row = cursor.fetchone()
             cursor.close()
+            if row is None:
+                return err_json('no data available')
+                
             return jsonify({
                 'status': 'ok',
                 'value': row[0]
