@@ -6,10 +6,12 @@ from models.shared import db
 
 from utils.functions import err_json
 from utils.iot import publish
+from utils.auth import require_auth
 
 api_device = Blueprint('device', __name__)
 
 @api_device.route('/list', methods=['GET'])
+@require_auth()
 def device_list():
     # Read devices from database
     devices = Device.query.all()
@@ -25,6 +27,7 @@ def device_list():
     return jsonify({'status': 'ok', 'devices': ret})
 
 @api_device.route('/details', methods=['POST'])
+@require_auth()
 def device_details():
     data = request.json
 
@@ -49,6 +52,7 @@ def device_details():
     })
 
 @api_device.route('/create', methods=['POST'])
+@require_auth('admin')
 def device_create():
     data = request.json
 
@@ -83,6 +87,7 @@ def device_create():
     return jsonify({'status': 'ok'})
 
 @api_device.route('/delete', methods=['POST'])
+@require_auth('admin')
 def device_delete():
     data = request.json
 
@@ -98,6 +103,7 @@ def device_delete():
     return jsonify({'status': 'ok'})
 
 @api_device.route('/sync', methods=['GET'])
+@require_auth('admin')
 def device_sync():
     # This is the data to be published
     data = []

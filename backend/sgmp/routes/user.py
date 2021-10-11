@@ -96,6 +96,7 @@ def user_profile():
 
 #list the users
 @api_user.route('/list', methods=['GET'])
+@require_auth('admin')
 def user_list():
     client = get_boto3_client('cognito-idp')
     us_pool_id = config.COGNITO_USER_POOL_ID
@@ -125,6 +126,7 @@ def user_list():
 
 # user creation
 @api_user.route('/create', methods=['POST'])
+@require_auth('admin')
 def user_create():
     client = get_boto3_client('cognito-idp')
     email = request.json.get('email')
@@ -151,7 +153,7 @@ def user_create():
     })
 
 # user authentication
-@api_user.route('/login', methods=['POST']) 
+@api_user.route('/login', methods=['POST'])
 def user_login():
     # validate the user's identification and return a access token
     email = request.json.get('email')
@@ -188,6 +190,7 @@ def user_login():
 
 # change the user's password
 @api_user.route('/changePassword', methods=['POST'])
+@require_auth('admin')
 def user_change_password():
     email = request.json.get('email')
     new_password = request.json.get('password')
@@ -207,6 +210,7 @@ def user_change_password():
 
 # update user's profile 
 @api_user.route('/update', methods=['POST'])
+@require_auth('admin')
 def user_update():
     # Check the user exists
     email = request.json.get('email')
@@ -236,6 +240,7 @@ def user_update():
 
 # delete user
 @api_user.route('/delete', methods=['POST'])
+@require_auth('admin')
 def user_delete():
     # Delete the user
     email = request.json.get('email')

@@ -5,10 +5,12 @@ from models.analytics import Analytics
 from models.shared import db
 
 from utils.functions import err_json
+from utils.auth import require_auth
 
 api_analytics = Blueprint('analytics', __name__)
 
 @api_analytics.route('/list', methods=['GET'])
+@require_auth()
 def analytics_list():
     # Read all analytics from database
     query_result = Analytics.query.all()
@@ -24,6 +26,7 @@ def analytics_list():
     return jsonify({'status': 'ok', 'analytics': ret})
 
 @api_analytics.route('/create', methods=['POST'])
+@require_auth('admin')
 def analytics_create():
     data = request.json
 
@@ -52,6 +55,7 @@ def analytics_create():
     return jsonify({'status': 'ok'})
 
 @api_analytics.route('/update', methods=['POST'])
+@require_auth('admin')
 def analytics_update():
     data = request.json
 
@@ -76,6 +80,7 @@ def analytics_update():
     return jsonify({'status': 'ok'})
 
 @api_analytics.route('/delete', methods=['POST'])
+@require_auth(['admin'])
 def analytics_delete():
     data = request.json
 

@@ -9,10 +9,12 @@ except:
     pass
 
 def get_config(key, default=None):
+    if key in os.environ:
+        return os.environ.get(key)
     if key in config:
         return str(config[key])
 
-    return os.environ.get(key, default)
+    return default
 
 DATABASE_URL = get_config('DATABASE_URL', 'sqlite:///test.sqlite')
 TSDB_HOST = get_config('TSDB_HOST')

@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify
 from flask.globals import request
 
 from utils.functions import get_boto3_client, err_json
+from utils.auth import require_auth
 import utils.config as config
 
 api_role = Blueprint('role', __name__)
@@ -33,6 +34,7 @@ def delete_group(group_name):
 
 # list all of roles
 @api_role.route('/list', methods=['GET'])
+@require_auth('admin')
 def role_list():
     # List the roles
     role_list = []
@@ -51,6 +53,7 @@ def role_list():
 
 # create a role
 @api_role.route('/create', methods=['POST'])
+@require_auth('admin')
 def role_create():
     group_name = request.json.get('role')
     if group_name is None:
@@ -68,6 +71,7 @@ def role_create():
 
 # delete a group
 @api_role.route('/delete', methods=['POST'])
+@require_auth('admin')
 def role_delete():
     group_name = request.json.get('role')
     if group_name is None:
