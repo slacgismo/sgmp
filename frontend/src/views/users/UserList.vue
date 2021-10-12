@@ -220,7 +220,7 @@
                     Page
                     <span class="font-medium underline">1</span>
                     of
-                    <span class="font-medium">10</span>
+                    <span class="font-medium">{{ this.userList.length }}</span>
                   </p>
                 </div>
                 <div>
