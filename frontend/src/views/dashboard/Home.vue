@@ -21,7 +21,7 @@
     <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
       <div class="p-4">
         <!-- https://www.svgrepo.com/svg/326915/battery-charging-sharp -->
-        <img src="../../assets/img/battery.svg" class="h-12 w-12" />
+        <img src="/src/assets/img/battery.svg" class="h-12 w-12" />
       </div>
       <div class="text-gray-700">
         <h3 class="text-sm tracking-wider">Battery Discharging</h3>
@@ -32,7 +32,7 @@
     <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
       <div class="p-4">
         <!-- https://www.svgrepo.com/svg/17490/car -->
-        <img src="../../assets/img/car.svg" class="h-12 w-12" />
+        <img src="/src/assets/img/car.svg" class="h-12 w-12" />
       </div>
       <div class="text-gray-700">
         <h3 class="text-sm tracking-wider">EV Charging</h3>
@@ -43,7 +43,7 @@
     <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
       <div class="p-4">
         <!-- Credit: modified from https://www.svgrepo.com/svg/137351/rounded-plug -->
-        <img src="../../assets/img/load.svg" class="h-12 w-12" />
+        <img src="/src/assets/img/load.svg" class="h-12 w-12" />
       </div>
       <div class="text-gray-700">
         <h3 class="text-sm tracking-wider">Loads</h3>
@@ -222,13 +222,13 @@ export default {
     },
     // TODO: update when the backend API is ready to fetch current data
     getCardRequest(formula) {
-      return JSON.stringify({
+      return {
         "start_time": now.getTime()-3600,
         "end_time": now.getTime(),
         "type": "analytics",
         "agg_function": "max",
         "formula": formula
-      });
+      };
     }
   }
 }

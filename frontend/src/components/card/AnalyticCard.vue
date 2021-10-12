@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import httpReq from "@/util/requestOptions";
+import constants from "@/util/constants";
 
 export default {
   name: "AnalyticCard",
@@ -38,15 +40,10 @@ export default {
   },
   created() {
     // POST request to fetch data for the line-column chart
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Beaer " + localStorage.token,
-      },
-      body: this.request
-    };
-    fetch('http://ec2-54-176-53-197.us-west-1.compute.amazonaws.com:5000/api/data/read', requestOptions)
+    fetch(
+        constants.server + "/api/data/read", // endpoint
+        httpReq.post(this.request) // requestOptions
+      )
       .then(async response => {
         const data = await response.json();
 

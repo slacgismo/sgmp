@@ -307,8 +307,10 @@
 </template>
 
 <script>
-import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
-import { ref } from 'vue'
+import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
+import { ref } from 'vue';
+import httpReq from "@/util/requestOptions";
+import constants from "@/util/constants";
 
 export default {
   components: {
@@ -324,7 +326,10 @@ export default {
   },
   mounted() {
     // GET request to fetch data for the user list
-    fetch('http://ec2-54-176-53-197.us-west-1.compute.amazonaws.com:5000/api/user/list')
+    fetch(
+        constants.server + "/api/user/list", // endpoint
+        httpReq.get() // requestOptions
+      )
       .then(async response => {
         const data = await response.json();
 

@@ -18,6 +18,8 @@
 <script>
 import VueApexCharts from "vue3-apexcharts";
 import Loading from "@/components/Loading.vue";
+import httpReq from "@/util/requestOptions";
+import constants from "@/util/constants";
 // to be replaced with real data
 import frequency from "@/data/home/frequency.json";
 import voltage from "@/data/home/voltage.json";
@@ -38,21 +40,16 @@ export default {
   },
   mounted() {
     // POST request to fetch data for the 3 y-axis chart
-    let requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Beaer " + localStorage.token,
-      },
-      body: // this.request
-      JSON.stringify({
-        "start_time": new Date().getTime()-3600000,
-        "end_time": new Date().getTime(),
-        "type": "device",
-        "device_id": 2
-      })
+    let requestBody = {
+      "start_time": new Date().getTime()-3600000,
+      "end_time": new Date().getTime(),
+      "type": "device",
+      "device_id": 2
     };
-    fetch('http://ec2-54-176-53-197.us-west-1.compute.amazonaws.com:5000/api/data/read', requestOptions)
+    fetch(
+        constants.server + "/api/data/read", // endpoint
+        httpReq.post(requestBody) // requestOptions
+      )
       .then(async response => {
         const data = await response.json();
 

@@ -40,7 +40,7 @@
           <analytic-card :isPower="false" :title="AVG" img="energy.svg"
            :request="getAggRequest(State.Day, 'avg')" :period="getPeriod(State.Day)" />
         </div>
-        <line-column-chart title="Solar Generation" :request="getTSRequest(State.Day)"/>
+        <line-column-chart :title="TITLE" :request="getTSRequest(State.Day)"/>
       </tab>
 
       <tab title="Last 7 days">
@@ -50,7 +50,7 @@
           <analytic-card :isPower="false" :title="AVG" img="energy.svg"
            :request="getAggRequest(State.Week, 'avg')" :period="getPeriod(State.Week)" />
         </div>
-        <line-column-chart title="Solar Generation" :request="getTSRequest(State.Week)"/>
+        <line-column-chart :title="TITLE" :request="getTSRequest(State.Week)"/>
       </tab>
       
       <tab :title="getCurrentMonth()">
@@ -60,7 +60,7 @@
           <analytic-card :isPower="false" :title="AVG" img="energy.svg"
            :request="getAggRequest(State.Month, 'avg')" :period="getPeriod(State.Month)" />
         </div>
-        <line-column-chart title="Solar Generation" :request="getTSRequest(State.Month)"/>
+        <line-column-chart :title="TITLE" :request="getTSRequest(State.Month)"/>
       </tab>
     </tabs>
   </div>
@@ -76,6 +76,7 @@ import { ref } from "vue";
 const State = Object.freeze({ Day: 0, Week: 1, Month: 2 });
 const PEAK = "Peak Solar Production";
 const AVG = "Average Energy Generation";
+const TITLE = "Solar Generation";
 const now = new Date();
 
 export default {
@@ -91,6 +92,7 @@ export default {
       State,
       PEAK,
       AVG,
+      TITLE,
       now
     }
   },
@@ -109,22 +111,22 @@ export default {
       if (type == State.Day) {
         interval = 300000; // 5 min
       }
-      return JSON.stringify({
+      return {
         "start_time": this.getStartTime(now, type),
         "end_time": now.getTime(),
         "type": "analytics",
         "analytics_id": 2,
         "average": interval
-      });
+      };
     },
     getAggRequest(type, aggFunc) {
-      return JSON.stringify({
+      return {
         "start_time": this.getStartTime(now, type),
         "end_time": now.getTime(),
         "type": "analytics",
         "agg_function": aggFunc,
         "formula": "sonnen.status.Production_W"
-      });
+      };
     },
     getStartTime(now, type) {
       let cur = now.getTime();

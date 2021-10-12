@@ -2,8 +2,13 @@
   <div class="min-h-screen flex items-center justify-center px-4">
     <div class="max-w-md w-full">
       <!-- https://www6.slac.stanford.edu/about/logo-resources -->
-      <img src="https://www6.slac.stanford.edu/sites/www6.slac.stanford.edu/files/SLAC-lab-hires.jpg" alt="" />
-      <h2 class="py-8 text-center text-2xl font-bold text-gray-800 mb-6">Sign in to SGMP</h2>
+      <img
+        src="https://www6.slac.stanford.edu/sites/www6.slac.stanford.edu/files/SLAC-lab-hires.jpg"
+        alt=""
+      />
+      <h2 class="py-8 text-center text-2xl font-bold text-gray-800 mb-6">
+        Sign in to SGMP
+      </h2>
 
       <!-- action="http://ec2-54-176-53-197.us-west-1.compute.amazonaws.com:5000/api/user/login" method="POST" -->
       <form class="space-y-4" @submit.prevent="validateSignIn">
@@ -37,7 +42,10 @@
               rounded-md
               pl-10
               border border-gray-300
-              focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10
+              focus:outline-none
+              focus:ring-blue-500
+              focus:border-blue-500
+              focus:z-10
             "
             placeholder="Email address"
             required=""
@@ -75,7 +83,10 @@
               rounded-md
               pl-10
               border border-gray-300
-              focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10
+              focus:outline-none
+              focus:ring-blue-500
+              focus:border-blue-500
+              focus:z-10
             "
             placeholder="Password"
           />
@@ -87,13 +98,28 @@
               id="remember-me"
               name="remember-me"
               type="checkbox"
-              class="h-4 w-4 text-blue-600 focus:ring-0 border-gray-300 rounded cursor-pointer"
+              class="
+                h-4
+                w-4
+                text-blue-600
+                focus:ring-0
+                border-gray-300
+                rounded
+                cursor-pointer
+              "
             />
-            <label for="remember-me" class="ml-2 block text-sm text-gray-900 cursor-pointer"> Remember me </label>
+            <label
+              for="remember-me"
+              class="ml-2 block text-sm text-gray-900 cursor-pointer"
+            >
+              Remember me
+            </label>
           </div>
 
           <div class="text-sm">
-            <a href="#" class="font-medium text-blue-600 hover:text-blue-500"> Forgot your password? </a>
+            <a href="#" class="font-medium text-blue-600 hover:text-blue-500">
+              Forgot your password?
+            </a>
           </div>
         </div>
 
@@ -114,7 +140,10 @@
               text-white
               bg-red-900
               hover:bg-red-800
-              focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-700
+              focus:outline-none
+              focus:ring-2
+              focus:ring-offset-2
+              focus:ring-red-700
             "
           >
             Sign in
@@ -123,56 +152,65 @@
       </form>
 
       <div class="mt-2 text-sm text-gray-600">
-        New to SGMP? <a href="#" class="font-medium text-blue-600 hover:text-blue-500">Create an account</a>
+        New to SGMP?
+        <a href="#" class="font-medium text-blue-600 hover:text-blue-500"
+          >Create an account</a
+        >
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import httpReq from "@/util/requestOptions";
+import constants from "@/util/constants";
+
 export default {
   data() {
     return {
       email: "",
-      password: ""
+      password: "",
     };
   },
   methods: {
     validateSignIn() {
       // POST request to validate the user's identification
-      let requestOptions = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Beaer " + localStorage.token,
-        },
-        body: JSON.stringify({
-          "email": this.email,
-          "password": this.password
+      fetch(
+        constants.server + "/api/user/login", // endpoint
+        httpReq.post({
+          // requestOptions
+          email: this.email,
+          password: this.password,
         })
-      };
-      fetch('http://ec2-54-176-53-197.us-west-1.compute.amazonaws.com:5000/api/user/login', requestOptions)
-        .then(async response => {
+      )
+        .then(async (response) => {
           const data = await response.json();
 
           // check for error response
-          if (!response.ok) {
+          if (!response.ok || !data.accesstoken) {
             // get error message from body or default to response status
             const error = (data && data.message) || response.status;
             return Promise.reject(error);
           }
-          if(data.accesstoken){
+          if (data.accesstoken) {
             localStorage.setItem("token", data.accesstoken);
-            this.$router.push({ name: 'home' });
-          } else {
-            alert("Failed to sign in: " + data.status);
+            if (data.profile && data.profile.name) {
+              localStorage.setItem("username", data.profile.name);
+            } else {
+              localStorage.setItem("username", "User");
+            }
+            if (data.profile && data.profile.roles) {
+              localStorage.setItem("roles", data.profile.roles);
+            }
+
+            this.$router.push(this.$route.query.redirect || "/");
           }
         })
-        .catch(error => {
+        .catch((error) => {
           this.errorMessage = error;
           alert("Sign in error: " + error);
         });
-    }
-  }
-}
+    },
+  },
+};
 </script>
