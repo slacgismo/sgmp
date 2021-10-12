@@ -146,6 +146,7 @@ def user_create():
     status = 'ok'
     email = request.form.get("email")
     name = request.form.get("name")
+    password = random_password_generator()
     try:
         response = client.admin_create_user(
             UserPoolId=user_pool_id,
@@ -156,13 +157,19 @@ def user_create():
                     'Value': name
                 },
             ],
-            TemporaryPassword=random_password_generator(),
+            TemporaryPassword=password,
             DesiredDeliveryMediums=[
                 'EMAIL'
             ]
         )
+        response = client.admin_set_user_password(
+            UserPoolId=user_pool_id,
+            Username=email,
+            Password=password,
+            Permanent=True
+        )
     except Exception as e:
-        status = e
+        status = str(e)
 
     return jsonify({
         'status': status
