@@ -14,12 +14,8 @@
     <h1 class="text-2xl px-2 py-4 text-gray-800">Smart Grid Management Platform</h1>
     <Menu as="div" class="relative">
       <MenuButton class="flex items-center space-x-2 px-2 py-4 text-sm border-b-2 border-gray-200 hover:border-red-900">
-        <img
-          class="h-8 w-8 rounded-full"
-          src="https://garagedoors.files.wordpress.com/2011/09/inspect.jpg"
-          alt=""
-        />
-        <span>Administrator</span>
+        <img class="h-8 w-8 rounded-full" :src="getAvatar()" alt="" />
+        <span>{{ getName() }}</span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-4 w-6"
@@ -61,12 +57,11 @@
               <a href="#" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Settings</a>
             </MenuItem>
           </div>
-          <MenuItem v-slot="{ active }">
+          <MenuItem v-slot="{ active }" v-on:click="logout()">
             <router-link
               :to="{ name: 'login' }"
               :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']"
-              >Sign out</router-link
-            >
+              >Sign out</router-link>
           </MenuItem>
         </MenuItems>
       </transition>
@@ -82,7 +77,22 @@ export default {
     Menu,
     MenuButton,
     MenuItems,
-    MenuItem,
+    MenuItem
   },
+  methods: {
+    getName() {
+      return localStorage.username ? localStorage.username : "Hello!";
+    },
+    getAvatar() {
+      let name = localStorage.username;
+      if (!name) {
+        name = "";
+      }
+      return `https://ui-avatars.com/api/?name=` + name + `&background=random`
+    },
+    logout() {
+      localStorage.clear();
+    }
+  }
 }
 </script>
