@@ -37,6 +37,12 @@ const routes = [
         component: () => import('@/views/reports/EV.vue'),
         meta: { auth: [] }
       },
+      {
+        path: '/reports/load',
+        name: 'load',
+        component: () => import('@/views/reports/Load.vue'),
+        meta: { auth: [] }
+      },
       // TODO
       // {
       //   path: '/outage',

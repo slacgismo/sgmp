@@ -40,16 +40,11 @@
       </div>
     </div>
 
-    <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
-      <div class="p-4">
-        <!-- Credit: modified from https://www.svgrepo.com/svg/137351/rounded-plug -->
-        <img src="/src/assets/img/load.svg" class="h-12 w-12" />
-      </div>
-      <div class="text-gray-700">
-        <h3 class="text-sm tracking-wider">Loads</h3>
-        <p class="text-3xl">76 kW</p>
-      </div>
-    </div>
+    <router-link :to="{ name: 'load' }">
+      <!-- Credit: modified from https://www.svgrepo.com/svg/137351/rounded-plug -->
+      <dashboard-card :isPower="true" title="Loads" img="load.svg"
+        :request="getCardRequest(FORMULA.Load)" />
+    </router-link>
   </div>
 
   <div class="grid grid-cols-1 px-4 gap-4 mt-8 lg:grid-cols-2 sm:px-8">
@@ -78,7 +73,12 @@ import supply from '@/data/home/supply.json'
 import demand from '@/data/home/demand.json'
 
 // Mapping between energy type and formula
-const FORMULA = Object.freeze({ Solar: "sonnen.status.Production_W", Battery: "", EV: "", Load: "" });
+const FORMULA = Object.freeze({
+  Solar: "sonnen.status.Production_W",
+  Battery: "sonnen.status.Pac_total_W",
+  EV: "",
+  Load: "sonnen.status.Consumption_W"
+});
 const now = new Date();
 
 export default {
