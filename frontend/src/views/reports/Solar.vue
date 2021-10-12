@@ -115,7 +115,7 @@ export default {
         "start_time": this.getStartTime(now, type),
         "end_time": now.getTime(),
         "type": "analytics",
-        "analytics_id": 2,
+        "formula": "sonnen.status.Production_W",
         "average": interval
       };
     },
