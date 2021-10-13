@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftUICharts
 
 struct SummaryTabView: View {
     
@@ -21,6 +22,34 @@ struct SummaryTabView: View {
                 Text("Summary for today (\(now))")
                     .font(.caption)
                     .foregroundColor(Color(UIColor.secondaryLabel))
+            }
+            
+            Section {
+                VStack {
+                    HStack {
+                        Text("Power Consumption")
+                            .font(.caption.bold())
+                        Spacer()
+                    }
+                    BarChart()
+                            .data([8, 2, 4, 6, 12, 9, 2])
+                            .chartStyle(ChartStyle(backgroundColor: .white,
+                                                   foregroundColor: ColorGradient(.blue, .purple)))
+                            .frame(height: 128)
+                }
+                
+                VStack {
+                    HStack {
+                        Text("Energy Generation")
+                            .font(.caption.bold())
+                        Spacer()
+                    }
+                    LineChart()
+                            .data([12, 2, 7, 6, 0, 3, 2])
+                            .chartStyle(ChartStyle(backgroundColor: .white,
+                                                   foregroundColor: ColorGradient(.blue, .purple)))
+                            .frame(height: 128)
+                }
             }
         }
         .refreshable {

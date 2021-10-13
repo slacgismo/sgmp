@@ -41,7 +41,7 @@ extension ARInteractiveViewNode {
             } catch (let err) {
                 print("err \(err)")
             }
-            let str = vnQrRequest.results?.flatMap({ ob in
+            let str = vnQrRequest.results?.compactMap({ ob in
                 ob.payloadStringValue
             }).first
             

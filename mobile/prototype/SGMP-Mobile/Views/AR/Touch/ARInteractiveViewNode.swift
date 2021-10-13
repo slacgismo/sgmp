@@ -87,15 +87,19 @@ class ARInteractiveSwiftUINode<Content> : ARInteractiveViewNode where Content : 
         }
     }
     
-    var hostingController : UIHostingController<Content?>?
+    var hostingController : ARSwiftUIHostingController<Content?>?
     
     init(viewSize : CGSize, planeSize : CGSize, view : Content?) {
         super.init(viewSize: viewSize, planeSize: planeSize)
         DispatchQueue.main.async {
-            self.hostingController = UIHostingController(rootView: nil)
+            self.hostingController = ARSwiftUIHostingController(rootView: nil)
+            self.hostingController?.view.insetsLayoutMarginsFromSafeArea = false
             self.hostingController?.view.backgroundColor = .clear
             self.hostingController?.view.frame = CGRect.init(origin: .zero, size: self.viewSize)
             self.hostingController?.view.isOpaque = false
+//            if let parentVC = parentVC, let hostingVC = self.hostingController {
+//                parentVC.add(hostingVC)
+//            }
             self.view = view
         }
     }

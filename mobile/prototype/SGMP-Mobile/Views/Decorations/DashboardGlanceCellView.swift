@@ -22,7 +22,7 @@ struct DashboardGlanceCellView: View {
                     .aspectRatio(contentMode: .fit)
                     .foregroundColor(iconColor)
             }
-            .frame(maxHeight: 48)
+            .frame(maxHeight: 36)
             .padding()
             .aspectRatio(1, contentMode: .fit)
 //            .padding(.leading)

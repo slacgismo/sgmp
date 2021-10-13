@@ -38,8 +38,18 @@ struct ARDebugView: View {
                     }
                 }
             } else {
-                Text("AR Tracking \(env.arCameraTrackingState.desc)")
-                    .font(.caption.smallCaps())
+                ZStack {
+                    VStack {
+                        Text("Control Panel")
+                            .font(.caption.smallCaps())
+                        VStack(alignment: .leading) {
+                            if let debugInfo : ARDebugDataModel = env.arDebugInfo {
+                                Text(debugInfo.decodeString)
+                                    .font(.caption.monospaced())
+                            }
+                        }
+                    }
+                }
             }
         }
         .padding()
