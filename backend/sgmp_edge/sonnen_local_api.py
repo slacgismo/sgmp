@@ -12,7 +12,7 @@ class SonnenLocalApi():
         result['timestamp'] = now.strftime("%d/%m/%Y %H:%M:%S")
         try:
             url = 'http://' + self.config['ip'] + ':8080/api/battery'
-            response = requests.get(url)
+            response = requests.get(url, timeout=2)
             response.raise_for_status()
             result['battery'] = response.json()
         except requests.exceptions.HTTPError as err:
@@ -22,7 +22,7 @@ class SonnenLocalApi():
 
         try:
             url = 'http://' + self.config['ip'] + ':8080/api/v1/status'
-            response = requests.get(url)
+            response = requests.get(url, timeout=2)
             response.raise_for_status()
             result['status'] = response.json()
         except requests.exceptions.HTTPError as err:
@@ -40,7 +40,7 @@ class SonnenLocalApi():
             }
 
             try:
-                response = requests.get(mode_dict[data['mode']])
+                response = requests.get(mode_dict[data['mode']], timeout=2)
                 response.raise_for_status()
             except requests.exceptions.HTTPError as err:
                 print(err)
@@ -60,7 +60,7 @@ class SonnenLocalApi():
         if int(value) > 0:
             url = url + 'discharge/' + str(abs(value))
             try:
-                dis_response = requests.get(url)
+                dis_response = requests.get(url, timeout=2)
                 print('discharge response: ', dis_response.json())
                 dis_response.raise_for_status()
             except requests.exceptions.HTTPError as err:
@@ -70,7 +70,7 @@ class SonnenLocalApi():
         else:
             url = url + 'charge/' + str(abs(value))
             try:
-                cha_response = requests.get(url)
+                cha_response = requests.get(url, timeout=2)
                 print('charging response: ', cha_response.json())
                 cha_response.raise_for_status()
             except requests.exceptions.HTTPError as err:

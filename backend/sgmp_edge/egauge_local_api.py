@@ -20,7 +20,7 @@ class EgaugeInterface():
         power_values = dict.fromkeys(self.config['keys'], None)
 
         try:
-            resp = requests.get(url)
+            resp = requests.get(url, timeout=2)
             resp.raise_for_status()
 
             data_ini = self.get_egauge_registers(resp)
@@ -31,7 +31,7 @@ class EgaugeInterface():
         time.sleep(self.config['t_sample'])
 
         try:
-            resp = requests.get(url)
+            resp = requests.get(url, timeout=2)
             resp.raise_for_status()
 
             data_end = self.get_egauge_registers(resp)
