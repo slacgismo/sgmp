@@ -406,12 +406,12 @@ Sample response:
 
 ### `/api/device/update`
 
-Updates the config of a device. To ensure consistency of data the type of the device cannot be changed.
+Updates the config of a device. To ensure consistency of data the name and the type of the device cannot be changed.
 
 Sample request:
 ```
 {
-    "name": "sonnen",
+    "device_id": "1",
     "description": "Sonnen controller inside the house",
     "config": {
         "ip": "1.2.3.4",

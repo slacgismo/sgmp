@@ -86,6 +86,30 @@ def device_create():
 
     return jsonify({'status': 'ok'})
 
+@api_device.route('/update', methods=['POST'])
+@require_auth('admin')
+def device_update():
+    data = request.json
+
+    # Validate input
+    if 'device_id' not in data:
+        return err_json('bad request')
+    device_id = int(data['device_id'])
+    
+    # Read data from database
+    device = Device.query.filter_by(device_id=device_id).first()
+    if device is None:
+        return err_json('device not found')
+
+    if 'description' in data:
+        device.description = data['description']
+    if 'config' in data:
+        config_json = json.dumps(data['config'])
+        device.config = config_json
+
+    db.session.commit()
+    return jsonify({'status': 'ok'})
+
 @api_device.route('/delete', methods=['POST'])
 @require_auth('admin')
 def device_delete():
