@@ -26,7 +26,9 @@ class AnalyticsEngine:
         "cos": np.cos,
         "tan": np.tan,
         "exp": np.exp,
-        "abs": np.abs
+        "abs": np.abs,
+        "pos": lambda arr: np.where(arr < 0, 0, arr),
+        "neg": lambda arr: np.where(arr > 0, 0, arr)
     }
 
     opn = {
