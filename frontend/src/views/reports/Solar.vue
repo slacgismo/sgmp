@@ -34,10 +34,10 @@
       <tab title="Last 24 hours">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
           <!-- https://www.svgrepo.com/svg/285729/award-champion -->
-          <analytic-card :isPower="true" :title="PEAK"
+          <analytic-card :unit="constants.units.Power" :title="PEAK"
             img="champion.svg" :request="getAggRequest(State.Day, 'max')" />
           <!-- https://www.svgrepo.com/svg/270552/renewable-energy-power -->
-          <analytic-card :isPower="false" :title="AVG" img="energy.svg"
+          <analytic-card :unit="constants.units.Energy" :title="AVG" img="energy.svg"
            :request="getAggRequest(State.Day, 'avg')" :period="getPeriod(State.Day)" />
         </div>
         <line-column-chart :title="TITLE" :request="getTSRequest(State.Day)"/>
@@ -45,9 +45,9 @@
 
       <tab title="Last 7 days">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-          <analytic-card :isPower="true" :title="PEAK"
+          <analytic-card :unit="constants.units.Power" :title="PEAK"
             img="champion.svg" :request="getAggRequest(State.Week, 'max')" />
-          <analytic-card :isPower="false" :title="AVG" img="energy.svg"
+          <analytic-card :unit="constants.units.Energy" :title="AVG" img="energy.svg"
            :request="getAggRequest(State.Week, 'avg')" :period="getPeriod(State.Week)" />
         </div>
         <line-column-chart :title="TITLE" :request="getTSRequest(State.Week)"/>
@@ -55,9 +55,9 @@
       
       <tab :title="getCurrentMonth()">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-          <analytic-card :isPower="true" :title="PEAK"
+          <analytic-card :unit="constants.units.Power" :title="PEAK"
             img="champion.svg" :request="getAggRequest(State.Month, 'max')" />
-          <analytic-card :isPower="false" :title="AVG" img="energy.svg"
+          <analytic-card :unit="constants.units.Energy" :title="AVG" img="energy.svg"
            :request="getAggRequest(State.Month, 'avg')" :period="getPeriod(State.Month)" />
         </div>
         <line-column-chart :title="TITLE" :request="getTSRequest(State.Month)"/>
@@ -72,6 +72,7 @@ import Tabs from "@/components/tab/Tabs.vue";
 import Tab from "@/components/tab/Tab.vue";
 import LineColumnChart from "@/components/chart/LineColumnChart.vue";
 import AnalyticCard from '@/components/card/AnalyticCard.vue';
+import constants from '@/util/constants';
 import { ref } from "vue";
 const State = Object.freeze({ Day: 0, Week: 1, Month: 2 });
 const PEAK = "Peak Solar Production";
@@ -93,7 +94,8 @@ export default {
       PEAK,
       AVG,
       TITLE,
-      now
+      now,
+      constants
     }
   },
   methods: {

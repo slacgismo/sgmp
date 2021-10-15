@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-between px-4 mt-4 sm:px-8">
     <div class="flex items-center">
-        <!-- Credit: modified from https://www.svgrepo.com/svg/137351/rounded-plug -->
+      <!-- Credit: modified from https://www.svgrepo.com/svg/137351/rounded-plug -->
       <img src="/src/assets/img/load.svg" class="h-12 w-12" />
 
       <h2 class="px-4 text-xl text-gray-400">
@@ -33,7 +33,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
           <!-- https://www.svgrepo.com/svg/193927/power-button -->
           <analytic-card
-            :isPower="true"
+            :unit="constants.units.Power"
             :title="POWER"
             img="power.svg"
             :request="getAggRequest(State.Day, 'avg')"
@@ -41,53 +41,47 @@
           />
           <!-- https://www.svgrepo.com/svg/270552/renewable-energy-power -->
           <analytic-card
-            :isPower="false"
+            :unit="constants.units.Energy"
             :title="ENERGY"
             img="energy.svg"
             :request="getAggRequest(State.Day, 'avg')"
             :period="getPeriod(State.Day)"
           />
         </div>
-        <line-column-chart
-          :title="TITLE"
-          :request="getTSRequest(State.Day)"
-        />
+        <line-column-chart :title="TITLE" :request="getTSRequest(State.Day)" />
       </tab>
 
       <tab title="Last 7 days">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
           <analytic-card
-            :isPower="true"
+            :unit="constants.units.Power"
             :title="POWER"
             img="power.svg"
             :request="getAggRequest(State.Week, 'avg')"
-            :period="getPeriod(State.Day)"
+            :period="getPeriod(State.Week)"
           />
           <analytic-card
-            :isPower="false"
+            :unit="constants.units.Energy"
             :title="ENERGY"
             img="energy.svg"
             :request="getAggRequest(State.Week, 'avg')"
             :period="getPeriod(State.Week)"
           />
         </div>
-        <line-column-chart
-          :title="TITLE"
-          :request="getTSRequest(State.Week)"
-        />
+        <line-column-chart :title="TITLE" :request="getTSRequest(State.Week)" />
       </tab>
 
       <tab :title="getCurrentMonth()">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
           <analytic-card
-            :isPower="true"
+            :unit="constants.units.Power"
             :title="POWER"
             img="power.svg"
             :request="getAggRequest(State.Month, 'avg')"
-            :period="getPeriod(State.Day)"
+            :period="getPeriod(State.Month)"
           />
           <analytic-card
-            :isPower="false"
+            :unit="constants.units.Energy"
             :title="ENERGY"
             img="energy.svg"
             :request="getAggRequest(State.Month, 'avg')"
@@ -109,6 +103,7 @@ import Tabs from "@/components/tab/Tabs.vue";
 import Tab from "@/components/tab/Tab.vue";
 import LineColumnChart from "@/components/chart/LineColumnChart.vue";
 import AnalyticCard from "@/components/card/AnalyticCard.vue";
+import constants from "@/util/constants";
 import { ref } from "vue";
 const State = Object.freeze({ Day: 0, Week: 1, Month: 2 });
 const POWER = "Average Power Consumption";
@@ -137,6 +132,7 @@ export default {
       ENERGY,
       TITLE,
       now,
+      constants,
     };
   },
   methods: {
@@ -163,20 +159,20 @@ export default {
         interval = 300000; // 5 min
       }
       return {
-        "start_time": this.getStartTime(now, type),
-        "end_time": now.getTime(),
-        "type": "analytics",
-        "average": interval,
-        "formula": "sonnen.status.Consumption_W"
+        start_time: this.getStartTime(now, type),
+        end_time: now.getTime(),
+        type: "analytics",
+        average: interval,
+        formula: "sonnen.status.Consumption_W",
       };
     },
     getAggRequest(type, aggFunc) {
       return {
-        "start_time": this.getStartTime(now, type),
-        "end_time": now.getTime(),
-        "type": "analytics",
-        "agg_function": aggFunc,
-        "formula": "sonnen.status.Consumption_W",
+        start_time: this.getStartTime(now, type),
+        end_time: now.getTime(),
+        type: "analytics",
+        agg_function: aggFunc,
+        formula: "sonnen.status.Consumption_W",
       };
     },
     getStartTime(now, type) {

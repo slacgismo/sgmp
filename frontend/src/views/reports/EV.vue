@@ -33,33 +33,32 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
           <!-- https://www.svgrepo.com/svg/193927/power-button -->
           <analytic-card
-            :isPower="true"
+            :unit="constants.units.Power"
             :title="POWER"
             img="power.svg"
-            :request="getAggRequest(State.Day, 'max')"
+            :request="getAggRequest(State.Day, 'avg', 'sonnen.status.Production_W')"
           />
           <!-- https://www.svgrepo.com/svg/270552/renewable-energy-power -->
           <analytic-card
-            :isPower="false"
+            :unit="constants.units.Energy"
             :title="ENERGY"
             img="energy.svg"
-            :request="getAggRequest(State.Day, 'avg')"
+            :request="getAggRequest(State.Day, 'avg', 'sonnen.status.Production_W')"
             :period="getPeriod(State.Day)"
           />
           <!-- https://www.svgrepo.com/svg/310384/book-number -->
           <analytic-card
-            :isPower="true"
             :title="NUMBER"
             img="number.svg"
-            :request="getAggRequest(State.Day, 'avg')"
+            :request="getAggRequest(State.Day, 'avg', 'sonnen.status.Production_W')"
             :period="getPeriod(State.Day)"
           />
           <!-- https://www.svgrepo.com/svg/123236/time -->
           <analytic-card
-            :isPower="false"
+            :unit="constants.units.Seconds"
             :title="DURATION"
             img="time.svg"
-            :request="getAggRequest(State.Day, 'avg')"
+            :request="getAggRequest(State.Day, 'avg', 'sonnen.status.Production_W')"
             :period="getPeriod(State.Day)"
           />
         </div>
@@ -72,16 +71,29 @@
       <tab title="Last 7 days">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
           <analytic-card
-            :isPower="true"
+            :unit="constants.units.Power"
             :title="POWER"
             img="power.svg"
-            :request="getAggRequest(State.Week, 'max')"
+            :request="getAggRequest(State.Week, 'avg', 'sonnen.status.Production_W')"
           />
           <analytic-card
-            :isPower="false"
+            :unit="constants.units.Energy"
             :title="ENERGY"
             img="energy.svg"
-            :request="getAggRequest(State.Week, 'avg')"
+            :request="getAggRequest(State.Week, 'avg', 'sonnen.status.Production_W')"
+            :period="getPeriod(State.Week)"
+          />
+          <analytic-card
+            :title="NUMBER"
+            img="number.svg"
+            :request="getAggRequest(State.Week, 'avg', 'sonnen.status.Production_W')"
+            :period="getPeriod(State.Week)"
+          />
+          <analytic-card
+            :unit="constants.units.Seconds"
+            :title="DURATION"
+            img="time.svg"
+            :request="getAggRequest(State.Week, 'avg', 'sonnen.status.Production_W')"
             :period="getPeriod(State.Week)"
           />
         </div>
@@ -94,16 +106,29 @@
       <tab :title="getCurrentMonth()">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
           <analytic-card
-            :isPower="true"
+            :unit="constants.units.Power"
             :title="POWER"
             img="power.svg"
-            :request="getAggRequest(State.Month, 'max')"
+            :request="getAggRequest(State.Month, 'avg', 'sonnen.status.Production_W')"
           />
           <analytic-card
-            :isPower="false"
+            :unit="constants.units.Energy"
             :title="ENERGY"
             img="energy.svg"
-            :request="getAggRequest(State.Month, 'avg')"
+            :request="getAggRequest(State.Month, 'avg', 'sonnen.status.Production_W')"
+            :period="getPeriod(State.Month)"
+          />
+          <analytic-card
+            :title="NUMBER"
+            img="number.svg"
+            :request="getAggRequest(State.Month, 'avg', 'sonnen.status.Production_W')"
+            :period="getPeriod(State.Month)"
+          />
+          <analytic-card
+            :unit="constants.units.Seconds"
+            :title="DURATION"
+            img="time.svg"
+            :request="getAggRequest(State.Month, 'avg', 'sonnen.status.Production_W')"
             :period="getPeriod(State.Month)"
           />
         </div>
@@ -122,6 +147,7 @@ import Tabs from "@/components/tab/Tabs.vue";
 import Tab from "@/components/tab/Tab.vue";
 import LineColumnChart from "@/components/chart/LineColumnChart.vue";
 import AnalyticCard from "@/components/card/AnalyticCard.vue";
+import constants from '@/util/constants';
 import { ref } from "vue";
 const State = Object.freeze({ Day: 0, Week: 1, Month: 2 });
 const POWER = "Average Power Consumption";
@@ -154,6 +180,7 @@ export default {
       DURATION,
       TITLE,
       now,
+      constants
     };
   },
   methods: {
@@ -187,13 +214,13 @@ export default {
         average: interval,
       };
     },
-    getAggRequest(type, aggFunc) {
+    getAggRequest(type, aggFunc, formula) {
       return {
         start_time: this.getStartTime(now, type),
         end_time: now.getTime(),
         type: "analytics",
         agg_function: aggFunc,
-        formula: "sonnen.status.Production_W",
+        formula: formula,
       };
     },
     getStartTime(now, type) {

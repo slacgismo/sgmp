@@ -20,7 +20,7 @@ import constants from "@/util/constants";
 export default {
   name: "DashboardCard",
   props: {
-    isPower: Boolean, // either power (kW) or time (min)
+    unit: String, // either power (kW) or time (min)
     title: String,
     img: String,
     request: String,
@@ -41,17 +41,13 @@ export default {
         const data = await response.json();
 
         // check for error response
-        if (!response.ok) {
+        if (!response.ok || data.value == undefined) {
           // get error message from body or default to response status
           const error = (data && data.message) || response.status;
           return Promise.reject(error);
         }
 
-        if (this.isPower) {
-          this.value = (data.value / 1000).toFixed(2) + " kW";
-        } else {
-          // TODO: time?
-        }
+        this.value = (data.value / 1000).toFixed(2) + " " + this.unit;
 
         this.visible = true;
       })
@@ -64,10 +60,10 @@ export default {
   },
 
   watch: {
-    isPower: {
+    unit: {
       immediate: true,
       handler() {
-        document.isPower = this.isPower;
+        document.unit = this.unit;
       },
     },
     title: {

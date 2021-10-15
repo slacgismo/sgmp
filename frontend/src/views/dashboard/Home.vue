@@ -14,10 +14,14 @@
   <div class="grid grid-cols-1 gap-4 px-4 mt-8 lg:grid-cols-2 xl:grid-cols-4 sm:px-8">
     <router-link :to="{ name: 'solar' }">
       <!-- https://uxwing.com/solar-energy-icon/ -->
-      <dashboard-card :isPower="true" title="Solar Power" img="sun.svg"
+      <dashboard-card :unit="constants.units.Power" title="Solar Power" img="sun.svg"
         :request="getCardRequest(FORMULA.Solar)" />
     </router-link>
 
+    <!-- <router-link :to="{ name: 'battery' }">
+      <dashboard-card :unit="constants.units.Power" title="Battery Discharging" img="battery.svg"
+        :request="getCardRequest(FORMULA.Battery)" />
+    </router-link> -->
     <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
       <div class="p-4">
         <!-- https://www.svgrepo.com/svg/326915/battery-charging-sharp -->
@@ -42,7 +46,7 @@
 
     <router-link :to="{ name: 'load' }">
       <!-- Credit: modified from https://www.svgrepo.com/svg/137351/rounded-plug -->
-      <dashboard-card :isPower="true" title="Loads" img="load.svg"
+      <dashboard-card :unit="constants.units.Power" title="Loads" img="load.svg"
         :request="getCardRequest(FORMULA.Load)" />
     </router-link>
   </div>
@@ -61,7 +65,7 @@
 
   <div class="grid grid-cols-1 px-4 gap-4 mt-8 sm:px-8">
     <three-y-axes-chart title="Grid Frequency and Voltage" leftAxisTitle="Grid frequency (Hz)"
-      rightAxis1Title="L1 Voltage (V)" rightAxis2Title="L2 Voltage (V)" request="" />
+      rightAxis1Title="L1 Voltage (V)" rightAxis2Title="L2 Voltage (V)" :request="getTSRequest()" />
   </div>
 </template>
 
@@ -69,8 +73,9 @@
 import VueApexCharts from 'vue3-apexcharts'
 import DashboardCard from '@/components/card/DashboardCard.vue';
 import ThreeYAxesChart from '@/components/chart/ThreeYAxesChart.vue';
-import supply from '@/data/home/supply.json'
-import demand from '@/data/home/demand.json'
+import supply from '@/data/home/supply.json';
+import demand from '@/data/home/demand.json';
+import constants from '@/util/constants';
 
 // Mapping between energy type and formula
 const FORMULA = Object.freeze({
@@ -86,7 +91,8 @@ export default {
   data() {
     return {
       FORMULA,
-      now
+      now,
+      constants
     }
   },
   setup() {
@@ -223,11 +229,21 @@ export default {
     // TODO: update when the backend API is ready to fetch current data
     getCardRequest(formula) {
       return {
-        "start_time": now.getTime()-3600,
+        "start_time": now.getTime() - 3600,
         "end_time": now.getTime(),
         "type": "analytics",
         "agg_function": "max",
         "formula": formula
+      };
+    },
+    getTSRequest() {
+      return {
+        // last 24 hours: 24 * 60 * 60 * 1000
+        "start_time": now.getTime() - 86400000,
+        "end_time": now.getTime(),
+        "type": "analytics",
+        "formula": ["egauge.A.L1_Frequency", "egauge.A.L1_Voltage", "egauge.A.L2_Voltage"],
+        "average": 300000  // 5 minute = 5 * 60 * 1000
       };
     }
   }

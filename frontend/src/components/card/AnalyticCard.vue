@@ -25,7 +25,7 @@ import constants from "@/util/constants";
 export default {
   name: "AnalyticCard",
   props: {
-    isPower: Boolean, // either power (kW) or energy (kWh)
+    unit: String,
     title: String,
     img: String,
     period: String,
@@ -54,11 +54,25 @@ export default {
           return Promise.reject(error);
         }
 
-        if (this.isPower) {
-          this.value = (data.value / 1000).toFixed(2) + " kW";
+        if (data.value == undefined) {
+          this.value = "N/A";
         } else {
-          // TODO: update formula sonnen.status.Production_W?
-          this.value = (data.value / 12000).toFixed(2) + " kWh";
+          switch (this.unit) {
+            case constants.units.Power:
+              this.value = (data.value / 1000).toFixed(2) + " " + this.unit;
+              break;
+            case constants.units.Energy:
+              this.value = (data.value / 12000).toFixed(2) + " " + this.unit;
+              break;
+            case constants.units.Seconds:
+              this.value = data.value.toFixed(2) + " " + this.unit;
+              break;
+            case constants.units.Percentage:
+              this.value = data.value + " " + this.unit;
+              break;
+            default:
+              this.value = data.value.toFixed(2);
+          }
         }
         
         if (!this.time) {
@@ -75,10 +89,10 @@ export default {
   },
 
   watch: {
-    isPower: {
+    unit: {
       immediate: true,
       handler() {
-        document.isPower = this.isPower;
+        document.unit = this.unit;
       }
     },
     title: {
