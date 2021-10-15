@@ -378,6 +378,7 @@ Sample request:
     "name": "sonnen",
     "description": "Sonnen controller inside the house",
     "type": "sonnen",
+    "house_id": 1,
     "config": {
         "ip": "1.2.3.4",
         "username": "user",
@@ -411,7 +412,7 @@ Updates the config of a device. To ensure consistency of data the name and the t
 Sample request:
 ```
 {
-    "device_id": "1",
+    "device_id": 1,
     "description": "Sonnen controller inside the house",
     "config": {
         "ip": "1.2.3.4",
@@ -473,7 +474,7 @@ Updates an analytics. Since the name is unique, the name cannot be changed.
 Sample request:
 ```
 {
-    "analytics_id": "1",
+    "analytics_id": 1,
     "description": "Total load, measured from Sonnen",
     "formula": "sonnen.load"
 }
@@ -493,7 +494,63 @@ Delete an analytics.
 Sample request:
 ```
 {
-    "analytics_id": "1"
+    "analytics_id": 1
+}
+```
+
+Sample response:
+```
+{
+    "status": "ok"
+}
+```
+
+### `/api/house/create`
+
+Creates a house. The name must be unique.
+
+Sample request:
+```
+{
+    "name": "HouseA",
+    "description": "house A"
+}
+```
+
+Sample response:
+```
+{
+    "status": "ok"
+}
+```
+
+### `/api/house/update`
+
+Updates a house. Since the name is unique, the name cannot be changed.
+
+Sample request:
+```
+{
+    "house_id": 1,
+    "description": "New description"
+}
+```
+
+Sample response:
+```
+{
+    "status": "ok"
+}
+```
+
+### `/api/house/delete`
+
+Delete a house. There must be no devices under the house before the house can be deleted.
+
+Sample request:
+```
+{
+    "house_id": 1
 }
 ```
 

@@ -64,12 +64,6 @@ def house_update():
     if row is None:
         return err_json('house not found')
 
-    # Save the data
-    if 'name' in data:
-        count = House.query.filter_by(name=data['name']).count()
-        if count > 0:
-            return err_json('new house name exists')
-        row.name = data['name']
     if 'description' in data:
         row.description = data['description']
     db.session.commit()
