@@ -2,7 +2,7 @@ from models.shared import db
 
 class Device(db.Model):
     device_id = db.Column(db.Integer, primary_key=True)
-    house_id = db.Column(db.Integer, db.ForeignKey('house.house_id'))
+    house_id = db.Column(db.Integer, db.ForeignKey('house.house_id'), index=True, nullable=False)
     name = db.Column(db.String(256), nullable=False, index=True)
     description = db.Column(db.Text(), nullable=False)
     type = db.Column(db.String(256), nullable=False)

@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 import json
 
 from models.device import Device
+from models.house import House
 from models.shared import db
 
 from utils.functions import err_json
@@ -65,9 +66,17 @@ def device_create():
         return err_json('bad request')
     if 'config' not in data:
         return err_json('bad request')
+    if 'house_id' not in data:
+        return err_json('bad request')
+
+    # Check house exists
+    house_id = int(data['house_id'])
+    count = House.query.filter_by(house_id=house_id).count()
+    if count == 0:
+        return err_json('house does not exist')
 
     # Check name does not exist
-    count = Device.query.filter_by(name=data['name']).count()
+    count = Device.query.filter_by(name=data['name'], house_id=house_id).count()
     if count > 0:
         return err_json('device exists')
 
@@ -79,6 +88,7 @@ def device_create():
         name=data['name'],
         description=data['description'],
         type=data['type'],
+        house_id=house_id,
         config=config_json
     )
     db.session.add(device)
