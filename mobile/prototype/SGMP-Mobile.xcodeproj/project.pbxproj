@@ -17,6 +17,11 @@
 		0D4BF615270D166900B4496B /* Amplify in Frameworks */ = {isa = PBXBuildFile; productRef = 0D4BF614270D166900B4496B /* Amplify */; };
 		0D4BF617270D375900B4496B /* AuthDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4BF616270D375900B4496B /* AuthDataModel.swift */; };
 		0D4BF61A270D3E9200B4496B /* NewPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4BF619270D3E9200B4496B /* NewPasswordView.swift */; };
+		0D5081012718FDEA00EE0A4F /* ListDeviceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5081002718FDEA00EE0A4F /* ListDeviceView.swift */; };
+		0D50810327191F8B00EE0A4F /* SpecificDeviceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D50810227191F8B00EE0A4F /* SpecificDeviceView.swift */; };
+		0D5081052719344200EE0A4F /* ExpandableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5081042719344200EE0A4F /* ExpandableView.swift */; };
+		0D5081072719390300EE0A4F /* SpecificDeviceKeyChartSelfLoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5081062719390300EE0A4F /* SpecificDeviceKeyChartSelfLoadView.swift */; };
+		0D5081092719569F00EE0A4F /* SpecificDeviceKeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5081082719569F00EE0A4F /* SpecificDeviceKeyView.swift */; };
 		0D51EE0E26F27EDF00BCAAB3 /* SgmpApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D51EE0D26F27EDF00BCAAB3 /* SgmpApp.swift */; };
 		0D51EE1226F27EDF00BCAAB3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D51EE1126F27EDF00BCAAB3 /* Assets.xcassets */; };
 		0D51EE1526F27EDF00BCAAB3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D51EE1426F27EDF00BCAAB3 /* Preview Assets.xcassets */; };
@@ -35,6 +40,8 @@
 		0D7C332A26FDA76100B219E7 /* Button+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7C332926FDA76100B219E7 /* Button+Style.swift */; };
 		0D8829442715742D00A96521 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 0D8829432715742D00A96521 /* Defaults */; };
 		0D882948271633C900A96521 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 0D882947271633C900A96521 /* SwiftUICharts */; };
+		0D88294A27165EFC00A96521 /* DeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D88294927165EFC00A96521 /* DeviceManager.swift */; };
+		0D88294C27165F0700A96521 /* NetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D88294B27165F0700A96521 /* NetworkModel.swift */; };
 		0D9CDDAF27050D6F00804A57 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9CDDAE27050D6F00804A57 /* UserManager.swift */; };
 		0D9CDDB12705144900804A57 /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 0D9CDDB02705144900804A57 /* amplifyconfiguration.json */; };
 		0D9CDDB32705163C00804A57 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9CDDB22705163C00804A57 /* LoginView.swift */; };
@@ -68,6 +75,11 @@
 		0D20B25F270E479300786A05 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
 		0D4BF616270D375900B4496B /* AuthDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDataModel.swift; sourceTree = "<group>"; };
 		0D4BF619270D3E9200B4496B /* NewPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordView.swift; sourceTree = "<group>"; };
+		0D5081002718FDEA00EE0A4F /* ListDeviceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDeviceView.swift; sourceTree = "<group>"; };
+		0D50810227191F8B00EE0A4F /* SpecificDeviceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificDeviceView.swift; sourceTree = "<group>"; };
+		0D5081042719344200EE0A4F /* ExpandableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableView.swift; sourceTree = "<group>"; };
+		0D5081062719390300EE0A4F /* SpecificDeviceKeyChartSelfLoadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificDeviceKeyChartSelfLoadView.swift; sourceTree = "<group>"; };
+		0D5081082719569F00EE0A4F /* SpecificDeviceKeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificDeviceKeyView.swift; sourceTree = "<group>"; };
 		0D51EE0A26F27EDF00BCAAB3 /* SGMP-Mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SGMP-Mobile.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D51EE0D26F27EDF00BCAAB3 /* SgmpApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SgmpApp.swift; sourceTree = "<group>"; };
 		0D51EE1126F27EDF00BCAAB3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -87,6 +99,8 @@
 		0D73894B26FB1656000C43A6 /* UIRespondor+Hierarchy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIRespondor+Hierarchy.swift"; sourceTree = "<group>"; };
 		0D7C332726FD8EBA00B219E7 /* ARRefImageSlacView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARRefImageSlacView.swift; sourceTree = "<group>"; };
 		0D7C332926FDA76100B219E7 /* Button+Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button+Style.swift"; sourceTree = "<group>"; };
+		0D88294927165EFC00A96521 /* DeviceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceManager.swift; sourceTree = "<group>"; };
+		0D88294B27165F0700A96521 /* NetworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkModel.swift; sourceTree = "<group>"; };
 		0D9CDDAE27050D6F00804A57 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		0D9CDDB02705144900804A57 /* amplifyconfiguration.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 		0D9CDDB22705163C00804A57 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -203,6 +217,7 @@
 				0D73894526FAA72B000C43A6 /* ToastView.swift */,
 				0DECB8B5270BA269001A93F9 /* CardGroupBoxStyle.swift */,
 				0DECB8BD270BA7C2001A93F9 /* DashboardGlanceCellView.swift */,
+				0D5081042719344200EE0A4F /* ExpandableView.swift */,
 			);
 			path = Decorations;
 			sourceTree = "<group>";
@@ -214,6 +229,10 @@
 				0D51EE1B26F27FCC00BCAAB3 /* MainTabView.swift */,
 				0D4BF618270D3D1400B4496B /* Auth */,
 				0DE2E7C026F8625200932B41 /* SummaryTabView.swift */,
+				0D5081002718FDEA00EE0A4F /* ListDeviceView.swift */,
+				0D50810227191F8B00EE0A4F /* SpecificDeviceView.swift */,
+				0D5081082719569F00EE0A4F /* SpecificDeviceKeyView.swift */,
+				0D5081062719390300EE0A4F /* SpecificDeviceKeyChartSelfLoadView.swift */,
 				0DE2E7C226F8625600932B41 /* CameraTabView.swift */,
 				0DE2E7C426F8625C00932B41 /* SettingsTabView.swift */,
 				0D5E22AE26FEF427002B0A4B /* AboutAppView.swift */,
@@ -238,6 +257,7 @@
 				0D9CDDAE27050D6F00804A57 /* UserManager.swift */,
 				0DE2E79B26F85C9A00932B41 /* BaseManager.swift */,
 				0D20B25F270E479300786A05 /* EventManager.swift */,
+				0D88294927165EFC00A96521 /* DeviceManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -262,6 +282,7 @@
 				0DE2E7B926F85FAD00932B41 /* State.swift */,
 				0D4BF616270D375900B4496B /* AuthDataModel.swift */,
 				0D5543A3270D5C5B009A9B87 /* ArDataModel.swift */,
+				0D88294B27165F0700A96521 /* NetworkModel.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -390,6 +411,7 @@
 				0D5543A4270D5C5B009A9B87 /* ArDataModel.swift in Sources */,
 				0D73894426FAA68F000C43A6 /* ScaffoldView.swift in Sources */,
 				0DE2E7BD26F8601200932B41 /* EnvironmentManager.swift in Sources */,
+				0D88294A27165EFC00A96521 /* DeviceManager.swift in Sources */,
 				0D4BF617270D375900B4496B /* AuthDataModel.swift in Sources */,
 				0D73894C26FB1656000C43A6 /* UIRespondor+Hierarchy.swift in Sources */,
 				0DE2E7C826F99DF800932B41 /* ARNodeProtocol.swift in Sources */,
@@ -400,9 +422,11 @@
 				0D0D54C6270F8CB700C50FDA /* Image+Crop.swift in Sources */,
 				0DE1F78C271012B000714744 /* ARRefImageSlac3View.swift in Sources */,
 				0D9CDDAF27050D6F00804A57 /* UserManager.swift in Sources */,
+				0D5081012718FDEA00EE0A4F /* ListDeviceView.swift in Sources */,
 				0D6E5B8E270D55AE00576AA4 /* ARDebugView.swift in Sources */,
 				0DE2E7C526F8625C00932B41 /* SettingsTabView.swift in Sources */,
 				0DE1F79027101D6F00714744 /* ARSwiftUIHostingController.swift in Sources */,
+				0D5081052719344200EE0A4F /* ExpandableView.swift in Sources */,
 				0DECB8B6270BA269001A93F9 /* CardGroupBoxStyle.swift in Sources */,
 				0DECB8BE270BA7C2001A93F9 /* DashboardGlanceCellView.swift in Sources */,
 				0DE2E7BA26F85FAD00932B41 /* State.swift in Sources */,
@@ -411,9 +435,12 @@
 				0DE1F782270FC0E900714744 /* ARInteractiveViewSlacNode.swift in Sources */,
 				0DE2E7AB26F85DA100932B41 /* Bundle+Version.swift in Sources */,
 				0D6E5B90270D572D00576AA4 /* ARGridView.swift in Sources */,
+				0D50810327191F8B00EE0A4F /* SpecificDeviceView.swift in Sources */,
+				0D5081092719569F00EE0A4F /* SpecificDeviceKeyView.swift in Sources */,
 				0DE1F784270FC30A00714744 /* ARInteractiveViewNode+QR.swift in Sources */,
 				0D7C332A26FDA76100B219E7 /* Button+Style.swift in Sources */,
 				0DE1F78E2710133500714744 /* ARInteractiveViewSlac3Node.swift in Sources */,
+				0D88294C27165F0700A96521 /* NetworkModel.swift in Sources */,
 				0D20B260270E479300786A05 /* EventManager.swift in Sources */,
 				0DE1F78A2710081800714744 /* ARInteractiveViewSlac2Node.swift in Sources */,
 				0D73893F26FA97CF000C43A6 /* ARInteractiveViewNode.swift in Sources */,
@@ -424,6 +451,7 @@
 				0D73894626FAA72B000C43A6 /* ToastView.swift in Sources */,
 				0D4BF61A270D3E9200B4496B /* NewPasswordView.swift in Sources */,
 				0D51EE0E26F27EDF00BCAAB3 /* SgmpApp.swift in Sources */,
+				0D5081072719390300EE0A4F /* SpecificDeviceKeyChartSelfLoadView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -554,7 +582,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "SGMP-Mobile/SGMP-Mobile.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_ASSET_PATHS = "\"SGMP-Mobile/Preview Content\"";
 				DEVELOPMENT_TEAM = 9QJ8M25J77;
 				ENABLE_PREVIEWS = YES;
@@ -589,7 +617,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "SGMP-Mobile/SGMP-Mobile.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_ASSET_PATHS = "\"SGMP-Mobile/Preview Content\"";
 				DEVELOPMENT_TEAM = 9QJ8M25J77;
 				ENABLE_PREVIEWS = YES;

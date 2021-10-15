@@ -13,11 +13,15 @@ class Env: ObservableObject {
     @Published var arCameraTrackingState : ARCameraTrackingState = .notAvailable
     @Published var arDebugInfo : ARDebugDataModel? = nil
     
+    // MARK: - Devices
+    @Published var devices : [Device] = []
+    
     init() {
     }
 }
 
 extension Defaults.Keys {
     static let debugMode = Key<Bool>("debugMode", default: false)
+    static let mockMode = Key<Bool>("mockMode", default: false)
     static let crashAnalytics = Key<Bool>("crashAnalytics", default: false)
 }
