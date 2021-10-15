@@ -17,6 +17,7 @@ from models.shared import db
 
 import models.analytics
 import models.device
+import models.house
 
 from utils.tsdb import put_tsdb_conn
 import utils.config as config
