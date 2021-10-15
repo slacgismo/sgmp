@@ -329,28 +329,30 @@ def process_expression(data, engine, stack, idents):
     if 'average' in data and len(ts_list) > 0:
         # Perform average operation if specified
         avg_span = int(data['average'])
-        start_ts = ts_list[0]
-        data_span = []
+        buckets = {}
+        bucket_ts = []
+        # Put values into buckets
         for i in range(len(ts_list)):
             current_ts = ts_list[i]
-            if current_ts - start_ts >= avg_span:
-                # Aggregate if cumulative time exceeds timespan
-                avg = np.mean(np.array(data_span))
-                result.append({
-                    'timestamp': start_ts,
-                    'value': avg
-                })
-                # Reset current window
-                data_span = [result_time_series[i]]
-                start_ts = current_ts
-            else:
-                data_span.append(result_time_series[i])
-        # Pick up remaining data
-        avg = np.mean(np.array(data_span))
-        result.append({
-            'timestamp': start_ts,
-            'value': avg
-        })
+            # Truncate by the average window span
+            trunc_ts = current_ts - (current_ts % avg_span)
+            if trunc_ts not in buckets:
+                buckets[trunc_ts] = []
+                bucket_ts.append(trunc_ts)
+
+            buckets[trunc_ts].append(result_time_series[i])
+
+        # Make sure output is sorted
+        bucket_ts = sorted(bucket_ts)
+
+        # Calculate mean for each bucket
+        for trunc_ts in bucket_ts:
+            arr = np.array(buckets[trunc_ts])
+            avg = np.mean(arr)
+            result.append({
+                'timestamp': trunc_ts,
+                'value': avg
+            })
     else:
         # Return whole time series data
         for i in range(len(ts_list)):
