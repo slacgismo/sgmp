@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, json, jsonify, request
 import numpy as np
 
 from models.analytics import Analytics
@@ -101,23 +101,39 @@ def data_read():
         else:
             formula = data['formula']
 
-        # Parse the formula expression
-        engine = AnalyticsEngine()
-        try:
-            stack = engine.parse_expression(formula)
-        except Exception as e:
-            return err_json(str(e))
-        
-        # Verify all devices are present
-        idents = engine.collect_identifiers()
-
-        if len(stack) == 1 and len(idents) == 1:
-            # Use new PostgreSQL store
-            return process_single_value_read(data, idents[0])
+        # For single formula case
+        if isinstance(formula, str):
+            formulas = [formula]
         else:
-            # Use DynamoDB
-            return process_expression(data, engine, stack, idents)
-        
+            formulas = formula
+
+        results = []
+        for formula in formulas:
+            # Parse the formula expression
+            engine = AnalyticsEngine()
+            try:
+                stack = engine.parse_expression(formula)
+            except Exception as e:
+                results.append({'status': 'error', 'message': 'cannot parse: %s' % e})
+                continue
+            
+            # Verify all devices are present
+            idents = engine.collect_identifiers()
+
+            if len(stack) == 1 and len(idents) == 1:
+                # Use optimized queries
+                results.append(process_single_value_read(data, idents[0]))
+            else:
+                # Use normal procedure
+                results.append(process_expression(data, engine, stack, idents))
+
+        if len(results) == 1:
+            return jsonify(results[0])
+        else:
+            return jsonify({
+                'status': 'ok',
+                'results': results
+            })
 
     return jsonify({
         'status': 'ok'
@@ -132,8 +148,9 @@ def process_single_value_read(data, ident):
     # Verify device exists
     device = Device.query.filter_by(name=device_name).first()
     if device is None:
-        return err_json('device %s does not exist (evaluating %s)'
-            % (device_name, ident))
+        return {'status': 'error',
+            'message': 'device %s does not exist (evaluating %s)'
+            % (device_name, ident)}
 
     device_id = device.device_id
 
@@ -154,38 +171,38 @@ def process_single_value_read(data, ident):
             row = cursor.fetchone()
             cursor.close()
             if row is None:
-                return err_json('no data available')
+                return {'status': 'error', 'message': 'no data available'}
 
-            return jsonify({
+            return {
                 'status': 'ok',
                 'timestamp': int(row[0].timestamp() * 1000),
                 'value': row[1]
-            })
+            }
         elif agg == 'max':
             sql = 'SELECT DISTINCT ON (device_id) timestamp, value_decimal FROM data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND device_id = %s AND field = %s ORDER BY device_id, value_decimal DESC'
             cursor.execute(sql, (start_time, end_time, device_id, field))
             row = cursor.fetchone()
             cursor.close()
             if row is None:
-                return err_json('no data available')
+                return {'status': 'error', 'message': 'no data available'}
 
-            return jsonify({
+            return {
                 'status': 'ok',
                 'timestamp': int(row[0].timestamp() * 1000),
                 'value': row[1]
-            })
+            }
         elif agg == 'avg':
             sql = 'SELECT AVG(value_decimal) FROM data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND device_id = %s AND field = %s'
             cursor.execute(sql, (start_time, end_time, device_id, field))
             row = cursor.fetchone()
             cursor.close()
             if row is None:
-                return err_json('no data available')
+                return {'status': 'error', 'message': 'no data available'}
                 
-            return jsonify({
+            return {
                 'status': 'ok',
                 'value': row[0]
-            })
+            }
 
     # Execute query
     conn = get_tsdb_conn()
@@ -214,10 +231,10 @@ def process_single_value_read(data, ident):
             'value': value
         })
 
-    return jsonify({
+    return {
         'status': 'ok',
         'data': result
-    })
+    }
 
 def process_expression(data, engine, stack, idents):
     evaluate_message = 'Identifiers: '
@@ -237,8 +254,9 @@ def process_expression(data, engine, stack, idents):
         
         device = Device.query.filter_by(name=device_name).first()
         if device is None:
-            return err_json('device %s does not exist (evaluating %s)'
-                % (device_name, ident))
+            return {'status': 'error',
+                'message': 'device %s does not exist (evaluating %s)'
+                % (device_name, ident)}
         
         device_reqs[device_name] = {
             'id': device.device_id,
@@ -288,7 +306,7 @@ def process_expression(data, engine, stack, idents):
     try:
         result_time_series = engine.evaluate(array_dict)
     except Exception as e:
-        return err_json(str(e))
+        return {'status': 'error', 'message': 'error during evaluation: %s' % str(e)}
 
     # Evaluate aggregrate function if specified
     if 'agg_function' in data:
@@ -305,7 +323,7 @@ def process_expression(data, engine, stack, idents):
             ts = ts_list[idx]
             ret['timestamp'] = ts
 
-        return jsonify(ret)
+        return ret
 
     result = []
     if 'average' in data and len(ts_list) > 0:
@@ -340,8 +358,8 @@ def process_expression(data, engine, stack, idents):
                 'timestamp': ts_list[i],
                 'value': result_time_series[i]
             })
-    return jsonify({
+    return {
         'status': 'ok',
         'data': result,
         'message': evaluate_message,
-    })
+    }
