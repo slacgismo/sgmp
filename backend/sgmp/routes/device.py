@@ -6,16 +6,24 @@ from models.house import House
 from models.shared import db
 
 from utils.functions import err_json
-from utils.iot import publish
 from utils.auth import require_auth
 
 api_device = Blueprint('device', __name__)
 
-@api_device.route('/list', methods=['GET'])
+@api_device.route('/list', methods=['GET', 'POST'])
 @require_auth()
 def device_list():
-    # Read devices from database
-    devices = Device.query.all()
+    if request.method == 'POST':
+        data = request.json
+        if 'house_id' not in data:
+            return err_json('bad request')
+        devices = Device.query.filter_by(house_id=int(data['house_id'])).all()
+    else:
+        # Maintain back-compatibility
+        # Read devices from database
+        # TODO: Remove
+        devices = Device.query.all()
+    
     ret = []
     for device in devices:
         ret.append({
@@ -24,7 +32,7 @@ def device_list():
             'description': device.description,
             'type': device.type
         })
-    
+        
     return jsonify({'status': 'ok', 'devices': ret})
 
 @api_device.route('/details', methods=['POST'])
@@ -133,38 +141,5 @@ def device_delete():
     # Delete data from database
     Device.query.filter_by(device_id=device_id).delete()
     db.session.commit()
-
-    return jsonify({'status': 'ok'})
-
-@api_device.route('/sync', methods=['POST'])
-@require_auth('admin')
-def device_sync():
-    data = request.json
-
-    # Validate input
-    if 'house_id' not in data:
-        return err_json('bad request')
-    house_id = int(data['house_id'])
-
-    count = House.query.filter_by(house_id=house_id).count()
-    if count == 0:
-        return err_json('house does not exist')
-
-    # This is the data to be published
-    data = []
-
-    # Retrieve all devices
-    devices = Device.query.filter_by(house_id=house_id).all()
-    for device in devices:
-        data.append({
-            'device_id': device.device_id,
-            'name': device.name,
-            'type': device.type,
-            'config': json.loads(device.config)
-        })
-
-    # Publish data as JSON string
-    publish_str = json.dumps(data)
-    publish('gismolab_sgmp_config/%d/devices' % house_id, publish_str)
 
     return jsonify({'status': 'ok'})

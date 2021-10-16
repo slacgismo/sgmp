@@ -323,7 +323,14 @@ Sample response for analytics (returns aggregated data):
 
 ### `/api/device/list`
 
-Lists all device.
+Lists all device in the house.
+
+Sample request:
+```
+{
+    "house_id": 1
+}
+```
 
 Sample response:
 ```
@@ -384,24 +391,6 @@ Sample request:
         "username": "user",
         "password": "password"
     }
-}
-```
-
-Sample response:
-```
-{
-    "status": "ok"
-}
-```
-
-### `/api/device/sync`
-
-Synchronize the device list to the edge device. Publishes the deivce list to AWS IoT Core.
-
-Sample request:
-```
-{
-    "house_id": 1
 }
 ```
 
@@ -565,5 +554,44 @@ Sample response:
 ```
 {
     "status": "ok"
+}
+```
+
+### `/api/device/sync`
+
+Synchronize the device list to the edge device. Publishes the deivce list to AWS IoT Core.
+
+Sample request:
+```
+{
+    "house_id": 1
+}
+```
+
+Sample response:
+```
+{
+    "status": "ok"
+}
+```
+
+### `/api/device/generateKeys`
+
+Re-generates the edge device key pair for a given house. The previous key pair will be removed.
+
+Sample request:
+```
+{
+    "house_id": 1
+}
+```
+
+Sample response:
+```
+{
+    "status": "ok",
+    "cert": "xxx",
+    "private_key": "xxx",
+    "public_key": "xxx"
 }
 ```

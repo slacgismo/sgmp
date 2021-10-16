@@ -33,26 +33,43 @@ def data_read():
         return err_json('bad request')
     if 'type' not in data:
         return err_json('bad request')
+    
+    # TODO: Back-compatibility, remove this once frontend has migrated
+    if 'house_id' not in data:
+        data['house_id'] = '1'
 
     if data['type'] != 'device' and data['type'] != 'analytics':
         return err_json('bad request')
 
     # Process device data read
     if data['type'] == 'device':
-        if 'device_id' not in data:
+        # TODO: Remove reference to device_id
+        if 'device_id' not in data and 'device_name' not in data:
             return err_json('bad request')
         
         start_time = float(data['start_time']) / 1000
         end_time = float(data['end_time']) / 1000
-        device_id = int(data['device_id'])
+        house_id = int(data['house_id'])
 
-        sql = 'SELECT timestamp, field, value_decimal, value_text FROM data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND device_id = %s ORDER BY timestamp ASC'
+        # TODO: Back-compatibility, remove this branch
+        if 'device_id' in data:
+            device_id = int(data['device_id'])
+            sql = 'SELECT timestamp, field, value_decimal, value_text FROM house_data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND device_id = %s ORDER BY timestamp ASC'
         
-        conn = get_tsdb_conn()
-        cursor = conn.cursor()
-        cursor.execute(sql, (start_time, end_time, device_id))
-        rows = cursor.fetchall()
-        cursor.close()
+            conn = get_tsdb_conn()
+            cursor = conn.cursor()
+            cursor.execute(sql, (start_time, end_time, device_id))
+            rows = cursor.fetchall()
+            cursor.close()
+        else:
+            device_name = data['device_name']
+            sql = 'SELECT timestamp, field, value_decimal, value_text FROM house_data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND house_id = %s AND device_name = %s ORDER BY timestamp ASC'
+        
+            conn = get_tsdb_conn()
+            cursor = conn.cursor()
+            cursor.execute(sql, (start_time, end_time, house_id, device_name))
+            rows = cursor.fetchall()
+            cursor.close()
 
         ts_dict = dict()
         for row in rows:
@@ -142,17 +159,16 @@ def data_read():
 def process_single_value_read(data, ident):
     start_time = float(data['start_time']) / 1000
     end_time = float(data['end_time']) / 1000
+    house_id = int(data['house_id'])
     components = ident.split('.')
     device_name = components[0]
 
     # Verify device exists
-    device = Device.query.filter_by(name=device_name).first()
+    device = Device.query.filter_by(name=device_name, house_id=house_id).first()
     if device is None:
         return {'status': 'error',
             'message': 'device %s does not exist (evaluating %s)'
             % (device_name, ident)}
-
-    device_id = device.device_id
 
     # Field name
     field = '.'.join(components[1:])
@@ -166,8 +182,8 @@ def process_single_value_read(data, ident):
         cursor = conn.cursor()
 
         if agg == 'min':
-            sql = 'SELECT DISTINCT ON (device_id) timestamp, value_decimal FROM data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND device_id = %s AND field = %s ORDER BY device_id, value_decimal ASC'
-            cursor.execute(sql, (start_time, end_time, device_id, field))
+            sql = 'SELECT DISTINCT ON (device_id) timestamp, value_decimal FROM house_data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND house_id = %s AND device_name = %s AND field = %s ORDER BY device_id, value_decimal ASC'
+            cursor.execute(sql, (start_time, end_time, house_id, device_name, field))
             row = cursor.fetchone()
             cursor.close()
             if row is None:
@@ -179,8 +195,8 @@ def process_single_value_read(data, ident):
                 'value': row[1]
             }
         elif agg == 'max':
-            sql = 'SELECT DISTINCT ON (device_id) timestamp, value_decimal FROM data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND device_id = %s AND field = %s ORDER BY device_id, value_decimal DESC'
-            cursor.execute(sql, (start_time, end_time, device_id, field))
+            sql = 'SELECT DISTINCT ON (device_id) timestamp, value_decimal FROM house_data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND house_id = %s AND device_name = %s AND field = %s ORDER BY device_id, value_decimal DESC'
+            cursor.execute(sql, (start_time, end_time, house_id, device_name, field))
             row = cursor.fetchone()
             cursor.close()
             if row is None:
@@ -192,8 +208,8 @@ def process_single_value_read(data, ident):
                 'value': row[1]
             }
         elif agg == 'avg':
-            sql = 'SELECT AVG(value_decimal) FROM data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND device_id = %s AND field = %s'
-            cursor.execute(sql, (start_time, end_time, device_id, field))
+            sql = 'SELECT AVG(value_decimal) FROM house_data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND house_id = %s AND device_name = %s AND field = %s'
+            cursor.execute(sql, (start_time, end_time, house_id, device_name, field))
             row = cursor.fetchone()
             cursor.close()
             if row is None:
@@ -211,12 +227,12 @@ def process_single_value_read(data, ident):
     if 'average' in data:
         # Special case #2: average bucket
         timespan = str(data['average']) + ' milliseconds'
-        sql = 'SELECT time_bucket(%s, timestamp) AS time, AVG(value_decimal) AS average FROM data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND device_id = %s AND field = %s GROUP BY time ORDER BY time ASC'
-        cursor.execute(sql, (timespan, start_time, end_time, device_id, field))
+        sql = 'SELECT time_bucket(%s, timestamp) AS time, AVG(value_decimal) AS average FROM house_data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND house_id = %s AND device_name = %s AND field = %s GROUP BY time ORDER BY time ASC'
+        cursor.execute(sql, (timespan, start_time, end_time, house_id, device_name, field))
     else:
         # Construct query
-        sql = 'SELECT timestamp, value_decimal FROM data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND device_id = %s AND field = %s ORDER BY timestamp ASC'
-        cursor.execute(sql, (start_time, end_time, device_id, field))
+        sql = 'SELECT timestamp, value_decimal FROM house_data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND house_id = %s AND device_name = %s AND field = %s ORDER BY timestamp ASC'
+        cursor.execute(sql, (start_time, end_time, house_id, device_name, field))
 
     # Retrieve results
     rows = cursor.fetchall()
@@ -241,6 +257,7 @@ def process_expression(data, engine, stack, idents):
     device_reqs = dict()
     start_time = float(data['start_time']) / 1000
     end_time = float(data['end_time']) / 1000
+    house_id = int(data['house_id'])
 
     for ident in idents:
         evaluate_message += ident
@@ -249,38 +266,34 @@ def process_expression(data, engine, stack, idents):
         device_name = components[0]
         path = '.'.join(components[1:])
         if device_name in device_reqs:
-            device_reqs[device_name]['path'].add(path)
+            device_reqs[device_name].add(path)
             continue
         
-        device = Device.query.filter_by(name=device_name).first()
+        device = Device.query.filter_by(name=device_name, house_id=house_id).first()
         if device is None:
             return {'status': 'error',
                 'message': 'device %s does not exist (evaluating %s)'
                 % (device_name, ident)}
         
-        device_reqs[device_name] = {
-            'id': device.device_id,
-            'path': set([path])
-        }
+        device_reqs[device_name] = set([path])
     
     evaluate_message += '\n'
 
     readings = dict()
     for name, req in device_reqs.items():
-        device_reqs[name]['path'] = list(req['path'])
-        for path in req['path']:
+        device_reqs[name] = list(req)
+        for path in req:
             readings['%s.%s' % (name, path)] = dict()
         
     # Grab all data
     ts_list = set()
-    sql = 'SELECT timestamp, value_decimal FROM data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND device_id = %s AND field = %s'
+    sql = 'SELECT timestamp, value_decimal FROM house_data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND house_id = %s AND device_name = %s AND field = %s'
 
     for device_name, req in device_reqs.items():
-        device_id = req['id']
-        for path in req['path']:
+        for path in req:
             conn = get_tsdb_conn()
             cursor = conn.cursor()
-            cursor.execute(sql, (start_time, end_time, device_id, path))
+            cursor.execute(sql, (start_time, end_time, house_id, device_name, path))
             rows = cursor.fetchall()
             cursor.close()
             for row in rows:
