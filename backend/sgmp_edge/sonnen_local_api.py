@@ -15,16 +15,38 @@ class SonnenLocalApi():
             response = requests.get(url, timeout=2)
             response.raise_for_status()
             result['battery'] = response.json()
-        except requests.exceptions.HTTPError as err:
-            raise Exception('Error reading Sonnen batery: %s' % err)
+        except requests.exceptions.ConnectTimeout as err:
+            if 'serial' not in self.config:
+                raise Exception('Local Sonnen not reachable and remote API is not available: %s' % err)
+            serial = self.config['serial']
+            token = self.config['token']
+            url = 'https://core-api.sonnenbatterie.de/proxy/%s/api/battery' % serial
+            headers = {
+                'Authorization': 'Bearer %s' % token,
+                'Accept': 'application/vnd.sonnenbatterie.api.core.v1+json'
+            }
+            response = requests.get(url, headers=headers, timeout=2)
+            response.raise_for_status()
+            result['battery'] = response.json()
 
         try:
             url = 'http://' + self.config['ip'] + ':8080/api/v1/status'
             response = requests.get(url, timeout=2)
             response.raise_for_status()
             result['status'] = response.json()
-        except requests.exceptions.HTTPError as err:
-            raise Exception('Error reading Sonnen status: %s' % err)
+        except requests.exceptions.ConnectTimeout as err:
+            if 'serial' not in self.config:
+                raise Exception('Local Sonnen not reachable and remote API is not available: %s' % err)
+            serial = self.config['serial']
+            token = self.config['token']
+            url = 'https://core-api.sonnenbatterie.de/proxy/%s/api/v1/status' % serial
+            headers = {
+                'Authorization': 'Bearer %s' % token,
+                'Accept': 'application/vnd.sonnenbatterie.api.core.v1+json'
+            }
+            response = requests.get(url, headers=headers, timeout=2)
+            response.raise_for_status()
+            result['status'] = response.json()
 
         return result
 
