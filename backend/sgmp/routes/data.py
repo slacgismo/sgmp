@@ -54,7 +54,7 @@ def data_read():
         # TODO: Back-compatibility, remove this branch
         if 'device_id' in data:
             device_id = int(data['device_id'])
-            sql = 'SELECT timestamp, field, value_decimal, value_text FROM house_data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND device_id = %s ORDER BY timestamp ASC'
+            sql = 'SELECT timestamp, field, value_decimal, value_text FROM data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND device_id = %s ORDER BY timestamp ASC'
         
             conn = get_tsdb_conn()
             cursor = conn.cursor()
@@ -182,7 +182,7 @@ def process_single_value_read(data, ident):
         cursor = conn.cursor()
 
         if agg == 'min':
-            sql = 'SELECT DISTINCT ON (device_id) timestamp, value_decimal FROM house_data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND house_id = %s AND device_name = %s AND field = %s ORDER BY device_id, value_decimal ASC'
+            sql = 'SELECT DISTINCT ON (device_name) timestamp, value_decimal FROM house_data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND house_id = %s AND device_name = %s AND field = %s ORDER BY device_name, value_decimal ASC'
             cursor.execute(sql, (start_time, end_time, house_id, device_name, field))
             row = cursor.fetchone()
             cursor.close()
@@ -195,7 +195,7 @@ def process_single_value_read(data, ident):
                 'value': row[1]
             }
         elif agg == 'max':
-            sql = 'SELECT DISTINCT ON (device_id) timestamp, value_decimal FROM house_data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND house_id = %s AND device_name = %s AND field = %s ORDER BY device_id, value_decimal DESC'
+            sql = 'SELECT DISTINCT ON (device_name) timestamp, value_decimal FROM house_data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND house_id = %s AND device_name = %s AND field = %s ORDER BY device_name, value_decimal DESC'
             cursor.execute(sql, (start_time, end_time, house_id, device_name, field))
             row = cursor.fetchone()
             cursor.close()
