@@ -398,6 +398,13 @@ Sample response:
 
 Synchronize the device list to the edge device. Publishes the deivce list to AWS IoT Core.
 
+Sample request:
+```
+{
+    "house_id": 1
+}
+```
+
 Sample response:
 ```
 {

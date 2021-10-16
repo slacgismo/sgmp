@@ -136,14 +136,25 @@ def device_delete():
 
     return jsonify({'status': 'ok'})
 
-@api_device.route('/sync', methods=['GET'])
+@api_device.route('/sync', methods=['POST'])
 @require_auth('admin')
 def device_sync():
+    data = request.json
+
+    # Validate input
+    if 'house_id' not in data:
+        return err_json('bad request')
+    house_id = int(data['house_id'])
+
+    count = House.query.filter_by(house_id=house_id).count()
+    if count == 0:
+        return err_json('house does not exist')
+
     # This is the data to be published
     data = []
 
     # Retrieve all devices
-    devices = Device.query.all()
+    devices = Device.query.filter_by(house_id=house_id).all()
     for device in devices:
         data.append({
             'device_id': device.device_id,
@@ -154,6 +165,6 @@ def device_sync():
 
     # Publish data as JSON string
     publish_str = json.dumps(data)
-    publish('gismolab_sgmp_config/devices', publish_str)
+    publish('gismolab_sgmp_config/%d/devices' % house_id, publish_str)
 
     return jsonify({'status': 'ok'})
