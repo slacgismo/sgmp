@@ -108,7 +108,7 @@ def config_update_callback(client, userdata, message):
         json.dump({'devices': new_devices}, devices_file)
     new_devices_lock.release()
 
-mqtt.subscribe('gismolab_sgmp_config/devices', QoS=1, callback=config_update_callback)
+mqtt.subscribe('gismolab_sgmp_config/%s/devices' % config.HOUSE_ID, QoS=1, callback=config_update_callback)
 
 terminate = False
 while not terminate:
