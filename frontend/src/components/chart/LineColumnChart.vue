@@ -5,7 +5,7 @@
       <loading v-show="!loaded"/>
       <apexchart v-show="loaded"
       ref="realtimeChart"
-      type="line"
+      :type="constants.chartTypes.Line"
       :height="300"
       :options="options"
       :series="series" />
@@ -71,7 +71,8 @@ export default {
   },
   data() {
     return {
-      loaded: false
+      loaded: false,
+      constants: constants
     };
   },
   methods: {
@@ -94,7 +95,7 @@ export default {
       this.options = {
         chart: {
           height: 350,
-          type: "line",
+          type: constants.chartTypes.Line
         },
         stroke: {
           width: [0, 4],
@@ -103,12 +104,12 @@ export default {
         series: [
           {
             name: leftAxis,
-            type: "column",
+            type: constants.chartTypes.Column,
             data: powerSeries
           },
           {
             name: rightAxis,
-            type: "line",
+            type: constants.chartTypes.Line,
             data: energySeries
           },
         ],

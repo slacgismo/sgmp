@@ -78,10 +78,10 @@
         </div>
         <three-y-axes-chart
           :title="TITLE"
-          leftAxisTitle="SOC (%)"
-          rightAxis1Title="Average Charging (kW)"
-          rightAxis2Title="Average Discharging (kW)"
-          request=""
+          leftAxisTitle="SOC (%)" :leftAxisType="constants.chartTypes.Column"
+          rightAxis1Title="Average Charging (W)"
+          rightAxis2Title="Average Discharging (W)"
+          :request="getTSRequest(State.Day)"
         />
       </tab>
 
@@ -132,9 +132,9 @@
         </div>
         <three-y-axes-chart
           :title="TITLE"
-          leftAxisTitle="SOC (%)"
-          rightAxis1Title="Average Charging (kW)"
-          rightAxis2Title="Average Discharging (kW)"
+          leftAxisTitle="SOC (%)" :leftAxisType="constants.chartTypes.Column"
+          rightAxis1Title="Average Charging (W)"
+          rightAxis2Title="Average Discharging (W)"
           :request="getTSRequest(State.Week)"
         />
       </tab>
@@ -184,7 +184,13 @@
             "
           />
         </div>
-        <!-- <line-column-chart title="Solar Generation" :request="getTSRequest(State.Day)"/> -->
+        <three-y-axes-chart
+          :title="TITLE"
+          leftAxisTitle="SOC (%)" :leftAxisType="constants.chartTypes.Column"
+          rightAxis1Title="Average Charging (W)"
+          rightAxis2Title="Average Discharging (W)"
+          :request="getTSRequest(State.Month)"
+        />
       </tab>
     </tabs>
   </div>

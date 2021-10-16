@@ -6,7 +6,7 @@
       <apexchart
         v-show="loaded"
         ref="multiAxesChart"
-        type="line"
+        :type="constants.chartTypes.Line"
         :height="300"
         :options="options"
         :series="series"
@@ -34,9 +34,10 @@ export default {
   props: {
     title: String,
     leftAxisTitle: String,
+    leftAxisType: String,
     rightAxis1Title: String,
     rightAxis2Title: String,
-    request: String,
+    request: String
   },
   mounted() {
     // POST request to fetch data for the 3 y-axis chart
@@ -48,7 +49,7 @@ export default {
     };
     fetch(
         constants.server + "/api/data/read", // endpoint
-        httpReq.post(requestBody) // requestOptions
+        httpReq.post(this.request) // requestOptions
       )
       .then(async response => {
         const data = await response.json();
@@ -60,7 +61,7 @@ export default {
           return Promise.reject(error);
         }
 
-        this.updateChart(frequency);
+        this.updateChart(data.results);
       })
       .catch(error => {
         this.errorMessage = error;
@@ -92,6 +93,12 @@ export default {
         document.leftAxisTitle = this.leftAxisTitle;
       },
     },
+    leftAxisType: {
+      immediate: true,
+      handler() {
+        document.leftAxisType = this.leftAxisType;
+      },
+    },
     rightAxis1Title: {
       immediate: true,
       handler() {
@@ -108,24 +115,14 @@ export default {
   data() {
     return {
       loaded: false,
+      constants: constants
     };
   },
   methods: {
-    updateChart(data) {
-      if (!data) {
+    updateChart(results) {
+      if (!results || results.length != 3) {
         return;
       }
-
-      // let timeLabels = [], leftSeries = [], right1Series = [], right2Series = []
-      // let cumulativeEnergy = 0;
-      // for (let i = 0; i < data.length; i++) {
-      //   timeLabels.push(new Date(data[i].timestamp).
-      //     toLocaleDateString("en", {month: "short", day:"numeric", hour: "numeric", minute:"numeric"}))
-      //   leftSeries.push((data[i].value / 1000).toFixed(2)) // W = 1/1000 kW
-      //   cumulativeEnergy += (data[i].value / 12000) // interval 5 min = 1/12 h, W = 1/1000 kW
-      //   right1Series.push(cumulativeEnergy.toFixed(2))
-      // }
-      // right2Series = leftSeries;  // TODO
 
       const format = {
         month: "short",
@@ -133,17 +130,24 @@ export default {
         hour: "2-digit",
         minute: "2-digit",
       };
-      let timeLabels = [],
-        leftSeries = [],
-        right1Series = [],
-        right2Series = [];
-      for (let i = 0; i < data.length; i++) {
-        timeLabels.push(
-          new Date(data[i].timestamp).toLocaleTimeString("en", format)
-        );
-        leftSeries.push(data[i].data);
-        right1Series.push(voltage[i].data);
-        right2Series.push(voltage[i].data);
+      let timeLabels = [], leftSeries = [], right1Series = [], right2Series = [];
+      // let cumulativeEnergy = 0;
+      for (let i = 0; i < results[0].data.length; i++) {
+        timeLabels.push(new Date(results[0].data[i].timestamp).
+          toLocaleDateString("en", format));
+        leftSeries.push((results[0].data[i].value).toFixed(2));
+        right1Series.push((results[1].data[i].value).toFixed(2));
+        right2Series.push((results[2].data[i].value).toFixed(2));
+        // leftSeries.push((results[i].value / 1000).toFixed(2)) // W = 1/1000 kW
+        // cumulativeEnergy += (results[i].value / 12000) // interval 5 min = 1/12 h, W = 1/1000 kW
+        // right1Series.push(cumulativeEnergy.toFixed(2))
+      }
+      
+      let strokes = {};
+      if (this.leftAxisType == constants.chartTypes.Column) {
+        strokes = {
+          width: [0, 4, 4],
+        }; // line is not visible if the stroke is 0
       }
 
       this.options = {
@@ -151,25 +155,30 @@ export default {
         legend: {
           position: "bottom",
         },
+        stroke: strokes,
         series: [
           {
             name: this.leftAxisTitle,
-            type: "column",
+            type: this.leftAxisType,
             data: leftSeries,
           },
           {
             name: this.rightAxis1Title,
-            type: "line",
+            type: constants.chartTypes.Line,
             data: right1Series,
           },
           {
             name: this.rightAxis2Title,
-            type: "line",
+            type: constants.chartTypes.Line,
             data: right2Series,
           },
         ],
         yaxis: [
           {
+            forceNiceScale: false,
+            min: 0,
+            max: 100,
+            tickAmount: 4,
             axisTicks: {
               show: true,
             },
