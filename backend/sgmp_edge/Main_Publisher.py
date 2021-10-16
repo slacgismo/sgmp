@@ -49,6 +49,9 @@ def instantiate_devices(devices):
     logger.info('Refereshing device configuration...')
     for device in devices:
         logger.info('Device ID %s, name %s, type %s' % (device['device_id'], device['name'], device['type']))
+        if device['type'] not in device_types:
+            logger.warning('Device type %s is not recognized!' % device['type'])
+            continue
         device['instance'] = device_types[device['type']](device['config'])
     logger.info('Refresh done')
     return devices
@@ -71,7 +74,7 @@ def collect_and_publish():
     timestamp = int(round(time.time() * 1000))
     def device_func(device):
         # The topic we want to publish to
-        topic = 'gismolab_sgmp_read/' + str(device['device_id']) + '/' + str(timestamp) + '/data'
+        topic = 'gismolab_sgmp_read/' + config.CLIENT_ID + '/' + str(device['device_id']) + '/' + device['name'] + '/' + str(timestamp) + '/data'
 
         # If under dry run mode, don't perform the actual operations
         if config.DRY_RUN:
@@ -80,6 +83,8 @@ def collect_and_publish():
 
         try:
             # Invoke read method of the device instance
+            if 'instance' not in device:
+                raise Exception('device not instantiated')
             result = device['instance'].read()
         except Exception as e:
             # Stop if we encounter an exception
@@ -108,7 +113,7 @@ def config_update_callback(client, userdata, message):
         json.dump({'devices': new_devices}, devices_file)
     new_devices_lock.release()
 
-mqtt.subscribe('gismolab_sgmp_config/%s/devices' % config.HOUSE_ID, QoS=1, callback=config_update_callback)
+mqtt.subscribe('gismolab_sgmp_config/%s/devices' % config.CLIENT_ID, QoS=1, callback=config_update_callback)
 
 terminate = False
 while not terminate:
