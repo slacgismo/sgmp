@@ -163,7 +163,7 @@ export default {
         end_time: now.getTime(),
         type: "analytics",
         average: interval,
-        formula: "sonnen.status.Consumption_W",
+        formula: "egauge.A.SubPanel",
       };
     },
     getAggRequest(type, aggFunc) {
@@ -172,7 +172,7 @@ export default {
         end_time: now.getTime(),
         type: "analytics",
         agg_function: aggFunc,
-        formula: "sonnen.status.Consumption_W",
+        formula: "egauge.A.SubPanel",
       };
     },
     getStartTime(now, type) {

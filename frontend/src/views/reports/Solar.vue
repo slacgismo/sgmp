@@ -117,7 +117,7 @@ export default {
         "start_time": this.getStartTime(now, type),
         "end_time": now.getTime(),
         "type": "analytics",
-        "formula": "sonnen.status.Production_W",
+        "formula": constants.formula.Solar,
         "average": interval
       };
     },
@@ -127,7 +127,7 @@ export default {
         "end_time": now.getTime(),
         "type": "analytics",
         "agg_function": aggFunc,
-        "formula": "sonnen.status.Production_W"
+        "formula": constants.formula.Solar
       };
     },
     getStartTime(now, type) {

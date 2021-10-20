@@ -41,55 +41,29 @@
         :unit="constants.units.Power"
         title="Solar Power"
         img="sun.svg"
-        :request="getCardRequest(FORMULA.Solar)"
+        :request="getCardRequest(constants.formula.Solar)"
       />
     </router-link>
 
-    <!-- <router-link :to="{ name: 'battery' }">
-      <dashboard-card :unit="constants.units.Power" title="Battery Discharging" img="battery.svg"
-        :request="getCardRequest(FORMULA.Battery)" />
-    </router-link> -->
-    <div
-      class="
-        flex
-        items-center
-        bg-white
-        border
-        rounded-sm
-        overflow-hidden
-        shadow
-      "
-    >
-      <div class="p-4">
-        <!-- https://www.svgrepo.com/svg/326915/battery-charging-sharp -->
-        <img src="/src/assets/img/battery.svg" class="h-12 w-12" />
-      </div>
-      <div class="text-gray-700">
-        <h3 class="text-sm tracking-wider">Battery Discharging</h3>
-        <p class="text-3xl">27 kW</p>
-      </div>
-    </div>
+    <router-link :to="{ name: 'battery' }">
+      <!-- https://www.svgrepo.com/svg/326915/battery-charging-sharp -->
+      <dashboard-card
+        :unit="constants.units.Power"
+        title="Battery Discharging"
+        img="battery.svg"
+        :request="getCardRequest(constants.formula.Battery)"
+      />
+    </router-link>
 
-    <div
-      class="
-        flex
-        items-center
-        bg-white
-        border
-        rounded-sm
-        overflow-hidden
-        shadow
-      "
-    >
-      <div class="p-4">
-        <!-- https://www.svgrepo.com/svg/17490/car -->
-        <img src="/src/assets/img/car.svg" class="h-12 w-12" />
-      </div>
-      <div class="text-gray-700">
-        <h3 class="text-sm tracking-wider">EV Charging</h3>
-        <p class="text-3xl">128 min</p>
-      </div>
-    </div>
+    <router-link :to="{ name: 'ev' }">
+      <!-- https://www.svgrepo.com/svg/17490/car -->
+      <dashboard-card
+        :unit="constants.units.Power"
+        title="EV Charging"
+        img="car.svg"
+        :request="getCardRequest(constants.formula.EV)"
+      />
+    </router-link>
 
     <router-link :to="{ name: 'load' }">
       <!-- Credit: modified from https://www.svgrepo.com/svg/137351/rounded-plug -->
@@ -97,7 +71,7 @@
         :unit="constants.units.Power"
         title="Loads"
         img="load.svg"
-        :request="getCardRequest(FORMULA.Load)"
+        :request="getCardRequest(constants.formula.Load)"
       />
     </router-link>
   </div>
@@ -143,21 +117,12 @@ import ThreeYAxesChart from "@/components/chart/ThreeYAxesChart.vue";
 import supply from "@/data/home/supply.json";
 import demand from "@/data/home/demand.json";
 import constants from "@/util/constants";
-
-// Mapping between energy type and formula
-const FORMULA = Object.freeze({
-  Solar: "sonnen.status.Production_W",
-  Battery: "sonnen.status.Pac_total_W",
-  EV: "",
-  Load: "sonnen.status.Consumption_W",
-});
 const now = new Date();
 
 export default {
   components: { apexchart: VueApexCharts, DashboardCard, ThreeYAxesChart },
   data() {
     return {
-      FORMULA,
       now,
       constants,
     };
@@ -274,7 +239,7 @@ export default {
         y: {
           formatter: function (y) {
             if (typeof y !== "undefined") {
-              return y + " kWh";
+              return y + " " + constants.units.Energy;
             }
             return y;
           },
@@ -301,7 +266,7 @@ export default {
     // TODO: update when the backend API is ready to fetch current data
     getCardRequest(formula) {
       return {
-        start_time: now.getTime() - 3600,
+        start_time: now.getTime() - 20000,  // 20 s
         end_time: now.getTime(),
         type: "analytics",
         agg_function: "max",
