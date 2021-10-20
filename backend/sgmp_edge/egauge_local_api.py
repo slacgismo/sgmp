@@ -1,4 +1,3 @@
-
 import datetime
 import requests
 import time
@@ -20,24 +19,22 @@ class EgaugeInterface():
         power_values = dict.fromkeys(self.config['keys'], None)
 
         try:
-            resp = requests.get(url)
+            resp = requests.get(url, timeout=2)
             resp.raise_for_status()
 
             data_ini = self.get_egauge_registers(resp)
         except requests.exceptions.HTTPError as err:
-            print(err)
-            return power_values
+            raise Exception('Error during HTTP request: %s' % err)
 
         time.sleep(self.config['t_sample'])
 
         try:
-            resp = requests.get(url)
+            resp = requests.get(url, timeout=2)
             resp.raise_for_status()
 
             data_end = self.get_egauge_registers(resp)
         except requests.exceptions.HTTPError as err:
-            print(err)
-            return power_values
+            raise Exception('Error during HTTP request: %s' % err)
 
         ts_delta = data_end['ts'] - data_ini['ts']
         try:
@@ -49,8 +46,7 @@ class EgaugeInterface():
 
             return power_values
         except Exception as e:
-            print('Error retrieving data from E-Gauge API: ', e)
-            return power_values
+            raise Exception('Error parsing eGauge result: %s' % e)
 
     def act(self, data):
         # Does nothing

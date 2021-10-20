@@ -6,6 +6,24 @@ This a very first draft of the API specification. We should move it into other s
 
 The idea is to make the API appear to the frontend as platform-agnostic as possible. We can possibly move the backend user storage between AWS Cognito or a local MySQL database or any other identity provider.
 
+### `/api/user/profile`
+
+Returns the profile of currently logged in user.
+
+Sample response:
+```
+{
+    "profile": {
+        "email": "chihweif@andrew.cmu.edu",
+        "name": "Chih-wei Fang",
+        "roles": [
+            "visitor"
+        ],
+    },
+        "status": "ok"
+    }
+```
+
 ### `/api/user/list`
 
 Lists all users.
@@ -65,7 +83,12 @@ Sample response:
 ```
 {
     "status": "ok"
-    "accesstoken": "xxxxxxxxx"
+    "accesstoken": "xxxxxxxxx",
+    "profile": {
+        "email": "chihweif@andrew.cmu.edu",
+        "name": "Chih-Wei Fang",
+        "roles": ["visitor"]
+    }
 }
 ```
 
@@ -189,7 +212,7 @@ We have two types of data. The first is raw readings from the device itself. Ano
 
 ### `/api/data/read`
 
-Reads data from a given time period. Device means raw readings from a device, analytics means user-defined analytics data.
+Reads data from a given time period. Device means raw readings from a device, analytics means user-defined analytics data. If the type is `analytics`, you can refer to a pre-defined analytics item by specifying `analytics_id` or by entering the expression directly by using `formula` field (can be very convenient for testing). For `analytics` data type, an optional parameter `agg_function` can be specified. The time-series data will be aggregated using the function specified into a single value. Current supported values of `agg_function` are `min`, `max` and `avg`. Another optional parameter `average` is available for `analytics` data type. By specifying a timespan (in milliseconds) the data averaged over the timespan will be returned. The `average` and `agg_function` parameters conflict with each other.
 
 Sample request:
 ```
@@ -207,6 +230,35 @@ Sample request:
     "end_time": 1632502800000,
     "type": "analytics",
     "analytics_id": 12345
+}
+```
+
+```
+{
+    "start_time": 1632499200000,
+    "end_time": 1632502800000,
+    "type": "analytics",
+    "formula": "sonnen.status.Production_W"
+}
+```
+
+```
+{
+    "start_time": 1632416400000,
+    "end_time": 1632502800000,
+    "type": "analytics",
+    "average": 3600000,
+    "formula": "sonnen.status.Production_W"
+}
+```
+
+```
+{
+    "start_time": 1633575301000,
+    "end_time": 1633575401000,
+    "type": "analytics",
+    "agg_function": "max",
+    "formula": "sonnen.status.Production_W"
 }
 ```
 
@@ -247,23 +299,38 @@ Sample response for analytics (returns the calculation result):
     "data": [
         {
             "timestamp": 1632499200000,
-            "data": 1.0
+            "value": 1.0
         },
         {
             "timestamp": 1632499201000,
-            "data": 2.0
+            "value": 2.0
         }
         {
             "timestamp": 1632499202000,
-            "data": 3.0
+            "value": 3.0
         }
     ]
 }
 ```
 
+Sample response for analytics (returns aggregated data):
+```
+{
+    "status": "ok",
+    "value": 78.4
+}
+```
+
 ### `/api/device/list`
 
-Lists all device.
+Lists all device in the house.
+
+Sample request:
+```
+{
+    "house_id": 1
+}
+```
 
 Sample response:
 ```
@@ -273,9 +340,38 @@ Sample response:
         {
             "device_id": 12345,
             "name": "sonnen",
+            "type": "sonnen",
             "description": "Sonnen controller inside the house"
         }
     ]
+}
+```
+
+### `/api/device/details`
+
+Get the details for one device.
+
+Sample request:
+```
+{
+    "device_id": 1
+}
+```
+
+Sample response:
+```
+{
+    "status": "ok",
+    "device": {
+        "name": "sonnen",
+        "description": "Sonnen controller inside the house",
+        "type": "sonnen",
+        "config": {
+            "ip": "1.2.3.4",
+            "username": "user",
+            "password": "password"
+        }
+    }
 }
 ```
 
@@ -289,6 +385,7 @@ Sample request:
     "name": "sonnen",
     "description": "Sonnen controller inside the house",
     "type": "sonnen",
+    "house_id": 1,
     "config": {
         "ip": "1.2.3.4",
         "username": "user",
@@ -306,12 +403,12 @@ Sample response:
 
 ### `/api/device/update`
 
-Updates the config of a device. To ensure consistency of data the type of the device cannot be changed.
+Updates the config of a device. To ensure consistency of data the name and the type of the device cannot be changed.
 
 Sample request:
 ```
 {
-    "name": "sonnen",
+    "device_id": 1,
     "description": "Sonnen controller inside the house",
     "config": {
         "ip": "1.2.3.4",
@@ -335,7 +432,7 @@ Deletes a device.
 Sample request:
 ```
 {
-    "name": "sonnen"
+    "device_id": 1
 }
 ```
 
@@ -368,12 +465,12 @@ Sample response:
 
 ### `/api/analytics/update`
 
-Updates an analytics.
+Updates an analytics. Since the name is unique, the name cannot be changed.
 
 Sample request:
 ```
 {
-    "name": "total_load",
+    "analytics_id": 1,
     "description": "Total load, measured from Sonnen",
     "formula": "sonnen.load"
 }
@@ -393,7 +490,7 @@ Delete an analytics.
 Sample request:
 ```
 {
-    "name": "total_load"
+    "analytics_id": 1
 }
 ```
 
@@ -401,5 +498,100 @@ Sample response:
 ```
 {
     "status": "ok"
+}
+```
+
+### `/api/house/create`
+
+Creates a house. The name must be unique.
+
+Sample request:
+```
+{
+    "name": "HouseA",
+    "description": "house A"
+}
+```
+
+Sample response:
+```
+{
+    "status": "ok"
+}
+```
+
+### `/api/house/update`
+
+Updates a house. Since the name is unique, the name cannot be changed.
+
+Sample request:
+```
+{
+    "house_id": 1,
+    "description": "New description"
+}
+```
+
+Sample response:
+```
+{
+    "status": "ok"
+}
+```
+
+### `/api/house/delete`
+
+Delete a house. There must be no devices under the house before the house can be deleted.
+
+Sample request:
+```
+{
+    "house_id": 1
+}
+```
+
+Sample response:
+```
+{
+    "status": "ok"
+}
+```
+
+### `/api/device/sync`
+
+Synchronize the device list to the edge device. Publishes the deivce list to AWS IoT Core.
+
+Sample request:
+```
+{
+    "house_id": 1
+}
+```
+
+Sample response:
+```
+{
+    "status": "ok"
+}
+```
+
+### `/api/device/generateKeys`
+
+Re-generates the edge device key pair for a given house. The previous key pair will be removed.
+
+Sample request:
+```
+{
+    "house_id": 1
+}
+```
+
+Sample response:
+```
+{
+    "status": "ok",
+    "cert": "xxx",
+    "private_key": "xxx",
+    "public_key": "xxx"
 }
 ```
