@@ -12,12 +12,12 @@ struct SpecificDeviceKeyChartSelfLoadView: View {
     var device : Device
     var key : String
     @State var date : (Date, Date)
-    @State var frames : [DeviceKeyAnalyticsFrame]?
+    @State var frames : [AnalyticsTimeSeriesFrame]?
     @State var loadingChart : Bool = false
     
     func loadChart() {
         loadingChart = true
-        DeviceManager.shared.getDeviceKeyAnalytics(device: device, key: key, startDate: date.0, endDate: date.1) { frames, err in
+        DataManager.shared.getAnalyticsTimeSeries(deviceName: device.name, key: key, startDate: date.0, endDate: date.1) { frames, err in
             if let frames = frames {
                 self.frames = frames
             } else if let err = err {

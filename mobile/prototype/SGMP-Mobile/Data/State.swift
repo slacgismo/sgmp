@@ -13,6 +13,9 @@ class Env: ObservableObject {
     @Published var arCameraTrackingState : ARCameraTrackingState = .notAvailable
     @Published var arDebugInfo : ARDebugDataModel? = nil
     
+    // MARK: - Houses
+    @Published var houses : [House] = []
+    
     // MARK: - Devices
     @Published var devices : [Device] = []
     

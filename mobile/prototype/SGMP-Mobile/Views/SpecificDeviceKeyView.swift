@@ -15,12 +15,12 @@ struct SpecificDeviceKeyView: View {
     @State private var timeDuration = -300
     @State private var date : (Date, Date) = (Date(timeIntervalSinceNow: -300), Date())
     @State var loadingChart : Bool = false
-    @State var frames : [DeviceKeyAnalyticsFrame] = []
+    @State var frames : [AnalyticsTimeSeriesFrame] = []
     
     func refresh(newDuration : Int) {
         loadingChart = true
         date = (Date(timeIntervalSinceNow: TimeInterval(newDuration)), Date())
-        DeviceManager.shared.getDeviceKeyAnalytics(device: device, key: key, startDate: date.0, endDate: date.1) { frames, err in
+        DataManager.shared.getAnalyticsTimeSeries(deviceName: device.name, key: key, startDate: date.0, endDate: date.1) { frames, err in
             if let frames = frames {
                 self.frames = frames
             } else if let err = err {

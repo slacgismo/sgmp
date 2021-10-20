@@ -17,6 +17,12 @@ struct SummaryTabView: View {
 
             Section {
                 NavigationLink {
+                    ListHouseView()
+                } label: {
+                    Label("Houses", systemImage: "house.fill")
+                }
+                
+                NavigationLink {
                     ListDeviceView()
                 } label: {
                     Label("Devices", systemImage: "bolt.horizontal.fill")

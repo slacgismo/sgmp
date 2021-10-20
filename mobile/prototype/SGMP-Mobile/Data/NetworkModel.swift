@@ -19,6 +19,27 @@ struct ResponseWithData<T> : Codable where T : Codable {
     var data : T
 }
 
+// MARK: - House
+struct ListHousesResponse : Codable {
+    var status : String
+    var houses : [House]?
+}
+
+struct House : Codable, Identifiable {
+    var description : String
+    var house_id : Int64
+    var name : String
+    
+    var id: Int64 {
+        return house_id
+    }
+}
+
+// MARK: - Device
+struct ListDevicesRequest : Codable {
+    var house_id : Int64
+}
+
 struct ListDevicesResponse : Codable {
     var status : String
     var devices : [Device]?
@@ -57,21 +78,44 @@ struct DeviceDetail : Codable {
 }
 
 
-struct DeviceKeyAnalyticsFrame : Codable, Identifiable {
+// MARK: - Analytics Time Series
+struct AnalyticsTimeSeriesRequest : Codable {
+    var start_time : Int64
+    var end_time : Int64
+    var type : String = "analytics"
+    var formula : String
+}
+
+struct AnalyticsTimeSeriesResponse : Codable {
+    var message : String?
+    var status : String
+    var data : [AnalyticsTimeSeriesFrame]?
+}
+
+struct AnalyticsTimeSeriesFrame : Codable, Identifiable {
     var id : Int64 {
         return timestamp
     }
     var timestamp : Int64
     var value : Double
 }
-struct DeviceKeyAnalyticsRequest : Codable {
+
+// MARK: - Analytics Aggregate
+enum AggregateFunction: String, CaseIterable, Codable {
+    case min = "min";
+    case max = "max";
+    case avg = "avg";
+}
+
+struct AnalyticsAggregatedRequest : Codable {
     var start_time : Int64
     var end_time : Int64
     var type : String = "analytics"
     var formula : String
+    var agg_function : AggregateFunction
 }
-struct DeviceKeyAnalyticsResponse : Codable {
-    var message : String?
+
+struct AnalyticsAggregatedResponse : Codable {
     var status : String
-    var data : [DeviceKeyAnalyticsFrame]?
+    var value : Double
 }

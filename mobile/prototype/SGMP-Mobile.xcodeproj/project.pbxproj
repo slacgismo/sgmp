@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D079C92271F89BC006D50D3 /* HouseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D079C91271F89BC006D50D3 /* HouseManager.swift */; };
+		0D079C94271F8BB0006D50D3 /* ListHouseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D079C93271F8BB0006D50D3 /* ListHouseView.swift */; };
+		0D079C96271F9067006D50D3 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D079C95271F9067006D50D3 /* DataManager.swift */; };
 		0D0D54C6270F8CB700C50FDA /* Image+Crop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0D54C5270F8CB700C50FDA /* Image+Crop.swift */; };
 		0D20B25B270E436400786A05 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 0D20B25A270E436400786A05 /* Kingfisher */; };
 		0D20B25E270E451F00786A05 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = 0D20B25D270E451F00786A05 /* Sentry */; };
@@ -71,6 +74,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0D079C91271F89BC006D50D3 /* HouseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseManager.swift; sourceTree = "<group>"; };
+		0D079C93271F8BB0006D50D3 /* ListHouseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListHouseView.swift; sourceTree = "<group>"; };
+		0D079C95271F9067006D50D3 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		0D0D54C5270F8CB700C50FDA /* Image+Crop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Crop.swift"; sourceTree = "<group>"; };
 		0D20B25F270E479300786A05 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
 		0D4BF616270D375900B4496B /* AuthDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDataModel.swift; sourceTree = "<group>"; };
@@ -148,6 +154,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0D079C97271F906B006D50D3 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				0D88294927165EFC00A96521 /* DeviceManager.swift */,
+				0D079C91271F89BC006D50D3 /* HouseManager.swift */,
+				0D079C95271F9067006D50D3 /* DataManager.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		0D4BF618270D3D1400B4496B /* Auth */ = {
 			isa = PBXGroup;
 			children = (
@@ -229,6 +245,7 @@
 				0D51EE1B26F27FCC00BCAAB3 /* MainTabView.swift */,
 				0D4BF618270D3D1400B4496B /* Auth */,
 				0DE2E7C026F8625200932B41 /* SummaryTabView.swift */,
+				0D079C93271F8BB0006D50D3 /* ListHouseView.swift */,
 				0D5081002718FDEA00EE0A4F /* ListDeviceView.swift */,
 				0D50810227191F8B00EE0A4F /* SpecificDeviceView.swift */,
 				0D5081082719569F00EE0A4F /* SpecificDeviceKeyView.swift */,
@@ -257,7 +274,7 @@
 				0D9CDDAE27050D6F00804A57 /* UserManager.swift */,
 				0DE2E79B26F85C9A00932B41 /* BaseManager.swift */,
 				0D20B25F270E479300786A05 /* EventManager.swift */,
-				0D88294927165EFC00A96521 /* DeviceManager.swift */,
+				0D079C97271F906B006D50D3 /* Network */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -431,12 +448,14 @@
 				0DECB8BE270BA7C2001A93F9 /* DashboardGlanceCellView.swift in Sources */,
 				0DE2E7BA26F85FAD00932B41 /* State.swift in Sources */,
 				0DE2E7C126F8625200932B41 /* SummaryTabView.swift in Sources */,
+				0D079C94271F8BB0006D50D3 /* ListHouseView.swift in Sources */,
 				0D7C332826FD8EBA00B219E7 /* ARRefImageSlacView.swift in Sources */,
 				0DE1F782270FC0E900714744 /* ARInteractiveViewSlacNode.swift in Sources */,
 				0DE2E7AB26F85DA100932B41 /* Bundle+Version.swift in Sources */,
 				0D6E5B90270D572D00576AA4 /* ARGridView.swift in Sources */,
 				0D50810327191F8B00EE0A4F /* SpecificDeviceView.swift in Sources */,
 				0D5081092719569F00EE0A4F /* SpecificDeviceKeyView.swift in Sources */,
+				0D079C92271F89BC006D50D3 /* HouseManager.swift in Sources */,
 				0DE1F784270FC30A00714744 /* ARInteractiveViewNode+QR.swift in Sources */,
 				0D7C332A26FDA76100B219E7 /* Button+Style.swift in Sources */,
 				0DE1F78E2710133500714744 /* ARInteractiveViewSlac3Node.swift in Sources */,
@@ -445,6 +464,7 @@
 				0DE1F78A2710081800714744 /* ARInteractiveViewSlac2Node.swift in Sources */,
 				0D73893F26FA97CF000C43A6 /* ARInteractiveViewNode.swift in Sources */,
 				0D5E22AF26FEF427002B0A4B /* AboutAppView.swift in Sources */,
+				0D079C96271F9067006D50D3 /* DataManager.swift in Sources */,
 				0DE1F7862710071500714744 /* ARRefImageSlac2View.swift in Sources */,
 				0DE1F7922710300C00714744 /* UIViewController+Child.swift in Sources */,
 				0DE2E7B026F85DA100932B41 /* Class+Runtime.swift in Sources */,
