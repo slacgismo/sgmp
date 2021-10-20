@@ -43,6 +43,12 @@ const routes = [
         component: () => import('@/views/reports/Load.vue'),
         meta: { auth: [] }
       },
+      {
+        path: '/devices',
+        name: 'devices',
+        component: () => import('@/views/devices/DeviceList.vue'),
+        meta: { auth: [] }
+      },
       // TODO
       // {
       //   path: '/outage',
