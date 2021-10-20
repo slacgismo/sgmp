@@ -280,9 +280,9 @@ export default {
         end_time: now.getTime(),
         type: "analytics",
         formula: [
-          "egauge.A.L1_Frequency",
-          "egauge.A.L1_Voltage",
-          "egauge.A.L2_Voltage",
+          constants.formula.Frequency,
+          constants.formula.Voltage1,
+          constants.formula.Voltage2
         ],
         average: 300000, // 5 minute = 5 * 60 * 1000
       };

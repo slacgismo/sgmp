@@ -163,7 +163,7 @@ export default {
         end_time: now.getTime(),
         type: "analytics",
         average: interval,
-        formula: "egauge.A.SubPanel",
+        formula: constants.formula.Load,
       };
     },
     getAggRequest(type, aggFunc) {
@@ -172,7 +172,7 @@ export default {
         end_time: now.getTime(),
         type: "analytics",
         agg_function: aggFunc,
-        formula: "egauge.A.SubPanel",
+        formula: constants.formula.Load,
       };
     },
     getStartTime(now, type) {
