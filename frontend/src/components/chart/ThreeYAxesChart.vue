@@ -20,9 +20,6 @@ import VueApexCharts from "vue3-apexcharts";
 import Loading from "@/components/Loading.vue";
 import httpReq from "@/util/requestOptions";
 import constants from "@/util/constants";
-// to be replaced with real data
-import frequency from "@/data/home/frequency.json";
-import voltage from "@/data/home/voltage.json";
 
 const colorBlue = "#008FFB";
 const colorOrange = "#00E396";
@@ -41,12 +38,6 @@ export default {
   },
   mounted() {
     // POST request to fetch data for the 3 y-axis chart
-    let requestBody = {
-      "start_time": new Date().getTime()-3600000,
-      "end_time": new Date().getTime(),
-      "type": "device",
-      "device_id": 2
-    };
     fetch(
         constants.server + "/api/data/read", // endpoint
         httpReq.post(this.request) // requestOptions
@@ -135,12 +126,12 @@ export default {
       for (let i = 0; i < results[0].data.length; i++) {
         timeLabels.push(new Date(results[0].data[i].timestamp).
           toLocaleDateString("en", format));
-        leftSeries.push((results[0].data[i].value).toFixed(2));
-        right1Series.push((results[1].data[i].value).toFixed(2));
-        right2Series.push((results[2].data[i].value).toFixed(2));
-        // leftSeries.push((results[i].value / 1000).toFixed(2)) // W = 1/1000 kW
+        leftSeries.push((results[0].data[i].value).toFixed(3));
+        right1Series.push((results[1].data[i].value).toFixed(3));
+        right2Series.push((results[2].data[i].value).toFixed(3));
+        // leftSeries.push((results[i].value / 1000).toFixed(3)) // W = 1/1000 kW
         // cumulativeEnergy += (results[i].value / 12000) // interval 5 min = 1/12 h, W = 1/1000 kW
-        // right1Series.push(cumulativeEnergy.toFixed(2))
+        // right1Series.push(cumulativeEnergy.toFixed(3))
       }
       
       let strokes = {};

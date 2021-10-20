@@ -39,7 +39,7 @@ export default {
     };
   },
   created() {
-    // POST request to fetch data for the line-column chart
+    // POST request to fetch data for the analytics card
     fetch(
         constants.server + "/api/data/read", // endpoint
         httpReq.post(this.request) // requestOptions
@@ -59,19 +59,17 @@ export default {
         } else {
           switch (this.unit) {
             case constants.units.Power:
-              this.value = (data.value / 1000).toFixed(2) + " " + this.unit;
+            case constants.units.Seconds:
+              this.value = (data.value).toFixed(3) + " " + this.unit;
               break;
             case constants.units.Energy:
-              this.value = (data.value / 12000).toFixed(2) + " " + this.unit;
-              break;
-            case constants.units.Seconds:
-              this.value = data.value.toFixed(2) + " " + this.unit;
+              this.value = (data.value / 12).toFixed(3) + " " + this.unit;
               break;
             case constants.units.Percentage:
               this.value = data.value + " " + this.unit;
               break;
             default:
-              this.value = data.value.toFixed(2);
+              this.value = data.value.toFixed(3);
           }
         }
         

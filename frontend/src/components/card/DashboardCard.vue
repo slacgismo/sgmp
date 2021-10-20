@@ -32,7 +32,7 @@ export default {
     };
   },
   created() {
-    // POST request to fetch data for the line-column chart
+    // POST request to fetch data for the dashboard card
     fetch(
         constants.server + "/api/data/read", // endpoint
         httpReq.post(this.request) // requestOptions
@@ -47,8 +47,7 @@ export default {
           return Promise.reject(error);
         }
 
-        this.value = (data.value / 1000).toFixed(2) + " " + this.unit;
-
+        this.value = data.value.toFixed(3) + " " + this.unit;
         this.visible = true;
       })
       .catch((error) => {

@@ -136,7 +136,6 @@
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
 import httpReq from "@/util/requestOptions";
 import constants from "@/util/constants";
-// import ulist from '@/data/users/userList.json';
 
 export default {
   components: {
@@ -151,7 +150,7 @@ export default {
     };
   },
   created() {
-    // POST request to fetch data for the line-column chart
+    // POST request to fetch data for the houses
     fetch(
       constants.server + "/api/house/list", // endpoint
       httpReq.get() // requestOptions
