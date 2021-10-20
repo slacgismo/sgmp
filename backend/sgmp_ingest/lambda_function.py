@@ -1,10 +1,11 @@
 import psycopg2
 import psycopg2.extras
+import os
 
-pg_host = '54.241.73.105'
-pg_user = 'postgres'
-pg_pass = 'w2XeQwZSmExnGntNjsBteGJUfZkbimEc'
-pg_database = 'sgmp'
+pg_host = os.environ['PG_HOST']
+pg_user = os.environ['PG_USER']
+pg_pass = os.environ['PG_PASS']
+pg_database = os.environ['PG_DATABASE']
 
 sql = 'INSERT INTO data (timestamp, device_id, field, value_decimal, value_text) VALUES %s'
 sql_house = 'INSERT INTO house_data (timestamp, house_id, device_name, field, value_decimal, value_text) VALUES %s'
