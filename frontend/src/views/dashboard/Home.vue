@@ -92,7 +92,7 @@
   </div>
 
   <div class="grid grid-cols-1 px-4 gap-4 mt-8 sm:px-8">
-    <three-y-axes-chart
+    <left-right-y-axes-chart
       title="Grid Frequency and Voltage"
       leftAxisTitle="Grid frequency (Hz)"
       :leftAxisType="constants.chartTypes.Line"
@@ -107,13 +107,13 @@
 import VueApexCharts from "vue3-apexcharts";
 import DashboardCard from "@/components/card/DashboardCard.vue";
 import DonutChart from "@/components/chart/DonutChart.vue";
-import ThreeYAxesChart from "@/components/chart/ThreeYAxesChart.vue";
+import LeftRightYAxesChart from "@/components/chart/LeftRightYAxesChart.vue";
 import demand from "@/data/home/demand.json";
 import constants from "@/util/constants";
 const now = new Date();
 
 export default {
-  components: { apexchart: VueApexCharts, DashboardCard, DonutChart, ThreeYAxesChart },
+  components: { apexchart: VueApexCharts, DashboardCard, DonutChart, LeftRightYAxesChart },
   data() {
     return {
       now,
@@ -161,9 +161,6 @@ export default {
         },
       },
       labels: demandLabels,
-      markers: {
-        size: 0,
-      },
       xaxis: {
         title: {
           text: "time",
@@ -172,40 +169,28 @@ export default {
       },
       yaxis: {
         title: {
-          text: "kW",
+          text: "Average Power (kW)",
         },
         min: 0,
       },
       legend: {
-        position: "top",
-      },
-      tooltip: {
-        shared: true,
-        intersect: false,
-        y: {
-          formatter: function (y) {
-            if (typeof y !== "undefined") {
-              return y.toFixed(0) + " kW";
-            }
-            return y;
-          },
-        },
-      },
+        position: "bottom",
+      }
     };
 
     const demandSeries = [
       {
-        name: "Load",
+        name: "Load (kW)",
         type: "column",
         data: loadCons,
       },
       {
-        name: "EV",
+        name: "EV (kW)",
         type: "area",
         data: evCons,
       },
       {
-        name: "Battery",
+        name: "Battery (kW)",
         type: "line",
         data: battCons,
       },
@@ -243,7 +228,7 @@ export default {
         // kWh = kW * duration in ms / (60 * 60 * 1000)
         power2Energy.push(formulae[i] + "/3600000*" + duration);
       }
-      
+
       return {
         // start from the beginning of the day
         start_time: start,

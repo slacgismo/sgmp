@@ -26,7 +26,7 @@ const colorOrange = "#00E396";
 const colorGreen = "#FEB019";
 
 export default {
-  name: "ThreeYAxesChart",
+  name: "LeftRightYAxesChart",
   components: { apexchart: VueApexCharts, Loading },
   props: {
     title: String,

@@ -50,7 +50,7 @@
             "
           />
         </div>
-        <three-y-axes-chart
+        <left-right-y-axes-chart
           :title="TITLE"
           leftAxisTitle="SOC (%)" :leftAxisType="constants.chartTypes.Column"
           :rightAxis1Title="CHARGINGAXIS"
@@ -80,7 +80,7 @@
             "
           />
         </div>
-        <three-y-axes-chart
+        <left-right-y-axes-chart
           :title="TITLE"
           leftAxisTitle="SOC (%)" :leftAxisType="constants.chartTypes.Column"
           :rightAxis1Title="CHARGINGAXIS"
@@ -134,7 +134,7 @@
             "
           /> -->
         </div>
-        <three-y-axes-chart
+        <left-right-y-axes-chart
           :title="TITLE"
           leftAxisTitle="SOC (%)" :leftAxisType="constants.chartTypes.Column"
           :rightAxis1Title="CHARGINGAXIS"
@@ -150,7 +150,7 @@
 import VueApexCharts from "vue3-apexcharts";
 import Tabs from "@/components/tab/Tabs.vue";
 import Tab from "@/components/tab/Tab.vue";
-import ThreeYAxesChart from "@/components/chart/ThreeYAxesChart.vue";
+import LeftRightYAxesChart from "@/components/chart/LeftRightYAxesChart.vue";
 import AnalyticCard from "@/components/card/AnalyticCard.vue";
 import constants from '@/util/constants';
 import { ref } from "vue";
@@ -169,7 +169,7 @@ export default {
     apexchart: VueApexCharts,
     Tabs,
     Tab,
-    ThreeYAxesChart,
+    LeftRightYAxesChart,
     AnalyticCard,
   },
   setup() {

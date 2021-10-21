@@ -92,9 +92,6 @@ export default {
       }
       
       this.options = {
-        chart: {
-          id: "donut-chart",
-        },
         labels: this.labels,
         series: values,
         legend: {
