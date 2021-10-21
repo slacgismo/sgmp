@@ -78,7 +78,7 @@
 
   <div class="grid grid-cols-1 px-4 gap-4 mt-8 lg:grid-cols-2 sm:px-8">
     <donut-chart title="Energy Generation" :labels="['Grid', 'Battery', 'Solar']"
-      :request="getDonutRequest()" />
+      :request="getDonutRequest([constants.formula.Grid, constants.formula.BatteryDischarging, constants.formula.Solar])" />
 
     <div class="px-4 py-2 bg-white border rounded-md overflow-hidden shadow">
       <h3 class="text-xl text-gray-600 mb-4">Power Consumption</h3>
@@ -235,21 +235,22 @@ export default {
         formula: formula
       };
     },
-    getDonutRequest() {
+    getDonutRequest(formulae) {
       const start = new Date().setHours(0, 0, 0, 0);
       const duration = now.getTime() - start;
+      let power2Energy = [];
+      for (let i = 0; i < formulae.length; i++) {
+        // kWh = kW * duration in ms / (60 * 60 * 1000)
+        power2Energy.push(formulae[i] + "/3600000*" + duration);
+      }
+      
       return {
         // start from the beginning of the day
         start_time: start,
         end_time: now.getTime(),
         type: "analytics",
         agg_function: "avg",
-        formula: [
-          // kWh = kW * duration in ms / (60 * 60 * 1000)
-          constants.formula.Grid + "/3600000*" + duration,
-          constants.formula.BatteryDischarging + "/3600000*" + duration,
-          constants.formula.Solar + "/3600000*" + duration
-        ]
+        formula: power2Energy
       };
     },
     getTSRequest() {
