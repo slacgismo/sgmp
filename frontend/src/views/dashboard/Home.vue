@@ -77,18 +77,29 @@
   </div>
 
   <div class="grid grid-cols-1 px-4 gap-4 mt-8 lg:grid-cols-2 sm:px-8">
-    <donut-chart title="Energy Generation" :labels="['Grid', 'Battery', 'Solar']"
-      :request="getDonutRequest([constants.formula.Grid, constants.formula.BatteryDischarging, constants.formula.Solar])" />
+    <donut-chart
+      title="Energy Generation"
+      :labels="['Grid', 'Battery', 'Solar']"
+      :request="
+        getDonutRequest([
+          constants.formula.Grid,
+          constants.formula.BatteryDischarging,
+          constants.formula.Solar,
+        ])
+      "
+    />
 
-    <div class="px-4 py-2 bg-white border rounded-md overflow-hidden shadow">
-      <h3 class="text-xl text-gray-600 mb-4">Power Consumption</h3>
-      <apexchart
-        :type="constants.chartTypes.Line"
-        :height="300"
-        :options="demandOptions"
-        :series="demandSeries"
-      ></apexchart>
-    </div>
+    <three-y-axes-chart
+      title="Power Consumption"
+      :labels="['Load (kW)', 'EV (kW)', 'Battery (kW)']"
+      :request="
+        getTSRequest([
+          constants.formula.Load,
+          constants.formula.EV,
+          constants.formula.BatteryCharging,
+        ])
+      "
+    />
   </div>
 
   <div class="grid grid-cols-1 px-4 gap-4 mt-8 sm:px-8">
@@ -98,7 +109,11 @@
       :leftAxisType="constants.chartTypes.Line"
       rightAxis1Title="L1 Voltage (V)"
       rightAxis2Title="L2 Voltage (V)"
-      :request="getTSRequest()"
+      :request="getTSRequest([
+        constants.formula.Frequency,
+        constants.formula.Voltage1,
+        constants.formula.Voltage2,
+      ])"
     />
   </div>
 </template>
@@ -108,12 +123,19 @@ import VueApexCharts from "vue3-apexcharts";
 import DashboardCard from "@/components/card/DashboardCard.vue";
 import DonutChart from "@/components/chart/DonutChart.vue";
 import LeftRightYAxesChart from "@/components/chart/LeftRightYAxesChart.vue";
+import ThreeYAxesChart from "@/components/chart/ThreeYAxesChart.vue";
 import demand from "@/data/home/demand.json";
 import constants from "@/util/constants";
 const now = new Date();
 
 export default {
-  components: { apexchart: VueApexCharts, DashboardCard, DonutChart, LeftRightYAxesChart },
+  components: {
+    apexchart: VueApexCharts,
+    DashboardCard,
+    DonutChart,
+    LeftRightYAxesChart,
+    ThreeYAxesChart
+  },
   data() {
     return {
       now,
@@ -175,7 +197,7 @@ export default {
       },
       legend: {
         position: "bottom",
-      }
+      },
     };
 
     const demandSeries = [
@@ -198,7 +220,7 @@ export default {
 
     return {
       demandOptions,
-      demandSeries
+      demandSeries,
     };
   },
   methods: {
@@ -213,11 +235,11 @@ export default {
     // TODO: update when the backend API is ready to fetch current data
     getCardRequest(formula) {
       return {
-        start_time: now.getTime() - 20000,  // 20 s
+        start_time: now.getTime() - 20000, // 20 s
         end_time: now.getTime(),
         type: "analytics",
         agg_function: "max",
-        formula: formula
+        formula: formula,
       };
     },
     getDonutRequest(formulae) {
@@ -235,23 +257,19 @@ export default {
         end_time: now.getTime(),
         type: "analytics",
         agg_function: "avg",
-        formula: power2Energy
+        formula: power2Energy,
       };
     },
-    getTSRequest() {
+    getTSRequest(formula) {
       return {
         // last 24 hours: 24 * 60 * 60 * 1000
         start_time: now.getTime() - 86400000,
         end_time: now.getTime(),
         type: "analytics",
-        formula: [
-          constants.formula.Frequency,
-          constants.formula.Voltage1,
-          constants.formula.Voltage2
-        ],
+        formula: formula,
         average: 300000, // 5 minute = 5 * 60 * 1000
       };
-    }
+    },
   },
 };
 </script>
