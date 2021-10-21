@@ -103,10 +103,9 @@ export default {
       return `${now.toLocaleDateString("en", {month: "long"})}`;
     },
     getPeriod(type) {
-      const format = {month: "short", day:"numeric", hour: "numeric", minute:"numeric"};
       let start = new Date(this.getStartTime(now, type));
-      return `${start.toLocaleDateString("en", format) +
-        ` ~\n` + now.toLocaleDateString("en", format)}`;
+      return `${start.toLocaleDateString("en", constants.timeFormat) +
+        ` ~\n` + now.toLocaleDateString("en", constants.timeFormat)}`;
     },
     getTSRequest(type) {
       let interval = 3600000; // 1 hour = 60 * 60 * 1000

@@ -5,7 +5,7 @@
       <loading v-show="!loaded" />
       <apexchart
         v-show="loaded"
-        ref="multiAxesChart"
+        ref="leftRightAxesChart"
         :type="constants.chartTypes.Line"
         :height="300"
         :options="options"
@@ -115,23 +115,14 @@ export default {
         return;
       }
 
-      const format = {
-        month: "short",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      };
       let timeLabels = [], leftSeries = [], right1Series = [], right2Series = [];
       // let cumulativeEnergy = 0;
       for (let i = 0; i < results[0].data.length; i++) {
         timeLabels.push(new Date(results[0].data[i].timestamp).
-          toLocaleDateString("en", format));
+          toLocaleDateString("en", constants.timeFormat));
         leftSeries.push((results[0].data[i].value).toFixed(3));
         right1Series.push((results[1].data[i].value).toFixed(3));
         right2Series.push((results[2].data[i].value).toFixed(3));
-        // leftSeries.push((results[i].value / 1000).toFixed(3)) // W = 1/1000 kW
-        // cumulativeEnergy += (results[i].value / 12000) // interval 5 min = 1/12 h, W = 1/1000 kW
-        // right1Series.push(cumulativeEnergy.toFixed(3))
       }
       
       let strokes = {};
@@ -237,7 +228,7 @@ export default {
         ],
       };
 
-      this.$refs.multiAxesChart.updateOptions(this.options, true);
+      this.$refs.leftRightAxesChart.updateOptions(this.options, true);
       this.loaded = true;
     },
   },

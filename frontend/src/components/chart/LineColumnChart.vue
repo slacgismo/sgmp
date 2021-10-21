@@ -84,7 +84,7 @@ export default {
       let cumulativeEnergy = 0;
       for (let i = 0; i < data.length; i++) {
         timeLabels.push(new Date(data[i].timestamp).
-          toLocaleDateString("en", {month: "short", day:"numeric", hour: "numeric", minute:"numeric"}))
+          toLocaleDateString("en", constants.timeFormat))
         powerSeries.push((data[i].value).toFixed(3))
         cumulativeEnergy += (data[i].value / 12) // interval 5 min = 1/12 h
         energySeries.push(cumulativeEnergy.toFixed(3))

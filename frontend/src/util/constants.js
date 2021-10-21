@@ -1,5 +1,11 @@
 export default Object.freeze({
     server: "http://ec2-54-176-53-197.us-west-1.compute.amazonaws.com:5000",
+    timeFormat: {
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+    },
     roles: Object.freeze({ Admin: "admin", Researcher: "researcher", Visitor: "visitor" }),
     units: Object.freeze({ Power: "kW", Energy: "kWh", Percentage: "%", Seconds: "sec" }),
     // Mapping between energy type and formula

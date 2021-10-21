@@ -75,8 +75,7 @@ export default {
         
         if (!this.time) {
           this.time = new Date(data.timestamp)
-          .toLocaleDateString("en", {month: "short", day:"numeric", hour: "numeric", minute:"numeric"});
-          // .toLocaleTimeString("en", {day:"numeric", hour: "numeric", minute:"numeric"});
+          .toLocaleDateString("en", constants.timeFormat);
         }
         this.visible = true;
       })
