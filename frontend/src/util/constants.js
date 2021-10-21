@@ -5,6 +5,7 @@ export default Object.freeze({
     // Mapping between energy type and formula
     formula: Object.freeze({
         Solar: "egauge.A.Solar",
+        Grid: "-egauge.A.GridPower",
         Battery: "sonnen.status.Pac_total_W/1000",
         BatteryCharging: "-neg(sonnen.status.Pac_total_W/1000)",
         BatteryDischarging: "pos(sonnen.status.Pac_total_W/1000)",

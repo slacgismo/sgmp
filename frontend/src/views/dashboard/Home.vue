@@ -77,15 +77,8 @@
   </div>
 
   <div class="grid grid-cols-1 px-4 gap-4 mt-8 lg:grid-cols-2 sm:px-8">
-    <div class="px-4 py-2 bg-white border rounded-md overflow-hidden shadow">
-      <h3 class="text-xl text-gray-600 mb-4">Energy Generation</h3>
-      <apexchart
-        :type="constants.chartTypes.Donut"
-        :height="300"
-        :options="supplyOptions"
-        :series="supplySeries"
-      ></apexchart>
-    </div>
+    <donut-chart title="Energy Generation" :labels="['Grid', 'Battery', 'Solar']"
+      :request="getDonutRequest()" />
 
     <div class="px-4 py-2 bg-white border rounded-md overflow-hidden shadow">
       <h3 class="text-xl text-gray-600 mb-4">Power Consumption</h3>
@@ -113,14 +106,14 @@
 <script>
 import VueApexCharts from "vue3-apexcharts";
 import DashboardCard from "@/components/card/DashboardCard.vue";
+import DonutChart from "@/components/chart/DonutChart.vue";
 import ThreeYAxesChart from "@/components/chart/ThreeYAxesChart.vue";
-import supply from "@/data/home/supply.json";
 import demand from "@/data/home/demand.json";
 import constants from "@/util/constants";
 const now = new Date();
 
 export default {
-  components: { apexchart: VueApexCharts, DashboardCard, ThreeYAxesChart },
+  components: { apexchart: VueApexCharts, DashboardCard, DonutChart, ThreeYAxesChart },
   data() {
     return {
       now,
@@ -218,40 +211,9 @@ export default {
       },
     ];
 
-    let supplySeries = [],
-      supplyLabels = [];
-    for (let i = 0; i < supply.length; i++) {
-      supplyLabels.push(supply[i].type);
-      supplySeries.push(supply[i].energy);
-    }
-
-    const supplyOptions = {
-      chart: {
-        id: "consumption-chart",
-      },
-      labels: supplyLabels,
-      legend: {
-        position: "right",
-      },
-      tooltip: {
-        shared: true,
-        intersect: false,
-        y: {
-          formatter: function (y) {
-            if (typeof y !== "undefined") {
-              return y + " " + constants.units.Energy;
-            }
-            return y;
-          },
-        },
-      },
-    };
-
     return {
       demandOptions,
-      demandSeries,
-      supplyOptions,
-      supplySeries,
+      demandSeries
     };
   },
   methods: {
@@ -270,7 +232,24 @@ export default {
         end_time: now.getTime(),
         type: "analytics",
         agg_function: "max",
-        formula: formula,
+        formula: formula
+      };
+    },
+    getDonutRequest() {
+      const start = new Date().setHours(0, 0, 0, 0);
+      const duration = now.getTime() - start;
+      return {
+        // start from the beginning of the day
+        start_time: start,
+        end_time: now.getTime(),
+        type: "analytics",
+        agg_function: "avg",
+        formula: [
+          // kWh = kW * duration in ms / (60 * 60 * 1000)
+          constants.formula.Grid + "/3600000*" + duration,
+          constants.formula.BatteryDischarging + "/3600000*" + duration,
+          constants.formula.Solar + "/3600000*" + duration
+        ]
       };
     },
     getTSRequest() {
@@ -286,7 +265,7 @@ export default {
         ],
         average: 300000, // 5 minute = 5 * 60 * 1000
       };
-    },
+    }
   },
 };
 </script>
