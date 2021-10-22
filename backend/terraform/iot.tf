@@ -48,7 +48,7 @@ resource "aws_iot_policy" "edge_policy" {
       {
         "Effect": "Allow",
         "Action": "iot:Publish",
-        "Resource": "arn:aws:iot:${var.region}:${local.account_id}:topic/g${local.resource_prefix}_read/$${iot:Connection.Thing.ThingName}/*"
+        "Resource": "arn:aws:iot:${var.region}:${local.account_id}:topic/${local.resource_prefix}_read/$${iot:Connection.Thing.ThingName}/*"
       },
       {
         "Effect": "Allow",
@@ -58,7 +58,7 @@ resource "aws_iot_policy" "edge_policy" {
       {
         "Effect": "Allow",
         "Action": "iot:Receive",
-        "Resource": "aarn:aws:iot:${var.region}:${local.account_id}:topic/${local.resource_prefix}_config/$${iot:Connection.Thing.ThingName}/*"
+        "Resource": "arn:aws:iot:${var.region}:${local.account_id}:topic/${local.resource_prefix}_config/$${iot:Connection.Thing.ThingName}/*"
       }
     ]
   })
