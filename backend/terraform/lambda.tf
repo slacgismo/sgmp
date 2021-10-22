@@ -7,6 +7,7 @@ resource "aws_lambda_function" "ingest" {
   function_name = "${local.resource_prefix}_ingest"
   role = data.aws_iam_role.lambda.arn
   runtime = "python3.8"
+  handler = "lambda_function"
   tags = local.tags
 
   environment {

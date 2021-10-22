@@ -3,8 +3,8 @@ resource "aws_iot_certificate" "backend_cert" {
 }
 
 resource "aws_iot_topic_rule" "rule" {
-  name        = "${local.resource_prefix}_timescaledb"
-  description = "Lambda -> TimescaleDB ingest rule for deployment ${var.deployment}"
+  name        = "${local.resource_prefix}_data"
+  description = "Lambda -> TimescaleDB ingest rule for SGMP"
   enabled     = true
   sql         = "SELECT * AS data, topic(2) as client_id, cast(topic(3) AS DECIMAL) as device_id, topic(4) as device_name, cast(topic(5) AS DECIMAL) as timestamp FROM '${local.resource_prefix}_read/+/+/+/+/data'"
   sql_version = "2016-03-23"

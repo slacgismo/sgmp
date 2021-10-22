@@ -6,5 +6,13 @@ terraform {
     }
   }
 
-  backend "s3" {}
+  backend "s3" {
+    bucket = "sgmp-terraform-state"
+    key    = "state"
+    region = "us-west-1"
+  }
+}
+
+provider "aws" {
+  region = var.region
 }
