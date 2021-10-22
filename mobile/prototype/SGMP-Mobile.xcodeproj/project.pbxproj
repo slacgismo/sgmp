@@ -10,6 +10,7 @@
 		0D079C92271F89BC006D50D3 /* HouseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D079C91271F89BC006D50D3 /* HouseManager.swift */; };
 		0D079C94271F8BB0006D50D3 /* ListHouseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D079C93271F8BB0006D50D3 /* ListHouseView.swift */; };
 		0D079C96271F9067006D50D3 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D079C95271F9067006D50D3 /* DataManager.swift */; };
+		0D079C99271F9893006D50D3 /* SummaryMetricCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D079C98271F9893006D50D3 /* SummaryMetricCardView.swift */; };
 		0D0D54C6270F8CB700C50FDA /* Image+Crop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0D54C5270F8CB700C50FDA /* Image+Crop.swift */; };
 		0D20B25B270E436400786A05 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 0D20B25A270E436400786A05 /* Kingfisher */; };
 		0D20B25E270E451F00786A05 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = 0D20B25D270E451F00786A05 /* Sentry */; };
@@ -77,6 +78,7 @@
 		0D079C91271F89BC006D50D3 /* HouseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseManager.swift; sourceTree = "<group>"; };
 		0D079C93271F8BB0006D50D3 /* ListHouseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListHouseView.swift; sourceTree = "<group>"; };
 		0D079C95271F9067006D50D3 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		0D079C98271F9893006D50D3 /* SummaryMetricCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryMetricCardView.swift; sourceTree = "<group>"; };
 		0D0D54C5270F8CB700C50FDA /* Image+Crop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Crop.swift"; sourceTree = "<group>"; };
 		0D20B25F270E479300786A05 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
 		0D4BF616270D375900B4496B /* AuthDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDataModel.swift; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 		0D73894726FAA72E000C43A6 /* Decorations */ = {
 			isa = PBXGroup;
 			children = (
+				0D079C98271F9893006D50D3 /* SummaryMetricCardView.swift */,
 				0D73894526FAA72B000C43A6 /* ToastView.swift */,
 				0DECB8B5270BA269001A93F9 /* CardGroupBoxStyle.swift */,
 				0DECB8BD270BA7C2001A93F9 /* DashboardGlanceCellView.swift */,
@@ -438,6 +441,7 @@
 				0D51EE1C26F27FCC00BCAAB3 /* MainTabView.swift in Sources */,
 				0D0D54C6270F8CB700C50FDA /* Image+Crop.swift in Sources */,
 				0DE1F78C271012B000714744 /* ARRefImageSlac3View.swift in Sources */,
+				0D079C99271F9893006D50D3 /* SummaryMetricCardView.swift in Sources */,
 				0D9CDDAF27050D6F00804A57 /* UserManager.swift in Sources */,
 				0D5081012718FDEA00EE0A4F /* ListDeviceView.swift in Sources */,
 				0D6E5B8E270D55AE00576AA4 /* ARDebugView.swift in Sources */,

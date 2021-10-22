@@ -11,7 +11,7 @@ import SwiftUICharts
 struct SummaryTabView: View {
     
     @State private var favoriteColor = 0
-    @State var now : Date = Date()
+    @State var refreshDate : Date = Date()
     var body: some View {
         List {
 
@@ -29,45 +29,23 @@ struct SummaryTabView: View {
                 }
 
             } header: {
-                Text("Summary for today (refreshed \(now, style: .relative) ago)")
+                Text("Summary for today (refreshed \(refreshDate, style: .relative) ago)")
                     .font(.caption.smallCaps())
                     .foregroundColor(Color(UIColor.secondaryLabel))
             }
             
             Section {
-                DashboardGlanceCellView(title: "Solar Power", iconName: "sun.min", iconColor: .yellow, number: "128 KWH")
-                DashboardGlanceCellView(title: "Battery Discharging", iconName: "battery.100", iconColor: .green, number: "27 KW")
-                DashboardGlanceCellView(title: "EV Charging", iconName: "car.fill", iconColor: .purple, number: "128 min")
-                DashboardGlanceCellView(title: "Loads", iconName: "server.rack", iconColor: .red, number: "76 KW")
-                VStack {
-                    HStack {
-                        Text("Power Consumption")
-                            .font(.caption.bold())
-                        Spacer()
-                    }
-                    BarChart()
-                            .data([8, 2, 4, 6, 12, 9, 2])
-                            .chartStyle(ChartStyle(backgroundColor: .white,
-                                                   foregroundColor: ColorGradient(.blue, .purple)))
-                            .frame(height: 128)
-                }
-                
-                VStack {
-                    HStack {
-                        Text("Energy Generation")
-                            .font(.caption.bold())
-                        Spacer()
-                    }
-                    LineChart()
-                            .data([12, 2, 7, 6, 0, 3, 2])
-                            .chartStyle(ChartStyle(backgroundColor: .white,
-                                                   foregroundColor: ColorGradient(.blue, .purple)))
-                            .frame(height: 128)
-                }
+                SummaryMetricCardView(refreshDate: $refreshDate, title: "Solar Power", iconName: "sun.min", iconColor: .yellow, number: "- Wh", numberCallback: { value in String(format: "%.5f Wh", value)}, formula: "egauge.A.Solar", aggregateFunction: .avg)
+                SummaryMetricCardView(refreshDate: $refreshDate, title: "Battery", iconName: "battery.100", iconColor: .green, number: "- kWh", numberCallback: { value in String(format: "%.5f kWh", value) }, formula: "sonnen.status.Pac_total_W/1000", aggregateFunction: .avg)
+                SummaryMetricCardView(refreshDate: $refreshDate, title: "EV", iconName: "car.fill", iconColor: .purple, number: "- Wh", numberCallback: { value in String(format: "%.5f Wh", value) }, formula: "-egauge.A.EV", aggregateFunction: .avg)
+                SummaryMetricCardView(refreshDate: $refreshDate, title: "Loads", iconName: "server.rack", iconColor: .red, number: "76 KW")
             }
         }
+        .onAppear(perform: {
+            refreshDate = Date()
+        })
         .refreshable {
-            now = Date()
+            refreshDate = Date()
         }
         .navigationTitle("Dashboard")
     }
