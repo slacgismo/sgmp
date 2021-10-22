@@ -1,19 +1,23 @@
 <template>
   <div class="px-4 py-2 bg-white border rounded-md overflow-hidden shadow">
     <h3 class="text-xl text-gray-600 mb-4">{{ title }}</h3>
-      <loading v-show="!loaded"/>
-      <apexchart v-show="loaded"
-      ref="donutChart"
-      :type="constants.chartTypes.Donut"
-      :height="300"
-      :options="options"
-      :series="series" />
+    <div>
+      <loading v-show="!loaded" />
+      <apexchart
+        v-show="loaded"
+        ref="donutChart"
+        :type="constants.chartTypes.Donut"
+        :height="300"
+        :options="options"
+        :series="series"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import VueApexCharts from "vue3-apexcharts";
-import Loading from '@/components/Loading.vue';
+import Loading from "@/components/Loading.vue";
 import httpReq from "@/util/requestOptions";
 import constants from "@/util/constants";
 
@@ -28,10 +32,10 @@ export default {
   mounted() {
     // POST request to fetch data for the donut chart
     fetch(
-        constants.server + "/api/data/read", // endpoint
-        httpReq.post(this.request) // requestOptions
-      )
-      .then(async response => {
+      constants.server + "/api/data/read", // endpoint
+      httpReq.post(this.request) // requestOptions
+    )
+      .then(async (response) => {
         const data = await response.json();
 
         // check for error response
@@ -43,15 +47,15 @@ export default {
 
         this.updateChart(data.results);
       })
-      .catch(error => {
+      .catch((error) => {
         this.errorMessage = error;
-        console.error('There was an error!', error);
+        console.error("There was an error!", error);
       });
   },
   setup() {
     return {
       options: {},
-      series:[]
+      series: [],
     };
   },
   watch: {
@@ -59,25 +63,25 @@ export default {
       immediate: true,
       handler() {
         document.title = this.title;
-      }
+      },
     },
     labels: {
       immediate: true,
       handler() {
         document.labels = this.labels;
-      }
+      },
     },
     request: {
       immediate: true,
       handler() {
         document.request = this.request;
-      }
-    }
+      },
+    },
   },
   data() {
     return {
       loaded: false,
-      constants: constants
+      constants: constants,
     };
   },
   methods: {
@@ -90,7 +94,7 @@ export default {
         // round to 3 decimals
         values.push(Math.round((data[i].value + Number.EPSILON) * 1000) / 1000);
       }
-      
+
       this.options = {
         labels: this.labels,
         series: values,
@@ -113,7 +117,7 @@ export default {
 
       this.$refs.donutChart.updateOptions(this.options, true);
       this.loaded = true;
-    }
-  }
+    },
+  },
 };
 </script>

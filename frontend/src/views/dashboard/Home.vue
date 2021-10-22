@@ -124,7 +124,6 @@ import DashboardCard from "@/components/card/DashboardCard.vue";
 import DonutChart from "@/components/chart/DonutChart.vue";
 import LeftRightYAxesChart from "@/components/chart/LeftRightYAxesChart.vue";
 import ThreeYAxesChart from "@/components/chart/ThreeYAxesChart.vue";
-import demand from "@/data/home/demand.json";
 import constants from "@/util/constants";
 const now = new Date();
 
@@ -140,87 +139,6 @@ export default {
     return {
       now,
       constants,
-    };
-  },
-  setup() {
-    let demandLabels = [];
-    let loadCons = [],
-      evCons = [],
-      battCons = [];
-    // TODO: ensure Load, EV, Battery follows the same timestamp (at least within 1 hour)
-    for (let i = 0; i < demand.EV.length; i++) {
-      demandLabels.push(new Date(demand.EV[i].timestamp).getHours());
-      loadCons.push(demand.Load[i].data);
-      evCons.push(demand.EV[i].data);
-      battCons.push(demand.Battery[i].data);
-    }
-
-    var demandOptions = {
-      chart: {
-        height: 350,
-        type: "line",
-        stacked: false,
-      },
-      stroke: {
-        width: [0, 2, 5],
-        curve: "smooth",
-      },
-      plotOptions: {
-        bar: {
-          columnWidth: "50%",
-        },
-      },
-
-      fill: {
-        opacity: [0.85, 0.25, 1],
-        gradient: {
-          inverseColors: false,
-          shade: "light",
-          type: "vertical",
-          opacityFrom: 0.85,
-          opacityTo: 0.55,
-          stops: [0, 100, 100, 100],
-        },
-      },
-      labels: demandLabels,
-      xaxis: {
-        title: {
-          text: "time",
-        },
-        type: "time",
-      },
-      yaxis: {
-        title: {
-          text: "Average Power (kW)",
-        },
-        min: 0,
-      },
-      legend: {
-        position: "bottom",
-      },
-    };
-
-    const demandSeries = [
-      {
-        name: "Load (kW)",
-        type: "column",
-        data: loadCons,
-      },
-      {
-        name: "EV (kW)",
-        type: "area",
-        data: evCons,
-      },
-      {
-        name: "Battery (kW)",
-        type: "line",
-        data: battCons,
-      },
-    ];
-
-    return {
-      demandOptions,
-      demandSeries,
     };
   },
   methods: {
