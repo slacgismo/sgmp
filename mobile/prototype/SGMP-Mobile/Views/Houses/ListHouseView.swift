@@ -1,47 +1,49 @@
 //
-//  ListDeviceView.swift
+//  ListHouseView.swift
 //  SGMP-Mobile
 //
-//  Created by fincher on 10/14/21.
+//  Created by fincher on 10/19/21.
 //
 
 import SwiftUI
 
-struct ListDeviceView: View {
+struct ListHouseView: View {
     
     @EnvironmentObject var env : Env
     @State private var searchText = ""
     
+    func refresh() -> Void {
+        HouseManager.shared.refreshEnvHouses { houses, err in
+            
+        }
+    }
     
-    var results: [Device] {
+    var results: [House] {
         if searchText.isEmpty {
-            return env.devices
+            return env.houses
         } else {
-            return env.devices.filter { $0.name.contains(searchText) || $0.description.contains(searchText) }
+            return env.houses.filter { $0.name.contains(searchText) || $0.description.contains(searchText) }
         }
     }
     
     var body: some View {
         List {
             Section {
-                ForEach(results) { device in
+                ForEach(results) { house in
                     NavigationLink {
-                        SpecificDeviceView(device: device)
+                        ListDeviceView(houseId: house.house_id)
                     } label: {
                         HStack {
                             VStack {
                                 HStack {
-                                    Text("\(device.device_id)")
+                                    Text("\(house.house_id)")
                                         .font(.caption.monospaced())
-                                    Text("\(device.name)")
+                                    Text("\(house.name)")
                                         .font(.headline.bold())
                                 }
-                                Text("\(device.type)")
-                                    .font(.footnote)
-                                    .foregroundColor(.init(UIColor.tertiaryLabel))
                             }
                             Spacer()
-                            Text("\(device.description)")
+                            Text("\(house.description)")
                                 .font(.caption)
                                 .foregroundColor(.init(UIColor.secondaryLabel))
                         }
@@ -49,20 +51,19 @@ struct ListDeviceView: View {
                 }
             }
         }
-        .searchable(text: $searchText, prompt: "Search for device")
+        .searchable(text: $searchText, prompt: "Search for house")
         .refreshable {
+            refresh()
         }
         .onAppear(perform: {
-            DeviceManager.shared.refreshEnvDevices { devices, err in
-                
-            }
+            refresh()
         })
-        .navigationTitle("Devices")
+        .navigationTitle("Houses")
     }
 }
 
-struct ListDeviceView_Previews: PreviewProvider {
+struct ListHouseView_Previews: PreviewProvider {
     static var previews: some View {
-        ListDeviceView()
+        ListHouseView()
     }
 }

@@ -32,6 +32,7 @@
 		0D51EE1C26F27FCC00BCAAB3 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D51EE1B26F27FCC00BCAAB3 /* MainTabView.swift */; };
 		0D5543A4270D5C5B009A9B87 /* ArDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5543A3270D5C5B009A9B87 /* ArDataModel.swift */; };
 		0D5E22AF26FEF427002B0A4B /* AboutAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5E22AE26FEF427002B0A4B /* AboutAppView.swift */; };
+		0D5F56EB272749350029A53B /* ChooseHouseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F56EA272749350029A53B /* ChooseHouseView.swift */; };
 		0D5F79E526FB2D660013AAB1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F79E426FB2D660013AAB1 /* Main.storyboard */; };
 		0D6E5B8C270D4EF200576AA4 /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6E5B8B270D4EF200576AA4 /* ResetPasswordView.swift */; };
 		0D6E5B8E270D55AE00576AA4 /* ARDebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6E5B8D270D55AE00576AA4 /* ARDebugView.swift */; };
@@ -95,6 +96,7 @@
 		0D51EE1B26F27FCC00BCAAB3 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		0D5543A3270D5C5B009A9B87 /* ArDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArDataModel.swift; sourceTree = "<group>"; };
 		0D5E22AE26FEF427002B0A4B /* AboutAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppView.swift; sourceTree = "<group>"; };
+		0D5F56EA272749350029A53B /* ChooseHouseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseHouseView.swift; sourceTree = "<group>"; };
 		0D5F79E426FB2D660013AAB1 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		0D5F79E626FB2DCA0013AAB1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		0D5F7A0726FB33380013AAB1 /* SGMP-Mobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SGMP-Mobile.entitlements"; sourceTree = "<group>"; };
@@ -218,6 +220,26 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		0D5F56EC272749380029A53B /* Houses */ = {
+			isa = PBXGroup;
+			children = (
+				0D5F56EA272749350029A53B /* ChooseHouseView.swift */,
+				0D079C93271F8BB0006D50D3 /* ListHouseView.swift */,
+			);
+			path = Houses;
+			sourceTree = "<group>";
+		};
+		0D5F56ED2727493F0029A53B /* Devices */ = {
+			isa = PBXGroup;
+			children = (
+				0D5081002718FDEA00EE0A4F /* ListDeviceView.swift */,
+				0D50810227191F8B00EE0A4F /* SpecificDeviceView.swift */,
+				0D5081082719569F00EE0A4F /* SpecificDeviceKeyView.swift */,
+				0D5081062719390300EE0A4F /* SpecificDeviceKeyChartSelfLoadView.swift */,
+			);
+			path = Devices;
+			sourceTree = "<group>";
+		};
 		0D73894026FA9827000C43A6 /* Touch */ = {
 			isa = PBXGroup;
 			children = (
@@ -248,11 +270,8 @@
 				0D51EE1B26F27FCC00BCAAB3 /* MainTabView.swift */,
 				0D4BF618270D3D1400B4496B /* Auth */,
 				0DE2E7C026F8625200932B41 /* SummaryTabView.swift */,
-				0D079C93271F8BB0006D50D3 /* ListHouseView.swift */,
-				0D5081002718FDEA00EE0A4F /* ListDeviceView.swift */,
-				0D50810227191F8B00EE0A4F /* SpecificDeviceView.swift */,
-				0D5081082719569F00EE0A4F /* SpecificDeviceKeyView.swift */,
-				0D5081062719390300EE0A4F /* SpecificDeviceKeyChartSelfLoadView.swift */,
+				0D5F56EC272749380029A53B /* Houses */,
+				0D5F56ED2727493F0029A53B /* Devices */,
 				0DE2E7C226F8625600932B41 /* CameraTabView.swift */,
 				0DE2E7C426F8625C00932B41 /* SettingsTabView.swift */,
 				0D5E22AE26FEF427002B0A4B /* AboutAppView.swift */,
@@ -448,6 +467,7 @@
 				0DE2E7C526F8625C00932B41 /* SettingsTabView.swift in Sources */,
 				0DE1F79027101D6F00714744 /* ARSwiftUIHostingController.swift in Sources */,
 				0D5081052719344200EE0A4F /* ExpandableView.swift in Sources */,
+				0D5F56EB272749350029A53B /* ChooseHouseView.swift in Sources */,
 				0DECB8B6270BA269001A93F9 /* CardGroupBoxStyle.swift in Sources */,
 				0DECB8BE270BA7C2001A93F9 /* DashboardGlanceCellView.swift in Sources */,
 				0DE2E7BA26F85FAD00932B41 /* State.swift in Sources */,

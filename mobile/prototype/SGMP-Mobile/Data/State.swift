@@ -15,6 +15,7 @@ class Env: ObservableObject {
     
     // MARK: - Houses
     @Published var houses : [House] = []
+    @Published var currentDashboardHouse : House? = nil
     
     // MARK: - Devices
     @Published var devices : [Device] = []

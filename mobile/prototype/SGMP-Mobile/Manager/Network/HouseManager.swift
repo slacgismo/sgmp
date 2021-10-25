@@ -14,6 +14,9 @@ class HouseManager : BaseManager {
         return instance
     }
     
+    override func setup() {
+    }
+    
     // MARK: - House
     func getHouses(callback: (@escaping ([House], Error?) -> Void)) -> Void {
         URLSession.shared.dataTask(with: SgmpHostUrl.appendingPathComponent("api/house/list")) { data, response, err in

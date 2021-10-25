@@ -66,6 +66,11 @@ struct SummaryMetricCardView: View {
             .opacity(refreshing ? 0 : 1)
         }
         .contextMenu {
+            Menu("Data") {
+                Text("\(formula ?? "")")
+                Text("\(aggregateFunction?.rawValue ?? "")")
+            }
+            Divider()
             Button {
                 refresh()
             } label: {
