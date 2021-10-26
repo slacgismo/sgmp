@@ -120,7 +120,7 @@
                     </a>
                   </li>
                 </router-link>
-                <router-link
+                <router-link v-if="visible"
                   v-slot="{ isExactActive, href, navigate }"
                   :to="{ name: 'battery' }"
                 >
@@ -340,13 +340,15 @@ import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 
+import constants from "@/util/constants";
+import httpReq from "@/util/requestOptions";
+
 export default {
   components: {
     Disclosure,
     DisclosureButton,
     DisclosurePanel,
   },
-
   setup() {
     const route = useRoute();
 
@@ -361,5 +363,40 @@ export default {
       isUserManagementActive,
     };
   },
+  data() {
+    return {
+      visible: false
+    };
+  },
+  created() {
+    // POST request to fetch data for the houses
+    fetch(
+      constants.server + "/api/device/list", // endpoint
+      httpReq.post({"house_id": localStorage.getItem("house_id")}) // requestOptions
+    )
+      .then(async (response) => {
+        const data = await response.json();
+
+        // check for error response
+        if (!response.ok) {
+          // get error message from body or default to response status
+          const error = (data && data.message) || response.status;
+          return Promise.reject(error);
+        }
+
+        if (data && data.devices) {
+          for (let i = 0; i < data.devices.length; i++) {
+            if (data.devices[i].type == constants.sources.Battery) {
+              this.visible = true;
+              break;
+            }
+          }
+        }
+      })
+      .catch((error) => {
+        this.errorMessage = error;
+        console.error(error);
+      });
+  }
 };
 </script>

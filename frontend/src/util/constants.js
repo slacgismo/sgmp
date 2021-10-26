@@ -22,5 +22,6 @@ export default Object.freeze({
         Voltage1: "egauge.A.L1_Voltage",
         Voltage2: "egauge.A.L2_Voltage"
     }),
+    sources: Object.freeze({ Battery: "sonnen" }),
     chartTypes: Object.freeze({ Column: "column", Line: "line", Donut: "donut" })
 })

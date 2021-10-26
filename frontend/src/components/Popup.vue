@@ -106,9 +106,12 @@ export default {
   },
   methods: {
     saveChange() {
-      if (typeof(this.selected) != "number") {
+      if (typeof(this.selected) != "number" ||
+          this.selected == localStorage.getItem("house_id")) {
+        this.TogglePopup();
         return;
       }
+
       let request = {
         "email": localStorage.getItem("email"),
         "house_id": this.selected

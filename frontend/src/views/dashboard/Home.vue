@@ -45,7 +45,7 @@
       />
     </router-link>
 
-    <router-link v-if="false" :to="{ name: 'battery' }">
+    <router-link v-if="visible" :to="{ name: 'battery' }">
       <!-- https://www.svgrepo.com/svg/326915/battery-charging-sharp -->
       <dashboard-card
         :unit="constants.units.Power"
@@ -125,6 +125,7 @@ import DonutChart from "@/components/chart/DonutChart.vue";
 import LeftRightYAxesChart from "@/components/chart/LeftRightYAxesChart.vue";
 import ThreeYAxesChart from "@/components/chart/ThreeYAxesChart.vue";
 import constants from "@/util/constants";
+import httpReq from "@/util/requestOptions";
 const now = new Date();
 
 export default {
@@ -139,7 +140,37 @@ export default {
     return {
       now,
       constants,
+      visible: false
     };
+  },
+  created() {
+    // POST request to fetch data for the houses
+    fetch(
+      constants.server + "/api/device/list", // endpoint
+      httpReq.post({"house_id": localStorage.getItem("house_id")}) // requestOptions
+    )
+      .then(async (response) => {
+        const data = await response.json();
+
+        // check for error response
+        if (!response.ok) {
+          // get error message from body or default to response status
+          const error = (data && data.message) || response.status;
+          return Promise.reject(error);
+        }
+
+        if (data && data.devices) {
+          for (let i = 0; i < data.devices.length; i++) {
+            if (data.devices[i].type == constants.sources.Battery) {
+              this.visible = true;
+            }
+          }
+        }
+      })
+      .catch((error) => {
+        this.errorMessage = error;
+        console.error(error);
+      });
   },
   methods: {
     getDate() {
