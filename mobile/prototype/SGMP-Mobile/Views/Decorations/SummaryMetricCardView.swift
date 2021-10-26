@@ -17,6 +17,7 @@ struct SummaryMetricCardView: View {
     @State var iconColor : Color = Color.accentColor
     @State var number : String = "Metric Value"
     
+    var houseId : Int64?
     var numberCallback: ((Double) -> String)?
     var formula : String?
     var aggregateFunction : AggregateFunction?

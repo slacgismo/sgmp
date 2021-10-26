@@ -49,13 +49,13 @@ struct SummaryTabView: View {
                     
                     Section {
                         NavigationLink {
-                            
+//                            SpecificDeviceView(
                         } label: {
                             SummaryMetricCardView(refreshDate: $refreshDate, title: "Solar Power", iconName: "sun.min", iconColor: .yellow, number: "- Wh", numberCallback: { value in String(format: "%.5f Wh", value)}, formula: "egauge.A.Solar", aggregateFunction: .avg)
                         }
                         SummaryMetricCardView(refreshDate: $refreshDate, title: "Battery", iconName: "battery.100", iconColor: .green, number: "- kWh", numberCallback: { value in String(format: "%.5f kWh", value) }, formula: "sonnen.status.Pac_total_W/1000", aggregateFunction: .avg)
                         SummaryMetricCardView(refreshDate: $refreshDate, title: "EV", iconName: "car.fill", iconColor: .purple, number: "- Wh", numberCallback: { value in String(format: "%.5f Wh", value) }, formula: "-egauge.A.EV", aggregateFunction: .avg)
-                        SummaryMetricCardView(refreshDate: $refreshDate, title: "Loads", iconName: "server.rack", iconColor: .red, number: "0 kW", numberCallback: { value in String(format: "%.5f kW", value) }, formula: "-egauge.A.SubPanel", aggregateFunction: .avg)
+                        SummaryMetricCardView(refreshDate: $refreshDate, title: "Loads", iconName: "server.rack", iconColor: .red, number: "- kW", numberCallback: { value in String(format: "%.5f kW", value) }, formula: "-egauge.A.SubPanel", aggregateFunction: .avg)
                     }
                 }
             } else {

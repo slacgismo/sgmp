@@ -6,8 +6,7 @@ import Amplify
 class Env: ObservableObject {
     
     // MARK: - User
-    @Published var authState : AuthStates? = nil
-    @Published var authUser : AuthUser? = nil
+    @Published var loginRequired : Bool = false
     
     // MARK: - AR
     @Published var arCameraTrackingState : ARCameraTrackingState = .notAvailable
@@ -21,6 +20,11 @@ class Env: ObservableObject {
     @Published var devices : [Device] = []
     
     init() {
+        Defaults.observe(.userProfile) { change in
+            DispatchQueue.main.async {
+                self.loginRequired = change.newValue == nil
+            }
+        }.tieToLifetime(of: self)
     }
 }
 
@@ -28,4 +32,5 @@ extension Defaults.Keys {
     static let debugMode = Key<Bool>("debugMode", default: false)
     static let mockMode = Key<Bool>("mockMode", default: false)
     static let crashAnalytics = Key<Bool>("crashAnalytics", default: false)
+    static let userProfile = Key<UserProfile?>("userProfile", default: nil)
 }

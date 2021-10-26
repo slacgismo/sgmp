@@ -12,42 +12,48 @@ import Kingfisher
 
 struct SettingsTabView: View {
     @EnvironmentObject var env : Env
+    @Default(.userProfile) var userProfile
     @Default(.debugMode) var debugMode
     @Default(.crashAnalytics) var crashAnalytics
     
     var body: some View {
         List {
-            Section {
-                VStack(alignment: .center, spacing: 0) {
-                    KFImage.url(URL(string: "https://ui-avatars.com/api/?name=User+Name&size=256&bold=true")!)
-                        .resizable()
-                        .placeholder({ progress in
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle())
-                        })
-                        .clipShape(Circle())
-                        .frame(width: 128, height: 128, alignment: .center)
-                        .padding(.bottom)
-                    
-                    Text("User Name")
-                        .font(.body.bold())
-                }.frame(maxWidth: .infinity)
-                .padding()
-                
-                Button {
-                    Amplify.Auth.signOut() { result in
-                        switch result {
-                        case .success:
-                            print("Successfully signed out")
-                        case .failure(let error):
-                            print("Sign out failed with error \(error)")
+            if let user = userProfile {
+                Section {
+                    HStack(alignment: .center) {
+                        KFImage.url(URL(string: "https://ui-avatars.com/api/?name=\(user.name.replacingOccurrences(of: " ", with: "+"))&size=256&bold=true&background=random")!)
+                            .resizable()
+                            .placeholder({ progress in
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle())
+                            })
+                            .aspectRatio(1, contentMode: .fit)
+                            .clipShape(Circle())
+                            .frame(idealWidth: 64, idealHeight: 64)
+                            .layoutPriority(0.1)
+                        
+                        VStack(alignment: .leading) {
+                            Text("\(user.name)")
+                                .font(.title.bold())
+                            Text("\(user.email)")
+                                .font(.footnote)
+                                .foregroundColor(.init(UIColor.secondaryLabel))
+                            Text("\(user.roles.joined(separator: ", "))")
+                                .font(.caption.smallCaps().bold())
+                                .foregroundColor(.init(UIColor.quaternaryLabel))
                         }
+                        .layoutPriority(0.9)
                     }
-                } label: {
-                    Text("Logout")
+                    .padding(.vertical)
+                    
+                    Button {
+                        userProfile = nil
+                    } label: {
+                        Text("Logout")
+                    }
+                } header: {
+                    Text("User")
                 }
-            } header: {
-                Text("User")
             }
             
             Section {
@@ -67,12 +73,16 @@ struct SettingsTabView: View {
                 if debugMode {
                     Text("SGMP \(Bundle.main.versionString ?? "NULL") (\(Bundle.main.buildString ?? "NULL"))")
                         .font(.caption.monospaced())
-                    Text("User ID \(env.authUser?.userId ?? "NULL")")
-                        .font(.caption.monospaced())
+                        .textSelection(.enabled)
                     Text("Model \(UIDevice.current.model) (\(UIDevice.current.name))")
                         .font(.caption.monospaced())
+                        .textSelection(.enabled)
                     Text("System \(UIDevice.current.systemName) \(UIDevice.current.systemVersion)")
                         .font(.caption.monospaced())
+                        .textSelection(.enabled)
+                    Text("Token \(userProfile?.accessToken ?? "-")")
+                        .font(.caption.monospaced())
+                        .textSelection(.enabled)
                 }
             } header: {
                 Text("Debug Info")

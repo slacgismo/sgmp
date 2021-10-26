@@ -11,7 +11,7 @@ import Defaults
 
 struct LoginView: View {
     @EnvironmentObject var env : Env
-    @State private var username = ""
+    @State private var email = ""
     @State private var password = ""
     @State private var errorMsg : String = ""
     @State private var networking : Bool = false
@@ -27,37 +27,39 @@ struct LoginView: View {
                             .frame(maxWidth: .infinity)
                     }
                     else {
-                        TextField("Username", text: $username)
+                        TextField("Email", text: $email)
                             .keyboardType(.emailAddress)
                             .autocapitalization(.none)
                             .disableAutocorrection(true)
+                            .font(.body.monospaced())
                         SecureField("Password", text: $password)
+                            .font(.body.monospaced())
                     }
                 } header: {
                     Text("Credentials")
                 } footer: {
                     HStack {
                         Link("Register", destination: URL(string: "https://www6.slac.stanford.edu/")!)
-                        Text(" / ")
-                        Button("Reset") {
-                            env.authState = .resetPassword(nil)
-                        }
+//                        Text(" / ")
+//                        Button("Reset") {
+//                            env.authState = .resetPassword(nil)
+//                        }
                     }
                 }
 
                 Section {
                     Button {
                         networking = true
-                        Amplify.Auth.signIn(username: username, password: password) { result in
-                            do {
-                                // refer to https://docs.amplify.aws/lib/auth/signin_next_steps/q/platform/ios/
-                                let signinResult = try result.get()
-                                DispatchQueue.main.async {
-                                    env.authState = .init(from: signinResult.nextStep)
+                        UserManager.shared.login(email: email, password: password) { response, err in
+                            if let err = err {
+                                errorMsg = "\(err)"
+                            } else if let response = response {
+                                if let message = response.message, response.status != "ok" {
+                                    errorMsg = "\(message)"
                                 }
-                            } catch {
-                                print ("Sign in failed \(error)")
-                                errorMsg = "\(error)"
+                                else if let profile = response.profile, let token = response.accesstoken {
+                                    Defaults[.userProfile] = .init(profileResponse: profile, token: token)
+                                }
                             }
                             networking = false
                         }
@@ -65,7 +67,7 @@ struct LoginView: View {
                     } label: {
                         Text(networking ? "Please wait ..." : "Login")
                     }
-                    .disabled(username.isEmpty || password.isEmpty)
+                    .disabled(email.isEmpty || password.isEmpty)
                 } footer: {
                     Text(errorMsg)
                         .foregroundColor(.red)
@@ -74,7 +76,7 @@ struct LoginView: View {
         }
         .interactiveDismissDisabled(true)
         .onAppear {
-            username = ""
+            email = ""
             password = ""
             errorMsg = ""
             networking = false

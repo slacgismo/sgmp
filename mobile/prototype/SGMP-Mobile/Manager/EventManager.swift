@@ -18,7 +18,7 @@ class EventManager : BaseManager {
     }
     
     func log (message : String) -> Void {
-//        SentrySDK.
+        
     }
     
     func capture (err : Error) -> Void {
@@ -35,9 +35,6 @@ class EventManager : BaseManager {
             } else {
                 SentrySDK.close()
             }
-        }
-        _ = EnvironmentManager.shared.env.authUser.publisher.sink { user in
-            SentrySDK.setUser(User(userId: user.userId))
         }
     }
     
