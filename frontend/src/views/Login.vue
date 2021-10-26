@@ -199,8 +199,17 @@ export default {
             } else {
               localStorage.setItem("username", "User");
             }
-            if (data.profile && data.profile.roles) {
-              localStorage.setItem("roles", data.profile.roles);
+            if (data.profile) {
+              if (data.profile.roles) {
+                localStorage.setItem("roles", data.profile.roles);
+              }
+              if (data.profile.email) {
+                localStorage.setItem("email", data.profile.email);
+              }
+              // TODO: replace once backend API is ready
+              localStorage.setItem("house", "House B");
+              // this.$root.house.id = 1;
+              // this.$root.house.description = "House B";
             }
 
             this.$router.push(this.$route.query.redirect || "/");

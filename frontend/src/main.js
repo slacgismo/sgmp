@@ -9,11 +9,6 @@ app.use(router)
 
 // inject global methods
 app.mixin({
-    data() {
-        return {
-            houseId: 1,
-        };
-    },
     methods: {
         isAdmin() {
             if (localStorage && localStorage.roles &&

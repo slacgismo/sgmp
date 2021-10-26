@@ -16,30 +16,30 @@
         />
       </svg>
     </button>
-    <div class="flex">
-      <h1 class="text-2xl px-2 py-4 text-gray-800">
+    <div class="flex items-center space-x-1">
+      <h1 class="text-2xl py-4 text-gray-800">
         Smart Grid Management Platform
       </h1>
-      <select
-        class="
-          w-32 h-auto
-          space-x-2
-          px-2
-          py-4
-          text-sm
-          border-0 border-b-2 border-gray-200
-          hover:border-red-900
-        "
-        @change="onChangeHome($event)"
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-4 w-4"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
       >
-        <option
-          :value="house.house_id"
-          v-for="house in houseList"
-          :key="house.house_id"
-        >
-          {{ house.description }}
-        </option>
-      </select>
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 5l7 7-7 7"
+        />
+      </svg>
+      <button class="text-2xl text-red-900 hover:underline" :key="house"
+        @click="TogglePopup()">{{ house }}</button>
+      <popup 
+        v-if="popupTriggers" 
+        :TogglePopup="() => TogglePopup()">
+      </popup>
     </div>
 
     <Menu as="div" class="relative">
@@ -133,7 +133,9 @@
 </template>
 
 <script>
+import { ref } from 'vue';
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
+import Popup from "@/components/Popup.vue";
 import httpReq from "@/util/requestOptions";
 import constants from "@/util/constants";
 
@@ -143,13 +145,27 @@ export default {
     MenuButton,
     MenuItems,
     MenuItem,
+    Popup
+  },
+  setup() {
+    const popupTriggers = ref(false);
+		const TogglePopup = () => {
+			popupTriggers.value = !popupTriggers.value
+		};
+    return {
+			popupTriggers,
+			TogglePopup
+		}
   },
   data() {
     return {
+      house: "",
       houseList: {},
     };
   },
   created() {
+    this.house = localStorage.getItem("house");
+    
     // POST request to fetch data for the houses
     fetch(
       constants.server + "/api/house/list", // endpoint
@@ -188,9 +204,6 @@ export default {
     },
     logout() {
       localStorage.clear();
-    },
-    onChangeHome(event) {
-      this.$data.houseId = parseInt(event.target.value);
     }
   },
 };
