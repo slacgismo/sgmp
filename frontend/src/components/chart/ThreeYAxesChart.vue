@@ -90,13 +90,25 @@ export default {
         return;
       }
 
-      let timeLabels = [], series1 = [], series2 = [], series3 = [];
-      for (let i = 0; i < results[0].data.length; i++) {
-        timeLabels.push(new Date(results[0].data[i].timestamp).
+      let timeLabels = [], series = new Array(3), size = 0, availableIdx = 0;
+      for (let j = 0; j < 3; j++) {
+        let tmp = results[j].data;
+        if (tmp && tmp.length > 0) {
+          size = tmp.length;
+          availableIdx = j;
+        }
+        series[j] = new Array();
+      }
+
+      for (let i = 0; i < size; i++) {
+        timeLabels.push(new Date(results[availableIdx].data[i].timestamp).
           toLocaleDateString("en", constants.timeFormat));
-        series1.push((results[0].data[i].value).toFixed(3));
-        series2.push((results[1].data[i].value).toFixed(3));
-        series3.push((results[2].data[i].value).toFixed(3));
+        for (let j = 0; j < 3; j++) {
+          if (!results[j].data || results[j].data.length == 0) {
+            continue;
+          }
+          series[j].push((results[j].data[i].value).toFixed(3));
+        }
       }
       
       let strokes = {};
@@ -116,17 +128,17 @@ export default {
           {
             name: this.labels[0],
             type: "column",
-            data: series1,
+            data: series[0],
           },
           {
             name: this.labels[1],
             type: "area",
-            data: series2,
+            data: series[1],
           },
           {
             name: this.labels[2],
             type: "line",
-            data: series3,
+            data: series[2],
           }
         ],
         stroke: {

@@ -92,7 +92,11 @@ export default {
       let values = [];
       for (let i = 0; i < data.length; i++) {
         // round to 3 decimals
-        values.push(Math.round((data[i].value + Number.EPSILON) * 1000) / 1000);
+        if (!data[i].value) { // certain data might be unavailable
+          values.push(0);
+        } else {
+          values.push(Math.round((data[i].value + Number.EPSILON) * 1000) / 1000);
+        }
       }
 
       this.options = {
