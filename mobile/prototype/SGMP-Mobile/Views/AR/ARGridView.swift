@@ -13,6 +13,7 @@ struct ARGridView: View {
     var body: some View {
         GeometryReader { proxy in
             ZStack(alignment: .bottom) {
+//                UIViewController1Representable()
                 ARGridViewControllerRepresentable()
                     .ignoresSafeArea()
                 ARDebugView()

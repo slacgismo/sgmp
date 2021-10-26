@@ -5,7 +5,6 @@
 //  Created by fincher on 9/29/21.
 //
 
-import Amplify
 import SwiftUI
 import Defaults
 

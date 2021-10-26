@@ -14,7 +14,6 @@ class ARGridViewController : UIViewController, ARSCNViewDelegate, ARSessionDeleg
         arView.frame = self.view.bounds
         arView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         arView.delegate = self
-//        arView.showsStatistics = Defaults.
         arView.session = ARSession()
         arView.session.delegate = self
         arView.isUserInteractionEnabled = true
@@ -24,7 +23,6 @@ class ARGridViewController : UIViewController, ARSCNViewDelegate, ARSessionDeleg
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         let config = ARWorldTrackingConfiguration()
-//        config.frameSemantics.insert(.personSegmentationWithDepth)
         config.maximumNumberOfTrackedImages = 4
         if let referenceImages = ARReferenceImage.referenceImages(inGroupNamed: "ARResources", bundle: nil) {
             config.detectionImages = referenceImages
@@ -119,4 +117,21 @@ struct ARGridViewControllerRepresentable : UIViewControllerRepresentable {
     }
     
     typealias UIViewControllerType = ARGridViewController
+}
+
+
+struct UIViewController1Representable : UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> UIViewController {
+        return UIViewController()
+    }
+    
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+        
+    }
+    
+    static func dismantleUIViewController(_ uiViewController: UIViewController, coordinator: ()) {
+
+    }
+    
+    typealias UIViewControllerType = UIViewController
 }

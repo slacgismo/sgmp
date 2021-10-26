@@ -1,7 +1,6 @@
 import Foundation
 import SwiftUI
 import Defaults
-import Amplify
 
 class Env: ObservableObject {
     
