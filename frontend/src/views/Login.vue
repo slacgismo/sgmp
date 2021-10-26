@@ -207,7 +207,8 @@ export default {
                 localStorage.setItem("email", data.profile.email);
               }
               // TODO: replace once backend API is ready
-              localStorage.setItem("house", "House B");
+              localStorage.setItem("house_id", 1);
+              localStorage.setItem("house_desc", "House B");
               // this.$root.house.id = 1;
               // this.$root.house.description = "House B";
             }

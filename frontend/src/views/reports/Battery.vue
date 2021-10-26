@@ -214,7 +214,8 @@ export default {
         "end_time": now.getTime(),
         "type": "analytics",
         "formula": [constants.formula.SOC, constants.formula.BatteryCharging, constants.formula.BatteryDischarging],
-        "average": interval
+        "average": interval,
+        "house_id": localStorage.getItem("house_id")
       };
     },
     getAggRequest(type, aggFunc, formula) {
@@ -224,6 +225,7 @@ export default {
         type: "analytics",
         agg_function: aggFunc,
         formula: formula,
+        house_id: localStorage.getItem("house_id")
       };
     },
     getStartTime(now, type) {

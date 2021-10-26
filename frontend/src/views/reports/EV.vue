@@ -206,6 +206,7 @@ export default {
         type: "analytics",
         formula: constants.formula.EV,
         average: interval,
+        house_id: localStorage.getItem("house_id")
       };
     },
     getAggRequest(type, aggFunc, formula) {
@@ -215,6 +216,7 @@ export default {
         type: "analytics",
         agg_function: aggFunc,
         formula: formula,
+        house_id: localStorage.getItem("house_id")
       };
     },
     getStartTime(now, type) {

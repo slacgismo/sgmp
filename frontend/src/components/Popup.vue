@@ -135,7 +135,10 @@ export default {
           //   };
           // }
           this.$parent.house = "House "+this.selected;//TODO
-          localStorage.setItem("house", this.$parent.house);
+          localStorage.setItem("house_id", this.selected);
+          localStorage.setItem("house_desc", this.$parent.house);
+          // this.$forceUpdate();
+          this.$router.go();  // reload page
           // this.visible = true;
         })
         .catch((error) => {

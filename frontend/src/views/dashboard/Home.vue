@@ -45,7 +45,7 @@
       />
     </router-link>
 
-    <router-link :to="{ name: 'battery' }">
+    <router-link v-if="false" :to="{ name: 'battery' }">
       <!-- https://www.svgrepo.com/svg/326915/battery-charging-sharp -->
       <dashboard-card
         :unit="constants.units.Power"
@@ -158,6 +158,7 @@ export default {
         type: "analytics",
         agg_function: "max",
         formula: formula,
+        house_id: localStorage.getItem("house_id")
       };
     },
     getDonutRequest(formulae) {
@@ -176,6 +177,7 @@ export default {
         type: "analytics",
         agg_function: "avg",
         formula: power2Energy,
+        house_id: localStorage.getItem("house_id")
       };
     },
     getTSRequest(formula) {
@@ -186,6 +188,7 @@ export default {
         type: "analytics",
         formula: formula,
         average: 300000, // 5 minute = 5 * 60 * 1000
+        house_id: localStorage.getItem("house_id")
       };
     },
   },

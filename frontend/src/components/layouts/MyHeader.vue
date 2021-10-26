@@ -164,7 +164,7 @@ export default {
     };
   },
   created() {
-    this.house = localStorage.getItem("house");
+    this.house = localStorage.getItem("house_desc");
     
     // POST request to fetch data for the houses
     fetch(
