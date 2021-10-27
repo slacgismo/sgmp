@@ -39,33 +39,33 @@ variable "consul_version" {
 # build blocks. A build block runs provisioner and post-processors on a
 # source. Read the documentation for source blocks here:
 # https://www.packer.io/docs/templates/hcl_templates/blocks/source
-source "amazon-ebs" "amzn" {
-  ami_description             = "An Amazon Linux AMI that has Consul installed."
-  ami_name                    = "consul-amzn-${uuidv4()}"
+source "amazon-ebs" "ubuntu" {
+  ami_description             = "An Ubuntu AMI that has Consul installed."
+  ami_name                    = "consul-ubuntu-${uuidv4()}"
   instance_type               = "t2.micro"
   region                      = "${var.aws_region}"
   associate_public_ip_address = true
   source_ami_filter {
     filters = {
-      architecture        = "x86_64"
-      name                = "*amzn2-ami-hvm-*-x86_64-gp2"
+      name                = "ubuntu/images/*ubuntu-focal-20.04-amd64-server-*"
       root-device-type    = "ebs"
       virtualization-type = "hvm"
     }
     most_recent = true
-    owners      = ["amazon"]
+    owners      = ["099720109477"] # Canonical
   }
-  ssh_username = "ec2-user"
+  ssh_username = "ubuntu"
 }
 
 # a build block invokes sources and runs provisioning steps on them. The
 # documentation for build blocks can be found here:
 # https://www.packer.io/docs/templates/hcl_templates/blocks/build
 build {
-  sources = ["source.amazon-ebs.amzn"]
+  sources = ["source.amazon-ebs.ubuntu"]
 
   provisioner "shell" {
     inline = [
+      "sleep 60",
       "cd /tmp",
       "wget https://github.com/hashicorp/terraform-aws-consul/archive/refs/tags/v${var.module_version}.tar.gz -O module.tar.gz",
       "tar -xvf module.tar.gz"
@@ -77,7 +77,7 @@ build {
   }
 
   provisioner "shell" {
-    inline       = ["/tmp/terraform-aws-consul-${var.module_version}/modules/install-dnsmasq/install-dnsmasq"]
+    inline       = ["/tmp/terraform-aws-consul-${var.module_version}/modules/setup-systemd-resolved/setup-systemd-resolved"]
     pause_before = "30s"
   }
 
