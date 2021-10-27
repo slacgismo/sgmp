@@ -37,6 +37,7 @@
             :title="POWER"
             img="power.svg"
             :request="getAggRequest(State.Day, 'avg', constants.formula.EV)"
+            :period="getPeriod(State.Day)"
           />
           <!-- https://www.svgrepo.com/svg/270552/renewable-energy-power -->
           <analytic-card
@@ -75,6 +76,7 @@
             :title="POWER"
             img="power.svg"
             :request="getAggRequest(State.Week, 'avg', constants.formula.EV)"
+            :period="getPeriod(State.Week)"
           />
           <analytic-card
             :unit="constants.units.Energy"
@@ -110,6 +112,7 @@
             :title="POWER"
             img="power.svg"
             :request="getAggRequest(State.Month, 'avg', constants.formula.EV)"
+            :period="getPeriod(State.Month)"
           />
           <analytic-card
             :unit="constants.units.Energy"
