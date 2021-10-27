@@ -10,15 +10,20 @@ variable "tags" {
   type = map(string)
 }
 
-variable "tsdb_ami" {
-  type = string
+variable "replicas_per_az" {
+  type = number
+  default = 1
 }
 
-variable "tsdb_instance_type" {
+variable "ami_id" {
   type = string
 }
 
 variable "sg_id" {
+  type = string
+}
+
+variable "instance_type" {
   type = string
 }
 
@@ -32,12 +37,4 @@ variable "user_data" {
 
 variable "subnet_ids" {
   type = list(string)
-}
-
-variable "volume_size" {
-  type = number
-}
-
-variable "cluster_size" {
-  type = number
 }
