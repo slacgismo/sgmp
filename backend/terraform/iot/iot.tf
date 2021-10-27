@@ -3,21 +3,21 @@ resource "aws_iot_certificate" "backend_cert" {
 }
 
 resource "aws_iot_topic_rule" "rule" {
-  name        = "${local.resource_prefix}_data"
+  name        = "${var.resource_prefix}_data"
   description = "Lambda -> TimescaleDB ingest rule for SGMP"
   enabled     = true
-  sql         = "SELECT * AS data, topic(2) as client_id, cast(topic(3) AS DECIMAL) as device_id, topic(4) as device_name, cast(topic(5) AS DECIMAL) as timestamp FROM '${local.resource_prefix}_read/+/+/+/+/data'"
+  sql         = "SELECT * AS data, topic(2) as client_id, cast(topic(3) AS DECIMAL) as device_id, topic(4) as device_name, cast(topic(5) AS DECIMAL) as timestamp FROM '${var.resource_prefix}_read/+/+/+/+/data'"
   sql_version = "2016-03-23"
 
   lambda {
     function_arn = aws_lambda_function.ingest.arn
   }
 
-  tags = local.tags
+  tags = var.tags
 }
 
 resource "aws_iot_policy" "backend_policy" {
-  name = "${local.resource_prefix}_backend"
+  name = "${var.resource_prefix}_backend"
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -29,14 +29,14 @@ resource "aws_iot_policy" "backend_policy" {
       {
         "Effect": "Allow",
         "Action": "iot:Publish",
-        "Resource": "arn:aws:iot:${var.region}:${local.account_id}:topic/${local.resource_prefix}_config/*"
+        "Resource": "arn:aws:iot:${var.region}:${local.account_id}:topic/${var.resource_prefix}_config/*"
       }
     ]
   })
 }
 
 resource "aws_iot_policy" "edge_policy" {
-  name = "${local.resource_prefix}_edge"
+  name = "${var.resource_prefix}_edge"
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -48,17 +48,17 @@ resource "aws_iot_policy" "edge_policy" {
       {
         "Effect": "Allow",
         "Action": "iot:Publish",
-        "Resource": "arn:aws:iot:${var.region}:${local.account_id}:topic/${local.resource_prefix}_read/$${iot:Connection.Thing.ThingName}/*"
+        "Resource": "arn:aws:iot:${var.region}:${local.account_id}:topic/${var.resource_prefix}_read/$${iot:Connection.Thing.ThingName}/*"
       },
       {
         "Effect": "Allow",
         "Action": "iot:Subscribe",
-        "Resource": "arn:aws:iot:${var.region}:${local.account_id}:topicfilter/${local.resource_prefix}_config/$${iot:Connection.Thing.ThingName}/*"
+        "Resource": "arn:aws:iot:${var.region}:${local.account_id}:topicfilter/${var.resource_prefix}_config/$${iot:Connection.Thing.ThingName}/*"
       },
       {
         "Effect": "Allow",
         "Action": "iot:Receive",
-        "Resource": "arn:aws:iot:${var.region}:${local.account_id}:topic/${local.resource_prefix}_config/$${iot:Connection.Thing.ThingName}/*"
+        "Resource": "arn:aws:iot:${var.region}:${local.account_id}:topic/${var.resource_prefix}_config/$${iot:Connection.Thing.ThingName}/*"
       }
     ]
   })

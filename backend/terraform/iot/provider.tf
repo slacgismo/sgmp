@@ -5,12 +5,6 @@ terraform {
       version = "3.63.0"
     }
   }
-
-  backend "s3" {
-    bucket = "sgmp-terraform-state"
-    key    = "iot"
-    region = "us-west-1"
-  }
 }
 
 provider "aws" {
