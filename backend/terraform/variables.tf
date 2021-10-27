@@ -66,3 +66,30 @@ variable "tsdb_volume_size" {
 variable "tsdb_cluster_size" {
   type = number
 }
+
+variable "rds_instance_type" {
+  type = string
+  default = "db.t3.micro"
+}
+
+variable "rds_allocated_storage" {
+  type = number
+}
+
+variable "rds_engine_version" {
+  type = string
+}
+
+variable "rds_major_engine_version" {
+  type = number
+}
+
+variable "rds_delete_protection" {
+  type = string
+  default = true
+}
+
+variable "rds_multi_az" {
+  type = string
+  default = true
+}

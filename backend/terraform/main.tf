@@ -86,6 +86,24 @@ module "tsdb" {
   cluster_size = var.tsdb_cluster_size
 }
 
+module "rds" {
+  source = "./rds"
+
+  region = var.region
+  resource_prefix = var.resource_prefix
+  tags = var.tags
+
+  instance_type = var.rds_instance_type
+  sg_id = module.network.rds_sg_id
+  subnet_ids = module.network.private_subnets
+  engine_version = var.rds_engine_version
+  major_engine_version = var.rds_major_engine_version
+  allocated_storage = var.rds_allocated_storage
+  password = random_password.rds.result
+  delete_protection = var.rds_delete_protection
+  multi_az = var.rds_multi_az
+}
+
 output "bastion_ip" {
   value = module.bastion.bastion_ip
 }

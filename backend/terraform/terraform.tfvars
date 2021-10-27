@@ -6,3 +6,6 @@ public_subnets = ["172.20.0.0/20", "172.20.16.0/20"]
 private_subnets = ["172.20.32.0/20", "172.20.48.0/20"]
 tsdb_cluster_size = 1
 tsdb_volume_size = 100
+rds_allocated_storage = 8
+rds_engine_version = "5.7.34"
+rds_major_engine_version = "5.7"
