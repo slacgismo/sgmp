@@ -6,8 +6,10 @@ import time
 import AWSIoTPythonSDK.MQTTLib as AWSIoTPyMQTT
 import egauge_local_api
 import sonnen_local_api
+import powerflex_remote_api
 import threading
 import logging
+from common import Reading
 
 # Initialize logging facility
 logger = logging.getLogger('sgmp')
@@ -41,7 +43,8 @@ logger.info('Connected to AWS IoT MQTT!')
 # Define the correspondance between device type and the class
 device_types = {
     'sonnen': sonnen_local_api.SonnenLocalApi,
-    'egauge': egauge_local_api.EgaugeInterface
+    'egauge': egauge_local_api.EgaugeInterface,
+    'powerflex': powerflex_remote_api.PowerflexRemoteApi
 }
 
 # This function populates the device list with a object instance of the corresponding type
@@ -92,8 +95,17 @@ def collect_and_publish():
             return
 
         # Publish to MQTT
-        logger.info('Publish [%s] %s' % (topic, result))
-        mqtt.publish(topic, json.dumps(result), QoS=1)
+        if isinstance(result, list):
+            # Device returns a list of Readings
+            if len(result) == 0:
+                logger.info('Device %s didn\'t return any new readings' % (device['name']))
+            for reading in result:
+                topic = 'gismolab_sgmp_read/' + config.CLIENT_ID + '/' + str(device['device_id']) + '/' + device['name'] + '/' + str(reading.timestamp) + '/data'
+                logger.info('Multi-Publish [%s] %s' % (topic, reading.data))
+                mqtt.publish(topic, json.dumps(reading.data), QoS=1)
+        else:
+            logger.info('Publish [%s] %s' % (topic, result))
+            mqtt.publish(topic, json.dumps(result), QoS=1)
 
     # Spawn one thread for each device
     threads = [threading.Thread(target=device_func, args=(device,)) for device in devices]
