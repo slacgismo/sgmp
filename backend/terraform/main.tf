@@ -29,8 +29,8 @@ module "iot" {
   region = var.region
   resource_prefix = var.resource_prefix
   tags = var.tags
-  tsdb_host = "1.2.3.4"
-  tsdb_password = "supersecurepassword"
+  consul_dns = module.consul.consul_dns
+  tsdb_password = random_password.tsdb_postgres.result
   subnet_ids = module.network.private_subnets
   lambda_sg_id = module.network.lambda_sg_id
 }
@@ -46,6 +46,7 @@ module "consul" {
   instance_type = var.consul_instance_type
   key_name = var.key_name
   subnet_ids = module.network.public_subnets
+  vpc_id = module.network.vpc_id
   user_data = <<-EOF
               #!/bin/bash
               export AWS_ACCESS_KEY_ID="${var.aws_access_key_id}"
@@ -104,6 +105,38 @@ module "rds" {
   multi_az = var.rds_multi_az
 }
 
+module "web" {
+  source = "./web"
+  depends_on = [module.network, module.consul]
+
+  key_name = var.key_name
+  resource_prefix = var.resource_prefix
+  tags = var.tags
+  staging_instance_type = var.staging_instance_type
+  staging_subnet_id = module.network.public_subnets[0]
+  staging_ami = var.staging_ami
+  sg_id = module.network.web_sg_id
+
+  user_data = <<-EOF
+              #!/bin/bash
+              export AWS_ACCESS_KEY_ID="${var.aws_access_key_id}"
+              export AWS_SECRET_ACCESS_KEY="${var.aws_secret_access_key}"
+              mkdir -p /home/consul/.aws
+              cat <<EOT >> /home/consul/.aws/credentials
+              [default]
+              aws_access_key_id = ${var.aws_access_key_id}
+              aws_secret_access_key = ${var.aws_secret_access_key}
+              EOT
+              chown -R consul:consul /home/consul
+              chmod 600 /home/consul/.aws/credentials
+              /opt/consul/bin/run-consul --client --cluster-tag-key consul-servers --cluster-tag-value auto-join
+              EOF
+}
+
 output "bastion_ip" {
   value = module.bastion.bastion_ip
+}
+
+output "staging_ip" {
+  value = module.web.staging_ip
 }

@@ -18,7 +18,7 @@ variable "lambda_sg_id" {
   type = string
 }
 
-variable "tsdb_host" {
+variable "consul_dns" {
   type = string
 }
 

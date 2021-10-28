@@ -20,6 +20,7 @@ module "rds" {
   subnet_ids = var.subnet_ids
 
   deletion_protection = var.delete_protection
+  allow_major_version_upgrade = true
 
   parameters = [
     {

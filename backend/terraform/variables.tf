@@ -81,15 +81,25 @@ variable "rds_engine_version" {
 }
 
 variable "rds_major_engine_version" {
-  type = number
+  type = string
 }
 
 variable "rds_delete_protection" {
-  type = string
+  type = bool
   default = true
 }
 
 variable "rds_multi_az" {
   type = string
   default = true
+}
+
+variable "staging_instance_type" {
+  type = string
+  default = "t3.small"
+}
+
+variable "staging_ami" {
+  type = string
+  default = "ami-029139ef905224a72"
 }
