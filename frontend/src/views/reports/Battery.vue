@@ -37,7 +37,7 @@
             img="charging.svg"
             :period="getPeriod(State.Day)"
             :request="
-              getAggRequest(State.Month, 'avg', constants.formula.BatteryCharging)
+              getAggRequest(State.Day, 'avg', constants.formula.BatteryCharging)
             "
           />
           <analytic-card
@@ -46,7 +46,7 @@
             img="discharging.svg"
             :period="getPeriod(State.Day)"
             :request="
-              getAggRequest(State.Month, 'avg', constants.formula.BatteryDischarging)
+              getAggRequest(State.Day, 'avg', constants.formula.BatteryDischarging)
             "
           />
         </div>
@@ -67,7 +67,7 @@
             img="charging.svg"
             :period="getPeriod(State.Week)"
             :request="
-              getAggRequest(State.Month, 'avg', constants.formula.BatteryCharging)
+              getAggRequest(State.Week, 'avg', constants.formula.BatteryCharging)
             "
           />
           <analytic-card
@@ -76,7 +76,7 @@
             img="discharging.svg"
             :period="getPeriod(State.Week)"
             :request="
-              getAggRequest(State.Month, 'avg', constants.formula.BatteryDischarging)
+              getAggRequest(State.Week, 'avg', constants.formula.BatteryDischarging)
             "
           />
         </div>
