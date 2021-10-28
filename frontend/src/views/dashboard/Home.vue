@@ -24,6 +24,19 @@
     </div>
   </div>
 
+  <div class="px-4 mt-4 sm:px-8">
+    <div class="flex items-center bg-red-100 rounded-sm overflow-hidden shadow">
+      <div class="p-4">
+        <!-- https://uxwing.com/emergency-icon/ -->
+        <img src="/src/assets/img/outage.svg" class="h-6 w-6" />
+      </div>
+      <div>
+        <h3 class="text-gray-700 font-bold">Outage:</h3>
+        <p class="text-gray-700">xxx</p>
+      </div>
+    </div>
+  </div>
+
   <div
     class="
       grid grid-cols-1
