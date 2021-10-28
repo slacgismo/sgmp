@@ -32,5 +32,14 @@ def health_check():
         'message': 'i\'m healthy'
     }
 
+@app.get('/ingest')
+def ingest():
+    return {
+        'status': 'ok',
+        'message': 'i\'m healthy'
+    }
+
 if __name__ == '__main__':
-    uvicorn.run(app)
+    host = os.environ.get('HOST', '0.0.0.0')
+    port = int(os.environ.get('PORT', '80'))
+    uvicorn.run(app, host=host, port=port)
