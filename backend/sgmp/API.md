@@ -32,18 +32,16 @@ Sample response:
 ```
 {
     "status": "ok",
-    "users": [
+    "user_list": [
         {
-            "email": "chihweif@andrew.cmu.edu",
-            "name": "Chih-Wei Fang",
-            "role": ["admin"],
-            "created date": "Fri, 01 Oct 2021 21:43:22 GMT"
-        },
-        {
+            "create_time": 1635291520261,
             "email": "yingdonc@andrew.cmu.edu",
-            "name": "Yingdong Chen",
-            "role": ["visitor"],
-            "created date": "Fri, 01 Oct 2021 21:43:22 GMT"
+            "house_id": "1",
+            "house_description": "House B",
+            "name": "yingdong chen",
+            "role": [
+                "visitor"
+            ]
         }
     ]
 }
@@ -56,7 +54,9 @@ Sample request:
 ```
 {
     "email": "yingdonc@andrew.cmu.edu",
-    "name: "yingdong chen"
+    "name: "yingdong chen",
+    "house_id": "123",
+    "role": "visitor"
 }
 ```
 
@@ -88,13 +88,26 @@ Sample response:
         "email": "chihweif@andrew.cmu.edu",
         "name": "Chih-Wei Fang",
         "roles": ["visitor"]
-    }
+    },
+    "house_id": "1",
+    "house_description": "house B"
+}
+```
+
+### `/api/user/updatePassword`
+Change user's own password (can only change its own password)
+
+Sample request:
+``` 
+{
+   "old_password": "Aa12345!",
+   "new_password": "Aa123456!",
 }
 ```
 
 ### `/api/user/changePassword`
 
-Change user's  password
+Change user's  password (Only admin)
 
 Sample request:
 ```
@@ -119,7 +132,8 @@ Sample request, finds the user with email `chihweif@andrew.cmu.edu` and sets its
 {
     "email": "chihweif@andrew.cmu.edu",
     "name": "Chih-Wei Fang",
-    "role": "admin"
+    "role": "admin",
+    "house_id": "1"
 }
 ```
 
