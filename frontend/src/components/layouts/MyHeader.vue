@@ -34,12 +34,17 @@
           d="M9 5l7 7-7 7"
         />
       </svg>
-      <button class="text-2xl text-red-900 hover:underline" :key="house"
-        @click="TogglePopup()">{{ house }}</button>
-      <popup 
-        v-if="popupTriggers" 
-        :TogglePopup="() => TogglePopup()">
-      </popup>
+      <div v-if="isAdmin">
+        <button class="text-2xl text-red-900 hover:underline" :key="house"
+          @click="TogglePopup()">{{ house }}</button>
+        <popup 
+          v-if="popupTriggers" 
+          :TogglePopup="() => TogglePopup()">
+        </popup>
+      </div>
+      <div v-else>
+        <h2 class="text-2xl text-red-900">{{ house }}</h2>
+      </div>
     </div>
 
     <Menu as="div" class="relative">
@@ -133,7 +138,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
 import Popup from "@/components/Popup.vue";
 import httpReq from "@/util/requestOptions";
@@ -148,11 +153,15 @@ export default {
     Popup
   },
   setup() {
+    const isAdmin = computed(() => {
+      return localStorage.getItem("roles") == constants.roles.Admin;
+    });
     const popupTriggers = ref(false);
 		const TogglePopup = () => {
 			popupTriggers.value = !popupTriggers.value
 		};
     return {
+      isAdmin,
 			popupTriggers,
 			TogglePopup
 		}

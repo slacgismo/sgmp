@@ -206,11 +206,13 @@ export default {
               if (data.profile.email) {
                 localStorage.setItem("email", data.profile.email);
               }
-              // TODO: replace once backend API is ready
-              localStorage.setItem("house_id", 1);
-              localStorage.setItem("house_desc", "House B");
-              // this.$root.house.id = 1;
-              // this.$root.house.description = "House B";
+              if (data.house_id) {
+                localStorage.setItem("house_id", parseInt(data.house_id));
+                if (!data.house_description) {  // fallback: shouldn't happen
+                  data.house_description = "House";
+                }
+                localStorage.setItem("house_desc", data.house_description);
+              }
             }
 
             this.$router.push(this.$route.query.redirect || "/");

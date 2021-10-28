@@ -13,7 +13,8 @@
     <div class="rounded-md bg-white p-8">
       <slot>
         <h1 class="text-2xl text-gray-600">Switch House</h1>
-        <table class="w-full mt-2 text-gray-500">
+        
+        <table class="w-full mt-2 text-gray-500" v-if="visible">
           <tbody class="divide-y divide-gray-200">
             <tr v-for="house in houseList" :key="house.house_id">
               <td class="p-2">
@@ -23,6 +24,8 @@
             </tr>
           </tbody>
         </table>
+        <loading v-else />
+
       </slot>
       <div class="flex space-x-4 mt-4">
         <slot>
@@ -62,14 +65,17 @@
 
 <script>
 import { ref } from 'vue';
+import Loading from "@/components/Loading.vue";
 import httpReq from "@/util/requestOptions";
 import constants from "@/util/constants";
 
 export default {
+  components: { Loading },
   props: ["TogglePopup"],
   data() {
     return {
-      houseList: {},
+      visible: false,
+      houseList: {}
     };
   },
   setup() {
@@ -97,7 +103,7 @@ export default {
         if (data.houses) {
           this.houseList = data.houses;
         }
-        // this.visible = true;
+        this.visible = true;
       })
       .catch((error) => {
         this.errorMessage = error;
@@ -114,6 +120,8 @@ export default {
 
       let request = {
         "email": localStorage.getItem("email"),
+        "name": localStorage.getItem("username"),
+        "role": localStorage.getItem("roles"),
         "house_id": this.selected
       };
       // POST request to change the house selection
@@ -137,12 +145,15 @@ export default {
           //     description: "x"
           //   };
           // }
-          this.$parent.house = "House "+this.selected;//TODO
+          // To be removed after backend API is ready
+          if (this.selected == 1) {
+            this.$parent.house = "House B";
+          } else {
+            this.$parent.house = "House A";
+          }
           localStorage.setItem("house_id", this.selected);
           localStorage.setItem("house_desc", this.$parent.house);
-          // this.$forceUpdate();
           this.$router.go();  // reload page
-          // this.visible = true;
         })
         .catch((error) => {
           this.errorMessage = error;
