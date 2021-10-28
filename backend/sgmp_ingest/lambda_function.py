@@ -7,7 +7,6 @@ pg_user = os.environ['PG_USER']
 pg_pass = os.environ['PG_PASS']
 pg_database = os.environ['PG_DATABASE']
 
-sql = 'INSERT INTO data (timestamp, device_id, field, value_decimal, value_text) VALUES %s'
 sql_house = 'INSERT INTO house_data (timestamp, house_id, device_name, field, value_decimal, value_text) VALUES %s'
 
 # Function reference: https://stackoverflow.com/questions/6027558/flatten-nested-dictionaries-compressing-keys
@@ -37,26 +36,21 @@ def lambda_handler(event, context):
 
     # Extract payload
     timestamp = float(event['timestamp']) / 1000
-    device_id = event['device_id']
     device_name = event['device_name']
     client_id = event['client_id']
     house_id = int(client_id.split('_')[-1])
 
     fields = flatten(event['data'])
 
-    data = []
     data_house = []
 
     for field, value in fields.items():
         if isinstance(value, float) or isinstance(value, int):
-            data.append((timestamp, device_id, field, value, None))
             data_house.append((timestamp, house_id, device_name, field, value, None))
         else:
-            data.append((timestamp, device_id, field, None, value))
             data_house.append((timestamp, house_id, device_name, field, None, value))
 
     cur = conn.cursor()
-    psycopg2.extras.execute_values(cur, sql, data, template='(to_timestamp(%s), %s, %s, %s, %s)')
     psycopg2.extras.execute_values(cur, sql_house, data_house, template='(to_timestamp(%s), %s, %s, %s, %s, %s)')
     conn.commit()
     cur.close()
