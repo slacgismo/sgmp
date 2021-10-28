@@ -30,6 +30,11 @@ variable "account_id" {
   default = "041414866712"
 }
 
+variable "go_version" {
+  type = string
+  default = "1.16.9"
+}
+
 # source blocks are generated from your builders; a source can be referenced in
 # build blocks. A build block runs provisioner and post-processors on a
 # source. Read the documentation for source blocks here:
@@ -68,7 +73,16 @@ build {
   }
 
   provisioner "shell" {
-    inline = ["ls /tmp/sgmp_ingest"]
+    inline = [
+      "cd /tmp",
+      "wget https://golang.org/dl/go${var.go_version}.linux-amd64.tar.gz -O go.tar.gz",
+      "sudo tar -C /usr/local -xf go.tar.gz",
+      "export PATH=$PATH:/usr/local/go/bin",
+      "cd /tmp/sgmp_ingest",
+      "go get -u",
+      "go build .",
+      "sudo cp /tmp/sgmp_ingest/sgmp_ingest /opt/",
+    ]
   }
 
 }
