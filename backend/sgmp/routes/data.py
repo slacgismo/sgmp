@@ -1,5 +1,6 @@
 from flask import Blueprint, json, jsonify, request
 import numpy as np
+import pandas as pd
 
 from models.analytics import Analytics
 from models.device import Device
@@ -12,13 +13,13 @@ from utils.auth import require_auth
 api_data = Blueprint('data', __name__)
 
 agg_functions = {
-    'min': np.min,
-    'max': np.max,
-    'avg': np.mean
+    'min': lambda arr: arr.min(),
+    'max': lambda arr: arr.max(),
+    'avg': lambda arr: arr.mean()
 }
 arg_functions = {
-    'min': np.argmin,
-    'max': np.argmax
+    'min': lambda arr: arr.idxmin(),
+    'max': lambda arr: arr.idxmax()
 }
 
 @api_data.route('/read', methods=['POST'])
@@ -231,7 +232,7 @@ def process_single_value_read(data, ident):
         cursor.execute(sql, (timespan, start_time, end_time, house_id, device_name, field))
     else:
         # Construct query
-        sql = 'SELECT timestamp, value_decimal FROM house_data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND house_id = %s AND device_name = %s AND field = %s ORDER BY timestamp ASC'
+        sql = 'SELECT timestamp, value_decimal, value_text FROM house_data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND house_id = %s AND device_name = %s AND field = %s ORDER BY timestamp ASC'
         cursor.execute(sql, (start_time, end_time, house_id, device_name, field))
 
     # Retrieve results
@@ -241,7 +242,7 @@ def process_single_value_read(data, ident):
     result = []
     for row in rows:
         timestamp = int(row[0].timestamp() * 1000)
-        value = row[1]
+        value = row[1] if row[1] is not None else row[2]
         result.append({
             'timestamp': timestamp,
             'value': value
@@ -278,42 +279,36 @@ def process_expression(data, engine, stack, idents):
         device_reqs[device_name] = set([path])
     
     evaluate_message += '\n'
-
-    readings = dict()
-    for name, req in device_reqs.items():
-        device_reqs[name] = list(req)
-        for path in req:
-            readings['%s.%s' % (name, path)] = dict()
         
     # Grab all data
-    ts_list = set()
-    sql = 'SELECT timestamp, value_decimal FROM house_data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND house_id = %s AND device_name = %s AND field = %s'
+    conn = get_tsdb_conn()
+    array_dict = dict()
+    sql = 'SELECT timestamp, field, value_decimal, value_text AS value FROM house_data WHERE timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND house_id = %s AND device_name = %s AND field IN %s'
 
     for device_name, req in device_reqs.items():
+        # Prepare data structure for each device
+        readings = {}
+        timestamps = {}
         for path in req:
-            conn = get_tsdb_conn()
-            cursor = conn.cursor()
-            cursor.execute(sql, (start_time, end_time, house_id, device_name, path))
-            rows = cursor.fetchall()
-            cursor.close()
-            for row in rows:
-                ts = int(row[0].timestamp() * 1000)
-                value = row[1]
-                ts_list.add(ts)
-                readings['%s.%s' % (device_name, path)][ts] = value
+            readings[path] = []
+            timestamps[path] = []
 
-    # Populate the evaluation context
-    array_dict = dict()
-    ts_list = sorted(list(ts_list))
-    for path, path_dict in readings.items():
-        array_dict[path] = []
-        for ts in ts_list:
-            value = path_dict.get(ts, None)
-            if value is None:
-                evaluate_message += 'Cannot get %s at timestamp %d!\n' % (path, ts)
-                value = 0
-            array_dict[path].append(value)
-        array_dict[path] = np.array(array_dict[path])
+        # Read all required field for this device at once
+        req_tuple = tuple(req)
+        cursor = conn.cursor()
+        cursor.execute(sql, (start_time, end_time, house_id, device_name, req_tuple))
+        rows = cursor.fetchall()
+        cursor.close()
+        for row in rows:
+            ts = int(row[0].timestamp() * 1000)
+            field = row[1]
+            value = row[2] if row[2] is not None else row[3]
+            timestamps[field].append(ts)
+            readings[field].append(value)
+
+        for path in req:
+            ts = pd.Series(readings[path], index=timestamps[path])
+            array_dict['%s.%s' % (device_name, path)] = ts
 
     # Perform the evaluation
     try:
@@ -332,47 +327,25 @@ def process_expression(data, engine, stack, idents):
             'message': evaluate_message
         }
         if agg in arg_functions:
-            idx = arg_functions[agg](result_time_series)
-            ts = ts_list[idx]
+            ts = arg_functions[agg](result_time_series)
             ret['timestamp'] = ts
 
         return ret
 
     result = []
-    if 'average' in data and len(ts_list) > 0:
-        # Perform average operation if specified
-        avg_span = int(data['average'])
-        buckets = {}
-        bucket_ts = []
-        # Put values into buckets
-        for i in range(len(ts_list)):
-            current_ts = ts_list[i]
-            # Truncate by the average window span
-            trunc_ts = current_ts - (current_ts % avg_span)
-            if trunc_ts not in buckets:
-                buckets[trunc_ts] = []
-                bucket_ts.append(trunc_ts)
+    if isinstance(result_time_series, pd.Series):
+        if 'average' in data:
+            # Bin timestamp if requested
+            avg_span = int(data['average'])
+            result_time_series = result_time_series.groupby(lambda ts: (ts - (ts % avg_span))).mean()
 
-            buckets[trunc_ts].append(result_time_series[i])
-
-        # Make sure output is sorted
-        bucket_ts = sorted(bucket_ts)
-
-        # Calculate mean for each bucket
-        for trunc_ts in bucket_ts:
-            arr = np.array(buckets[trunc_ts])
-            avg = np.mean(arr)
+        # Restructure return data
+        for timestamp, value in result_time_series.items():
             result.append({
-                'timestamp': trunc_ts,
-                'value': avg
+                'timestamp': timestamp,
+                'value': value
             })
-    else:
-        # Return whole time series data
-        for i in range(len(ts_list)):
-            result.append({
-                'timestamp': ts_list[i],
-                'value': result_time_series[i]
-            })
+
     return {
         'status': 'ok',
         'data': result,

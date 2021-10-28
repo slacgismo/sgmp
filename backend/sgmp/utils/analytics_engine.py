@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 from pyparsing import (
     Literal,
@@ -22,13 +23,14 @@ import operator
 class AnalyticsEngine:
 
     fn = {
-        "sin": np.sin,
-        "cos": np.cos,
-        "tan": np.tan,
-        "exp": np.exp,
-        "abs": np.abs,
-        "pos": lambda arr: np.where(arr < 0, 0, arr),
-        "neg": lambda arr: np.where(arr > 0, 0, arr)
+        "sin": lambda arr: arr.apply(np.sin),
+        "cos": lambda arr: arr.apply(np.cos),
+        "tan": lambda arr: arr.apply(np.tan),
+        "abs": lambda arr: arr.apply(np.abs),
+        "exp": lambda arr: arr.apply(np.exp),
+        "pos": lambda arr: arr.where(arr > 0, 0),
+        "neg": lambda arr: arr.where(arr < 0, 0),
+        "avg": lambda arr, period: arr.groupby(lambda ts: (ts - (ts % period))).mean()
     }
 
     opn = {
