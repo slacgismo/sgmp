@@ -10,7 +10,7 @@
       <div class="flex items-center gap-4">
         <p class="text-3xl sm:text-2xl">{{ value }}</p>
         <!-- https://www.svgrepo.com/svg/305138/arrowhead-left -->
-        <img src="/src/assets/img/arrow.svg" class="h-12 w-12" />
+        <img src="/src/assets/img/arrow.svg" class="h-6 w-6 lg:h-12 lg:w-12" />
         <!-- <span class="text-8xl font-thin text-gray-300 italic">/</span> -->
         <p class="text-xl sm:text-base text-right tracking-wider pr-4 whitespace-pre-line">{{ time }}</p>
       </div>
