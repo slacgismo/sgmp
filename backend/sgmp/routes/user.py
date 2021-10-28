@@ -222,11 +222,9 @@ def user_updatePassword():
     access_token = ''
     # get access token
     if 'AuthenticationResult' in response:
-        print(response)
         access_token = response['AuthenticationResult']['AccessToken']
     else:
         return err_json('failed to login')
-    print(access_token)
     
     status = 'ok'
     try:
@@ -266,14 +264,13 @@ def user_login():
         access_token = ''
         # get access token
         if 'AuthenticationResult' in response:
-            print(response)
             access_token = response['AuthenticationResult']['IdToken']
         else:
             return err_json('failed to login')
         
         # get user's house_id and house description
         response = get_user_information_from_email(email)
-        if 'custom:home' in house_id:
+        if 'custom:home' in response:
             house_id = response['custom:home']
             house_description = get_house_description(house_id)
 
