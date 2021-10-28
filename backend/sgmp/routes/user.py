@@ -67,7 +67,7 @@ def update_user_attribute(email, name, house_id):
             },
             {
                 'Name': 'custom:home',
-                'Value': house_id
+                'Value': str(house_id)
             }
         ]
     )
