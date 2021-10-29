@@ -10,7 +10,7 @@
       <div class="flex items-center gap-4">
         <p class="text-3xl sm:text-2xl">{{ value }}</p>
         <!-- https://www.svgrepo.com/svg/305138/arrowhead-left -->
-        <img src="/src/assets/img/arrow.svg" class="h-12 w-12" />
+        <img src="/src/assets/img/arrow.svg" class="h-6 w-6 lg:h-12 lg:w-12" />
         <!-- <span class="text-8xl font-thin text-gray-300 italic">/</span> -->
         <p class="text-xl sm:text-base text-right tracking-wider pr-4 whitespace-pre-line">{{ time }}</p>
       </div>
@@ -39,7 +39,7 @@ export default {
     };
   },
   created() {
-    // POST request to fetch data for the line-column chart
+    // POST request to fetch data for the analytics card
     fetch(
         constants.server + "/api/data/read", // endpoint
         httpReq.post(this.request) // requestOptions
@@ -59,26 +59,23 @@ export default {
         } else {
           switch (this.unit) {
             case constants.units.Power:
-              this.value = (data.value / 1000).toFixed(2) + " " + this.unit;
+            case constants.units.Seconds:
+              this.value = (data.value).toFixed(3) + " " + this.unit;
               break;
             case constants.units.Energy:
-              this.value = (data.value / 12000).toFixed(2) + " " + this.unit;
-              break;
-            case constants.units.Seconds:
-              this.value = data.value.toFixed(2) + " " + this.unit;
+              this.value = (data.value / 12).toFixed(3) + " " + this.unit;
               break;
             case constants.units.Percentage:
               this.value = data.value + " " + this.unit;
               break;
             default:
-              this.value = data.value.toFixed(2);
+              this.value = data.value.toFixed(3);
           }
         }
         
         if (!this.time) {
           this.time = new Date(data.timestamp)
-          .toLocaleDateString("en", {month: "short", day:"numeric", hour: "numeric", minute:"numeric"});
-          // .toLocaleTimeString("en", {day:"numeric", hour: "numeric", minute:"numeric"});
+          .toLocaleDateString("en", constants.timeFormat);
         }
         this.visible = true;
       })

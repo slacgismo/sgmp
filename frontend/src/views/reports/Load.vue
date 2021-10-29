@@ -140,17 +140,11 @@ export default {
       return `${now.toLocaleDateString("en", { month: "long" })}`;
     },
     getPeriod(type) {
-      const format = {
-        month: "short",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-      };
       let start = new Date(this.getStartTime(now, type));
       return `${
-        start.toLocaleDateString("en", format) +
+        start.toLocaleDateString("en", constants.timeFormat) +
         ` ~\n` +
-        now.toLocaleDateString("en", format)
+        now.toLocaleDateString("en", constants.timeFormat)
       }`;
     },
     getTSRequest(type) {
@@ -163,7 +157,8 @@ export default {
         end_time: now.getTime(),
         type: "analytics",
         average: interval,
-        formula: "sonnen.status.Consumption_W",
+        formula: constants.formula.Load,
+        house_id: localStorage.getItem("house_id")
       };
     },
     getAggRequest(type, aggFunc) {
@@ -172,7 +167,8 @@ export default {
         end_time: now.getTime(),
         type: "analytics",
         agg_function: aggFunc,
-        formula: "sonnen.status.Consumption_W",
+        formula: constants.formula.Load,
+        house_id: localStorage.getItem("house_id")
       };
     },
     getStartTime(now, type) {

@@ -180,9 +180,8 @@
             </th>
             <th class="text-left text-gray-600">User</th>
             <th class="text-left text-gray-600">Role</th>
+            <th class="text-left text-gray-600">House</th>
             <th class="text-left text-gray-600">Join Date</th>
-            <!-- <th class="text-left text-gray-600">Expiration</th>
-            <th class="text-left text-gray-600">Last Activity</th> -->
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
@@ -206,9 +205,8 @@
               </div>
             </td>
             <td>{{ user.role.toString() }}</td>
+            <td>{{ user.house_description }}</td>
             <td>{{ formatDate(user.create_time) }}</td>
-            <!-- <td>{{ formatDate(user.expireDate) }}</td>
-            <td>{{ formatDays(user.lastActivity) }}</td> -->
           </tr>
         </tbody>
         <tfoot>
