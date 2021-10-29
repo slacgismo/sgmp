@@ -35,12 +35,14 @@
         />
       </svg>
       <div v-if="isAdmin">
-        <button class="text-2xl text-red-900 hover:underline" :key="house"
-          @click="TogglePopup()">{{ house }}</button>
-        <popup 
-          v-if="popupTriggers" 
-          :TogglePopup="() => TogglePopup()">
-        </popup>
+        <button
+          class="text-2xl text-red-900 hover:underline"
+          :key="house"
+          @click="TogglePopup()"
+        >
+          {{ house }}
+        </button>
+        <popup v-if="popupTriggers" :TogglePopup="() => TogglePopup()"> </popup>
       </div>
       <div v-else>
         <h2 class="text-2xl text-red-900">{{ house }}</h2>
@@ -111,13 +113,13 @@
               >
             </MenuItem>
             <MenuItem v-slot="{ active }">
-              <a
-                href="#"
+              <router-link
+                :to="{ name: 'devices' }"
                 :class="[
                   active ? 'bg-gray-100' : '',
                   'block px-4 py-2 text-sm text-gray-700',
                 ]"
-                >Settings</a
+                >Settings</router-link
               >
             </MenuItem>
           </div>
@@ -138,7 +140,7 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue';
+import { ref, computed } from "vue";
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
 import Popup from "@/components/Popup.vue";
 import httpReq from "@/util/requestOptions";
@@ -150,21 +152,21 @@ export default {
     MenuButton,
     MenuItems,
     MenuItem,
-    Popup
+    Popup,
   },
   setup() {
     const isAdmin = computed(() => {
       return localStorage.getItem("roles") == constants.roles.Admin;
     });
     const popupTriggers = ref(false);
-		const TogglePopup = () => {
-			popupTriggers.value = !popupTriggers.value
-		};
+    const TogglePopup = () => {
+      popupTriggers.value = !popupTriggers.value;
+    };
     return {
       isAdmin,
-			popupTriggers,
-			TogglePopup
-		}
+      popupTriggers,
+      TogglePopup,
+    };
   },
   data() {
     return {
@@ -174,7 +176,7 @@ export default {
   },
   created() {
     this.house = localStorage.getItem("house_desc");
-    
+
     // POST request to fetch data for the houses
     fetch(
       constants.server + "/api/house/list", // endpoint
@@ -213,7 +215,7 @@ export default {
     },
     logout() {
       localStorage.clear();
-    }
+    },
   },
 };
 </script>

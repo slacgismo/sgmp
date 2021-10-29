@@ -120,7 +120,8 @@
                     </a>
                   </li>
                 </router-link>
-                <router-link v-if="visible"
+                <router-link
+                  v-if="visible"
                   v-slot="{ isExactActive, href, navigate }"
                   :to="{ name: 'battery' }"
                 >
@@ -212,10 +213,17 @@
           </Disclosure>
         </li>
 
-        <li v-show="isAdmin()" class="px-4 py-2 mt-2 text-xs uppercase tracking-wider font-bold">
+        <li
+          v-show="isAdmin()"
+          class="px-4 py-2 mt-2 text-xs uppercase tracking-wider font-bold"
+        >
           Settings
         </li>
-        <router-link v-show="isAdmin()" v-slot="{ isExactActive, href, navigate }" to="/devices">
+        <router-link
+          v-show="isAdmin()"
+          v-slot="{ isExactActive, href, navigate }"
+          to="/devices"
+        >
           <li
             class="px-4 cursor-pointer"
             :class="[
@@ -238,7 +246,7 @@
                   d="M23.506 19.169l-10.794-9.252c0.503-0.944 0.788-2.022 0.788-3.167 0-3.728-3.022-6.75-6.75-6.75-0.682 0-1.34 0.102-1.96 0.29l3.9 3.9c0.583 0.583 0.583 1.538 0 2.121l-2.379 2.379c-0.583 0.583-1.538 0.583-2.121 0l-3.9-3.9c-0.188 0.62-0.29 1.279-0.29 1.96 0 3.728 3.022 6.75 6.75 6.75 1.145 0 2.222-0.285 3.167-0.788l9.252 10.794c0.537 0.626 1.454 0.662 2.037 0.078l2.379-2.379c0.583-0.583 0.548-1.5-0.078-2.037z"
                 />
               </svg>
-              Device Management
+              Device Configuration
             </a>
           </li>
         </router-link>
@@ -263,7 +271,7 @@
                   d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
                 />
               </svg>
-              Role Management
+              User Management
               <span class="ml-auto">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -365,14 +373,14 @@ export default {
   },
   data() {
     return {
-      visible: false
+      visible: false,
     };
   },
   created() {
     // POST request to fetch data for the houses
     fetch(
       constants.server + "/api/device/list", // endpoint
-      httpReq.post({"house_id": localStorage.getItem("house_id")}) // requestOptions
+      httpReq.post({ house_id: localStorage.getItem("house_id") }) // requestOptions
     )
       .then(async (response) => {
         const data = await response.json();
@@ -397,6 +405,6 @@ export default {
         this.errorMessage = error;
         console.error(error);
       });
-  }
+  },
 };
 </script>
