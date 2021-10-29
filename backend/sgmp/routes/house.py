@@ -1,5 +1,5 @@
 import json
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, g
 
 from models.house import House
 from models.device import Device
@@ -16,14 +16,29 @@ api_house = Blueprint('house', __name__)
 @api_house.route('/list', methods=['GET'])
 @require_auth()
 def house_list():
-    # Read all house from database
-    query_result = House.query.all()
-    ret = []
-    for row in query_result:
+    # For admin, read all house from database
+    if 'admin' in g.user['roles']:
+        query_result = House.query.all()
+        ret = []
+        for row in query_result:
+            ret.append({
+                'house_id': row.house_id,
+                'name': row.name,
+                'description': row.description
+            })
+    else:
+        house_id = g.user['house_id']
+        ret = []
+        house = House.query.filter_by(house_id=house_id).first()
+        if house is None:
+            return jsonify({
+                'status': 'error',
+                'message': 'house not found, please contact administrator'
+            })
         ret.append({
-            'house_id': row.house_id,
-            'name': row.name,
-            'description': row.description
+            'house_id': house.house_id,
+            'name': house.name,
+            'description': house.description
         })
     
     return jsonify({'status': 'ok', 'houses': ret})

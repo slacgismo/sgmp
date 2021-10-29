@@ -12,7 +12,7 @@ from utils.functions import err_json, get_obj_path
 from utils.analytics_engine import AnalyticsEngine
 from utils.logging import get_logger
 from utils.tsdb import get_tsdb_conn
-from utils.auth import require_auth
+from utils.auth import check_house_access, require_auth
 
 logger = get_logger('data')
 api_data = Blueprint('data', __name__)
@@ -30,6 +30,7 @@ arg_functions = {
 
 @api_data.route('/read', methods=['POST'])
 @require_auth()
+@check_house_access()
 def data_read():
     data = request.json
 

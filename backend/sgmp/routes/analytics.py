@@ -11,7 +11,7 @@ from models.shared import db
 from utils.analytics_engine import AnalyticsEngine
 
 from utils.functions import err_json
-from utils.auth import require_auth
+from utils.auth import require_auth, check_house_access
 from utils.logging import get_logger
 from utils.tsdb import get_tsdb_conn
 
@@ -20,6 +20,7 @@ api_analytics = Blueprint('analytics', __name__)
 
 @api_analytics.route('/list', methods=['POST'])
 @require_auth()
+@check_house_access()
 def analytics_list():
     # Read all analytics from database
     data = request.json
@@ -41,6 +42,7 @@ def analytics_list():
 
 @api_analytics.route('/create', methods=['POST'])
 @require_auth('admin')
+@check_house_access()
 def analytics_create():
     data = request.json
 
@@ -98,6 +100,7 @@ def analytics_create():
 
 @api_analytics.route('/update', methods=['POST'])
 @require_auth('admin')
+@check_house_access()
 def analytics_update():
     data = request.json
 
@@ -173,6 +176,7 @@ def analytics_update():
 
 @api_analytics.route('/delete', methods=['POST'])
 @require_auth(['admin'])
+@check_house_access()
 def analytics_delete():
     data = request.json
 
