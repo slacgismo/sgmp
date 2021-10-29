@@ -480,7 +480,7 @@ def _fetch_continuous_aggregation(start_time: float, end_time: float, idents: Se
         view_name = ident_view[ident]
         evaluate_message += '%s => %s\n' % (ident, view_name)
 
-        sql = 'SELECT time, average FROM {} WHERE time BETWEEN to_timestamp(%s) AND to_timestamp(%s)'.format(view_name)
+        sql = 'SELECT time, average FROM {} WHERE time BETWEEN to_timestamp(%s) AND to_timestamp(%s) ORDER BY time ASC'.format(view_name)
         cursor = conn.cursor()
         cursor.execute(sql, (start_time, end_time))
         rows = cursor.fetchall()
@@ -494,6 +494,6 @@ def _fetch_continuous_aggregation(start_time: float, end_time: float, idents: Se
             timestamps.append(ts)
             readings.append(value)
 
-        array_dict[ident] = pd.Series(readings, index=timestamps).sort_index(ascending=False)
+        array_dict[ident] = pd.Series(readings, index=timestamps)
 
     return (evaluate_message, array_dict)
