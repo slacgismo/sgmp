@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Toast
 import SwiftUICharts
 
 enum SummaryTabPresentView : String, Identifiable
@@ -21,12 +22,15 @@ struct SummaryTabView: View {
     @State var refreshDate : Date = Date()
     @State var presentViewType : SummaryTabPresentView?
     
-    func refresh() {
-        HouseManager.shared.refreshEnvHouses { houses, err in
-            if env.currentDashboardHouse == nil {
-                env.currentDashboardHouse = houses.first
-            }
+    func refresh(showSuccessToast : Bool = false) -> Void {
+        env.updateHouses { houses, err in
             refreshDate = Date()
+            if let err = err {
+                Toast.default(image: .init(systemName: "exclamationmark.arrow.circlepath")!, title: "\(err.localizedDescription)").show()
+            } else if showSuccessToast {
+                Toast.default(image: .init(systemName: "clock.arrow.circlepath")!, title: "refreshed").show(haptic: .success)
+            }
+//            env.updateCurrentHouseDevices()
         }
     }
     
@@ -34,18 +38,11 @@ struct SummaryTabView: View {
         ZStack {
             if let house = env.currentDashboardHouse {
                 List {
-                    Section {
-                        NavigationLink {
-                            ListDeviceView(houseId: house.house_id)
-                        } label: {
-                            Label("Devices", systemImage: "bolt.horizontal.fill")
-                        }
-
-                    } header: {
-                        Text("Summary for today (refreshed \(refreshDate, style: .relative) ago)")
-                            .font(.caption.smallCaps())
-                            .foregroundColor(Color(UIColor.secondaryLabel))
-                    }
+                    Text("Summary for \(house.name) (refreshed \(refreshDate, style: .relative) ago)")
+                        .multilineTextAlignment(.center)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .font(.caption.smallCaps())
+                        .foregroundColor(Color(UIColor.secondaryLabel))
                     
                     Section {
                         NavigationLink {
@@ -56,6 +53,30 @@ struct SummaryTabView: View {
                         SummaryMetricCardView(refreshDate: $refreshDate, title: "Battery", iconName: "battery.100", iconColor: .green, number: "- kWh", numberCallback: { value in String(format: "%.5f kWh", value) }, formula: "sonnen.status.Pac_total_W/1000", aggregateFunction: .avg)
                         SummaryMetricCardView(refreshDate: $refreshDate, title: "EV", iconName: "car.fill", iconColor: .purple, number: "- Wh", numberCallback: { value in String(format: "%.5f Wh", value) }, formula: "-egauge.A.EV", aggregateFunction: .avg)
                         SummaryMetricCardView(refreshDate: $refreshDate, title: "Loads", iconName: "server.rack", iconColor: .red, number: "- kW", numberCallback: { value in String(format: "%.5f kW", value) }, formula: "-egauge.A.SubPanel", aggregateFunction: .avg)
+                    } header: {
+                        Text("Pinned")
+                    }
+                    
+                    Section {
+                        if env.currentDashboardDevices.count > 0 {
+                            ForEach(env.currentDashboardDevices.prefix(3)) { device in 
+                                DeviceSelectionCell(device: device)
+                            }
+                            NavigationLink {
+                                ListDeviceView(houseId: house.house_id)
+                            } label: {
+                                Label("See all", systemImage: "bolt.horizontal.fill")
+                            }
+                        } else {
+                            NavigationLink {
+                                ListDeviceView(houseId: house.house_id)
+                            } label: {
+                                Label("Devices", systemImage: "bolt.horizontal.fill")
+                            }
+                        }
+
+                    } header: {
+                        Text("Devices")
                     }
                 }
             } else {
@@ -95,19 +116,26 @@ struct SummaryTabView: View {
             refresh()
         })
         .refreshable {
-            refresh()
+            refresh(showSuccessToast: true)
         }
         .toolbar(content: {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 Menu("\(env.currentDashboardHouse?.name ?? "Choose House")") {
-                    Button("See all", action: {
-                        presentViewType = .showAllHouse
-                    })
-                    Divider()
+                    if (env.houses.count > 0) {
+                        Button("See all", action: {
+                            presentViewType = .showAllHouse
+                        })
+                        Divider()
+                    } else {
+                        Button("Refresh", action: {
+                            refresh()
+                        })
+                        Divider()
+                    }
                     ForEach(env.houses) { house in
                         Button {
                             env.currentDashboardHouse = house
-                            refreshDate = Date()
+                            refresh()
                         } label: {
                             Label {
                                 Text("\(house.name)")

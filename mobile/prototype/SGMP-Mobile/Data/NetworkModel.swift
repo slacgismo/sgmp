@@ -7,7 +7,7 @@
 
 import Foundation
 
-let SgmpHostString = "http://ec2-54-176-53-197.us-west-1.compute.amazonaws.com:5000"
+let SgmpHostString = "http://54.176.249.126/"
 let SgmpHostUrl : URL = URL(string: SgmpHostString)!
 
 struct Response : Codable {

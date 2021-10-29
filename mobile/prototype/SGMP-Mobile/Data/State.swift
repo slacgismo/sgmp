@@ -1,6 +1,7 @@
 import Foundation
 import SwiftUI
 import Defaults
+import Combine
 
 class Env: ObservableObject {
     
@@ -16,7 +17,9 @@ class Env: ObservableObject {
     @Published var currentDashboardHouse : House? = nil
     
     // MARK: - Devices
-    @Published var devices : [Device] = []
+    @Published var currentDashboardDevices : [Device] = []
+    
+    var cancellableSet : Set<AnyCancellable> = Set()
     
     init() {
         Defaults.observe(.userProfile) { change in
@@ -24,6 +27,50 @@ class Env: ObservableObject {
                 self.loginRequired = change.newValue == nil
             }
         }.tieToLifetime(of: self)
+        
+        self.$currentDashboardHouse.sink { house in
+            DispatchQueue.main.async {
+                self.currentDashboardDevices = []
+                self.updateCurrentHouseDevices { devices, err in
+                    if let err = err {
+                        print(err)
+                    }
+                }
+            }
+        }.store(in: &cancellableSet)
+    }
+    
+    func updateHouses(callback: (([House], Error?) -> Void)? = nil) -> Void {
+        NetworkManager.shared.getHouses { houses, err in
+            if let err = err {
+                print(err)
+            }
+            DispatchQueue.main.async {
+                let env = EnvironmentManager.shared.env
+                env.houses = houses
+                if env.currentDashboardHouse == nil {
+                    env.currentDashboardHouse = houses.first
+                }
+                callback?(houses, err)
+            }
+        }
+    }
+    
+    func updateCurrentHouseDevices(callback: (([Device], Error?) -> Void)? = nil) -> Void {
+        if let houseId = currentDashboardHouse?.house_id {
+            NetworkManager.shared.getDevices(houseId: houseId) { devices, err in
+                if let err = err {
+                    print(err)
+                }
+                DispatchQueue.main.async {
+                    let devicesUnWrapped = devices ?? []
+                    self.currentDashboardDevices = devicesUnWrapped
+                    callback?(devicesUnWrapped, err)
+                }
+            }
+        } else {
+            callback?([], nil)
+        }
     }
 }
 

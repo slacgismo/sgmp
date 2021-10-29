@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0D079C92271F89BC006D50D3 /* HouseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D079C91271F89BC006D50D3 /* HouseManager.swift */; };
 		0D079C94271F8BB0006D50D3 /* ListHouseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D079C93271F8BB0006D50D3 /* ListHouseView.swift */; };
 		0D079C96271F9067006D50D3 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D079C95271F9067006D50D3 /* DataManager.swift */; };
 		0D079C99271F9893006D50D3 /* SummaryMetricCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D079C98271F9893006D50D3 /* SummaryMetricCardView.swift */; };
@@ -29,6 +28,10 @@
 		0D5F56EB272749350029A53B /* ChooseHouseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F56EA272749350029A53B /* ChooseHouseView.swift */; };
 		0D5F56F02727DF780029A53B /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F56EF2727DF780029A53B /* UserManager.swift */; };
 		0D5F56F32727E3170029A53B /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F56F22727E3170029A53B /* UserModel.swift */; };
+		0D5F56F6272B99560029A53B /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0D5F56F5272B99560029A53B /* Alamofire */; };
+		0D5F56F8272B99850029A53B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F56F7272B99850029A53B /* NetworkManager.swift */; };
+		0D5F56FB272B9CEB0029A53B /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 0D5F56FA272B9CEB0029A53B /* Toast */; };
+		0D5F56FD272BAE270029A53B /* DeviceSelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F56FC272BAE270029A53B /* DeviceSelectionCell.swift */; };
 		0D5F79E526FB2D660013AAB1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F79E426FB2D660013AAB1 /* Main.storyboard */; };
 		0D6E5B8E270D55AE00576AA4 /* ARDebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6E5B8D270D55AE00576AA4 /* ARDebugView.swift */; };
 		0D6E5B90270D572D00576AA4 /* ARGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6E5B8F270D572D00576AA4 /* ARGridView.swift */; };
@@ -70,7 +73,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0D079C91271F89BC006D50D3 /* HouseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseManager.swift; sourceTree = "<group>"; };
 		0D079C93271F8BB0006D50D3 /* ListHouseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListHouseView.swift; sourceTree = "<group>"; };
 		0D079C95271F9067006D50D3 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		0D079C98271F9893006D50D3 /* SummaryMetricCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryMetricCardView.swift; sourceTree = "<group>"; };
@@ -91,6 +93,8 @@
 		0D5F56EA272749350029A53B /* ChooseHouseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseHouseView.swift; sourceTree = "<group>"; };
 		0D5F56EF2727DF780029A53B /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserManager.swift; path = Network/UserManager.swift; sourceTree = "<group>"; };
 		0D5F56F22727E3170029A53B /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		0D5F56F7272B99850029A53B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		0D5F56FC272BAE270029A53B /* DeviceSelectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceSelectionCell.swift; sourceTree = "<group>"; };
 		0D5F79E426FB2D660013AAB1 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		0D5F79E626FB2DCA0013AAB1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		0D5F7A0726FB33380013AAB1 /* SGMP-Mobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SGMP-Mobile.entitlements"; sourceTree = "<group>"; };
@@ -136,6 +140,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D5F56FB272B9CEB0029A53B /* Toast in Frameworks */,
+				0D5F56F6272B99560029A53B /* Alamofire in Frameworks */,
 				0D8829442715742D00A96521 /* Defaults in Frameworks */,
 				0D20B25B270E436400786A05 /* Kingfisher in Frameworks */,
 				0D20B25E270E451F00786A05 /* Sentry in Frameworks */,
@@ -150,8 +156,8 @@
 			isa = PBXGroup;
 			children = (
 				0D88294927165EFC00A96521 /* DeviceManager.swift */,
-				0D079C91271F89BC006D50D3 /* HouseManager.swift */,
 				0D079C95271F9067006D50D3 /* DataManager.swift */,
+				0D5F56F7272B99850029A53B /* NetworkManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -219,6 +225,7 @@
 			isa = PBXGroup;
 			children = (
 				0D5081002718FDEA00EE0A4F /* ListDeviceView.swift */,
+				0D5F56FC272BAE270029A53B /* DeviceSelectionCell.swift */,
 				0D50810227191F8B00EE0A4F /* SpecificDeviceView.swift */,
 				0D5081082719569F00EE0A4F /* SpecificDeviceKeyView.swift */,
 				0D5081062719390300EE0A4F /* SpecificDeviceKeyChartSelfLoadView.swift */,
@@ -368,6 +375,8 @@
 				0D20B25D270E451F00786A05 /* Sentry */,
 				0D8829432715742D00A96521 /* Defaults */,
 				0D882947271633C900A96521 /* SwiftUICharts */,
+				0D5F56F5272B99560029A53B /* Alamofire */,
+				0D5F56FA272B9CEB0029A53B /* Toast */,
 			);
 			productName = "SGMP-AR-Samples";
 			productReference = 0D51EE0A26F27EDF00BCAAB3 /* SGMP-Mobile.app */;
@@ -402,6 +411,8 @@
 				0D20B25C270E451F00786A05 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 				0D8829422715742D00A96521 /* XCRemoteSwiftPackageReference "Defaults" */,
 				0D882946271633C900A96521 /* XCRemoteSwiftPackageReference "ChartView" */,
+				0D5F56F4272B99560029A53B /* XCRemoteSwiftPackageReference "Alamofire" */,
+				0D5F56F9272B9CEB0029A53B /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 			);
 			productRefGroup = 0D51EE0B26F27EDF00BCAAB3 /* Products */;
 			projectDirPath = "";
@@ -448,6 +459,7 @@
 				0D0D54C6270F8CB700C50FDA /* Image+Crop.swift in Sources */,
 				0DE1F78C271012B000714744 /* ARRefImageSlac3View.swift in Sources */,
 				0D079C99271F9893006D50D3 /* SummaryMetricCardView.swift in Sources */,
+				0D5F56F8272B99850029A53B /* NetworkManager.swift in Sources */,
 				0D5F56F02727DF780029A53B /* UserManager.swift in Sources */,
 				0D5081012718FDEA00EE0A4F /* ListDeviceView.swift in Sources */,
 				0D6E5B8E270D55AE00576AA4 /* ARDebugView.swift in Sources */,
@@ -467,13 +479,13 @@
 				0D6E5B90270D572D00576AA4 /* ARGridView.swift in Sources */,
 				0D50810327191F8B00EE0A4F /* SpecificDeviceView.swift in Sources */,
 				0D5081092719569F00EE0A4F /* SpecificDeviceKeyView.swift in Sources */,
-				0D079C92271F89BC006D50D3 /* HouseManager.swift in Sources */,
 				0DE1F784270FC30A00714744 /* ARInteractiveViewNode+QR.swift in Sources */,
 				0D7C332A26FDA76100B219E7 /* Button+Style.swift in Sources */,
 				0DE1F78E2710133500714744 /* ARInteractiveViewSlac3Node.swift in Sources */,
 				0D88294C27165F0700A96521 /* NetworkModel.swift in Sources */,
 				0D20B260270E479300786A05 /* EventManager.swift in Sources */,
 				0DE1F78A2710081800714744 /* ARInteractiveViewSlac2Node.swift in Sources */,
+				0D5F56FD272BAE270029A53B /* DeviceSelectionCell.swift in Sources */,
 				0D73893F26FA97CF000C43A6 /* ARInteractiveViewNode.swift in Sources */,
 				0D5E22AF26FEF427002B0A4B /* AboutAppView.swift in Sources */,
 				0D079C96271F9067006D50D3 /* DataManager.swift in Sources */,
@@ -715,6 +727,22 @@
 				minimumVersion = 7.0.0;
 			};
 		};
+		0D5F56F4272B99560029A53B /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		0D5F56F9272B9CEB0029A53B /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/BastiaanJansen/Toast-Swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		0D8829422715742D00A96521 /* XCRemoteSwiftPackageReference "Defaults" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/Defaults";
@@ -743,6 +771,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0D20B25C270E451F00786A05 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
 			productName = Sentry;
+		};
+		0D5F56F5272B99560029A53B /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0D5F56F4272B99560029A53B /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		0D5F56FA272B9CEB0029A53B /* Toast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0D5F56F9272B9CEB0029A53B /* XCRemoteSwiftPackageReference "Toast-Swift" */;
+			productName = Toast;
 		};
 		0D8829432715742D00A96521 /* Defaults */ = {
 			isa = XCSwiftPackageProductDependency;

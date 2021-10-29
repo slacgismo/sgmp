@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Toast
 
 struct ListDeviceView: View {
     
@@ -15,11 +16,19 @@ struct ListDeviceView: View {
     @State private var searchText = ""
     @State var devices : [Device] = []
     
-    func refresh() -> Void {
-        DeviceManager.shared.getDevices(houseId: houseId) { devices, err in
-            if let devices = devices {
+    func refresh(showSuccessToast : Bool = false) -> Void {
+        let callback : ( ([Device]?, Error?) -> Void) = { devices, err in
+            if let err = err {
+                Toast.default(image: .init(systemName: "exclamationmark.arrow.circlepath")!, title: "\(err.localizedDescription)").show()
+            } else if let devices = devices {
+                if showSuccessToast { Toast.default(image: .init(systemName: "clock.arrow.circlepath")!, title: "refreshed", subtitle: "\(devices.count) device(s)").show(haptic: .success) }
                 self.devices = devices
             }
+        }
+        if houseId == env.currentDashboardHouse?.house_id {
+            env.updateCurrentHouseDevices(callback: callback)
+        } else {
+            NetworkManager.shared.getDevices(houseId: houseId, callback: callback)
         }
     }
     
@@ -36,33 +45,13 @@ struct ListDeviceView: View {
         List {
             Section {
                 ForEach(results) { device in
-                    NavigationLink {
-                        SpecificDeviceView(device: device)
-                    } label: {
-                        HStack {
-                            VStack {
-                                HStack {
-                                    Text("\(device.device_id)")
-                                        .font(.caption.monospaced())
-                                    Text("\(device.name)")
-                                        .font(.headline.bold())
-                                }
-                                Text("\(device.type)")
-                                    .font(.footnote)
-                                    .foregroundColor(.init(UIColor.tertiaryLabel))
-                            }
-                            Spacer()
-                            Text("\(device.description)")
-                                .font(.caption)
-                                .foregroundColor(.init(UIColor.secondaryLabel))
-                        }
-                    }
+                    DeviceSelectionCell(device: device)
                 }
             }
         }
         .searchable(text: $searchText, prompt: "Search for device")
         .refreshable {
-            refresh()
+            refresh(showSuccessToast: true)
         }
         .onAppear(perform: {
             refresh()

@@ -118,20 +118,3 @@ struct ARGridViewControllerRepresentable : UIViewControllerRepresentable {
     
     typealias UIViewControllerType = ARGridViewController
 }
-
-
-struct UIViewController1Representable : UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> UIViewController {
-        return UIViewController()
-    }
-    
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-        
-    }
-    
-    static func dismantleUIViewController(_ uiViewController: UIViewController, coordinator: ()) {
-
-    }
-    
-    typealias UIViewControllerType = UIViewController
-}

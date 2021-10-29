@@ -13,9 +13,7 @@ struct ListHouseView: View {
     @State private var searchText = ""
     
     func refresh() -> Void {
-        HouseManager.shared.refreshEnvHouses { houses, err in
-            
-        }
+        env.updateHouses()
     }
     
     var results: [House] {
