@@ -12,7 +12,7 @@
   >
     <div class="rounded-md bg-white p-8">
       <slot>
-        <h1 class="text-2xl text-gray-600">Switch House</h1>
+        <h1 class="text-2xl text-gray-800">Switch House</h1>
         
         <table class="w-full mt-2 text-gray-500" v-if="visible">
           <tbody class="divide-y divide-gray-200">
