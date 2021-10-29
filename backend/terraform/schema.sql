@@ -22,3 +22,6 @@ CREATE INDEX ON alerts (house_id, "timestamp" DESC);
 
 SELECT create_hypertable('house_data','timestamp');
 SELECT create_hypertable('alerts','timestamp');
+
+SELECT add_retention_policy('house_data', INTERVAL '1 month');
+SELECT add_retention_policy('alerts', INTERVAL '1 month');

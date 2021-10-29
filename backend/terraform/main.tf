@@ -122,14 +122,49 @@ module "web" {
               export AWS_ACCESS_KEY_ID="${var.aws_access_key_id}"
               export AWS_SECRET_ACCESS_KEY="${var.aws_secret_access_key}"
               mkdir -p /home/consul/.aws
+
               cat <<EOT >> /home/consul/.aws/credentials
               [default]
               aws_access_key_id = ${var.aws_access_key_id}
               aws_secret_access_key = ${var.aws_secret_access_key}
               EOT
+
               chown -R consul:consul /home/consul
               chmod 600 /home/consul/.aws/credentials
               /opt/consul/bin/run-consul --client --cluster-tag-key consul-servers --cluster-tag-value auto-join
+
+              mkdir /home/ubuntu/iot_certs
+              wget https://www.amazontrust.com/repository/AmazonRootCA1.pem -O /home/ubuntu/iot_certs/AmazonRootCA1.pem
+
+              cat <<EOT >> /home/ubuntu/iot_certs/device.crt
+              ${module.iot.iot_certificate}
+              EOT
+              cat <<EOT >> /home/ubuntu/iot_certs/private.key
+              ${module.iot.iot_private_key}
+              EOT
+              cat <<EOT >> /home/ubuntu/iot_certs/public.key
+              ${module.iot.iot_public_key}
+              EOT
+
+              cat <<EOT >> /home/ubuntu/config.yaml
+              TSDB_HOST: master.tsdb.service.consul
+              TSDB_USER: postgres
+              TSDB_PASS: ${random_password.tsdb_postgres.result}
+              TSDB_DATABASE: sgmp
+              DATABASE_URL: mysql://sgmp:${random_password.rds.result}@${module.rds.dns}/sgmp
+              IOT_CERT_ID: ${module.iot.iot_certificate_id}
+              IOT_ENDPOINT: ${module.iot.iot_endpoint}
+              IOT_CERT_PATH: /home/ubuntu/iot_certs/device.crt
+              IOT_KEY_PATH: /home/ubuntu/iot_certs/private.key
+              IOT_ROOT_PATH: /home/ubuntu/iot_certs/AmazonRootCA1.pem
+              AWS_REGION: ${var.region}
+              COGNITO_USER_POOL_ID: us-west-1_opTsFEaul
+              COGNITO_APP_CLIENT_ID: 225gul2k0qlq0vjh81cd3va4h
+              ENFORCE_AUTHENTICATION: 0
+              EOT
+
+              chown -R ubuntu:ubuntu /home/ubuntu
+
               EOF
 }
 
