@@ -8,6 +8,7 @@ class Analytics(db.Model):
     name = db.Column(db.String(256), nullable=False)
     description = db.Column(db.Text(), nullable=False)
     formula = db.Column(db.Text(), nullable=False)
+    continuous_aggregation = db.Column(db.Boolean(), nullable=False)
 
     def __repr__(self):
         return '<Analytics %r %r %r>' % (self.analytics_id, self.house_id, self.name)
