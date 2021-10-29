@@ -9,7 +9,7 @@ import sonnen_local_api
 import powerflex_remote_api
 import threading
 import logging
-from common import Reading
+from common import ReadResult, Reading
 
 # Initialize logging facility
 logger = logging.getLogger('sgmp')
@@ -95,14 +95,22 @@ def collect_and_publish():
             return
 
         # Publish to MQTT
-        if isinstance(result, list):
+        if isinstance(result, ReadResult):
             # Device returns a list of Readings
-            if len(result) == 0:
+            if len(result.readings) == 0:
                 logger.info('Device %s didn\'t return any new readings' % (device['name']))
-            for reading in result:
+            for reading in result.readings:
                 topic = 'gismolab_sgmp_read/' + config.CLIENT_ID + '/' + str(device['device_id']) + '/' + device['name'] + '/' + str(reading.timestamp) + '/data'
                 logger.info('Multi-Publish [%s] %s' % (topic, reading.data))
                 mqtt.publish(topic, json.dumps(reading.data), QoS=1)
+            for event in result.events:
+                topic = 'gismolab_sgmp_read/' + config.CLIENT_ID + '/' + str(device['device_id']) + '/' + device['name'] + '/' + str(event.timestamp) + '/event'
+                event_dict = {
+                    'type': event.type,
+                    'data': event.data
+                }
+                logger.info('Event [%s] %s' % (topic, event_dict))
+                mqtt.publish(topic, json.dumps(event_dict), QoS=1)
         else:
             logger.info('Publish [%s] %s' % (topic, result))
             mqtt.publish(topic, json.dumps(result), QoS=1)

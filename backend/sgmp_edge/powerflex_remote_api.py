@@ -1,17 +1,19 @@
 import requests
 import time
 import pandas as pd
-from common import Reading
+from common import Event, ReadResult, Reading
 
 class PowerflexRemoteApi():
     def __init__(self, config):
         self.config = config
         self.base_headers = {"cache-control": "no-cache", "content-type": "application/json"}
         self.last_timestamp = 0
+        self.last_start_timestamp = 0
+        self.charging_state = ''
 
     def read(self):
         now = int(time.time())
-        result = {}
+        result = ReadResult()
 
         access_token = ''
         login_payload = {"username": self.config['username'], "password": self.config['password']}
@@ -35,15 +37,33 @@ class PowerflexRemoteApi():
         df.reset_index(drop=True, inplace=True)
         df = df[['time', 'acc_id', 'acs_id', 'charging_state', 'energy_delivered', 'mamps_actual',
                  'pilot_actual', 'power', 'voltage']]
-        results = df.sort_values(by=['time'], ascending=False).to_dict(orient='record')
+        results = df.sort_values(by=['time'], ascending=True).to_dict(orient='record')
         if len(results) == 0:
-            return []
+            return result
         
-        self.last_timestamp = results[0]['time']
+        self.last_timestamp = results[-1]['time']
         ret = []
         for row in results:
             ret.append(Reading(row['time'] * 1000, row))
-        return ret
+        result.readings = ret
+
+        events = []
+        for row in results:
+            if self.charging_state == '':
+                self.charging_state = row['charging_state']
+            if self.charging_state == 'UNPLUGGED' and row['charging_state'] != 'UNPLUGGED':
+                # started charging
+                events.append(Event(row['time'] * 1000, 'EV_START_CHARGING', {}))
+                self.last_start_timestamp = row['time']
+            elif self.charging_state != 'UNPLUGGED' and row['charging_state'] == 'UNPLUGGED':
+                # ended charging
+                ts = row['time']
+                if self.last_start_timestamp != 0:
+                    events.append(Event(ts * 1000, 'EV_END_CHARGING', {'duration': (ts - self.last_start_timestamp) * 1000, 'energy': row['energy_delivered']}))
+            self.charging_state = row['charging_state']
+        result.events = events
+        
+        return result
 
     def act(self, data):
         pass
