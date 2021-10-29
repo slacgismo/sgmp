@@ -6,7 +6,7 @@ resource "aws_iot_topic_rule" "rule" {
   name        = "${var.resource_prefix}_data"
   description = "Lambda -> TimescaleDB ingest rule for SGMP"
   enabled     = true
-  sql         = "SELECT * AS data, topic(2) as client_id, cast(topic(3) AS DECIMAL) as device_id, topic(4) as device_name, cast(topic(5) AS DECIMAL) as timestamp FROM '${var.resource_prefix}_read/+/+/+/+/data'"
+  sql         = "SELECT * AS data, topic(2) as client_id, cast(topic(3) AS DECIMAL) as device_id, topic(4) as device_name, cast(topic(5) AS DECIMAL) as timestamp, topic(6) as topic FROM '${var.resource_prefix}_read/+/+/+/+/+'"
   sql_version = "2016-03-23"
 
   lambda {

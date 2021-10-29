@@ -5,6 +5,7 @@ data "aws_iam_role" "lambda" {
 resource "aws_lambda_function" "ingest" {
   filename = "sgmp_ingest.zip"
   function_name = "${var.resource_prefix}_ingest"
+  source_code_hash = filebase64sha256("sgmp_ingest.zip")
   role = data.aws_iam_role.lambda.arn
   runtime = "python3.8"
   handler = "lambda_function.lambda_handler"
