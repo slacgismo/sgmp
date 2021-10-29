@@ -17,6 +17,8 @@ from routes.house import api_house
 from models.shared import db
 
 import models.analytics
+import models.identifier_view
+import models.identifier_dependency
 import models.device
 import models.house
 
