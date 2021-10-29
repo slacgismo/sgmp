@@ -23,7 +23,6 @@ struct DeviceConfigCellView : View {
 }
 
 protocol DeviceConfigViewProtocol : View {
-    var device : Device { get set }
     var detail : DeviceDetail { get set }
 }
 
@@ -33,7 +32,6 @@ struct DeviceConfigDefault : DeviceConfigProtocol, Codable {
 }
 
 struct DeviceConfigDefaultView: DeviceConfigViewProtocol {
-    var device: Device
     var detail: DeviceDetail
     
     var body: some View {
@@ -54,7 +52,6 @@ struct DeviceConfigSonnen : DeviceConfigProtocol, Codable {
 }
 
 struct DeviceConfigSonnenView: DeviceConfigViewProtocol {
-    var device: Device
     var detail: DeviceDetail
     var config : DeviceConfigSonnen? {
         detail.config as? DeviceConfigSonnen
@@ -81,7 +78,6 @@ struct DeviceConfigPowerflex : DeviceConfigProtocol, Codable {
 }
 
 struct DeviceConfigPowerflexView: DeviceConfigViewProtocol {
-    var device: Device
     var detail: DeviceDetail
     var config : DeviceConfigPowerflex? {
         detail.config as? DeviceConfigPowerflex
@@ -107,7 +103,6 @@ struct DeviceConfigEgauge : DeviceConfigProtocol, Codable {
 }
 
 struct DeviceConfigEgaugeView: DeviceConfigViewProtocol {
-    var device: Device
     var detail: DeviceDetail
     var config : DeviceConfigEgauge? {
         detail.config as? DeviceConfigEgauge
@@ -121,9 +116,9 @@ struct DeviceConfigEgaugeView: DeviceConfigViewProtocol {
                     DeviceConfigCellView(title: "KEY", content: "\(key)")
                 }, expandable: {
                     NavigationLink {
-                        SpecificDeviceKeyView(key: key, device: device)
+                        SpecificDeviceKeyView(key: key, deviceName: detail.name)
                     } label: {
-                        SpecificDeviceKeyChartSelfLoadView(device: device, key: key, date: (Date(timeIntervalSinceNow: -300), Date()))
+                        SpecificDeviceKeyChartSelfLoadView(deviceName: detail.name, key: key, date: (Date(timeIntervalSinceNow: -300), Date()))
                             .allowsHitTesting(false)
                             .frame(height: 72)
                     }

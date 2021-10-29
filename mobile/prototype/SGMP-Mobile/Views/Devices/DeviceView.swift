@@ -27,27 +27,9 @@ struct DeviceView: View {
     var body: some View {
         List {
             Section {
-                VStack(alignment: .leading) {
-                    Text("Device ID")
-                        .font(.footnote.smallCaps())
-                        .foregroundColor(.init(UIColor.secondaryLabel))
-                    Text("\(device.device_id)")
-                        .font(.subheadline)
-                }
-                VStack(alignment: .leading) {
-                    Text("Description")
-                        .font(.footnote.smallCaps())
-                        .foregroundColor(.init(UIColor.secondaryLabel))
-                    Text("\(deviceDetail?.description ?? device.description)")
-                        .font(.subheadline)
-                }
-                VStack(alignment: .leading) {
-                    Text("Type")
-                        .font(.footnote.smallCaps())
-                        .foregroundColor(.init(UIColor.secondaryLabel))
-                    Text("\(deviceDetail?.type ?? device.type)")
-                        .font(.subheadline)
-                }
+                DeviceConfigCellView(title: "Device ID", content: "\(device.device_id)")
+                DeviceConfigCellView(title: "Description", content: "\(deviceDetail?.description ?? device.description)")
+                DeviceConfigCellView(title: "Type", content: "\(deviceDetail?.type ?? device.type)")
             } header: {
                 Text("Info")
             }
@@ -58,13 +40,13 @@ struct DeviceView: View {
             } else if let deviceDetail = deviceDetail {
                 switch deviceDetail.type {
                 case "sonnen":
-                    DeviceConfigSonnenView(device: device, detail: deviceDetail)
+                    DeviceConfigSonnenView(detail: deviceDetail)
                 case "powerflex":
-                    DeviceConfigPowerflexView(device: device, detail: deviceDetail)
+                    DeviceConfigPowerflexView(detail: deviceDetail)
                 case "egauge":
-                    DeviceConfigEgaugeView(device: device, detail: deviceDetail)
+                    DeviceConfigEgaugeView(detail: deviceDetail)
                 default:
-                    DeviceConfigDefaultView(device: device, detail: deviceDetail)
+                    DeviceConfigDefaultView(detail: deviceDetail)
                 }
             } else {
                 Button("Load Config") {

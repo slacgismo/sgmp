@@ -10,7 +10,8 @@ class Env: ObservableObject {
     
     // MARK: - AR
     @Published var arCameraTrackingState : ARCameraTrackingState = .notAvailable
-    @Published var arDebugInfo : ARDebugDataModel? = nil
+    @Published var arTrackingObject : ARTrackingObjectDataModel? = nil
+    @Published var arTrackingDevice : DeviceDetail? = nil
     
     // MARK: - Houses
     @Published var houses : [House] = []
@@ -35,6 +36,25 @@ class Env: ObservableObject {
                     if let err = err {
                         print(err)
                     }
+                }
+            }
+        }.store(in: &cancellableSet)
+        
+        self.$arTrackingObject.sink { object in
+            if let object = object, let deviceIDString = URLComponents(string: object.decodeString)?.queryItems?.first(where: { item in
+                item.name == "deviceId" || item.name == "deviceID" || item.name == "device_id"
+            })?.value, let deviceID = Int64(deviceIDString)
+            {
+                NetworkManager.shared.getDeviceDetail(deviceId: deviceID) { detail, err in
+                    if let detail = detail {
+                        DispatchQueue.main.async {
+                            self.arTrackingDevice = detail
+                        }
+                    }
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.arTrackingDevice = nil
                 }
             }
         }.store(in: &cancellableSet)

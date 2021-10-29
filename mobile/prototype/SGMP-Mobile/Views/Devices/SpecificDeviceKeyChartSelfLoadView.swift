@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftUICharts
 
 struct SpecificDeviceKeyChartSelfLoadView: View {
-    var device : Device
+    var deviceName : String
     var key : String
     @State var date : (Date, Date)
     @State var frames : [AnalyticsTimeSeriesFrame]?
@@ -17,7 +17,7 @@ struct SpecificDeviceKeyChartSelfLoadView: View {
     
     func loadChart() {
         loadingChart = true
-        DataManager.shared.getAnalyticsTimeSeries(deviceName: device.name, key: key, startDate: date.0, endDate: date.1) { frames, err in
+        DataManager.shared.getAnalyticsTimeSeries(deviceName: deviceName, key: key, startDate: date.0, endDate: date.1) { frames, err in
             if let frames = frames {
                 self.frames = frames
             } else if let err = err {

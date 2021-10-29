@@ -11,7 +11,7 @@ import SwiftUICharts
 struct SpecificDeviceKeyView: View {
     
     var key : String
-    var device : Device
+    var deviceName : String
     @State private var timeDuration = -300
     @State private var date : (Date, Date) = (Date(timeIntervalSinceNow: -300), Date())
     @State var loadingChart : Bool = false
@@ -20,7 +20,7 @@ struct SpecificDeviceKeyView: View {
     func refresh(newDuration : Int) {
         loadingChart = true
         date = (Date(timeIntervalSinceNow: TimeInterval(newDuration)), Date())
-        DataManager.shared.getAnalyticsTimeSeries(deviceName: device.name, key: key, startDate: date.0, endDate: date.1) { frames, err in
+        DataManager.shared.getAnalyticsTimeSeries(deviceName: deviceName, key: key, startDate: date.0, endDate: date.1) { frames, err in
             if let frames = frames {
                 self.frames = frames
             } else if let err = err {

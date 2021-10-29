@@ -9,6 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct AboutAppView: View {
+    @EnvironmentObject var env : Env
     var body: some View {
         List {
             Section {

@@ -41,7 +41,7 @@ enum ARCameraTrackingState {
    }
 }
 
-struct ARDebugDataModel {
-    var croppedImage : UIImage
+struct ARTrackingObjectDataModel {
+    var croppedImage : UIImage?
     var decodeString : String
 }

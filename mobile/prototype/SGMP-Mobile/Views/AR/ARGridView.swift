@@ -6,20 +6,26 @@
 //
 
 import SwiftUI
+import Defaults
 
 struct ARGridView: View {
-    @State var expandDebugView = false
+    @EnvironmentObject var env : Env
+    @Default(.debugMode) var debugMode
     
     var body: some View {
         GeometryReader { proxy in
             ZStack(alignment: .bottom) {
-//                UIViewController1Representable()
                 ARGridViewControllerRepresentable()
                     .ignoresSafeArea()
-                ARDebugView()
-                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 8))
-                    .frame(maxWidth: proxy.size.width * 1.0, maxHeight: proxy.size.height * 0.28, alignment: .bottom)
-                    .padding()
+                ZStack {
+                    if debugMode {
+                        ARDebugPanelView()
+                    } else {
+                        ARDeviceInfoPanelView()
+                    }
+                }
+                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 8))
+                .frame(maxWidth: proxy.size.width * 1.0, maxHeight: proxy.size.height * 0.4, alignment: .bottom)
             }
             .animation(.easeInOut)
         }

@@ -45,10 +45,8 @@ extension ARInteractiveViewNode {
                 ob.payloadStringValue
             }).first
             
-            if Defaults[.debugMode] == true {
-                DispatchQueue.main.async {
-                    EnvironmentManager.shared.env.arDebugInfo = ARDebugDataModel(croppedImage: UIImage(cgImage: croppedImage), decodeString: str ?? "")
-                }
+            DispatchQueue.main.async {
+                EnvironmentManager.shared.env.arTrackingObject = ARTrackingObjectDataModel(croppedImage: Defaults[.debugMode] ? UIImage(cgImage: croppedImage) : nil, decodeString: str ?? "")
             }
             return str
         }

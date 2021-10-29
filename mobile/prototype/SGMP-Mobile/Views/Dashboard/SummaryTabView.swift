@@ -65,7 +65,7 @@ struct SummaryTabView: View {
                             NavigationLink {
                                 ListDeviceView(houseId: house.house_id)
                             } label: {
-                                Label("See all", systemImage: "bolt.horizontal.fill")
+                                Label("see all (\(env.currentDashboardDevices.count))", systemImage: "bolt.horizontal.fill")
                             }
                         } else {
                             NavigationLink {
@@ -122,7 +122,7 @@ struct SummaryTabView: View {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 Menu("\(env.currentDashboardHouse?.name ?? "Choose House")") {
                     if (env.houses.count > 0) {
-                        Button("See all", action: {
+                        Button("See all (\(env.houses.count))", action: {
                             presentViewType = .showAllHouse
                         })
                         Divider()

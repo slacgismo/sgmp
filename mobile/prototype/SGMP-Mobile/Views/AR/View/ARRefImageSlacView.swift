@@ -9,51 +9,33 @@ import SwiftUI
 import Combine
 import SwiftUICharts
 
-struct ARRefImageSlacView: View {
-    static let preferredSize : CGSize = CGSize.init(width: 1300.0/4, height: 500.0/4)
+struct ARRefImageSlacInternalView : View {
+    @EnvironmentObject var env : Env
     @State var showDetail = false
     var url : String? = nil
-    var chartData : [Double]
-    {
-        if let url = url {
-            if url == "1" {
-                return [12, 2, 7, 6, 10, 3, 10]
-            } else if url == "2" {
-                return [0, 1, 2, 3, 10, 3, 5]
-            }
-        }
-        return [0, 0, 0, 0, 0, 3, 5]
-    }
     
     var body: some View {
         ZStack {
-            VStack {
-                HStack {
-                    Image(systemName: "qrcode.viewfinder")
-                        .renderingMode(.template)
-                        .resizable()
-                        .scaledToFit()
-                        .foregroundColor(.white)
-                    
-                    if showDetail{
-                        Text("Device \(url ?? "")")
-                            .font(.caption.monospaced().bold())
+            HStack {
+                Image(systemName: "qrcode.viewfinder")
+                    .renderingMode(.template)
+                    .resizable()
+                    .scaledToFit()
+                    .foregroundColor(.white)
+                
+                if showDetail{
+                    VStack(alignment: .leading) {
+                        Text("\(env.arTrackingDevice?.name ?? "")")
+                            .font(.title.monospaced())
                             .foregroundColor(.white)
                             .lineLimit(nil)
-                        Spacer()
-                        Text("\(chartData.last ?? 0) %")
-                            .font(.caption.monospaced().bold())
+                        Text("\(env.arTrackingDevice?.description ?? "")")
+                            .font(.footnote.monospaced().bold())
                             .foregroundColor(.white)
                             .lineLimit(nil)
                     }
-                }
-                
-                if showDetail {
-                    LineChart()
-                            .data(chartData)
-                            .chartStyle(ChartStyle(backgroundColor: .red,
-                                                               foregroundColor: [ColorGradient(.white, .white)]))
-                            .layoutPriority(100)
+                    
+                    Spacer()
                 }
             }
             .padding(.all, showDetail ? 8 : 12)
@@ -79,6 +61,17 @@ struct ARRefImageSlacView: View {
         .onTapGesture {
             showDetail.toggle()
         }
+    }
+    
+}
+
+struct ARRefImageSlacView: View {
+    static let preferredSize : CGSize = CGSize.init(width: 1300.0/4, height: 500.0/4)
+    var url : String? = nil
+    
+    var body: some View {
+        ARRefImageSlacInternalView(url: url)
+            .environmentObject(EnvironmentManager.shared.env)
     }
 }
 

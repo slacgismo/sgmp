@@ -34,8 +34,9 @@
 		0D5F56FD272BAE270029A53B /* DeviceSelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F56FC272BAE270029A53B /* DeviceSelectionCell.swift */; };
 		0D5F56FF272BB7120029A53B /* Codable+Dict.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F56FE272BB7120029A53B /* Codable+Dict.swift */; };
 		0D5F5701272BBD880029A53B /* DeviceConfigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F5700272BBD880029A53B /* DeviceConfigView.swift */; };
+		0D5F5705272BD2410029A53B /* ARDeviceInfoPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F5704272BD2410029A53B /* ARDeviceInfoPanelView.swift */; };
 		0D5F79E526FB2D660013AAB1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F79E426FB2D660013AAB1 /* Main.storyboard */; };
-		0D6E5B8E270D55AE00576AA4 /* ARDebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6E5B8D270D55AE00576AA4 /* ARDebugView.swift */; };
+		0D6E5B8E270D55AE00576AA4 /* ARDebugPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6E5B8D270D55AE00576AA4 /* ARDebugPanelView.swift */; };
 		0D6E5B90270D572D00576AA4 /* ARGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6E5B8F270D572D00576AA4 /* ARGridView.swift */; };
 		0D73893F26FA97CF000C43A6 /* ARInteractiveViewNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D73893E26FA97CF000C43A6 /* ARInteractiveViewNode.swift */; };
 		0D73894426FAA68F000C43A6 /* ScaffoldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D73894326FAA68F000C43A6 /* ScaffoldView.swift */; };
@@ -98,10 +99,11 @@
 		0D5F56FC272BAE270029A53B /* DeviceSelectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceSelectionCell.swift; sourceTree = "<group>"; };
 		0D5F56FE272BB7120029A53B /* Codable+Dict.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Codable+Dict.swift"; sourceTree = "<group>"; };
 		0D5F5700272BBD880029A53B /* DeviceConfigView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceConfigView.swift; sourceTree = "<group>"; };
+		0D5F5704272BD2410029A53B /* ARDeviceInfoPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARDeviceInfoPanelView.swift; sourceTree = "<group>"; };
 		0D5F79E426FB2D660013AAB1 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		0D5F79E626FB2DCA0013AAB1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		0D5F7A0726FB33380013AAB1 /* SGMP-Mobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SGMP-Mobile.entitlements"; sourceTree = "<group>"; };
-		0D6E5B8D270D55AE00576AA4 /* ARDebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARDebugView.swift; sourceTree = "<group>"; };
+		0D6E5B8D270D55AE00576AA4 /* ARDebugPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARDebugPanelView.swift; sourceTree = "<group>"; };
 		0D6E5B8F270D572D00576AA4 /* ARGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARGridView.swift; sourceTree = "<group>"; };
 		0D73893E26FA97CF000C43A6 /* ARInteractiveViewNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARInteractiveViewNode.swift; sourceTree = "<group>"; };
 		0D73894326FAA68F000C43A6 /* ScaffoldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaffoldView.swift; sourceTree = "<group>"; };
@@ -334,8 +336,9 @@
 			isa = PBXGroup;
 			children = (
 				0D6E5B8F270D572D00576AA4 /* ARGridView.swift */,
+				0D5F5704272BD2410029A53B /* ARDeviceInfoPanelView.swift */,
+				0D6E5B8D270D55AE00576AA4 /* ARDebugPanelView.swift */,
 				0DE2E79726F6DEDB00932B41 /* ARGridViewController.swift */,
-				0D6E5B8D270D55AE00576AA4 /* ARDebugView.swift */,
 				0D73894026FA9827000C43A6 /* Touch */,
 				0DE2E7D226FA5D7600932B41 /* View */,
 				0DE2E7C726F99DF800932B41 /* ARNodeProtocol.swift */,
@@ -457,6 +460,7 @@
 				0DE2E7C326F8625600932B41 /* CameraTabView.swift in Sources */,
 				0DE1F7982710391300714744 /* ARRefImageSlacViewHostingController.swift in Sources */,
 				0D9CDDB32705163C00804A57 /* LoginView.swift in Sources */,
+				0D5F5705272BD2410029A53B /* ARDeviceInfoPanelView.swift in Sources */,
 				0D51EE1C26F27FCC00BCAAB3 /* MainTabView.swift in Sources */,
 				0D0D54C6270F8CB700C50FDA /* Image+Crop.swift in Sources */,
 				0DE1F78C271012B000714744 /* ARRefImageSlac3View.swift in Sources */,
@@ -464,7 +468,7 @@
 				0D5F56F8272B99850029A53B /* NetworkManager.swift in Sources */,
 				0D5F56F02727DF780029A53B /* UserManager.swift in Sources */,
 				0D5081012718FDEA00EE0A4F /* ListDeviceView.swift in Sources */,
-				0D6E5B8E270D55AE00576AA4 /* ARDebugView.swift in Sources */,
+				0D6E5B8E270D55AE00576AA4 /* ARDebugPanelView.swift in Sources */,
 				0DE2E7C526F8625C00932B41 /* SettingsTabView.swift in Sources */,
 				0DE1F79027101D6F00714744 /* ARSwiftUIHostingController.swift in Sources */,
 				0D5081052719344200EE0A4F /* ExpandableView.swift in Sources */,
