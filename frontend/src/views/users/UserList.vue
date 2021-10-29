@@ -4,8 +4,19 @@
 
     <div class="flex items-center space-x-1 text-xs">
       <router-link to="/" class="font-bold text-indigo-700">Home</router-link>
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-2 w-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-2 w-2"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 5l7 7-7 7"
+        />
       </svg>
       <span class="text-gray-600">Users</span>
     </div>
@@ -42,7 +53,10 @@
               rounded-md
               pl-10
               border border-gray-300
-              focus:outline-none focus:ring-gray-500 focus:ring-gray-500 focus:z-10
+              focus:outline-none
+              focus:ring-gray-500
+              focus:ring-gray-500
+              focus:z-10
             "
             placeholder="Search user"
           />
@@ -64,18 +78,32 @@
                   bg-gray-400
                   hover:bg-gray-300
                   focus:outline-none
-                  focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75
+                  focus-visible:ring-2
+                  focus-visible:ring-white
+                  focus-visible:ring-opacity-75
                 "
               >
                 Actions
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="w-5 h-5 ml-2 -mr-1 text-violet-200 hover:text-violet-100"
+                  class="
+                    w-5
+                    h-5
+                    ml-2
+                    -mr-1
+                    text-violet-200
+                    hover:text-violet-100
+                  "
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                 >
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  />
                 </svg>
               </MenuButton>
             </div>
@@ -106,23 +134,31 @@
               >
                 <div class="px-1 py-1">
                   <MenuItem v-slot="{ active }">
-                    <button
-                      :class="[
-                        active ? 'bg-gray-400 text-white' : 'text-gray-900',
-                        'group flex rounded-md items-center w-full px-2 py-2 text-sm',
-                      ]"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="w-5 h-5 mr-2"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
+                    <router-link v-slot="{ navigate }" :to="{ name: 'createuser' }">
+                      <button
+                        @click="navigate"
+                        :class="[
+                          active ? 'bg-gray-400 text-white' : 'text-gray-900',
+                          'group flex rounded-md items-center w-full px-2 py-2 text-sm',
+                        ]"
                       >
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                      </svg>
-                      Add User
-                    </button>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="w-5 h-5 mr-2"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                          />
+                        </svg>
+                        Add User
+                      </button>
+                    </router-link>
                   </MenuItem>
                   <MenuItem v-slot="{ active }">
                     <button
@@ -175,7 +211,15 @@
               <input
                 v-model="selectAll"
                 type="checkbox"
-                class="h-5 w-5 text-blue-500 border-gray-300 rounded cursor-pointer focus:ring-0"
+                class="
+                  h-5
+                  w-5
+                  text-blue-500
+                  border-gray-300
+                  rounded
+                  cursor-pointer
+                  focus:ring-0
+                "
               />
             </th>
             <th class="text-left text-gray-600">User</th>
@@ -189,15 +233,29 @@
             <td class="p-2">
               <input
                 type="checkbox"
-                class="h-5 w-5 text-blue-500 border-gray-300 rounded cursor-pointer focus:ring-0"
+                class="
+                  h-5
+                  w-5
+                  text-blue-500
+                  border-gray-300
+                  rounded
+                  cursor-pointer
+                  focus:ring-0
+                "
                 :checked="selectAll"
               />
             </td>
             <td class="flex items-center py-4">
-              <img class="inline-block h-12 w-12 rounded-full ring-2 ring-white" :src="getAvatar(user.name)" alt="" />
+              <img
+                class="inline-block h-12 w-12 rounded-full ring-2 ring-white"
+                :src="getAvatar(user.name)"
+                alt=""
+              />
               <div class="px-4">
                 <div>
-                  <a href="#" class="text-gray-600 font-bolder">{{ user.name }}</a>
+                  <a href="#" class="text-gray-600 font-bolder">{{
+                    user.name
+                  }}</a>
                 </div>
                 <div class="font-bold text-sm">
                   {{ user.email }}
@@ -212,7 +270,12 @@
         <tfoot>
           <tr>
             <td colspan="7" class="py-2">
-              <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+              <div
+                class="
+                  hidden
+                  sm:flex-1 sm:flex sm:items-center sm:justify-between
+                "
+              >
                 <div>
                   <p class="text-sm text-gray-500">
                     Page
@@ -222,7 +285,17 @@
                   </p>
                 </div>
                 <div>
-                  <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                  <nav
+                    class="
+                      relative
+                      z-0
+                      inline-flex
+                      rounded-md
+                      shadow-sm
+                      -space-x-px
+                    "
+                    aria-label="Pagination"
+                  >
                     <a
                       href="#"
                       class="
@@ -246,7 +319,12 @@
                         viewBox="0 0 24 24"
                         stroke="currentColor"
                       >
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M15 19l-7-7 7-7"
+                        />
                       </svg>
                     </a>
                     <a
@@ -290,7 +368,12 @@
                         viewBox="0 0 24 24"
                         stroke="currentColor"
                       >
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M9 5l7 7-7 7"
+                        />
                       </svg>
                     </a>
                   </nav>
@@ -305,8 +388,8 @@
 </template>
 
 <script>
-import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
-import { ref } from 'vue';
+import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
+import { ref } from "vue";
 import httpReq from "@/util/requestOptions";
 import constants from "@/util/constants";
 
@@ -317,18 +400,18 @@ export default {
     MenuItems,
     MenuItem,
   },
-  data () {
+  data() {
     return {
-      userList: []
-    }
+      userList: [],
+    };
   },
   mounted() {
     // GET request to fetch data for the user list
     fetch(
-        constants.server + "/api/user/list", // endpoint
-        httpReq.get() // requestOptions
-      )
-      .then(async response => {
+      constants.server + "/api/user/list", // endpoint
+      httpReq.get() // requestOptions
+    )
+      .then(async (response) => {
         const data = await response.json();
 
         // check for error response
@@ -340,24 +423,24 @@ export default {
 
         this.userList = data.user_list;
       })
-      .catch(error => {
+      .catch((error) => {
         this.errorMessage = error;
         console.error(error);
       });
   },
 
   setup() {
-    const selectAll = ref(false)
+    const selectAll = ref(false);
     return {
-      selectAll
-    }
+      selectAll,
+    };
   },
   methods: {
     formatDate(timestamp) {
       const options = {
         year: "numeric",
         month: "short",
-        day: "numeric"
+        day: "numeric",
       };
 
       return `${new Date(timestamp).toLocaleDateString("en", options)}`;
@@ -365,18 +448,16 @@ export default {
     formatDays(timestamp) {
       const msPerDay = 1000 * 60 * 60 * 24;
       let days = Math.floor((new Date() - new Date(timestamp)) / msPerDay);
-      if (days >= 0)
-        return `${days} days ago`;
-      else
-        return '-';
+      if (days >= 0) return `${days} days ago`;
+      else return "-";
     },
 
     getAvatar(name) {
       if (!name) {
         name = "";
       }
-      return `https://ui-avatars.com/api/?name=` + name + `&background=random`
-    }
-  }
-}
+      return `https://ui-avatars.com/api/?name=` + name + `&background=random`;
+    },
+  },
+};
 </script>
