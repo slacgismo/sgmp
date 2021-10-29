@@ -36,3 +36,7 @@ module "rds" {
 
   tags = var.tags
 }
+
+output "dns" {
+  value = module.rds.db_instance_address
+}
