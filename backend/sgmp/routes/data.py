@@ -159,7 +159,9 @@ def data_read():
             if len(stack) == 1 and len(idents) == 1:
                 # Use optimized queries
                 view_name = None
-                if identifier_views is not None: view_name = identifier_views[idents[0]]
+                if identifier_views is not None:
+                    if idents[0] in identifier_views:
+                        view_name = identifier_views[idents[0]]
                 results.append(process_single_value_read(data, idents[0], view_name))
             else:
                 # Use normal procedure
@@ -300,11 +302,26 @@ def process_expression(data, engine, stack, idents, ident_view):
     house_id = int(data['house_id'])
 
     if ident_view is None:
-        msg, array_dict = _fetch_context(start_time, end_time, house_id, idents)
-        evaluate_message += msg
+        msg, ts = _fetch_context(start_time, end_time, house_id, idents)
+        evaluate_message += msg + '\n'
+        array_dict = ts
     else:
-        msg, array_dict = _fetch_continuous_aggregation(start_time, end_time, idents, ident_view)
-        evaluate_message += msg
+        raw_data_idents = []
+        ca_idents = []
+        for ident in idents:
+            if ident in ident_view:
+                ca_idents.append(ident)
+            else:
+                raw_data_idents.append(ident)
+
+        
+            msg, ts = _fetch_continuous_aggregation(start_time, end_time, ca_idents, ident_view)
+            evaluate_message += msg + '\n'
+            array_dict = ts
+
+            msg, ts = _fetch_context(start_time, end_time, house_id, raw_data_idents)
+            evaluate_message += msg + '\n'
+            array_dict = {**array_dict, **ts}
 
     # Perform the evaluation
     try:
@@ -348,9 +365,9 @@ def process_expression(data, engine, stack, idents, ident_view):
         'message': evaluate_message,
     }
 
-def _fetch_context(start_time: float, end_time: float, house_id: int, idents: Sequence[str]) -> Tuple[str, Dict[str, pd.Series]]:
+def _fetch_context(start_time: float, end_time: float, house_id: int, idents: Sequence[str]) -> Tuple[str, pd.Series]:
     array_dict = dict()
-    evaluate_message = 'Identifiers: '
+    evaluate_message = 'Raw data identifiers: '
     device_reqs = dict()
 
     for ident in idents:
