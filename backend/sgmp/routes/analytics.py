@@ -18,11 +18,15 @@ from utils.tsdb import get_tsdb_conn
 logger = get_logger('analytics')
 api_analytics = Blueprint('analytics', __name__)
 
-@api_analytics.route('/list', methods=['GET'])
+@api_analytics.route('/list', methods=['POST'])
 @require_auth()
 def analytics_list():
     # Read all analytics from database
-    query_result = Analytics.query.all()
+    data = request.json
+    if 'house_id' not in data:
+        return err_json('bad request')
+
+    query_result = Analytics.query.filter_by(house_id=data['house_id']).all()
     ret = []
     for row in query_result:
         ret.append({
