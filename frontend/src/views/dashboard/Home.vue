@@ -212,7 +212,7 @@ export default {
       let power2Energy = [];
       for (let i = 0; i < formulae.length; i++) {
         // kWh = kW * duration in ms / (60 * 60 * 1000)
-        power2Energy.push(formulae[i] + "/3600000*" + duration);
+        power2Energy.push("analytics." + formulae[i] + "/3600000*" + duration);
       }
 
       return {
@@ -221,7 +221,7 @@ export default {
         end_time: now.getTime(),
         type: "analytics",
         agg_function: "avg",
-        analytics_name: formulae,
+        formula: power2Energy,
         house_id: localStorage.getItem("house_id")
       };
     },
