@@ -9,11 +9,38 @@ import SwiftUI
 import Defaults
 
 struct LoginView: View {
+    enum LoginField: Hashable {
+        case email
+        case password
+    }
+    
     @EnvironmentObject var env : Env
     @State private var email = ""
     @State private var password = ""
     @State private var errorMsg : String = ""
     @State private var networking : Bool = false
+    @FocusState private var focusedField: LoginField?
+    
+    func login() {
+        if email.isEmpty || password.isEmpty {
+            return
+        }
+        networking = true
+        UserManager.shared.login(email: email, password: password) { response, err in
+            if let err = err {
+                errorMsg = "\(err)"
+            } else if let response = response {
+                if let message = response.message, response.status != "ok" {
+                    errorMsg = "\(message)"
+                }
+                else if let profile = response.profile, let token = response.accesstoken {
+                    Defaults[.userProfile] = .init(profileResponse: profile, token: token)
+                }
+            }
+            networking = false
+        }
+        password = ""
+    }
     
     var body: some View {
         NavigationView {
@@ -31,8 +58,18 @@ struct LoginView: View {
                             .autocapitalization(.none)
                             .disableAutocorrection(true)
                             .font(.body.monospaced())
+                            .focused($focusedField, equals: .email)
+                            .submitLabel(SubmitLabel.next)
+                            .onSubmit {
+                                focusedField = .password
+                            }
                         SecureField("Password", text: $password)
                             .font(.body.monospaced())
+                            .focused($focusedField, equals: .password)
+                            .submitLabel(SubmitLabel.go)
+                            .onSubmit {
+                                login()
+                            }
                     }
                 } header: {
                     Text("Credentials")
@@ -48,21 +85,7 @@ struct LoginView: View {
 
                 Section {
                     Button {
-                        networking = true
-                        UserManager.shared.login(email: email, password: password) { response, err in
-                            if let err = err {
-                                errorMsg = "\(err)"
-                            } else if let response = response {
-                                if let message = response.message, response.status != "ok" {
-                                    errorMsg = "\(message)"
-                                }
-                                else if let profile = response.profile, let token = response.accesstoken {
-                                    Defaults[.userProfile] = .init(profileResponse: profile, token: token)
-                                }
-                            }
-                            networking = false
-                        }
-                        password = ""
+                        login()
                     } label: {
                         Text(networking ? "Please wait ..." : "Login")
                     }

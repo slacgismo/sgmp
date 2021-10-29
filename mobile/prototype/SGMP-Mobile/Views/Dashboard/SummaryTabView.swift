@@ -46,7 +46,7 @@ struct SummaryTabView: View {
                     
                     Section {
                         NavigationLink {
-//                            SpecificDeviceView(
+//                            DeviceView(
                         } label: {
                             SummaryMetricCardView(refreshDate: $refreshDate, title: "Solar Power", iconName: "sun.min", iconColor: .yellow, number: "- Wh", numberCallback: { value in String(format: "%.5f Wh", value)}, formula: "egauge.A.Solar", aggregateFunction: .avg)
                         }

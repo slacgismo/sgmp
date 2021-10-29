@@ -59,22 +59,46 @@ struct Device : Codable, Identifiable {
 struct DeviceDetailRequest : Codable {
     var device_id : Int64
 }
-struct DeviceDetailResponse : Codable {
+struct DeviceDetailResponse : Decodable {
     var status : String
     var message : String?
     var device : DeviceDetail?
 }
 
-struct DeviceConfig : Codable {
-    var ip : String
-    var keys : [String]?
+protocol DeviceConfigProtocol : Codable {
+    
 }
 
-struct DeviceDetail : Codable {
-    var config : DeviceConfig
+struct DeviceDetail : Decodable {
+    enum CodingKeys: String, CodingKey {
+        case config, name, description, type
+    }
+
+    var config : DeviceConfigProtocol
     var name : String
     var description : String
     var type : String
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.description = try container.decode(String.self, forKey: .description)
+        self.type = try container.decode(String.self, forKey: .type)
+        switch self.type {
+        case "sonnen":
+            self.config = try container.decode(DeviceConfigSonnen.self, forKey: .config)
+            break
+        case "powerflex":
+            self.config = try container.decode(DeviceConfigPowerflex.self, forKey: .config)
+            break
+        case "egauge":
+            self.config = try container.decode(DeviceConfigEgauge.self, forKey: .config)
+            break
+        default:
+            self.config = try container.decode(DeviceConfigDefault.self, forKey: .config)
+            break
+        }
+    }
 }
 
 

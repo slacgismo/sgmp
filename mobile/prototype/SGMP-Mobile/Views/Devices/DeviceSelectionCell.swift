@@ -13,7 +13,7 @@ struct DeviceSelectionCell: View {
     
     var body: some View {
         NavigationLink {
-            SpecificDeviceView(device: device)
+            DeviceView(device: device)
         } label: {
             HStack {
                 Text("\(device.device_id)")

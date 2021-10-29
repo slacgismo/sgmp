@@ -49,28 +49,17 @@ class NetworkManager : BaseManager {
     
     // MARK: - Device Detail
     func getDeviceDetail(deviceId : Int64, callback: @escaping ((DeviceDetail?, Error?) -> Void)) -> Void {
-        var request = URLRequest(url: SgmpHostUrl.appendingPathComponent("api/device/details"))
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "content-type")
-        do {
-            request.httpBody = try JSONEncoder().encode(DeviceDetailRequest(device_id: deviceId))
-        } catch (let err) {
-            callback(nil, err)
-            return
-        }
-        URLSession.shared.dataTask(with: request) { data, response, err in
-            if let err = err {
-                callback(nil, err)
-            } else if let data = data {
-                do {
-                    let deviceDetailResponse = try JSONDecoder().decode(DeviceDetailResponse.self, from: data)
-                    let detail = deviceDetailResponse.device
-                    callback(detail ?? nil, nil)
-                } catch (let err) {
-                    callback(nil, err)
+        if let user = Defaults[.userProfile] {
+            let parameters = DeviceDetailRequest(device_id: deviceId)
+            AF.request("\(SgmpHostString)api/device/details", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default, headers: .init(["Authorization": "Bearer \(user.accessToken)"]))
+                .responseDecodable(of: DeviceDetailResponse.self) { response in
+                    debugPrint(response)
+                    callback(response.value?.device, response.error)
+                    self.responsePostHandlerForExpiredToken(response: response)
                 }
-            }
-        }.resume()
+        } else {
+            callback(nil, nil)
+        }
     }
     
     
