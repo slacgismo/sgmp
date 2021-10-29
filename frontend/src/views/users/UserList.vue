@@ -68,7 +68,7 @@
                 class="
                   inline-flex
                   justify-center
-                  w-full
+                  w-28
                   px-4
                   py-2
                   text-sm
@@ -120,7 +120,7 @@
                 class="
                   absolute
                   right-0
-                  w-32
+                  w-28
                   mt-1
                   origin-top-right
                   bg-white
@@ -156,7 +156,7 @@
                             d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                           />
                         </svg>
-                        Add User
+                        Create
                       </button>
                     </router-link>
                   </MenuItem>
