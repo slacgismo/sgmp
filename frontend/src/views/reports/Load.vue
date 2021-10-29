@@ -152,7 +152,7 @@ export default {
         start_time: this.getStartTime(now, type),
         end_time: now.getTime(),
         type: "analytics",
-        analytics_name: constants.formula.Load,
+        analytics_name: constants.analytics.Load,
         house_id: localStorage.getItem("house_id")
       };
       // Weekly and montly data are by default averaged over 1 hour
@@ -168,7 +168,7 @@ export default {
         end_time: now.getTime(),
         type: "analytics",
         agg_function: aggFunc,
-        analytics_name: constants.formula.Load,
+        analytics_name: constants.analytics.Load,
         house_id: localStorage.getItem("house_id")
       };
       if (type == State.Day) {

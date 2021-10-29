@@ -9,7 +9,7 @@ export default Object.freeze({
     roles: Object.freeze({ Admin: "admin", Researcher: "researcher", Visitor: "visitor" }),
     units: Object.freeze({ Power: "kW", Energy: "kWh", Percentage: "%", Seconds: "sec" }),
     // Mapping between energy type and formula
-    formula: Object.freeze({
+    analytics: Object.freeze({
         Solar: "solar",
         Grid: "gridpower",
         Battery: "battery",
@@ -18,9 +18,9 @@ export default Object.freeze({
         SOC: "soc",
         EV: "ev",
         Load: "load",
-        Frequency: "egauge.A.L1_Frequency",
-        Voltage1: "egauge.A.L1_Voltage",
-        Voltage2: "egauge.A.L2_Voltage"
+        Frequency: "l1_frequency",
+        Voltage1: "l1_voltage",
+        Voltage2: "l2_voltage"
     }),
     sources: Object.freeze({ Battery: "sonnen" }),
     chartTypes: Object.freeze({ Column: "column", Line: "line", Donut: "donut" })

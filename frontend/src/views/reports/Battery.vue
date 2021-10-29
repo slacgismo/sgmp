@@ -37,7 +37,7 @@
             img="charging.svg"
             :period="getPeriod(State.Day)"
             :request="
-              getAggRequest(State.Month, 'avg', constants.formula.BatteryCharging)
+              getAggRequest(State.Month, 'avg', constants.analytics.BatteryCharging)
             "
           />
           <analytic-card
@@ -46,7 +46,7 @@
             img="discharging.svg"
             :period="getPeriod(State.Day)"
             :request="
-              getAggRequest(State.Month, 'avg', constants.formula.BatteryDischarging)
+              getAggRequest(State.Month, 'avg', constants.analytics.BatteryDischarging)
             "
           />
         </div>
@@ -67,7 +67,7 @@
             img="charging.svg"
             :period="getPeriod(State.Week)"
             :request="
-              getAggRequest(State.Month, 'avg', constants.formula.BatteryCharging)
+              getAggRequest(State.Month, 'avg', constants.analytics.BatteryCharging)
             "
           />
           <analytic-card
@@ -76,7 +76,7 @@
             img="discharging.svg"
             :period="getPeriod(State.Week)"
             :request="
-              getAggRequest(State.Month, 'avg', constants.formula.BatteryDischarging)
+              getAggRequest(State.Month, 'avg', constants.analytics.BatteryDischarging)
             "
           />
         </div>
@@ -97,7 +97,7 @@
             img="charging.svg"
             :period="getPeriod(State.Month)"
             :request="
-              getAggRequest(State.Month, 'avg', constants.formula.BatteryCharging)
+              getAggRequest(State.Month, 'avg', constants.analytics.BatteryCharging)
             "
           />
           <analytic-card
@@ -106,7 +106,7 @@
             img="discharging.svg"
             :period="getPeriod(State.Month)"
             :request="
-              getAggRequest(State.Month, 'avg', constants.formula.BatteryDischarging)
+              getAggRequest(State.Month, 'avg', constants.analytics.BatteryDischarging)
             "
           />
           <!-- <analytic-card
@@ -117,7 +117,7 @@
               getAggRequest(
                 State.Month,
                 'max',
-                constants.formula.SOC
+                constants.analytics.SOC
               )
             "
           />
@@ -129,7 +129,7 @@
               getAggRequest(
                 State.Month,
                 'min',
-                constants.formula.SOC
+                constants.analytics.SOC
               )
             "
           /> -->
@@ -209,7 +209,7 @@ export default {
         "start_time": this.getStartTime(now, type),
         "end_time": now.getTime(),
         "type": "analytics",
-        "analytics_name": [constants.formula.SOC, constants.formula.BatteryCharging, constants.formula.BatteryDischarging],
+        "analytics_name": [constants.analytics.SOC, constants.analytics.BatteryCharging, constants.analytics.BatteryDischarging],
         "house_id": localStorage.getItem("house_id")
       };
       // Weekly and montly data are by default averaged over 1 hour
