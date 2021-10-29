@@ -10,7 +10,7 @@ import SwiftUI
 struct ARDeviceInfoPanelView: View {
     @EnvironmentObject var env : Env
     var body: some View {
-        if let deviceDetail = env.arTrackingDevice {
+        if let deviceDetail = env.arTrackingDevice, env.arActivelyTracking {
             NavigationView {
                 List {
                     Section {

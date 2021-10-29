@@ -10,7 +10,9 @@ class Env: ObservableObject {
     
     // MARK: - AR
     @Published var arCameraTrackingState : ARCameraTrackingState = .notAvailable
-    @Published var arTrackingObject : ARTrackingObjectDataModel? = nil
+    @Published var arActivelyTracking : Bool = false
+    @Published var arQRDecodedString : String? = nil
+    @Published var arQRCroppedImage : UIImage? = nil
     @Published var arTrackingDevice : DeviceDetail? = nil
     
     // MARK: - Houses
@@ -40,8 +42,16 @@ class Env: ObservableObject {
             }
         }.store(in: &cancellableSet)
         
-        self.$arTrackingObject.sink { object in
-            if let object = object, let deviceIDString = URLComponents(string: object.decodeString)?.queryItems?.first(where: { item in
+        self.$arActivelyTracking.sink { tracking in
+            DispatchQueue.main.async {
+                if !tracking {
+                    self.arQRDecodedString = nil
+                }
+            }
+        }.store(in: &cancellableSet)
+        
+        self.$arQRDecodedString.sink { string in
+            if let string = string, let deviceIDString = URLComponents(string: string)?.queryItems?.first(where: { item in
                 item.name == "deviceId" || item.name == "deviceID" || item.name == "device_id"
             })?.value, let deviceID = Int64(deviceIDString)
             {

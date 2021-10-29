@@ -10,9 +10,12 @@ import Combine
 import SwiftUICharts
 
 struct ARRefImageSlacInternalView : View {
+    init() {
+        showDetail = false
+    }
+    
     @EnvironmentObject var env : Env
     @State var showDetail = false
-    var url : String? = nil
     
     var body: some View {
         ZStack {
@@ -47,17 +50,21 @@ struct ARRefImageSlacInternalView : View {
             .position(x: showDetail ? ARRefImageSlacView.preferredSize.width * 0.5 : ARRefImageSlacView.preferredSize.width * 0.81231,
                       y: showDetail ? ARRefImageSlacView.preferredSize.height  * 0.516 : ARRefImageSlacView.preferredSize.height  * 0.516)
             
-            
-                Image("slac-template-transparent")
-                    .resizable()
-                    .scaledToFill()
-                    .foregroundColor(.red)
-                    .allowsHitTesting(false)
+            Image("slac-template-transparent")
+                .resizable()
+                .scaledToFill()
+                .foregroundColor(.red)
+                .allowsHitTesting(false)
         }
         .animation(.easeInOut(duration: 1))
         .ignoresSafeArea()
         .edgesIgnoringSafeArea(.all)
         .contentShape(Rectangle())
+        .onAppear(perform: {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                showDetail = true
+            }
+        })
         .onTapGesture {
             showDetail.toggle()
         }
@@ -67,17 +74,16 @@ struct ARRefImageSlacInternalView : View {
 
 struct ARRefImageSlacView: View {
     static let preferredSize : CGSize = CGSize.init(width: 1300.0/4, height: 500.0/4)
-    var url : String? = nil
     
     var body: some View {
-        ARRefImageSlacInternalView(url: url)
+        ARRefImageSlacInternalView()
             .environmentObject(EnvironmentManager.shared.env)
     }
 }
 
 struct ARRefImageSlacView_Previews: PreviewProvider {
     static var previews: some View {
-        ARRefImageSlacView(url: "1")
+        ARRefImageSlacView()
             .frame(width: ARRefImageSlacView.preferredSize.width, height: ARRefImageSlacView.preferredSize.height , alignment: .center)
             .background(.yellow)
     }
