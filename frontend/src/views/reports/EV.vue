@@ -36,7 +36,7 @@
             :unit="constants.units.Power"
             :title="POWER"
             img="power.svg"
-            :request="getAggRequest(State.Day, 'avg', constants.formula.EV)"
+            :request="getAggRequest(State.Day, 'avg', constants.analytics.EV)"
             :period="getPeriod(State.Day)"
           />
           <!-- https://www.svgrepo.com/svg/270552/renewable-energy-power -->
@@ -44,14 +44,14 @@
             :unit="constants.units.Energy"
             :title="ENERGY"
             img="energy.svg"
-            :request="getAggRequest(State.Day, 'avg', constants.formula.EV)"
+            :request="getAggRequest(State.Day, 'avg', constants.analytics.EV)"
             :period="getPeriod(State.Day)"
           />
           <!-- https://www.svgrepo.com/svg/310384/book-number -->
           <analytic-card
             :title="NUMBER"
             img="number.svg"
-            :request="getAggRequest(State.Day, 'avg', constants.formula.EV)"
+            :request="getAggRequest(State.Day, 'avg', constants.analytics.EV)"
             :period="getPeriod(State.Day)"
           />
           <!-- https://www.svgrepo.com/svg/123236/time -->
@@ -59,7 +59,7 @@
             :unit="constants.units.Seconds"
             :title="DURATION"
             img="time.svg"
-            :request="getAggRequest(State.Day, 'avg', constants.formula.EV)"
+            :request="getAggRequest(State.Day, 'avg', constants.analytics.EV)"
             :period="getPeriod(State.Day)"
           />
         </div>
@@ -75,27 +75,27 @@
             :unit="constants.units.Power"
             :title="POWER"
             img="power.svg"
-            :request="getAggRequest(State.Week, 'avg', constants.formula.EV)"
+            :request="getAggRequest(State.Week, 'avg', constants.analytics.EV)"
             :period="getPeriod(State.Week)"
           />
           <analytic-card
             :unit="constants.units.Energy"
             :title="ENERGY"
             img="energy.svg"
-            :request="getAggRequest(State.Week, 'avg', constants.formula.EV)"
+            :request="getAggRequest(State.Week, 'avg', constants.analytics.EV)"
             :period="getPeriod(State.Week)"
           />
           <analytic-card
             :title="NUMBER"
             img="number.svg"
-            :request="getAggRequest(State.Week, 'avg', constants.formula.EV)"
+            :request="getAggRequest(State.Week, 'avg', constants.analytics.EV)"
             :period="getPeriod(State.Week)"
           />
           <analytic-card
             :unit="constants.units.Seconds"
             :title="DURATION"
             img="time.svg"
-            :request="getAggRequest(State.Week, 'avg', constants.formula.EV)"
+            :request="getAggRequest(State.Week, 'avg', constants.analytics.EV)"
             :period="getPeriod(State.Week)"
           />
         </div>
@@ -111,27 +111,27 @@
             :unit="constants.units.Power"
             :title="POWER"
             img="power.svg"
-            :request="getAggRequest(State.Month, 'avg', constants.formula.EV)"
+            :request="getAggRequest(State.Month, 'avg', constants.analytics.EV)"
             :period="getPeriod(State.Month)"
           />
           <analytic-card
             :unit="constants.units.Energy"
             :title="ENERGY"
             img="energy.svg"
-            :request="getAggRequest(State.Month, 'avg', constants.formula.EV)"
+            :request="getAggRequest(State.Month, 'avg', constants.analytics.EV)"
             :period="getPeriod(State.Month)"
           />
           <analytic-card
             :title="NUMBER"
             img="number.svg"
-            :request="getAggRequest(State.Month, 'avg', constants.formula.EV)"
+            :request="getAggRequest(State.Month, 'avg', constants.analytics.EV)"
             :period="getPeriod(State.Month)"
           />
           <analytic-card
             :unit="constants.units.Seconds"
             :title="DURATION"
             img="time.svg"
-            :request="getAggRequest(State.Month, 'avg', constants.formula.EV)"
+            :request="getAggRequest(State.Month, 'avg', constants.analytics.EV)"
             :period="getPeriod(State.Month)"
           />
         </div>
@@ -199,28 +199,34 @@ export default {
       }`;
     },
     getTSRequest(type) {
-      let interval = 3600000; // 1 hour = 60 * 60 * 1000
-      if (type == State.Day) {
-        interval = 300000; // 5 min
-      }
-      return {
+      let ret = {
         start_time: this.getStartTime(now, type),
         end_time: now.getTime(),
         type: "analytics",
-        formula: constants.formula.EV,
-        average: interval,
+        analytics_name: constants.analytics.EV,
         house_id: localStorage.getItem("house_id")
       };
+      // Weekly and montly data are by default averaged over 1 hour
+      if (type == State.Day) {
+        ret['average'] = 300000; // 5 min
+        ret['fine'] = true;
+      }
+      return ret;
     },
     getAggRequest(type, aggFunc, formula) {
-      return {
+      let ret = {
         start_time: this.getStartTime(now, type),
         end_time: now.getTime(),
         type: "analytics",
         agg_function: aggFunc,
-        formula: formula,
+        analytics_name: formula,
         house_id: localStorage.getItem("house_id")
       };
+      if (type == State.Day) {
+        // We want fine-grained data
+        ret['fine'] = true;
+      }
+      return ret;
     },
     getStartTime(now, type) {
       let cur = now.getTime();

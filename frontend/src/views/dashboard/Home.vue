@@ -54,7 +54,7 @@
         :unit="constants.units.Power"
         title="Solar Power"
         img="sun.svg"
-        :request="getCardRequest(constants.formula.Solar)"
+        :request="getCardRequest(constants.analytics.Solar)"
       />
     </router-link>
 
@@ -64,7 +64,7 @@
         :unit="constants.units.Power"
         title="Battery Discharging"
         img="battery.svg"
-        :request="getCardRequest(constants.formula.Battery)"
+        :request="getCardRequest(constants.analytics.Battery)"
       />
     </router-link>
 
@@ -74,7 +74,7 @@
         :unit="constants.units.Power"
         title="EV Charging"
         img="car.svg"
-        :request="getCardRequest(constants.formula.EV)"
+        :request="getCardRequest(constants.analytics.EV)"
       />
     </router-link>
 
@@ -84,7 +84,7 @@
         :unit="constants.units.Power"
         title="Loads"
         img="load.svg"
-        :request="getCardRequest(constants.formula.Load)"
+        :request="getCardRequest(constants.analytics.Load)"
       />
     </router-link>
   </div>
@@ -95,9 +95,9 @@
       :labels="['Grid', 'Battery', 'Solar']"
       :request="
         getDonutRequest([
-          constants.formula.Grid,
-          constants.formula.BatteryDischarging,
-          constants.formula.Solar,
+          constants.analytics.Grid,
+          constants.analytics.BatteryDischarging,
+          constants.analytics.Solar,
         ])
       "
     />
@@ -107,9 +107,9 @@
       :labels="['Load (kW)', 'EV (kW)', 'Battery (kW)']"
       :request="
         getTSRequest([
-          constants.formula.Load,
-          constants.formula.EV,
-          constants.formula.BatteryCharging,
+          constants.analytics.Load,
+          constants.analytics.EV,
+          constants.analytics.BatteryCharging,
         ])
       "
     />
@@ -123,9 +123,9 @@
       rightAxis1Title="L1 Voltage (V)"
       rightAxis2Title="L2 Voltage (V)"
       :request="getTSRequest([
-        constants.formula.Frequency,
-        constants.formula.Voltage1,
-        constants.formula.Voltage2,
+        constants.analytics.Frequency,
+        constants.analytics.Voltage1,
+        constants.analytics.Voltage2,
       ])"
     />
   </div>
@@ -201,7 +201,8 @@ export default {
         end_time: now.getTime(),
         type: "analytics",
         agg_function: "max",
-        formula: formula,
+        analytics_name: formula,
+        fine: true,
         house_id: localStorage.getItem("house_id")
       };
     },
@@ -211,7 +212,7 @@ export default {
       let power2Energy = [];
       for (let i = 0; i < formulae.length; i++) {
         // kWh = kW * duration in ms / (60 * 60 * 1000)
-        power2Energy.push(formulae[i] + "/3600000*" + duration);
+        power2Energy.push("analytics." + formulae[i] + "/3600000*" + duration);
       }
 
       return {
@@ -230,7 +231,8 @@ export default {
         start_time: now.getTime() - 86400000,
         end_time: now.getTime(),
         type: "analytics",
-        formula: formula,
+        analytics_name: formula,
+        fine: true,
         average: 300000, // 5 minute = 5 * 60 * 1000
         house_id: localStorage.getItem("house_id")
       };

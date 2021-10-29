@@ -148,28 +148,34 @@ export default {
       }`;
     },
     getTSRequest(type) {
-      let interval = 3600000; // 1 hour = 60 * 60 * 1000
-      if (type == State.Day) {
-        interval = 300000; // 5 min
-      }
-      return {
+      let ret = {
         start_time: this.getStartTime(now, type),
         end_time: now.getTime(),
         type: "analytics",
-        average: interval,
-        formula: constants.formula.Load,
+        analytics_name: constants.analytics.Load,
         house_id: localStorage.getItem("house_id")
       };
+      // Weekly and montly data are by default averaged over 1 hour
+      if (type == State.Day) {
+        ret['average'] = 300000; // 5 min
+        ret['fine'] = true;
+      }
+      return ret;
     },
     getAggRequest(type, aggFunc) {
-      return {
+      let ret = {
         start_time: this.getStartTime(now, type),
         end_time: now.getTime(),
         type: "analytics",
         agg_function: aggFunc,
-        formula: constants.formula.Load,
+        analytics_name: constants.analytics.Load,
         house_id: localStorage.getItem("house_id")
       };
+      if (type == State.Day) {
+        // We want fine-grained data
+        ret['fine'] = true;
+      }
+      return ret;
     },
     getStartTime(now, type) {
       let cur = now.getTime();

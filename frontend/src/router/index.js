@@ -38,6 +38,12 @@ const routes = [
         meta: { auth: [] }
       },
       {
+        path: '/devices',
+        name: 'devices',
+        component: () => import('@/views/devices/DeviceList.vue'),
+        meta: { auth: [] }
+      },
+      {
         path: '/users',
         name: 'users',
         component: () => import('@/views/users/UserList.vue'),

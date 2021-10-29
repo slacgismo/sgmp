@@ -37,7 +37,7 @@
             img="charging.svg"
             :period="getPeriod(State.Day)"
             :request="
-              getAggRequest(State.Day, 'avg', constants.formula.BatteryCharging)
+              getAggRequest(State.Day, 'avg', constants.analytics.BatteryCharging)
             "
           />
           <analytic-card
@@ -46,7 +46,7 @@
             img="discharging.svg"
             :period="getPeriod(State.Day)"
             :request="
-              getAggRequest(State.Day, 'avg', constants.formula.BatteryDischarging)
+              getAggRequest(State.Day, 'avg', constants.analytics.BatteryDischarging)
             "
           />
         </div>
@@ -67,7 +67,7 @@
             img="charging.svg"
             :period="getPeriod(State.Week)"
             :request="
-              getAggRequest(State.Week, 'avg', constants.formula.BatteryCharging)
+              getAggRequest(State.Week, 'avg', constants.analytics.BatteryCharging)
             "
           />
           <analytic-card
@@ -76,7 +76,7 @@
             img="discharging.svg"
             :period="getPeriod(State.Week)"
             :request="
-              getAggRequest(State.Week, 'avg', constants.formula.BatteryDischarging)
+              getAggRequest(State.Week, 'avg', constants.analytics.BatteryDischarging)
             "
           />
         </div>
@@ -97,7 +97,7 @@
             img="charging.svg"
             :period="getPeriod(State.Month)"
             :request="
-              getAggRequest(State.Month, 'avg', constants.formula.BatteryCharging)
+              getAggRequest(State.Month, 'avg', constants.analytics.BatteryCharging)
             "
           />
           <analytic-card
@@ -106,7 +106,7 @@
             img="discharging.svg"
             :period="getPeriod(State.Month)"
             :request="
-              getAggRequest(State.Month, 'avg', constants.formula.BatteryDischarging)
+              getAggRequest(State.Month, 'avg', constants.analytics.BatteryDischarging)
             "
           />
           <!-- <analytic-card
@@ -117,7 +117,7 @@
               getAggRequest(
                 State.Month,
                 'max',
-                constants.formula.SOC
+                constants.analytics.SOC
               )
             "
           />
@@ -129,7 +129,7 @@
               getAggRequest(
                 State.Month,
                 'min',
-                constants.formula.SOC
+                constants.analytics.SOC
               )
             "
           /> -->
@@ -205,28 +205,34 @@ export default {
       }`;
     },
     getTSRequest(type) {
-      let interval = 3600000; // 1 hour = 60 * 60 * 1000
-      if (type == State.Day) {
-        interval = 300000; // 5 min
-      }
-      return {
+      let ret = {
         "start_time": this.getStartTime(now, type),
         "end_time": now.getTime(),
         "type": "analytics",
-        "formula": [constants.formula.SOC, constants.formula.BatteryCharging, constants.formula.BatteryDischarging],
-        "average": interval,
+        "analytics_name": [constants.analytics.SOC, constants.analytics.BatteryCharging, constants.analytics.BatteryDischarging],
         "house_id": localStorage.getItem("house_id")
       };
+      // Weekly and montly data are by default averaged over 1 hour
+      if (type == State.Day) {
+        ret['average'] = 300000; // 5 min
+        ret['fine'] = true;
+      }
+      return ret;
     },
-    getAggRequest(type, aggFunc, formula) {
-      return {
+    getAggRequest(type, aggFunc, analyticsName) {
+      let ret = {
         start_time: this.getStartTime(now, type),
         end_time: now.getTime(),
         type: "analytics",
         agg_function: aggFunc,
-        formula: formula,
+        analytics_name: analyticsName,
         house_id: localStorage.getItem("house_id")
       };
+      if (type == State.Day) {
+        // We want fine-grained data
+        ret['fine'] = true;
+      }
+      return ret;
     },
     getStartTime(now, type) {
       let cur = now.getTime();
