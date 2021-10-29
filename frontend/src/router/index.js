@@ -14,12 +14,6 @@ const routes = [
         meta: { auth: [] }
       },
       {
-        path: '/users',
-        name: 'users',
-        component: () => import('@/views/users/UserList.vue'),
-        meta: { auth: [constants.roles.Admin] }
-      },
-      {
         path: '/reports/solar',
         name: 'solar',
         component: () => import('@/views/reports/Solar.vue'),
@@ -49,12 +43,18 @@ const routes = [
         component: () => import('@/views/devices/DeviceList.vue'),
         meta: { auth: [] }
       },
-      // TODO
-      // {
-      //   path: '/outage',
-      //   name: 'outage',
-      //   component: () => import('@/views/Outage.vue'),
-      // },
+      {
+        path: '/users',
+        name: 'users',
+        component: () => import('@/views/users/UserList.vue'),
+        meta: { auth: [constants.roles.Admin] }
+      },
+      {
+        path: '/users/create',
+        name: 'createuser',
+        component: () => import('@/views/users/CreateUser.vue'),
+        meta: { auth: [constants.roles.Admin] }
+      },
     ],
   },
   {
