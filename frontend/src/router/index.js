@@ -41,7 +41,7 @@ const routes = [
         path: '/devices',
         name: 'devices',
         component: () => import('@/views/devices/DeviceList.vue'),
-        meta: { auth: [] }
+        meta: { auth: [constants.roles.Admin] }
       },
       {
         path: '/users',
