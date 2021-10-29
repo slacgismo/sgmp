@@ -10,9 +10,10 @@ from flask_migrate import Migrate
 from routes.data import api_data
 from routes.role import api_role
 from routes.user import api_user
+from routes.event import api_event
+from routes.house import api_house
 from routes.device import api_device
 from routes.analytics import api_analytics
-from routes.house import api_house
 
 from models.shared import db
 
@@ -49,6 +50,7 @@ app.json_encoder = SGMPJsonEncoder
 app.register_blueprint(api_data, url_prefix='/api/data')
 app.register_blueprint(api_role, url_prefix='/api/role')
 app.register_blueprint(api_user, url_prefix='/api/user')
+app.register_blueprint(api_event, url_prefix='/api/event')
 app.register_blueprint(api_house, url_prefix='/api/house')
 app.register_blueprint(api_device, url_prefix='/api/device')
 app.register_blueprint(api_analytics, url_prefix='/api/analytics')

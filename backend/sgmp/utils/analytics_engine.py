@@ -82,7 +82,7 @@ class AnalyticsEngine:
         pi = CaselessKeyword('PI')
 
         fnumber = Regex(r"[=-]?\d+(?:\.\d*)?(?:[eE][+=]?\d+)?")
-        ident = Word(alphas, alphanums + "_$.")
+        ident = Word(alphas, alphanums + "_$.:")
 
         plus, minus, mult, div = map(Literal, "+-*/")
         lpar, rpar = map(Suppress, "()")

@@ -20,7 +20,8 @@ api_data = Blueprint('data', __name__)
 agg_functions = {
     'min': lambda arr: arr.min(),
     'max': lambda arr: arr.max(),
-    'avg': lambda arr: arr.mean()
+    'avg': lambda arr: arr.mean(),
+    'count': lambda arr: arr.size
 }
 arg_functions = {
     'min': lambda arr: arr.idxmin(),
@@ -179,7 +180,7 @@ def evaluate_forumla(data, formula, identifier_views):
     # Verify all devices are present
     idents = engine.collect_identifiers()
 
-    if len(stack) == 1 and len(idents) == 1 and idents[0].split('.')[0] != 'analytics':
+    if len(stack) == 1 and len(idents) == 1 and idents[0].split('.')[0] != 'analytics' and idents[0].split('.')[0] != 'events':
         # Use optimized queries
         view_name = None
         if identifier_views is not None:
@@ -310,18 +311,27 @@ def process_expression(data, engine, stack, idents, ident_view):
     end_time = float(data['end_time']) / 1000
     house_id = int(data['house_id'])
 
+    # Categorize identifiers
+    # Read raw device data from TimescaleDB
     raw_data_idents = []
+    # Read device data from continuous aggregation
     ca_idents = []
+    # Nested analytics reading
     analytics_idents = []
+    # Read from events table
+    event_idents = []
+
     if ident_view is None: ident_view = {}
     for ident in idents:
         components = ident.split('.')
         if ident in ident_view:
             ca_idents.append(ident)
-        elif components[0] != 'analytics':
-            raw_data_idents.append(ident)
-        else:
+        elif components[0] == 'analytics':
             analytics_idents.append(ident)
+        elif components[0] == 'events':
+            event_idents.append(ident)
+        else:
+            raw_data_idents.append(ident)
 
     msg, ts = _fetch_continuous_aggregation(start_time, end_time, ca_idents, ident_view)
     evaluate_message += msg + '\n'
@@ -335,6 +345,9 @@ def process_expression(data, engine, stack, idents, ident_view):
     evaluate_message += msg + '\n'
     array_dict = {**array_dict, **ts}
 
+    msg, ts = _fetch_events(start_time, end_time, house_id, event_idents)
+    evaluate_message += msg + '\n'
+    array_dict = {**array_dict, **ts}
 
     # Perform the evaluation
     try:
@@ -377,6 +390,66 @@ def process_expression(data, engine, stack, idents, ident_view):
         'data': result,
         'message': evaluate_message,
     }
+
+
+def _fetch_events(start_time: float, end_time: float, house_id: int, idents: Sequence[str]) -> Tuple[str, pd.Series]:
+    array_dict = dict()
+    evaluate_message = 'Fetch events:\n'
+
+    for ident in idents:
+        # Example identifier: events.pf_01:pf_02::EV_END_CHARGING.duration
+        evaluate_message += ident + '\n'
+        components = ident.split('.')
+        event_filter = components[1]
+        device_name_str = event_filter.split('::')[0]
+        type_str = event_filter.split('::')[1]
+        field_selector = None
+        if len(components) > 2:
+            field_selector = components[2]
+
+        device_name = None
+        type = None
+        if len(device_name_str) > 0:            
+            device_name = device_name_str.split(':')
+        if len(type_str) > 0:
+            type = type_str.split(':')
+        
+        # Get DB connection
+        conn = get_tsdb_conn()
+        cursor = conn.cursor()
+
+        # Construct and execute query
+        sql_prefix = 'SELECT timestamp, device_name, type, data FROM events WHERE '
+        sql_postfix = ' ORDER BY timestamp DESC'
+        if type is None and device_name is None:
+            sql = sql_prefix + 'timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND house_id=%s' + sql_postfix
+            cursor.execute(sql, (start_time, end_time, house_id))
+        elif type is None and device_name is not None:
+            sql = sql_prefix + 'timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND house_id=%s AND device_name IN %s' + sql_postfix
+            cursor.execute(sql, (start_time, end_time, house_id, tuple(device_name)))
+        elif type is not None and device_name is None:
+            sql = sql_prefix + 'timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND house_id=%s AND type IN %s' + sql_postfix
+            cursor.execute(sql, (start_time, end_time, house_id, tuple(type)))
+        else:
+            sql = sql_prefix + 'timestamp BETWEEN to_timestamp(%s) AND to_timestamp(%s) AND house_id=%s AND device_name IN %s AND type IN %s' + sql_postfix
+            cursor.execute(sql, (start_time, end_time, house_id, tuple(device_name), tuple(type)))
+
+        # Fetch results
+        rows = cursor.fetchall()
+        cursor.close()
+
+        timestamps = []
+        values = []
+        for row in rows:
+            timestamps.append(int(row[0].timestamp() * 1000))
+            if field_selector is not None:
+                values.append(get_obj_path(row[3], field_selector))
+            else:
+                values.append(row[3])
+
+        array_dict[ident] = pd.Series(values, index=timestamps)
+
+    return evaluate_message, array_dict
 
 def _fetch_analytics(start_time: float, end_time: float, house_id: int, idents: Sequence[str], ident_view: Dict[str, str]) -> Tuple[str, pd.Series]:
     array_dict = dict()
