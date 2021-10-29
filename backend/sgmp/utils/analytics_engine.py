@@ -41,11 +41,8 @@ class AnalyticsEngine:
         "^": operator.pow
     }
 
-    expr_stack = []
-    ctxt = {}
-
     def __init__(self):
-        self.expr_stack[:] = []
+        self.expr_stack = []
         self.ctxt = {}
 
     def parse_expression(self, expr):

@@ -1,5 +1,6 @@
 from typing import Dict, Sequence, Tuple
 from flask import Blueprint, json, jsonify, request
+import traceback
 import numpy as np
 import pandas as pd
 
@@ -9,9 +10,11 @@ from models.identifier_view import IdentifierView
 
 from utils.functions import err_json, get_obj_path
 from utils.analytics_engine import AnalyticsEngine
+from utils.logging import get_logger
 from utils.tsdb import get_tsdb_conn
 from utils.auth import require_auth
 
+logger = get_logger('data')
 api_data = Blueprint('data', __name__)
 
 agg_functions = {
@@ -111,6 +114,14 @@ def data_read():
         formulas = list()
         identifier_views = None
 
+        # If fine-level data is requested, skip continuous aggregation
+        if 'fine' not in data:
+            # Pull TimescaleDB continuous aggregation list
+            views = IdentifierView.query.filter_by(house_id=house_id).all()
+            identifier_views = {}
+            for view in views:
+                identifier_views[view.identifier] = view.view_name
+
         if 'analytics_name' in data:
             # Check all analytics objects exist
             analytics_names = []
@@ -125,15 +136,6 @@ def data_read():
                 if analytics is None:
                     return err_json('analytics %s not found' % analytics_name)
                 formulas.append(analytics.formula)
-
-            # If fine-level data is requested, skip continuous aggregation
-            if 'fine' not in data:
-                # Pull TimescaleDB continuous aggregation list
-                views = IdentifierView.query.filter_by(house_id=house_id).all()
-                identifier_views = {}
-                for view in views:
-                    identifier_views[view.identifier] = view.view_name
-
         else:
             formula = data['formula']
 
@@ -145,27 +147,14 @@ def data_read():
 
         results = []
         for formula in formulas:
-            # Parse the formula expression
-            engine = AnalyticsEngine()
             try:
-                stack = engine.parse_expression(formula)
+                results.append(evaluate_forumla(data, formula, identifier_views))
             except Exception as e:
-                results.append({'status': 'error', 'message': 'cannot parse: %s' % e})
-                continue
-            
-            # Verify all devices are present
-            idents = engine.collect_identifiers()
-
-            if len(stack) == 1 and len(idents) == 1:
-                # Use optimized queries
-                view_name = None
-                if identifier_views is not None:
-                    if idents[0] in identifier_views:
-                        view_name = identifier_views[idents[0]]
-                results.append(process_single_value_read(data, idents[0], view_name))
-            else:
-                # Use normal procedure
-                results.append(process_expression(data, engine, stack, idents, identifier_views))
+                logger.info('Error occurred during evaluation of %s: %s' % (formula, traceback.format_exc()))
+                return jsonify({
+                    'status': 'error',
+                    'message': 'exception raised during evaluation of %s: %s' % (formula, e)
+                })
 
         if len(results) == 1:
             return jsonify(results[0])
@@ -179,6 +168,28 @@ def data_read():
         'status': 'ok'
     })
 
+def evaluate_forumla(data, formula, identifier_views):
+    # Parse the formula expression
+    engine = AnalyticsEngine()
+    try:
+        stack = engine.parse_expression(formula)
+    except Exception as e:
+        return {'status': 'error', 'message': 'cannot parse: %s' % e}
+    
+    # Verify all devices are present
+    idents = engine.collect_identifiers()
+
+    if len(stack) == 1 and len(idents) == 1 and idents[0].split('.')[0] != 'analytics':
+        # Use optimized queries
+        view_name = None
+        if identifier_views is not None:
+            if idents[0] in identifier_views:
+                view_name = identifier_views[idents[0]]
+        return process_single_value_read(data, idents[0], view_name)
+    else:
+        # Use normal procedure
+        return process_expression(data, engine, stack, idents, identifier_views)
+
 def process_single_value_read(data, ident, view_name):
     start_time = float(data['start_time']) / 1000
     end_time = float(data['end_time']) / 1000
@@ -189,9 +200,7 @@ def process_single_value_read(data, ident, view_name):
     # Verify device exists
     device = Device.query.filter_by(name=device_name, house_id=house_id).first()
     if device is None:
-        return {'status': 'error',
-            'message': 'device %s does not exist (evaluating %s)'
-            % (device_name, ident)}
+        raise Exception('device %s does not exist (evaluating %s)' % (device_name, ident))
 
     # Field name
     field = '.'.join(components[1:])
@@ -214,7 +223,7 @@ def process_single_value_read(data, ident, view_name):
             row = cursor.fetchone()
             cursor.close()
             if row is None:
-                return {'status': 'error', 'message': 'no data available'}
+                raise Exception('no data available for %s' % ident)
 
             return {
                 'status': 'ok',
@@ -231,7 +240,7 @@ def process_single_value_read(data, ident, view_name):
             row = cursor.fetchone()
             cursor.close()
             if row is None:
-                return {'status': 'error', 'message': 'no data available'}
+                raise Exception('no data available for %s' % ident)
 
             return {
                 'status': 'ok',
@@ -248,7 +257,7 @@ def process_single_value_read(data, ident, view_name):
             row = cursor.fetchone()
             cursor.close()
             if row is None:
-                return {'status': 'error', 'message': 'no data available'}
+                raise Exception('no data available for %s' % ident)
                 
             return {
                 'status': 'ok',
@@ -301,33 +310,37 @@ def process_expression(data, engine, stack, idents, ident_view):
     end_time = float(data['end_time']) / 1000
     house_id = int(data['house_id'])
 
-    if ident_view is None:
-        msg, ts = _fetch_context(start_time, end_time, house_id, idents)
-        evaluate_message += msg + '\n'
-        array_dict = ts
-    else:
-        raw_data_idents = []
-        ca_idents = []
-        for ident in idents:
-            if ident in ident_view:
-                ca_idents.append(ident)
-            else:
-                raw_data_idents.append(ident)
+    raw_data_idents = []
+    ca_idents = []
+    analytics_idents = []
+    if ident_view is None: ident_view = {}
+    for ident in idents:
+        components = ident.split('.')
+        if ident in ident_view:
+            ca_idents.append(ident)
+        elif components[0] != 'analytics':
+            raw_data_idents.append(ident)
+        else:
+            analytics_idents.append(ident)
 
-        
-            msg, ts = _fetch_continuous_aggregation(start_time, end_time, ca_idents, ident_view)
-            evaluate_message += msg + '\n'
-            array_dict = ts
+    msg, ts = _fetch_continuous_aggregation(start_time, end_time, ca_idents, ident_view)
+    evaluate_message += msg + '\n'
+    array_dict = ts
 
-            msg, ts = _fetch_context(start_time, end_time, house_id, raw_data_idents)
-            evaluate_message += msg + '\n'
-            array_dict = {**array_dict, **ts}
+    msg, ts = _fetch_context(start_time, end_time, house_id, raw_data_idents)
+    evaluate_message += msg + '\n'
+    array_dict = {**array_dict, **ts}
+
+    msg, ts = _fetch_analytics(start_time, end_time, house_id, analytics_idents, ident_view)
+    evaluate_message += msg + '\n'
+    array_dict = {**array_dict, **ts}
+
 
     # Perform the evaluation
     try:
         result_time_series = engine.evaluate(array_dict)
     except Exception as e:
-        return {'status': 'error', 'message': 'error during evaluation: %s' % str(e)}
+        raise Exception('error during evaluation of expression: %s' % e)
 
     # Evaluate aggregrate function if specified
     if 'agg_function' in data:
@@ -365,7 +378,46 @@ def process_expression(data, engine, stack, idents, ident_view):
         'message': evaluate_message,
     }
 
-def _fetch_context(start_time: float, end_time: float, house_id: int, idents: Sequence[str]) -> Tuple[str, pd.Series]:
+def _fetch_analytics(start_time: float, end_time: float, house_id: int, idents: Sequence[str], ident_view: Dict[str, str]) -> Tuple[str, pd.Series]:
+    array_dict = dict()
+    evaluate_message = 'Nested analytic identifiers:\n'
+
+    # Common context during evaluation of each analytics item
+    evaluate_context = {
+        'start_time': int(start_time * 1000),
+        'end_time': int(end_time * 1000),
+        'house_id': house_id
+    }
+
+    # Evaluate all identifiers
+    for ident in idents:
+        # Fetch formula of the analytics
+        evaluate_message += ident + '\n'
+        analytics_name = '.'.join(ident.split('.')[1:])
+        analytics = Analytics.query.filter_by(house_id=house_id, name=analytics_name).first()
+        if analytics is None:
+            raise Exception('analytics %s does not exist!' % analytics_name)
+        
+        formula = analytics.formula
+        try:
+            result = evaluate_forumla(evaluate_context, formula, ident_view)
+        except Exception as e:
+            raise Exception('error during evaluation of %s (%s): %s' % (ident, formula, e))
+        timestamps = []
+        values = []
+        if 'data' not in result:
+            raise Exception('evaluation of %s did not return any result!' % analytics_name)
+        
+        for row in result['data']:
+            timestamps.append(row['timestamp'])
+            values.append(row['value'])
+
+        array_dict[ident] = pd.Series(values, index=timestamps)
+        
+    return evaluate_message, array_dict
+
+
+def _fetch_context(start_time: float, end_time: float, house_id: int, idents: Sequence[str]) -> Tuple[str, Dict[str, pd.Series]]:
     array_dict = dict()
     evaluate_message = 'Raw data identifiers: '
     device_reqs = dict()
@@ -382,9 +434,7 @@ def _fetch_context(start_time: float, end_time: float, house_id: int, idents: Se
         
         device = Device.query.filter_by(name=device_name, house_id=house_id).first()
         if device is None:
-            return {'status': 'error',
-                'message': 'device %s does not exist (evaluating %s)'
-                % (device_name, ident)}
+            raise Exception('device %s does not exist (evaluating %s)' % (device_name, ident))
         
         device_reqs[device_name] = set([path])
     
