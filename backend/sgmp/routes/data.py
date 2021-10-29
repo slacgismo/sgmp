@@ -126,11 +126,13 @@ def data_read():
                     return err_json('analytics %s not found' % analytics_name)
                 formulas.append(analytics.formula)
 
-            # Pull TimescaleDB continuous aggregation list
-            views = IdentifierView.query.filter_by(house_id=house_id).all()
-            identifier_views = {}
-            for view in views:
-                identifier_views[view.identifier] = view.view_name
+            # If fine-level data is requested, skip continuous aggregation
+            if 'fine' not in data:
+                # Pull TimescaleDB continuous aggregation list
+                views = IdentifierView.query.filter_by(house_id=house_id).all()
+                identifier_views = {}
+                for view in views:
+                    identifier_views[view.identifier] = view.view_name
 
         else:
             formula = data['formula']
