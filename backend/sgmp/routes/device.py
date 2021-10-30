@@ -107,7 +107,6 @@ def device_create():
 
 @api_device.route('/update', methods=['POST'])
 @require_auth('admin')
-@check_house_access()
 def device_update():
     data = request.json
 
@@ -132,7 +131,6 @@ def device_update():
 
 @api_device.route('/delete', methods=['POST'])
 @require_auth('admin')
-@check_house_access()
 def device_delete():
     data = request.json
 
