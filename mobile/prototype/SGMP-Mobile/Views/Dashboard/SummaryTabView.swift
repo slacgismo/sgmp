@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Toast
+import Defaults
 import SwiftUICharts
 
 enum SummaryTabPresentView : String, Identifiable
@@ -19,6 +20,7 @@ enum SummaryTabPresentView : String, Identifiable
 
 struct SummaryTabView: View {
     @EnvironmentObject var env : Env
+    @Default(.expandRowsInDashboard) var expandRowsInDashboard
     @State var refreshDate : Date = Date()
     @State var presentViewType : SummaryTabPresentView?
     
@@ -30,54 +32,62 @@ struct SummaryTabView: View {
             } else if showSuccessToast {
                 Toast.default(image: .init(systemName: "clock.arrow.circlepath")!, title: "refreshed").show(haptic: .success)
             }
-//            env.updateCurrentHouseDevices()
         }
     }
+    
+    var pinnedAnalyticsNames : [String] = ["solar", "battery", "ev", "load"]
     
     var body: some View {
         ZStack {
             if let house = env.currentDashboardHouse {
                 List {
-                    Text("Summary for \(house.name) (refreshed \(refreshDate, style: .relative) ago)")
-                        .multilineTextAlignment(.center)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .font(.caption.smallCaps())
-                        .foregroundColor(Color(UIColor.secondaryLabel))
-                    
                     Section {
-                        NavigationLink {
-//                            DeviceView(
-                        } label: {
-                            SummaryMetricCardView(refreshDate: $refreshDate, title: "Solar Power", iconName: "sun.min", iconColor: .yellow, number: "- Wh", numberCallback: { value in String(format: "%.5f Wh", value)}, formula: "egauge.A.Solar", aggregateFunction: .avg)
+                        ForEach(env.currentDashboardAnalytics.filter({ a in
+                            pinnedAnalyticsNames.contains(a.name)
+                        })) { analytics in
+                            AnalyticsSelectionCell(analytics: analytics, houseId: house.house_id, showId: false, showIcon: true, expanded: $expandRowsInDashboard)
                         }
-                        SummaryMetricCardView(refreshDate: $refreshDate, title: "Battery", iconName: "battery.100", iconColor: .green, number: "- kWh", numberCallback: { value in String(format: "%.5f kWh", value) }, formula: "sonnen.status.Pac_total_W/1000", aggregateFunction: .avg)
-                        SummaryMetricCardView(refreshDate: $refreshDate, title: "EV", iconName: "car.fill", iconColor: .purple, number: "- Wh", numberCallback: { value in String(format: "%.5f Wh", value) }, formula: "-egauge.A.EV", aggregateFunction: .avg)
-                        SummaryMetricCardView(refreshDate: $refreshDate, title: "Loads", iconName: "server.rack", iconColor: .red, number: "- kW", numberCallback: { value in String(format: "%.5f kW", value) }, formula: "-egauge.A.SubPanel", aggregateFunction: .avg)
+                        NavigationLink {
+                            ListAnalyticsView(houseId: house.house_id)
+                        } label: {
+                            Label {
+                                Text(env.currentDashboardAnalytics.count > 0 ? "see all (\(env.currentDashboardAnalytics.count))" : "see all")
+                                    .font(.body.bold())
+                            } icon: {
+                                Image(systemName: "chart.bar.fill")
+                            }
+                        }
                     } header: {
-                        Text("Pinned")
+                        Text("Analytics")
                     }
                     
                     Section {
-                        if env.currentDashboardDevices.count > 0 {
-                            ForEach(env.currentDashboardDevices.prefix(3)) { device in 
-                                DeviceSelectionCell(device: device)
-                            }
-                            NavigationLink {
-                                ListDeviceView(houseId: house.house_id)
-                            } label: {
-                                Label("see all (\(env.currentDashboardDevices.count))", systemImage: "bolt.horizontal.fill")
-                            }
-                        } else {
-                            NavigationLink {
-                                ListDeviceView(houseId: house.house_id)
-                            } label: {
-                                Label("Devices", systemImage: "bolt.horizontal.fill")
+                        ForEach(env.currentDashboardDevices.prefix(3)) { device in
+                            DeviceSelectionCell(device: device, showId: false, showIcon: true)
+                        }
+                        NavigationLink {
+                            ListDeviceView(houseId: house.house_id)
+                        } label: {
+                            Label {
+                                Text(env.currentDashboardDevices.count > 0 ? "see all (\(env.currentDashboardDevices.count))" : "see all")
+                                    .font(.body.bold())
+                            } icon: {
+                                Image(systemName: "bolt.horizontal.fill")
                             }
                         }
 
                     } header: {
                         Text("Devices")
                     }
+                    
+                    
+                    Text("- refreshed \(refreshDate, style: .relative) ago -")
+                        .multilineTextAlignment(.center)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .font(.caption.smallCaps())
+                        .foregroundColor(Color(UIColor.secondaryLabel))
+                        .listStyle(PlainListStyle())
+                        .listRowBackground(Color.clear)
                 }
             } else {
                 VStack(alignment: .center) {
@@ -113,44 +123,58 @@ struct SummaryTabView: View {
             }
         })
         .onAppear(perform: {
-            refresh()
+            if env.currentDashboardHouse == nil {
+                refresh()
+            }
         })
         .refreshable {
             refresh(showSuccessToast: true)
         }
         .toolbar(content: {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
-                Menu("\(env.currentDashboardHouse?.name ?? "Choose House")") {
-                    if (env.houses.count > 0) {
-                        Button("See all (\(env.houses.count))", action: {
+                
+                Button {
+                    expandRowsInDashboard.toggle()
+                } label: {
+                    Label {
+                        Text(expandRowsInDashboard ? "Shrink" : "Expand")
+                    } icon: {
+                        Image(systemName: expandRowsInDashboard ? "rectangle.arrowtriangle.2.inward" : "rectangle.arrowtriangle.2.outward")
+                    }
+                }
+                
+                if env.houses.count > 1 {
+                    Menu {
+                        Button("see all (\(env.houses.count))", action: {
                             presentViewType = .showAllHouse
                         })
                         Divider()
-                    } else {
-                        Button("Refresh", action: {
-                            refresh()
-                        })
-                        Divider()
-                    }
-                    ForEach(env.houses) { house in
-                        Button {
-                            env.currentDashboardHouse = house
-                            refresh()
-                        } label: {
-                            Label {
-                                Text("\(house.name)")
-                            } icon: {
-                                if (env.currentDashboardHouse?.house_id == house.house_id) {
-                                    Image(systemName: "checkmark")
+                        ForEach(env.houses) { house in
+                            Button {
+                                env.currentDashboardHouse = house
+                                refresh()
+                            } label: {
+                                Label {
+                                    Text("\(house.name)")
+                                } icon: {
+                                    if (env.currentDashboardHouse?.house_id == house.house_id) {
+                                        Image(systemName: "checkmark")
+                                    }
                                 }
-                            }
 
+                            }
+                        }
+                    } label: {
+                        Label {
+                            Text("House")
+                        } icon: {
+                            Image(systemName: "house.fill")
                         }
                     }
                 }
             }
         })
-        .navigationTitle("Dashboard")
+        .navigationTitle("\(env.currentDashboardHouse?.name ?? "Dashboard")")
     }
 }
 

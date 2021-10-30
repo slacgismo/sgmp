@@ -112,17 +112,21 @@ struct DeviceConfigEgaugeView: DeviceConfigViewProtocol {
         Group {
             DeviceConfigCellView(title: "IP", content: config?.ip)
             ForEach(config?.keys ?? [], id: \.self) { key in
-                ExpandableView(title: {
+                if key.starts(with: "A.") {
+                    ExpandableView(title: {
+                        DeviceConfigCellView(title: "KEY", content: "\(key)")
+                    }, expandable: {
+                        NavigationLink {
+                            SpecificDeviceKeyView(key: key, deviceName: detail.name)
+                        } label: {
+                            SpecificDeviceKeyChartSelfLoadView(deviceName: detail.name, key: key, date: (Date(timeIntervalSinceNow: -300), Date()))
+                                .allowsHitTesting(false)
+                                .frame(height: 72)
+                        }
+                    }).frame(maxHeight: .infinity)
+                } else {
                     DeviceConfigCellView(title: "KEY", content: "\(key)")
-                }, expandable: {
-                    NavigationLink {
-                        SpecificDeviceKeyView(key: key, deviceName: detail.name)
-                    } label: {
-                        SpecificDeviceKeyChartSelfLoadView(deviceName: detail.name, key: key, date: (Date(timeIntervalSinceNow: -300), Date()))
-                            .allowsHitTesting(false)
-                            .frame(height: 72)
-                    }
-                }).frame(maxHeight: .infinity)
+                }
             }
         }
     }

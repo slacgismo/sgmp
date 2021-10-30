@@ -11,6 +11,7 @@ class ARGridViewController : UIViewController, ARSCNViewDelegate, ARSessionDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(arView)
+        EnvironmentManager.shared.env.resetAR()
         arView.frame = self.view.bounds
         arView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         arView.delegate = self

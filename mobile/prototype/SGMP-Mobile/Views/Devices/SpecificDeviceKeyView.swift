@@ -20,14 +20,14 @@ struct SpecificDeviceKeyView: View {
     func refresh(newDuration : Int) {
         loadingChart = true
         date = (Date(timeIntervalSinceNow: TimeInterval(newDuration)), Date())
-        DataManager.shared.getAnalyticsTimeSeries(deviceName: deviceName, key: key, startDate: date.0, endDate: date.1) { frames, err in
-            if let frames = frames {
-                self.frames = frames
-            } else if let err = err {
-                print(err)
-            }
-            loadingChart = false
-        }
+//        DataManager.shared.getAnalyticsTimeSeries(deviceName: deviceName, key: key, startDate: date.0, endDate: date.1) { frames, err in
+//            if let frames = frames {
+//                self.frames = frames
+//            } else if let err = err {
+//                print(err)
+//            }
+//            loadingChart = false
+//        }
     }
     
     var body: some View {

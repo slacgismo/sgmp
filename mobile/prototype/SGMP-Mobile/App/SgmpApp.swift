@@ -10,18 +10,19 @@ import SwiftUI
 import Sentry
 import Defaults
 
-@main
 
+@main
+/// SGMP
 class SgmpAppDelegate : UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
+    /// Called after the app finishes launching
+    /// - Parameters:
+    ///   - application: application
+    ///   - launchOptions: options
+    /// - Returns: if the app finishes launching
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         setupAllBaseManagers()
-        if #available(iOS 15.0, *) {
-            let apparence = UITabBarAppearance()
-            apparence.configureWithOpaqueBackground()
-            UITabBar.appearance().scrollEdgeAppearance = apparence
-        }
         return true
     }
     
@@ -30,6 +31,8 @@ class SgmpAppDelegate : UIResponder, UIApplicationDelegate {
     }
 }
 
+
+/// Root View
 struct RootView: View {
     var body: some View {
         ScaffoldView().environmentObject(EnvironmentManager.shared.env)

@@ -23,11 +23,11 @@
 		0D51EE1226F27EDF00BCAAB3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D51EE1126F27EDF00BCAAB3 /* Assets.xcassets */; };
 		0D51EE1526F27EDF00BCAAB3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D51EE1426F27EDF00BCAAB3 /* Preview Assets.xcassets */; };
 		0D51EE1C26F27FCC00BCAAB3 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D51EE1B26F27FCC00BCAAB3 /* MainTabView.swift */; };
-		0D5543A4270D5C5B009A9B87 /* ARModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5543A3270D5C5B009A9B87 /* ARModel.swift */; };
+		0D5543A4270D5C5B009A9B87 /* AR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5543A3270D5C5B009A9B87 /* AR.swift */; };
 		0D5E22AF26FEF427002B0A4B /* AboutAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5E22AE26FEF427002B0A4B /* AboutAppView.swift */; };
 		0D5F56EB272749350029A53B /* ChooseHouseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F56EA272749350029A53B /* ChooseHouseView.swift */; };
 		0D5F56F02727DF780029A53B /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F56EF2727DF780029A53B /* UserManager.swift */; };
-		0D5F56F32727E3170029A53B /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F56F22727E3170029A53B /* UserModel.swift */; };
+		0D5F56F32727E3170029A53B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F56F22727E3170029A53B /* User.swift */; };
 		0D5F56F6272B99560029A53B /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0D5F56F5272B99560029A53B /* Alamofire */; };
 		0D5F56F8272B99850029A53B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F56F7272B99850029A53B /* NetworkManager.swift */; };
 		0D5F56FB272B9CEB0029A53B /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 0D5F56FA272B9CEB0029A53B /* Toast */; };
@@ -35,6 +35,11 @@
 		0D5F56FF272BB7120029A53B /* Codable+Dict.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F56FE272BB7120029A53B /* Codable+Dict.swift */; };
 		0D5F5701272BBD880029A53B /* DeviceConfigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F5700272BBD880029A53B /* DeviceConfigView.swift */; };
 		0D5F5705272BD2410029A53B /* ARDeviceInfoPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F5704272BD2410029A53B /* ARDeviceInfoPanelView.swift */; };
+		0D5F5707272CA1180029A53B /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F5706272CA1180029A53B /* Documentation.docc */; };
+		0D5F5709272CD9330029A53B /* ListAnalyticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F5708272CD9320029A53B /* ListAnalyticsView.swift */; };
+		0D5F570C272CDC4E0029A53B /* AnalyticsSelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F570B272CDC4E0029A53B /* AnalyticsSelectionCell.swift */; };
+		0D5F570E272CDE540029A53B /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F570D272CDE540029A53B /* Device.swift */; };
+		0D5F5710272CE5C20029A53B /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F570F272CE5C20029A53B /* Analytics.swift */; };
 		0D5F79E526FB2D660013AAB1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F79E426FB2D660013AAB1 /* Main.storyboard */; };
 		0D6E5B8E270D55AE00576AA4 /* ARDebugPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6E5B8D270D55AE00576AA4 /* ARDebugPanelView.swift */; };
 		0D6E5B90270D572D00576AA4 /* ARGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6E5B8F270D572D00576AA4 /* ARGridView.swift */; };
@@ -46,8 +51,7 @@
 		0D7C332A26FDA76100B219E7 /* Button+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7C332926FDA76100B219E7 /* Button+Style.swift */; };
 		0D8829442715742D00A96521 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 0D8829432715742D00A96521 /* Defaults */; };
 		0D882948271633C900A96521 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 0D882947271633C900A96521 /* SwiftUICharts */; };
-		0D88294C27165F0700A96521 /* NetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D88294B27165F0700A96521 /* NetworkModel.swift */; };
-		0D9CDDB12705144900804A57 /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 0D9CDDB02705144900804A57 /* amplifyconfiguration.json */; };
+		0D88294C27165F0700A96521 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D88294B27165F0700A96521 /* Network.swift */; };
 		0D9CDDB32705163C00804A57 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9CDDB22705163C00804A57 /* LoginView.swift */; };
 		0DE1F782270FC0E900714744 /* ARInteractiveViewSlacNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE1F781270FC0E900714744 /* ARInteractiveViewSlacNode.swift */; };
 		0DE1F784270FC30A00714744 /* ARInteractiveViewNode+QR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE1F783270FC30A00714744 /* ARInteractiveViewNode+QR.swift */; };
@@ -84,16 +88,21 @@
 		0D51EE1126F27EDF00BCAAB3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0D51EE1426F27EDF00BCAAB3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		0D51EE1B26F27FCC00BCAAB3 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
-		0D5543A3270D5C5B009A9B87 /* ARModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARModel.swift; sourceTree = "<group>"; };
+		0D5543A3270D5C5B009A9B87 /* AR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AR.swift; sourceTree = "<group>"; };
 		0D5E22AE26FEF427002B0A4B /* AboutAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppView.swift; sourceTree = "<group>"; };
 		0D5F56EA272749350029A53B /* ChooseHouseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseHouseView.swift; sourceTree = "<group>"; };
 		0D5F56EF2727DF780029A53B /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserManager.swift; path = Network/UserManager.swift; sourceTree = "<group>"; };
-		0D5F56F22727E3170029A53B /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		0D5F56F22727E3170029A53B /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		0D5F56F7272B99850029A53B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		0D5F56FC272BAE270029A53B /* DeviceSelectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceSelectionCell.swift; sourceTree = "<group>"; };
 		0D5F56FE272BB7120029A53B /* Codable+Dict.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Codable+Dict.swift"; sourceTree = "<group>"; };
 		0D5F5700272BBD880029A53B /* DeviceConfigView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceConfigView.swift; sourceTree = "<group>"; };
 		0D5F5704272BD2410029A53B /* ARDeviceInfoPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARDeviceInfoPanelView.swift; sourceTree = "<group>"; };
+		0D5F5706272CA1180029A53B /* Documentation.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Documentation.docc; sourceTree = "<group>"; };
+		0D5F5708272CD9320029A53B /* ListAnalyticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListAnalyticsView.swift; sourceTree = "<group>"; };
+		0D5F570B272CDC4E0029A53B /* AnalyticsSelectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsSelectionCell.swift; sourceTree = "<group>"; };
+		0D5F570D272CDE540029A53B /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
+		0D5F570F272CE5C20029A53B /* Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		0D5F79E426FB2D660013AAB1 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		0D5F79E626FB2DCA0013AAB1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		0D5F7A0726FB33380013AAB1 /* SGMP-Mobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SGMP-Mobile.entitlements"; sourceTree = "<group>"; };
@@ -105,8 +114,7 @@
 		0D73894B26FB1656000C43A6 /* UIRespondor+Hierarchy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIRespondor+Hierarchy.swift"; sourceTree = "<group>"; };
 		0D7C332726FD8EBA00B219E7 /* ARRefImageSlacView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARRefImageSlacView.swift; sourceTree = "<group>"; };
 		0D7C332926FDA76100B219E7 /* Button+Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button+Style.swift"; sourceTree = "<group>"; };
-		0D88294B27165F0700A96521 /* NetworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkModel.swift; sourceTree = "<group>"; };
-		0D9CDDB02705144900804A57 /* amplifyconfiguration.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
+		0D88294B27165F0700A96521 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		0D9CDDB22705163C00804A57 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		0DE1F781270FC0E900714744 /* ARInteractiveViewSlacNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARInteractiveViewSlacNode.swift; sourceTree = "<group>"; };
 		0DE1F783270FC30A00714744 /* ARInteractiveViewNode+QR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ARInteractiveViewNode+QR.swift"; sourceTree = "<group>"; };
@@ -190,7 +198,7 @@
 				0D51EE1126F27EDF00BCAAB3 /* Assets.xcassets */,
 				0D51EE1326F27EDF00BCAAB3 /* Preview Content */,
 				0D5F79E426FB2D660013AAB1 /* Main.storyboard */,
-				0D9CDDB02705144900804A57 /* amplifyconfiguration.json */,
+				0D5F5706272CA1180029A53B /* Documentation.docc */,
 			);
 			path = "SGMP-Mobile";
 			sourceTree = "<group>";
@@ -233,6 +241,15 @@
 			path = Dashboard;
 			sourceTree = "<group>";
 		};
+		0D5F570A272CD9350029A53B /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				0D5F5708272CD9320029A53B /* ListAnalyticsView.swift */,
+				0D5F570B272CDC4E0029A53B /* AnalyticsSelectionCell.swift */,
+			);
+			path = Analytics;
+			sourceTree = "<group>";
+		};
 		0D73894026FA9827000C43A6 /* Touch */ = {
 			isa = PBXGroup;
 			children = (
@@ -262,6 +279,7 @@
 				0D4BF618270D3D1400B4496B /* Auth */,
 				0D5F56EE272750BE0029A53B /* Dashboard */,
 				0D5F56EC272749380029A53B /* Houses */,
+				0D5F570A272CD9350029A53B /* Analytics */,
 				0D5F56ED2727493F0029A53B /* Devices */,
 				0DE2E7C226F8625600932B41 /* CameraTabView.swift */,
 				0DE2E7C426F8625C00932B41 /* SettingsTabView.swift */,
@@ -311,9 +329,11 @@
 			isa = PBXGroup;
 			children = (
 				0DE2E7B926F85FAD00932B41 /* State.swift */,
-				0D5543A3270D5C5B009A9B87 /* ARModel.swift */,
-				0D5F56F22727E3170029A53B /* UserModel.swift */,
-				0D88294B27165F0700A96521 /* NetworkModel.swift */,
+				0D5543A3270D5C5B009A9B87 /* AR.swift */,
+				0D5F56F22727E3170029A53B /* User.swift */,
+				0D5F570D272CDE540029A53B /* Device.swift */,
+				0D5F570F272CE5C20029A53B /* Analytics.swift */,
+				0D88294B27165F0700A96521 /* Network.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -419,7 +439,6 @@
 				0D5F79E526FB2D660013AAB1 /* Main.storyboard in Resources */,
 				0D51EE1526F27EDF00BCAAB3 /* Preview Assets.xcassets in Resources */,
 				0D51EE1226F27EDF00BCAAB3 /* Assets.xcassets in Resources */,
-				0D9CDDB12705144900804A57 /* amplifyconfiguration.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,7 +451,8 @@
 			files = (
 				0DE2E79C26F85C9A00932B41 /* BaseManager.swift in Sources */,
 				0DE2E79826F6DEDB00932B41 /* ARGridViewController.swift in Sources */,
-				0D5543A4270D5C5B009A9B87 /* ARModel.swift in Sources */,
+				0D5543A4270D5C5B009A9B87 /* AR.swift in Sources */,
+				0D5F5707272CA1180029A53B /* Documentation.docc in Sources */,
 				0D73894426FAA68F000C43A6 /* ScaffoldView.swift in Sources */,
 				0DE2E7BD26F8601200932B41 /* EnvironmentManager.swift in Sources */,
 				0D73894C26FB1656000C43A6 /* UIRespondor+Hierarchy.swift in Sources */,
@@ -453,11 +473,13 @@
 				0D5081052719344200EE0A4F /* ExpandableView.swift in Sources */,
 				0D5F56EB272749350029A53B /* ChooseHouseView.swift in Sources */,
 				0DECB8B6270BA269001A93F9 /* CardGroupBoxStyle.swift in Sources */,
+				0D5F5709272CD9330029A53B /* ListAnalyticsView.swift in Sources */,
 				0DECB8BE270BA7C2001A93F9 /* DashboardGlanceCellView.swift in Sources */,
-				0D5F56F32727E3170029A53B /* UserModel.swift in Sources */,
+				0D5F56F32727E3170029A53B /* User.swift in Sources */,
 				0DE2E7BA26F85FAD00932B41 /* State.swift in Sources */,
 				0DE2E7C126F8625200932B41 /* SummaryTabView.swift in Sources */,
 				0D079C94271F8BB0006D50D3 /* ListHouseView.swift in Sources */,
+				0D5F570E272CDE540029A53B /* Device.swift in Sources */,
 				0D5F5701272BBD880029A53B /* DeviceConfigView.swift in Sources */,
 				0D7C332826FD8EBA00B219E7 /* ARRefImageSlacView.swift in Sources */,
 				0DE1F782270FC0E900714744 /* ARInteractiveViewSlacNode.swift in Sources */,
@@ -467,16 +489,18 @@
 				0D5081092719569F00EE0A4F /* SpecificDeviceKeyView.swift in Sources */,
 				0DE1F784270FC30A00714744 /* ARInteractiveViewNode+QR.swift in Sources */,
 				0D7C332A26FDA76100B219E7 /* Button+Style.swift in Sources */,
-				0D88294C27165F0700A96521 /* NetworkModel.swift in Sources */,
+				0D88294C27165F0700A96521 /* Network.swift in Sources */,
 				0D20B260270E479300786A05 /* EventManager.swift in Sources */,
 				0D5F56FD272BAE270029A53B /* DeviceSelectionCell.swift in Sources */,
 				0D73893F26FA97CF000C43A6 /* ARInteractiveViewNode.swift in Sources */,
+				0D5F5710272CE5C20029A53B /* Analytics.swift in Sources */,
 				0D5E22AF26FEF427002B0A4B /* AboutAppView.swift in Sources */,
 				0D079C96271F9067006D50D3 /* DataManager.swift in Sources */,
 				0D5F56FF272BB7120029A53B /* Codable+Dict.swift in Sources */,
 				0DE1F7922710300C00714744 /* UIViewController+Child.swift in Sources */,
 				0DE2E7B026F85DA100932B41 /* Class+Runtime.swift in Sources */,
 				0D73894626FAA72B000C43A6 /* ToastView.swift in Sources */,
+				0D5F570C272CDC4E0029A53B /* AnalyticsSelectionCell.swift in Sources */,
 				0D51EE0E26F27EDF00BCAAB3 /* SgmpApp.swift in Sources */,
 				0D5081072719390300EE0A4F /* SpecificDeviceKeyChartSelfLoadView.swift in Sources */,
 			);
@@ -609,7 +633,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "SGMP-Mobile/SGMP-Mobile.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_ASSET_PATHS = "\"SGMP-Mobile/Preview Content\"";
 				DEVELOPMENT_TEAM = 9QJ8M25J77;
 				ENABLE_PREVIEWS = YES;
@@ -630,6 +654,7 @@
 				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.JustZht.SGMP-Mobile";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				RUN_DOCUMENTATION_COMPILER = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -644,7 +669,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "SGMP-Mobile/SGMP-Mobile.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_ASSET_PATHS = "\"SGMP-Mobile/Preview Content\"";
 				DEVELOPMENT_TEAM = 9QJ8M25J77;
 				ENABLE_PREVIEWS = YES;
@@ -665,6 +690,7 @@
 				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.JustZht.SGMP-Mobile";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				RUN_DOCUMENTATION_COMPILER = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
