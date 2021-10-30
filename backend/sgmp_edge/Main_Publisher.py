@@ -33,6 +33,7 @@ mqtt.configureEndpoint(ENDPOINT, 8883)
 mqtt.configureCredentials(PATH_TO_ROOT, PATH_TO_KEY, PATH_TO_CERT)
 mqtt_connect = False
 
+logger.info('My client ID is: %s' % CLIENT_ID)
 while not(mqtt_connect):
     mqtt_connect = mqtt.connect()
     logger.info('Trying to connect with AWS IoT MQTT Service...')
@@ -77,7 +78,7 @@ def collect_and_publish():
     timestamp = int(round(time.time() * 1000))
     def device_func(device):
         # The topic we want to publish to
-        topic = 'gismolab_sgmp_read/' + config.CLIENT_ID + '/' + str(device['device_id']) + '/' + device['name'] + '/' + str(timestamp) + '/data'
+        topic = config.DEPLOYMENT_NAME + '_read/' + config.CLIENT_ID + '/' + str(device['device_id']) + '/' + device['name'] + '/' + str(timestamp) + '/data'
 
         # If under dry run mode, don't perform the actual operations
         if config.DRY_RUN:
@@ -100,11 +101,11 @@ def collect_and_publish():
             if len(result.readings) == 0:
                 logger.info('Device %s didn\'t return any new readings' % (device['name']))
             for reading in result.readings:
-                topic = 'gismolab_sgmp_read/' + config.CLIENT_ID + '/' + str(device['device_id']) + '/' + device['name'] + '/' + str(reading.timestamp) + '/data'
+                topic = config.DEPLOYMENT_NAME + '_read/' + config.CLIENT_ID + '/' + str(device['device_id']) + '/' + device['name'] + '/' + str(reading.timestamp) + '/data'
                 logger.info('Multi-Publish [%s] %s' % (topic, reading.data))
                 mqtt.publish(topic, json.dumps(reading.data), QoS=1)
             for event in result.events:
-                topic = 'gismolab_sgmp_read/' + config.CLIENT_ID + '/' + str(device['device_id']) + '/' + device['name'] + '/' + str(event.timestamp) + '/event'
+                topic = config.DEPLOYMENT_NAME + '_read/' + config.CLIENT_ID + '/' + str(device['device_id']) + '/' + device['name'] + '/' + str(event.timestamp) + '/event'
                 event_dict = {
                     'type': event.type,
                     'data': event.data
@@ -133,7 +134,7 @@ def config_update_callback(client, userdata, message):
         json.dump({'devices': new_devices}, devices_file)
     new_devices_lock.release()
 
-mqtt.subscribe('gismolab_sgmp_config/%s/devices' % config.CLIENT_ID, QoS=1, callback=config_update_callback)
+mqtt.subscribe('%s_config/%s/devices' % (config.DEPLOYMENT_NAME, config.CLIENT_ID), QoS=1, callback=config_update_callback)
 
 terminate = False
 while not terminate:

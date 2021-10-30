@@ -9,6 +9,7 @@ class PowerflexRemoteApi():
         self.base_headers = {"cache-control": "no-cache", "content-type": "application/json"}
         self.last_timestamp = 0
         self.last_start_timestamp = 0
+        self.last_energy_delivered = 0
         self.charging_state = ''
 
     def read(self):
@@ -59,8 +60,9 @@ class PowerflexRemoteApi():
                 # ended charging
                 ts = row['time']
                 if self.last_start_timestamp != 0:
-                    events.append(Event(ts * 1000, 'EV_END_CHARGING', {'duration': (ts - self.last_start_timestamp) * 1000, 'energy': row['energy_delivered']}))
+                    events.append(Event(ts * 1000, 'EV_END_CHARGING', {'duration': (ts - self.last_start_timestamp) * 1000, 'energy': self.last_energy_delivered}))
             self.charging_state = row['charging_state']
+            self.last_energy_delivered = row['energy_delivered']
         result.events = events
         
         return result

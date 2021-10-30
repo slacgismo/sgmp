@@ -1,10 +1,16 @@
 import AWSIoTPythonSDK.MQTTLib as AWSIoTPyMQTT
 
+from utils.logging import get_logger
+
 import utils.config as config
 
-def publish(topic, data):
+logger = get_logger('iot')
+
+def publish(house_id, topic, data):
     # Initialize client
-    mqtt = AWSIoTPyMQTT.AWSIoTMQTTClient(config.IOT_CLIENT_ID)
+    client_id = config.DEPLOYMENT_NAME + '_backend'
+    logger.info('Connecting to endpoint %s, client ID %s' % (config.IOT_ENDPOINT, client_id))
+    mqtt = AWSIoTPyMQTT.AWSIoTMQTTClient(client_id)
     mqtt.configureEndpoint(config.IOT_ENDPOINT, 8883)
     mqtt.configureCredentials(config.IOT_ROOT_PATH, config.IOT_KEY_PATH, config.IOT_CERT_PATH)
     mqtt_connect = False

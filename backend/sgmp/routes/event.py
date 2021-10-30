@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 
 from utils.functions import err_json
-from utils.auth import require_auth
+from utils.auth import check_house_access, require_auth
 from utils.tsdb import get_tsdb_conn
 import utils.config as config
 
@@ -9,6 +9,7 @@ api_event = Blueprint('event', __name__)
 
 @api_event.route('/read', methods=['POST'])
 @require_auth()
+@check_house_access()
 def event_read():
     data = request.json
 

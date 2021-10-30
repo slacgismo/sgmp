@@ -41,3 +41,7 @@ variable "volume_size" {
 variable "cluster_size" {
   type = number
 }
+
+variable "instance_profile" {
+  type = string
+}

@@ -1,136 +1,120 @@
 module "network" {
   source = "./network"
 
-  region = var.region
+  region          = var.region
   resource_prefix = var.resource_prefix
-  tags = var.tags
+  tags            = var.tags
 
-  cidr = var.cidr
+  cidr               = var.cidr
   availability_zones = var.availability_zones
-  public_subnets = var.public_subnets
-  private_subnets = var.private_subnets
+  public_subnets     = var.public_subnets
+  private_subnets    = var.private_subnets
 }
 
 module "bastion" {
-  source = "./bastion"
+  source     = "./bastion"
   depends_on = [module.network]
 
-  key_name = var.key_name
-  resource_prefix = var.resource_prefix
-  tags = var.tags
-  instance_type = var.bastion_instance_type
-  subnet_id = module.network.public_subnets[0]
-  sg_id = module.network.bastion_sg_id
+  key_name         = var.key_name
+  resource_prefix  = var.resource_prefix
+  tags             = var.tags
+  instance_type    = var.bastion_instance_type
+  ami_id           = var.bastion_ami
+  subnet_id        = module.network.public_subnets[0]
+  sg_id            = module.network.bastion_sg_id
+  instance_profile = var.instance_profile
+
+  user_data = <<-EOF
+              #!/bin/bash
+              /opt/consul/bin/run-consul --client --cluster-tag-key consul-servers --cluster-tag-value auto-join
+              apt-get update
+              apt-get install -y mysql-client postgresql-client
+              EOF
 }
 
 module "iot" {
   source = "./iot"
-  
-  region = var.region
+
+  region          = var.region
   resource_prefix = var.resource_prefix
-  tags = var.tags
-  consul_dns = module.consul.consul_dns
-  tsdb_password = random_password.tsdb_postgres.result
-  subnet_ids = module.network.private_subnets
-  lambda_sg_id = module.network.lambda_sg_id
+  tags            = var.tags
+  consul_dns      = module.consul.consul_dns
+  tsdb_password   = random_password.tsdb_postgres.result
+  subnet_ids      = module.network.public_subnets
+  lambda_sg_id    = module.network.lambda_sg_id
 }
 
 module "consul" {
   source = "./consul"
 
-  region = var.region
-  resource_prefix = var.resource_prefix
-  tags = var.tags
-  ami_id = var.consul_ami
-  sg_id = module.network.consul_sg_id
-  instance_type = var.consul_instance_type
-  key_name = var.key_name
-  subnet_ids = module.network.public_subnets
-  vpc_id = module.network.vpc_id
-  user_data = <<-EOF
-              #!/bin/bash
-              export AWS_ACCESS_KEY_ID="${var.aws_access_key_id}"
-              export AWS_SECRET_ACCESS_KEY="${var.aws_secret_access_key}"
-              mkdir /home/consul/.aws
-              cat <<EOT >> /home/consul/.aws/credentials
-              [default]
-              aws_access_key_id = ${var.aws_access_key_id}
-              aws_secret_access_key = ${var.aws_secret_access_key}
-              EOT
-              chown -R consul:consul /home/consul/.aws
-              chmod 600 /home/consul/.aws/credentials
-              /opt/consul/bin/run-consul --server --cluster-tag-key consul-servers --cluster-tag-value auto-join
-              EOF
+  region           = var.region
+  resource_prefix  = var.resource_prefix
+  tags             = var.tags
+  ami_id           = var.consul_ami
+  sg_id            = module.network.consul_sg_id
+  instance_type    = var.consul_instance_type
+  key_name         = var.key_name
+  subnet_ids       = module.network.public_subnets
+  vpc_id           = module.network.vpc_id
+  instance_profile = var.instance_profile
+  replicas_per_az  = var.consul_replicas_per_az
 }
 
 module "tsdb" {
   source = "./tsdb"
 
-  region = var.region
+  region          = var.region
   resource_prefix = var.resource_prefix
-  tags = var.tags
+  tags            = var.tags
 
-  tsdb_ami = var.tsdb_ami
+  tsdb_ami           = var.tsdb_ami
   tsdb_instance_type = var.tsdb_instance_type
-  sg_id = module.network.tsdb_sg_id
-  key_name = var.key_name
-  subnet_ids = module.network.public_subnets
+  instance_profile   = var.instance_profile
+  sg_id              = module.network.tsdb_sg_id
+  key_name           = var.key_name
+  subnet_ids         = module.network.public_subnets
   user_data = templatefile("tsdb_provision.sh", {
-    aws_access_key_id = var.aws_access_key_id,
-    aws_secret_access_key = var.aws_secret_access_key,
     replicator_password = random_password.tsdb_replicator.result,
-    postgres_password = random_password.tsdb_postgres.result,
-    rewind_password = random_password.tsdb_rewind_user.result,
-    cidr = var.cidr
+    postgres_password   = random_password.tsdb_postgres.result,
+    rewind_password     = random_password.tsdb_rewind_user.result,
+    cidr                = var.cidr
   })
-  volume_size = var.tsdb_volume_size
+  volume_size  = var.tsdb_volume_size
   cluster_size = var.tsdb_cluster_size
 }
 
 module "rds" {
   source = "./rds"
 
-  region = var.region
+  region          = var.region
   resource_prefix = var.resource_prefix
-  tags = var.tags
+  tags            = var.tags
 
-  instance_type = var.rds_instance_type
-  sg_id = module.network.rds_sg_id
-  subnet_ids = module.network.private_subnets
-  engine_version = var.rds_engine_version
+  instance_type        = var.rds_instance_type
+  sg_id                = module.network.rds_sg_id
+  subnet_ids           = module.network.private_subnets
+  engine_version       = var.rds_engine_version
   major_engine_version = var.rds_major_engine_version
-  allocated_storage = var.rds_allocated_storage
-  password = random_password.rds.result
-  delete_protection = var.rds_delete_protection
-  multi_az = var.rds_multi_az
+  allocated_storage    = var.rds_allocated_storage
+  password             = random_password.rds.result
+  delete_protection    = var.rds_delete_protection
+  multi_az             = var.rds_multi_az
 }
 
 module "web" {
-  source = "./web"
+  source     = "./web"
   depends_on = [module.network, module.consul]
 
-  key_name = var.key_name
-  resource_prefix = var.resource_prefix
-  tags = var.tags
+  key_name              = var.key_name
+  resource_prefix       = var.resource_prefix
+  tags                  = var.tags
   staging_instance_type = var.staging_instance_type
-  staging_subnet_id = module.network.public_subnets[0]
-  staging_ami = var.staging_ami
-  sg_id = module.network.web_sg_id
+  staging_subnet_id     = module.network.public_subnets[0]
+  staging_ami           = var.staging_ami
+  sg_id                 = module.network.web_sg_id
 
   user_data = <<-EOF
               #!/bin/bash
-              export AWS_ACCESS_KEY_ID="${var.aws_access_key_id}"
-              export AWS_SECRET_ACCESS_KEY="${var.aws_secret_access_key}"
-              mkdir -p /home/consul/.aws
-
-              cat <<EOT >> /home/consul/.aws/credentials
-              [default]
-              aws_access_key_id = ${var.aws_access_key_id}
-              aws_secret_access_key = ${var.aws_secret_access_key}
-              EOT
-
-              chown -R consul:consul /home/consul
-              chmod 600 /home/consul/.aws/credentials
               /opt/consul/bin/run-consul --client --cluster-tag-key consul-servers --cluster-tag-value auto-join
 
               mkdir /home/ubuntu/iot_certs

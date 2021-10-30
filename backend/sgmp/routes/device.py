@@ -6,7 +6,7 @@ from models.house import House
 from models.shared import db
 
 from utils.functions import err_json
-from utils.auth import require_auth
+from utils.auth import check_house_access, require_auth
 
 api_device = Blueprint('device', __name__)
 
@@ -62,6 +62,7 @@ def device_details():
 
 @api_device.route('/create', methods=['POST'])
 @require_auth('admin')
+@check_house_access()
 def device_create():
     data = request.json
 
@@ -106,6 +107,7 @@ def device_create():
 
 @api_device.route('/update', methods=['POST'])
 @require_auth('admin')
+@check_house_access()
 def device_update():
     data = request.json
 
@@ -130,6 +132,7 @@ def device_update():
 
 @api_device.route('/delete', methods=['POST'])
 @require_auth('admin')
+@check_house_access()
 def device_delete():
     data = request.json
 
