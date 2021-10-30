@@ -8,10 +8,12 @@ from models.shared import db
 from utils.functions import err_json, get_boto3_client
 from utils.auth import require_auth
 from utils.iot import publish
+from utils.logging import get_logger
 
 import utils.config as config
 
 api_house = Blueprint('house', __name__)
+logger = get_logger('house')
 
 @api_house.route('/list', methods=['GET'])
 @require_auth()
@@ -74,7 +76,7 @@ def house_create():
 
     # Create Thing on AWS IoT Core
     client = get_boto3_client('iot')
-    thing_name = 'sgmp_house_%d' % data.house_id
+    thing_name = '%s_house_%d' % (config.DEPLOYMENT_NAME, data.house_id)
     try:
         client.create_thing(thingName=thing_name)
 
@@ -84,7 +86,7 @@ def house_create():
         private_key = resp['keyPair']['PrivateKey']
         cert = resp['certificatePem']
 
-        client.attach_policy(policyName='sgmp_policy', target=arn)
+        client.attach_policy(policyName=('%s_edge' % config.DEPLOYMENT_NAME), target=arn)
         client.attach_thing_principal(thingName=thing_name, principal=arn)
         client.attach_thing_principal(thingName=thing_name, principal='arn:aws:iot:%s:%s:cert/%s' % (config.AWS_REGION, account_id, config.IOT_CERT_ID))
     except Exception as e:
@@ -147,13 +149,13 @@ def house_delete():
 
     # Revoke keys
     client = get_boto3_client('iot')
-    thing_name = 'sgmp_house_%d' % house_id
+    thing_name = '%s_house_%d' % (config.DEPLOYMENT_NAME, house_id)
     if len(house.cert_arn) > 0:
         cert_id = house.cert_arn.split('/')[1]
         try:
             client.detach_thing_principal(thingName=thing_name, principal=house.cert_arn)
             client.detach_thing_principal(thingName=thing_name, principal='arn:aws:iot:%s:%s:cert/%s' % (config.AWS_REGION, account_id, config.IOT_CERT_ID))
-            client.detach_policy(policyName='sgmp_policy', target=house.cert_arn)
+            client.detach_policy(policyName=('%s_edge' % config.DEPLOYMENT_NAME), target=house.cert_arn)
             client.update_certificate(certificateId=cert_id, newStatus='INACTIVE')
             client.delete_certificate(certificateId=cert_id)
         except Exception as e:
@@ -186,7 +188,7 @@ def generate_keys():
         return err_json('house does not exist')
 
     client = get_boto3_client('iot')
-    thing_name = 'sgmp_house_%d' % house_id
+    thing_name = '%s_house_%d' % (config.DEPLOYMENT_NAME, house_id)
     if len(house.cert_arn) > 0:
         cert_arn = house.cert_arn
         cert_id = cert_arn.split('/')[1]
@@ -207,7 +209,7 @@ def generate_keys():
     # Attach credential
     try:
         client.attach_thing_principal(thingName=thing_name, principal=arn)
-        client.attach_policy(policyName='sgmp_policy', target=arn)
+        client.attach_policy(policyName=('%s_edge' % config.DEPLOYMENT_NAME), target=arn)
     except Exception as e:
         print('error attaching new certificate: %s' % e)
         return err_json('internal server error')
@@ -220,7 +222,7 @@ def generate_keys():
     if len(cert_id) > 0:
         try:
             client.detach_thing_principal(thingName=thing_name, principal=cert_arn)
-            client.detach_policy(policyName='sgmp_policy', target=cert_arn)
+            client.detach_policy(policyName=('%s_edge' % config.DEPLOYMENT_NAME), target=cert_arn)
             client.update_certificate(certificateId=cert_id, newStatus='INACTIVE')
             client.delete_certificate(certificateId=cert_id)
         except Exception as e:
@@ -262,7 +264,9 @@ def device_sync():
         })
 
     # Publish data as JSON string
+    topic = '%s_config/%s_house_%d/devices' % (config.DEPLOYMENT_NAME, config.DEPLOYMENT_NAME, house_id)
+    logger.info('Synchronizing house config, topic = %s' % topic)
     publish_str = json.dumps(data)
-    publish('gismolab_sgmp_config/sgmp_house_%d/devices' % house_id, publish_str)
+    publish(house_id, topic, publish_str)
 
     return jsonify({'status': 'ok'})

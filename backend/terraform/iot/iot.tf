@@ -16,6 +16,10 @@ resource "aws_iot_topic_rule" "rule" {
   tags = var.tags
 }
 
+resource "aws_iot_thing" "backend" {
+  name = "${var.resource_prefix}_backend"
+}
+
 resource "aws_iot_policy" "backend_policy" {
   name = "${var.resource_prefix}_backend"
   policy = jsonencode({
@@ -24,7 +28,7 @@ resource "aws_iot_policy" "backend_policy" {
       {
         "Effect" : "Allow",
         "Action" : "iot:Connect",
-        "Resource" : "arn:aws:iot:${var.region}:${local.account_id}:client/$${iot:Connection.Thing.ThingName}_backend"
+        "Resource" : "arn:aws:iot:${var.region}:${local.account_id}:client/$${iot:Connection.Thing.ThingName}"
       },
       {
         "Effect" : "Allow",
@@ -67,4 +71,9 @@ resource "aws_iot_policy" "edge_policy" {
 resource "aws_iot_policy_attachment" "backend" {
   policy = aws_iot_policy.backend_policy.name
   target = aws_iot_certificate.backend_cert.arn
+}
+
+resource "aws_iot_thing_principal_attachment" "backend" {
+  principal = aws_iot_certificate.backend_cert.arn
+  thing     = aws_iot_thing.backend.name
 }
