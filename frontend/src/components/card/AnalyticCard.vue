@@ -11,7 +11,7 @@
         <!-- https://www.svgrepo.com/svg/305138/arrowhead-left -->
         <img src="/src/assets/img/arrow.svg" class="h-12 w-6 lg:w-12" />
         <!-- <span class="text-8xl font-thin text-gray-300 italic">/</span> -->
-        <p class="text-sm lg:text-base justify-self-end right-2 align-middle">{{ time }}</p>
+        <p class="text-sm lg:text-base justify-self-end right-2 align-middle text-right">{{ time }}</p>
       </div>
     </div>
   </div>
