@@ -1,16 +1,6 @@
 #!/bin/bash
 
 # Run Consul client
-export AWS_ACCESS_KEY_ID="${aws_access_key_id}"
-export AWS_SECRET_ACCESS_KEY="${aws_secret_access_key}"
-mkdir -p /home/consul/.aws
-cat <<EOT >> /home/consul/.aws/credentials
-[default]
-aws_access_key_id = ${aws_access_key_id}
-aws_secret_access_key = ${aws_secret_access_key}
-EOT
-chown -R consul:consul /home/consul
-chmod 600 /home/consul/.aws/credentials
 /opt/consul/bin/run-consul --client --cluster-tag-key consul-servers --cluster-tag-value auto-join
 
 # Purge data

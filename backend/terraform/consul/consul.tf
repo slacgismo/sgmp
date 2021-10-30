@@ -11,9 +11,9 @@ resource "aws_autoscaling_group" "autoscaling_group" {
   vpc_zone_identifier = var.subnet_ids
 
   # Run a fixed number of instances in the ASG
-  min_size             = local.cluster_size
-  max_size             = local.cluster_size
-  desired_capacity     = local.cluster_size
+  min_size         = local.cluster_size
+  max_size         = local.cluster_size
+  desired_capacity = local.cluster_size
 
   health_check_type         = "EC2"
   health_check_grace_period = 300
@@ -31,7 +31,11 @@ resource "aws_autoscaling_group" "autoscaling_group" {
         value               = "auto-join"
         propagate_at_launch = true
       },
-      var.tags,
+      [for key, value in var.tags : {
+        key                 = key
+        value               = value
+        propagate_at_launch = true
+      }],
     ]
   )
 
@@ -55,8 +59,9 @@ resource "aws_launch_configuration" "launch_configuration" {
   user_data     = var.user_data
   key_name      = var.key_name
 
-  security_groups = [var.sg_id]
+  security_groups             = [var.sg_id]
   associate_public_ip_address = true
+  iam_instance_profile        = var.instance_profile
 
   root_block_device {
     volume_type           = "gp2"

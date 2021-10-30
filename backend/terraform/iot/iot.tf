@@ -22,14 +22,14 @@ resource "aws_iot_policy" "backend_policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        "Effect": "Allow",
-        "Action": "iot:Connect",
-        "Resource": "arn:aws:iot:${var.region}:${local.account_id}:client/$${iot:Connection.Thing.ThingName}_backend"
+        "Effect" : "Allow",
+        "Action" : "iot:Connect",
+        "Resource" : "arn:aws:iot:${var.region}:${local.account_id}:client/$${iot:Connection.Thing.ThingName}_backend"
       },
       {
-        "Effect": "Allow",
-        "Action": "iot:Publish",
-        "Resource": "arn:aws:iot:${var.region}:${local.account_id}:topic/${var.resource_prefix}_config/*"
+        "Effect" : "Allow",
+        "Action" : "iot:Publish",
+        "Resource" : "arn:aws:iot:${var.region}:${local.account_id}:topic/${var.resource_prefix}_config/*"
       }
     ]
   })
@@ -41,24 +41,24 @@ resource "aws_iot_policy" "edge_policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        "Effect": "Allow",
-        "Action": "iot:Connect",
-        "Resource": "arn:aws:iot:${var.region}:${local.account_id}:client/$${iot:Connection.Thing.ThingName}"
+        "Effect" : "Allow",
+        "Action" : "iot:Connect",
+        "Resource" : "arn:aws:iot:${var.region}:${local.account_id}:client/$${iot:Connection.Thing.ThingName}"
       },
       {
-        "Effect": "Allow",
-        "Action": "iot:Publish",
-        "Resource": "arn:aws:iot:${var.region}:${local.account_id}:topic/${var.resource_prefix}_read/$${iot:Connection.Thing.ThingName}/*"
+        "Effect" : "Allow",
+        "Action" : "iot:Publish",
+        "Resource" : "arn:aws:iot:${var.region}:${local.account_id}:topic/${var.resource_prefix}_read/$${iot:Connection.Thing.ThingName}/*"
       },
       {
-        "Effect": "Allow",
-        "Action": "iot:Subscribe",
-        "Resource": "arn:aws:iot:${var.region}:${local.account_id}:topicfilter/${var.resource_prefix}_config/$${iot:Connection.Thing.ThingName}/*"
+        "Effect" : "Allow",
+        "Action" : "iot:Subscribe",
+        "Resource" : "arn:aws:iot:${var.region}:${local.account_id}:topicfilter/${var.resource_prefix}_config/$${iot:Connection.Thing.ThingName}/*"
       },
       {
-        "Effect": "Allow",
-        "Action": "iot:Receive",
-        "Resource": "arn:aws:iot:${var.region}:${local.account_id}:topic/${var.resource_prefix}_config/$${iot:Connection.Thing.ThingName}/*"
+        "Effect" : "Allow",
+        "Action" : "iot:Receive",
+        "Resource" : "arn:aws:iot:${var.region}:${local.account_id}:topic/${var.resource_prefix}_config/$${iot:Connection.Thing.ThingName}/*"
       }
     ]
   })

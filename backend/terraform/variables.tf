@@ -19,7 +19,7 @@ variable "private_subnets" {
 }
 
 variable "resource_prefix" {
-  type = string
+  type    = string
   default = "gismolab_sgmp"
 }
 
@@ -35,27 +35,32 @@ variable "key_name" {
 }
 
 variable "bastion_instance_type" {
-  type = string
+  type    = string
   default = "t3.micro"
 }
 
 variable "consul_ami" {
-  type = string
-  default = "ami-04001a4818bb973ab"
+  type    = string
+  default = "ami-029139ef905224a72"
 }
 
 variable "consul_instance_type" {
-  type = string
+  type    = string
   default = "t3.micro"
 }
 
+variable "consul_replicas_per_az" {
+  type    = number
+  default = 1
+}
+
 variable "tsdb_ami" {
-  type = string
+  type    = string
   default = "ami-0cc7deef96971c4b0"
 }
 
 variable "tsdb_instance_type" {
-  type = string
+  type    = string
   default = "t3.medium"
 }
 
@@ -68,7 +73,7 @@ variable "tsdb_cluster_size" {
 }
 
 variable "rds_instance_type" {
-  type = string
+  type    = string
   default = "db.t3.micro"
 }
 
@@ -85,21 +90,30 @@ variable "rds_major_engine_version" {
 }
 
 variable "rds_delete_protection" {
-  type = bool
+  type    = bool
   default = true
 }
 
 variable "rds_multi_az" {
-  type = string
+  type    = string
   default = true
 }
 
 variable "staging_instance_type" {
-  type = string
+  type    = string
   default = "t3.small"
 }
 
 variable "staging_ami" {
-  type = string
+  type    = string
   default = "ami-029139ef905224a72"
+}
+
+variable "bastion_ami" {
+  type    = string
+  default = "ami-029139ef905224a72"
+}
+
+variable "instance_profile" {
+  type = string
 }

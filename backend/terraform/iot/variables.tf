@@ -27,11 +27,11 @@ variable "tsdb_password" {
 }
 
 variable "tsdb_user" {
-  type = string
+  type    = string
   default = "postgres"
 }
 
 variable "tsdb_name" {
-  type = string
+  type    = string
   default = "sgmp"
 }

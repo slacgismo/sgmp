@@ -16,7 +16,7 @@ resource "aws_instance" "staging" {
 
   key_name = var.key_name
 
-  subnet_id = var.staging_subnet_id
+  subnet_id              = var.staging_subnet_id
   vpc_security_group_ids = [var.sg_id]
 
   tags = merge(var.tags, {
@@ -27,6 +27,8 @@ resource "aws_instance" "staging" {
   })
 
   user_data = var.user_data
+
+  iam_instance_profile = "SGMP_EC2"
 }
 
 output "staging_ip" {

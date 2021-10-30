@@ -12,7 +12,6 @@ variable "tags" {
 
 variable "replicas_per_az" {
   type = number
-  default = 1
 }
 
 variable "ami_id" {
@@ -36,9 +35,17 @@ variable "key_name" {
 }
 
 variable "user_data" {
-  type = string
+  type    = string
+  default = <<-EOF
+            #!/bin/bash
+            /opt/consul/bin/run-consul --server --cluster-tag-key consul-servers --cluster-tag-value auto-join
+            EOF
 }
 
 variable "subnet_ids" {
   type = list(string)
+}
+
+variable "instance_profile" {
+  type = string
 }

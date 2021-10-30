@@ -3,18 +3,19 @@ locals {
 }
 
 resource "aws_lb" "nlb" {
-  name = local.nlb_normalized_name
-  internal = true
+  name               = local.nlb_normalized_name
+  internal           = true
   load_balancer_type = "network"
-  subnets = var.subnet_ids
-  tags = var.tags
+  subnets            = var.subnet_ids
+  tags               = var.tags
 }
 
 resource "aws_lb_target_group" "consul" {
-  name = local.nlb_normalized_name
-  port     = 8600
-  protocol = "UDP"
-  vpc_id   = var.vpc_id
+  name                 = local.nlb_normalized_name
+  port                 = 8600
+  protocol             = "UDP"
+  vpc_id               = var.vpc_id
+  deregistration_delay = 60
 }
 
 resource "aws_lb_listener" "dns" {
