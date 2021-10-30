@@ -2,11 +2,7 @@ import psycopg2
 import psycopg2.extras
 import os
 import json
-
-pg_host = os.environ['PG_HOST']
-pg_user = os.environ['PG_USER']
-pg_pass = os.environ['PG_PASS']
-pg_database = os.environ['PG_DATABASE']
+import dns.resolver
 
 sql_house = 'INSERT INTO house_data (timestamp, house_id, device_name, field, value_decimal, value_text) VALUES %s'
 sql_event = 'INSERT INTO events (timestamp, house_id, device_name, "type", "data") VALUES (to_timestamp(%s), %s, %s, %s, %s)'
@@ -29,6 +25,29 @@ def flatten(d, parent_key='') -> dict:
 
 
 def lambda_handler(event, context):
+    pg_user = os.environ['PG_USER']
+    pg_pass = os.environ['PG_PASS']
+    pg_database = os.environ['PG_DATABASE']
+    
+    if 'PG_HOST' in os.environ:
+        # PG_HOST is hard-coded in environment variables
+        pg_host = os.environ['PG_HOST']
+        print('Using hard-coded PG_HOST %s' % pg_host)
+    elif 'CONSUL_DNS' in os.environ:
+        # Resolve master TimescaleDB host from Consul DNS servers
+        consul_dns = os.environ['CONSUL_DNS']
+        
+        resolver = dns.resolver.Resolver()
+        answer = resolver.query(consul_dns, 'A')
+        ips = [a.to_text() for a in answer]
+        consul_ip = ips[0]
+        
+        resolver.nameservers = [consul_ip]
+        answer = resolver.query('master.tsdb.service.consul', 'A')
+        pg_host = answer[0].to_text()
+        print('Consul returned TimescaleDB master %s' % pg_host)
+        
+
     # Connect to database
     conn = psycopg2.connect(
         host=pg_host,
