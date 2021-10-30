@@ -90,8 +90,7 @@ def house_create():
         client.attach_thing_principal(thingName=thing_name, principal=arn)
         client.attach_thing_principal(thingName=thing_name, principal='arn:aws:iot:%s:%s:cert/%s' % (config.AWS_REGION, account_id, config.IOT_CERT_ID))
     except Exception as e:
-        print('error creating thing: %s' % e)
-        return err_json('internal server error')
+        raise Exception('error creating thing: %s' % e)
 
     data.cert_arn = arn
     db.session.commit()
@@ -203,16 +202,14 @@ def generate_keys():
         private_key = resp['keyPair']['PrivateKey']
         cert = resp['certificatePem']
     except Exception as e:
-        print('error creating new certificate: %s' % e)
-        return err_json('internal server error')
+        raise Exception('error creating certificate: %s' % e)
 
     # Attach credential
     try:
         client.attach_thing_principal(thingName=thing_name, principal=arn)
         client.attach_policy(policyName=('%s_edge' % config.DEPLOYMENT_NAME), target=arn)
     except Exception as e:
-        print('error attaching new certificate: %s' % e)
-        return err_json('internal server error')
+        raise Exception('error attaching certificate: %s' % e)
     
     # Update database
     house.cert_arn = arn
@@ -226,8 +223,7 @@ def generate_keys():
             client.update_certificate(certificateId=cert_id, newStatus='INACTIVE')
             client.delete_certificate(certificateId=cert_id)
         except Exception as e:
-            print('error revoking certificate: %s' % e)
-            return err_json('internal server error')
+            raise Exception('error revoking certificate: %s' % e)
 
     return jsonify({
         'status': 'ok',
