@@ -90,10 +90,25 @@ Sample response:
         "roles": ["visitor"]
     },
     "house_id": "1",
-    "house_description": "house B"
+    "house_description": "house B",
+    "refresh_token": "xxxx"
 }
 ```
+### `api/user/refreshToken`
+```
+Refresh the access token by using refresh token
 
+sample Request:
+{
+    "refresh_token": "xxxx"
+}
+
+sample Response:
+{
+    "accesstoken": "xxxxx",
+    "status" "ok"
+}
+```
 ### `/api/user/updatePassword`
 Change user's own password (can only change its own password)
 
@@ -105,6 +120,7 @@ Sample request:
 }
 ```
 
+```
 ### `/api/user/changePassword`
 
 Change user's  password (Only admin)
@@ -146,12 +162,12 @@ Sample response:
 
 ### `/api/user/delete`
 
-Deletes a user by the email.
+Deletes user list by the email.
 
 Sample request:
 ```
 {
-    "email": "chihweif@andrew.cmu.edu"
+    "user_list": ["chihweif@andrew.cmu.edu", "yingdonc@andrew.cmu.edu"]
 }
 ```
 
@@ -161,7 +177,6 @@ Sample response:
     "status": "ok"
 }
 ```
-
 ### `/api/role/list`
 
 Lists all roles.
