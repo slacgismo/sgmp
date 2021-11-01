@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-between px-4 mt-4 sm:px-8">
-    <h2 class="text-2xl text-gray-600">Device List</h2>
+    <h2 class="text-2xl text-gray-600">Analytics Items</h2>
 
     <div class="flex items-center space-x-1 text-xs">
       <router-link to="/" class="font-bold text-indigo-700">Home</router-link>

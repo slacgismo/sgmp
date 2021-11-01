@@ -217,74 +217,104 @@
           v-show="isAdmin()"
           class="px-4 py-2 mt-2 text-xs uppercase tracking-wider font-bold"
         >
-          Settings
+          Administration
         </li>
-        <router-link
-          v-show="isAdmin()"
-          v-slot="{ isExactActive, href, navigate }"
-          to="/devices"
-        >
-          <li
-            class="px-4 cursor-pointer"
-            :class="[
-              isExactActive ? 'bg-white text-red-900' : 'hover:bg-gray-100',
-            ]"
-          >
-            <a class="py-3 flex items-center" :href="href" @click="navigate">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 mr-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <!-- https://icomoon.io/ -->
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M23.506 19.169l-10.794-9.252c0.503-0.944 0.788-2.022 0.788-3.167 0-3.728-3.022-6.75-6.75-6.75-0.682 0-1.34 0.102-1.96 0.29l3.9 3.9c0.583 0.583 0.583 1.538 0 2.121l-2.379 2.379c-0.583 0.583-1.538 0.583-2.121 0l-3.9-3.9c-0.188 0.62-0.29 1.279-0.29 1.96 0 3.728 3.022 6.75 6.75 6.75 1.145 0 2.222-0.285 3.167-0.788l9.252 10.794c0.537 0.626 1.454 0.662 2.037 0.078l2.379-2.379c0.583-0.583 0.548-1.5-0.078-2.037z"
-                />
-              </svg>
-              Device Configuration
-            </a>
-          </li>
-        </router-link>
-
-        <router-link
-          v-show="isAdmin()"
-          v-slot="{ isExactActive, href, navigate }"
-          to="/analytics"
-        >
-          <li
-            class="px-4 cursor-pointer"
-            :class="[
-              isExactActive ? 'bg-white text-red-900' : 'hover:bg-gray-100',
-            ]"
-          >
-            <a class="py-3 flex items-center" :href="href" @click="navigate">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 mr-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <!-- https://icomoon.io/ -->
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M23.506 19.169l-10.794-9.252c0.503-0.944 0.788-2.022 0.788-3.167 0-3.728-3.022-6.75-6.75-6.75-0.682 0-1.34 0.102-1.96 0.29l3.9 3.9c0.583 0.583 0.583 1.538 0 2.121l-2.379 2.379c-0.583 0.583-1.538 0.583-2.121 0l-3.9-3.9c-0.188 0.62-0.29 1.279-0.29 1.96 0 3.728 3.022 6.75 6.75 6.75 1.145 0 2.222-0.285 3.167-0.788l9.252 10.794c0.537 0.626 1.454 0.662 2.037 0.078l2.379-2.379c0.583-0.583 0.548-1.5-0.078-2.037z"
-                />
-              </svg>
-              Analytics Items
-            </a>
-          </li>
-        </router-link>
 
         <li v-show="isAdmin()">
-          <Disclosure v-slot="{ open }" :default-open="isUserManagementActive">
+          <Disclosure v-slot="{ open }" :default-open="true">
+            <DisclosureButton
+              class="px-4 py-3 flex items-center w-52 hover:bg-gray-100"
+              :class="open ? 'bg-gray-100' : ''"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <!-- https://icomoon.io/ -->
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M23.506 19.169l-10.794-9.252c0.503-0.944 0.788-2.022 0.788-3.167 0-3.728-3.022-6.75-6.75-6.75-0.682 0-1.34 0.102-1.96 0.29l3.9 3.9c0.583 0.583 0.583 1.538 0 2.121l-2.379 2.379c-0.583 0.583-1.538 0.583-2.121 0l-3.9-3.9c-0.188 0.62-0.29 1.279-0.29 1.96 0 3.728 3.022 6.75 6.75 6.75 1.145 0 2.222-0.285 3.167-0.788l9.252 10.794c0.537 0.626 1.454 0.662 2.037 0.078l2.379-2.379c0.583-0.583 0.548-1.5-0.078-2.037z"
+                />
+              </svg>
+              Configuration
+              <span class="ml-auto">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  :class="open ? 'transform rotate-90' : ''"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </span>
+            </DisclosureButton>
+            <DisclosurePanel>
+              <ul>
+                <router-link
+                  v-slot="{ isExactActive, href, navigate }"
+                  to="/devices"
+                >
+                  <li
+                    class="pl-8"
+                    :class="[
+                      isExactActive ? 'bg-white text-red-900' : 'hover:bg-gray-100',
+                    ]"
+                  >
+                    <a class="py-3 flex items-center" :href="href" @click="navigate">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                        fill="currentColor"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                      </svg>
+                      Device
+                    </a>
+                  </li>
+                </router-link>
+                <router-link
+                  v-slot="{ isExactActive, href, navigate }"
+                  to="/analytics"
+                >
+                  <li
+                    class="pl-8"
+                    :class="[
+                      isExactActive ? 'bg-white text-red-900' : 'hover:bg-gray-100',
+                    ]"
+                  >
+                    <a class="py-3 flex items-center" :href="href" @click="navigate">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                        fill="currentColor"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                      </svg>
+                      Analytics Items
+                    </a>
+                  </li>
+                </router-link>
+              </ul>
+            </DisclosurePanel>
+          </Disclosure>
+        </li>
+
+        <li v-show="isAdmin()">
+          <Disclosure v-slot="{ open }" :default-open="isActive(userRoutes)">
             <DisclosureButton
               class="px-4 py-3 flex items-center w-52 hover:bg-gray-100"
               :class="open ? 'bg-gray-100' : ''"
@@ -391,21 +421,15 @@ export default {
   },
   setup() {
     const route = useRoute();
-
-    const isUserManagementActive = computed(() => {
-      const names = ["users", "roles", "groups"];
-
-      return names.includes(route.name);
-    });
-
     return {
-      route,
-      isUserManagementActive,
+      route
     };
   },
   data() {
     return {
       visible: false,
+      userRoutes: ["users", "createuser", "roles"],
+      // configRoutes: ["devices", "createdevice", "updatedevice", "analytics", "createanalytics", "updateanalytics"]
     };
   },
   created() {
@@ -438,5 +462,10 @@ export default {
         console.error(error);
       });
   },
+  methods: {
+    isActive(routes) {
+      return routes.includes(this.route.name);
+    }
+  }
 };
 </script>
