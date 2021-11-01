@@ -38,6 +38,8 @@ final class MainTabBarData: ObservableObject {
 }
 
 struct MainTabView: View {
+    
+    @Default(.debugMode) var debugMode
     @EnvironmentObject var env : Env
     @StateObject var tabData = MainTabBarData(initialIndex: 1, customItemIndex: 2)
     @Default(.userProfile) var userProfile
@@ -54,7 +56,7 @@ struct MainTabView: View {
                 }
                 .tag(1)
                 
-                if ARWorldTrackingConfiguration.isSupported {
+                if ARWorldTrackingConfiguration.isSupported || debugMode {
                     NavigationView {
                         ZStack {}.navigationTitle("Camera")
                     }

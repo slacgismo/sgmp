@@ -28,6 +28,9 @@ struct DeviceView: View {
         List {
             Section {
                 TitleDescCellView(title: "Device ID", content: "\(device.device_id)")
+                if let deviceDetail = deviceDetail {
+                    TitleDescCellView(title: "House ID", content: "\(deviceDetail.house_id)")
+                }
                 TitleDescCellView(title: "Description", content: "\(deviceDetail?.description ?? device.description)")
                 TitleDescCellView(title: "Type", content: "\(deviceDetail?.type ?? device.type)")
             } header: {

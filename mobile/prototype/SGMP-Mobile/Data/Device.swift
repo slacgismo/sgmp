@@ -46,12 +46,14 @@ protocol DeviceConfigProtocol : Codable {
 
 struct DeviceDetail : Decodable {
     enum CodingKeys: String, CodingKey {
-        case config, name, description, type
+        case config, name, description, type, device_id, house_id
     }
 
     var config : DeviceConfigProtocol
     var name : String
     var description : String
+    var house_id : UInt64
+    var device_id : UInt64
     var type : String
     
     init(from decoder: Decoder) throws {
@@ -59,6 +61,8 @@ struct DeviceDetail : Decodable {
         self.name = try container.decode(String.self, forKey: .name)
         self.description = try container.decode(String.self, forKey: .description)
         self.type = try container.decode(String.self, forKey: .type)
+        self.house_id = try container.decode(UInt64.self, forKey: .house_id)
+        self.device_id = try container.decode(UInt64.self, forKey: .device_id)
         switch self.type {
         case "sonnen":
             self.config = try container.decode(DeviceConfigSonnen.self, forKey: .config)

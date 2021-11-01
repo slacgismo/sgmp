@@ -16,8 +16,6 @@
 		0D5081012718FDEA00EE0A4F /* ListDeviceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5081002718FDEA00EE0A4F /* ListDeviceView.swift */; };
 		0D50810327191F8B00EE0A4F /* DeviceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D50810227191F8B00EE0A4F /* DeviceView.swift */; };
 		0D5081052719344200EE0A4F /* ExpandableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5081042719344200EE0A4F /* ExpandableView.swift */; };
-		0D5081072719390300EE0A4F /* SpecificDeviceKeyChartSelfLoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5081062719390300EE0A4F /* SpecificDeviceKeyChartSelfLoadView.swift */; };
-		0D5081092719569F00EE0A4F /* SpecificDeviceKeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5081082719569F00EE0A4F /* SpecificDeviceKeyView.swift */; };
 		0D51EE0E26F27EDF00BCAAB3 /* SgmpApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D51EE0D26F27EDF00BCAAB3 /* SgmpApp.swift */; };
 		0D51EE1226F27EDF00BCAAB3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D51EE1126F27EDF00BCAAB3 /* Assets.xcassets */; };
 		0D51EE1526F27EDF00BCAAB3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D51EE1426F27EDF00BCAAB3 /* Preview Assets.xcassets */; };
@@ -56,6 +54,8 @@
 		0D8829442715742D00A96521 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 0D8829432715742D00A96521 /* Defaults */; };
 		0D88294C27165F0700A96521 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D88294B27165F0700A96521 /* Network.swift */; };
 		0D9CDDB32705163C00804A57 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9CDDB22705163C00804A57 /* LoginView.swift */; };
+		0DDB318527308D0600C8668E /* DeviceFormulaAnalyticsChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDB318427308D0600C8668E /* DeviceFormulaAnalyticsChartView.swift */; };
+		0DDB318727308DD100C8668E /* DeviceFormulaAnalyticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDB318627308DD100C8668E /* DeviceFormulaAnalyticsView.swift */; };
 		0DE1F782270FC0E900714744 /* ARInteractiveViewSlacNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE1F781270FC0E900714744 /* ARInteractiveViewSlacNode.swift */; };
 		0DE1F784270FC30A00714744 /* ARInteractiveViewNode+QR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE1F783270FC30A00714744 /* ARInteractiveViewNode+QR.swift */; };
 		0DE1F79027101D6F00714744 /* ARSwiftUIHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE1F78F27101D6F00714744 /* ARSwiftUIHostingController.swift */; };
@@ -73,6 +73,7 @@
 		0DE2E7C826F99DF800932B41 /* ARNodeProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE2E7C726F99DF800932B41 /* ARNodeProtocol.swift */; };
 		0DECB8B6270BA269001A93F9 /* CardGroupBoxStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DECB8B5270BA269001A93F9 /* CardGroupBoxStyle.swift */; };
 		0DECB8BE270BA7C2001A93F9 /* DashboardGlanceCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DECB8BD270BA7C2001A93F9 /* DashboardGlanceCellView.swift */; };
+		0DF4B51A273076BA0079F9D2 /* View+Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF4B519273076BA0079F9D2 /* View+Snapshot.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -83,8 +84,6 @@
 		0D5081002718FDEA00EE0A4F /* ListDeviceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDeviceView.swift; sourceTree = "<group>"; };
 		0D50810227191F8B00EE0A4F /* DeviceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceView.swift; sourceTree = "<group>"; };
 		0D5081042719344200EE0A4F /* ExpandableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableView.swift; sourceTree = "<group>"; };
-		0D5081062719390300EE0A4F /* SpecificDeviceKeyChartSelfLoadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificDeviceKeyChartSelfLoadView.swift; sourceTree = "<group>"; };
-		0D5081082719569F00EE0A4F /* SpecificDeviceKeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificDeviceKeyView.swift; sourceTree = "<group>"; };
 		0D51EE0A26F27EDF00BCAAB3 /* SGMP-Mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SGMP-Mobile.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D51EE0D26F27EDF00BCAAB3 /* SgmpApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SgmpApp.swift; sourceTree = "<group>"; };
 		0D51EE1126F27EDF00BCAAB3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -122,6 +121,8 @@
 		0D7C332926FDA76100B219E7 /* Button+Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button+Style.swift"; sourceTree = "<group>"; };
 		0D88294B27165F0700A96521 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		0D9CDDB22705163C00804A57 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		0DDB318427308D0600C8668E /* DeviceFormulaAnalyticsChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceFormulaAnalyticsChartView.swift; sourceTree = "<group>"; };
+		0DDB318627308DD100C8668E /* DeviceFormulaAnalyticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceFormulaAnalyticsView.swift; sourceTree = "<group>"; };
 		0DE1F781270FC0E900714744 /* ARInteractiveViewSlacNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARInteractiveViewSlacNode.swift; sourceTree = "<group>"; };
 		0DE1F783270FC30A00714744 /* ARInteractiveViewNode+QR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ARInteractiveViewNode+QR.swift"; sourceTree = "<group>"; };
 		0DE1F78F27101D6F00714744 /* ARSwiftUIHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARSwiftUIHostingController.swift; sourceTree = "<group>"; };
@@ -139,6 +140,7 @@
 		0DE2E7C726F99DF800932B41 /* ARNodeProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARNodeProtocol.swift; sourceTree = "<group>"; };
 		0DECB8B5270BA269001A93F9 /* CardGroupBoxStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardGroupBoxStyle.swift; sourceTree = "<group>"; };
 		0DECB8BD270BA7C2001A93F9 /* DashboardGlanceCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardGlanceCellView.swift; sourceTree = "<group>"; };
+		0DF4B519273076BA0079F9D2 /* View+Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Snapshot.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,8 +234,8 @@
 				0D5F56FC272BAE270029A53B /* DeviceSelectionCell.swift */,
 				0D50810227191F8B00EE0A4F /* DeviceView.swift */,
 				0D5F5700272BBD880029A53B /* DeviceConfigView.swift */,
-				0D5081082719569F00EE0A4F /* SpecificDeviceKeyView.swift */,
-				0D5081062719390300EE0A4F /* SpecificDeviceKeyChartSelfLoadView.swift */,
+				0DDB318427308D0600C8668E /* DeviceFormulaAnalyticsChartView.swift */,
+				0DDB318627308DD100C8668E /* DeviceFormulaAnalyticsView.swift */,
 			);
 			path = Devices;
 			sourceTree = "<group>";
@@ -338,6 +340,7 @@
 				0D0D54C5270F8CB700C50FDA /* Image+Crop.swift */,
 				0DE1F7912710300C00714744 /* UIViewController+Child.swift */,
 				0D5F56FE272BB7120029A53B /* Codable+Dict.swift */,
+				0DF4B519273076BA0079F9D2 /* View+Snapshot.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -494,6 +497,7 @@
 				0DECB8BE270BA7C2001A93F9 /* DashboardGlanceCellView.swift in Sources */,
 				0D5F56F32727E3170029A53B /* User.swift in Sources */,
 				0DE2E7BA26F85FAD00932B41 /* State.swift in Sources */,
+				0DF4B51A273076BA0079F9D2 /* View+Snapshot.swift in Sources */,
 				0DE2E7C126F8625200932B41 /* SummaryTabView.swift in Sources */,
 				0D079C94271F8BB0006D50D3 /* ListHouseView.swift in Sources */,
 				0D5F570E272CDE540029A53B /* Device.swift in Sources */,
@@ -504,15 +508,16 @@
 				0D6E5B90270D572D00576AA4 /* ARGridView.swift in Sources */,
 				0D50810327191F8B00EE0A4F /* DeviceView.swift in Sources */,
 				0D6070B7272F8F3D003874BF /* EnvVariableView.swift in Sources */,
-				0D5081092719569F00EE0A4F /* SpecificDeviceKeyView.swift in Sources */,
 				0D6070B9272FA3EC003874BF /* AnalyticsView.swift in Sources */,
 				0DE1F784270FC30A00714744 /* ARInteractiveViewNode+QR.swift in Sources */,
 				0D7C332A26FDA76100B219E7 /* Button+Style.swift in Sources */,
 				0D88294C27165F0700A96521 /* Network.swift in Sources */,
+				0DDB318527308D0600C8668E /* DeviceFormulaAnalyticsChartView.swift in Sources */,
 				0D20B260270E479300786A05 /* EventManager.swift in Sources */,
 				0D5F56FD272BAE270029A53B /* DeviceSelectionCell.swift in Sources */,
 				0D73893F26FA97CF000C43A6 /* ARInteractiveViewNode.swift in Sources */,
 				0D5F5710272CE5C20029A53B /* Analytics.swift in Sources */,
+				0DDB318727308DD100C8668E /* DeviceFormulaAnalyticsView.swift in Sources */,
 				0D5E22AF26FEF427002B0A4B /* AboutAppView.swift in Sources */,
 				0D5F56FF272BB7120029A53B /* Codable+Dict.swift in Sources */,
 				0DE1F7922710300C00714744 /* UIViewController+Child.swift in Sources */,
@@ -522,7 +527,6 @@
 				0D73894626FAA72B000C43A6 /* ToastView.swift in Sources */,
 				0D5F570C272CDC4E0029A53B /* AnalyticsSelectionCell.swift in Sources */,
 				0D51EE0E26F27EDF00BCAAB3 /* SgmpApp.swift in Sources */,
-				0D5081072719390300EE0A4F /* SpecificDeviceKeyChartSelfLoadView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -653,7 +657,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "SGMP-Mobile/SGMP-Mobile.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_ASSET_PATHS = "\"SGMP-Mobile/Preview Content\"";
 				DEVELOPMENT_TEAM = 9QJ8M25J77;
 				ENABLE_PREVIEWS = YES;
@@ -690,7 +694,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "SGMP-Mobile/SGMP-Mobile.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_ASSET_PATHS = "\"SGMP-Mobile/Preview Content\"";
 				DEVELOPMENT_TEAM = 9QJ8M25J77;
 				ENABLE_PREVIEWS = YES;

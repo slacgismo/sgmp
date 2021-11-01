@@ -25,7 +25,6 @@ struct AnalyticsView: View {
         }
     }
     
-    
     var body: some View {
         List {
             Section {
@@ -70,6 +69,21 @@ struct AnalyticsView: View {
             refresh()
         }
         .navigationTitle("\(analytics.description)")
+        .toolbar {
+            ToolbarItem {
+                Button {
+                    let text = "\(analytics.description) (\(analytics.formula)) now at \(currentValue?.formatted(.number) ?? "-")"
+                    let activityController = UIActivityViewController(activityItems: [text], applicationActivities: nil)
+                    UIApplication.shared.windows.first?.rootViewController!.present(activityController, animated: true, completion: nil)
+                } label: {
+                    Label {
+                        Text("Share chart")
+                    } icon: {
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                }
+            }
+        }
     }
 }
 

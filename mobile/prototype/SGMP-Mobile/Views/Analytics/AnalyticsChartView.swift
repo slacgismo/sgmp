@@ -29,15 +29,26 @@ struct AnalyticsChartView: View {
     @State var loading : Bool = false
     
     @State var timeMode : AnalyticsChartTimeMode = .ten_min
-    @State var time : AnalyticsChartTimePair = .init(from: .now, to: .now.advanced(by: -60 * 10))
+    @State var time : AnalyticsChartTimePair = .init(from: .now.advanced(by: -60 * 10), to: .now) {
+        willSet {
+            
+        }
+        didSet {
+            
+        }
+    }
     
     @State var chartData : LineChartData = .init(dataSets: .init(dataPoints: []))
     
     func refresh (newTime : AnalyticsChartTimePair? = nil) {
-        loading = true
         let from = newTime?.from ?? time.from
         let to = newTime?.to ?? time.to
-        NetworkManager.shared.getAnalyticsTimeSeries(houseId: houseId, startDate: from, endDate: to, analyticsName: analytics.name, interval: to.timeIntervalSince(from) * 1000.0 / 200.0 ) { frames, err in
+        if (from >= to) {
+            Toast.default(image: .init(systemName: "xmark")!, title: "Incorrect Parameter", subtitle: "end time cannot be before start time").show(haptic: .warning)
+            return
+        }
+        loading = true
+        NetworkManager.shared.getAnalyticsTimeSeries(houseId: houseId, startDate: from, endDate: to, analyticsName: analytics.name, interval: to.timeIntervalSince(from) * 1000.0 / 200.0) { frames, err in
             if let err = err {
                 print("\(err)")
                 Toast.default(image: .init(systemName: "xmark")!, title: "\(err.localizedDescription)").show(haptic: .error)
@@ -46,28 +57,32 @@ struct AnalyticsChartView: View {
                 let metadata = ChartMetadata(title: "\(analytics.description)", subtitle: "From \(from.formatted()) to \(to.formatted())")
                 
                 let gridStyle  = GridStyle(numberOfLines: 10,
-                                                   lineColour   : Color(.lightGray).opacity(0.5),
+                                                   lineColour   : Color.init(uiColor: UIColor.tertiaryLabel).opacity(0.2),
                                                    lineWidth    : 1,
                                                    dash         : [8],
                                                    dashPhase    : 0)
                 
                 let chartStyle = LineChartStyle(infoBoxPlacement    : .floating,
-                                                        infoBoxBorderColour : Color.primary,
-                                                        infoBoxBorderStyle  : StrokeStyle(lineWidth: 1),
-                                                        
-                                                        markerType          : .vertical(attachment: .line(dot: .style(DotStyle()))),
-                                                        
-                                                        xAxisGridStyle      : gridStyle,
-                                                        xAxisLabelPosition  : .bottom,
-                                                        xAxisLabelColour    : Color.primary,
-                                                        
-                                                        yAxisGridStyle      : gridStyle,
-                                                        yAxisLabelPosition  : .leading,
-                                                        yAxisLabelColour    : Color.primary,
-                                                        yAxisNumberOfLabels : 10,
-                                                        yAxisLabelType: .numeric,
-                                                        
-                                                        globalAnimation     : .easeInOut)
+                                                infoBoxValueFont: .body.monospaced(), infoBoxDescriptionFont: .caption.monospaced(), infoBoxBorderColour : Color.primary,
+                                                infoBoxBorderStyle  : StrokeStyle(lineWidth: 1),
+                                                
+                                                markerType          : .vertical(attachment: .line(dot: .style(DotStyle()))),
+                                                
+                                                xAxisGridStyle      : gridStyle,
+                                                xAxisLabelPosition  : .bottom,
+                                                xAxisLabelFont: .footnote.monospaced(),
+                                                xAxisLabelColour    : Color.primary,
+                                                
+                                                xAxisTitleFont: .callout.monospaced(),
+                                                yAxisGridStyle      : gridStyle,
+                                                yAxisLabelPosition  : .leading,
+                                                yAxisLabelFont: .footnote.monospaced(),
+                                                yAxisLabelColour    : Color.primary,
+                                                yAxisNumberOfLabels : 10,
+                                                yAxisLabelType: .numeric,
+                                                yAxisTitleFont: .callout.monospaced(),
+                                                
+                                                globalAnimation     : .easeInOut)
                 
                 let dataPoints : [LineChartDataPoint] = frames.compactMap { frame in
                     let date = Date.init(timeIntervalSince1970: Double(frame.timestamp)/1000.0)
@@ -118,31 +133,23 @@ struct AnalyticsChartView: View {
             .pickerStyle(.segmented)
             
             if (timeMode == .custom) {
-                DatePicker("From", selection: $time.from)
-                DatePicker("To", selection: $time.to)
+                DatePicker("From", selection: $time.from).font(.body.monospaced())
+                DatePicker("To", selection: $time.to).font(.body.monospaced())
             }
             
             ZStack {
                 LineChart(chartData: chartData)
                     .id(chartData.id)
                     .floatingInfoBox(chartData: chartData)
-                    .touchOverlay(chartData: chartData, specifier: "%.0f")
+                    .touchOverlay(chartData: chartData, specifier: "%.3f")
                     .xAxisGrid(chartData: chartData)
                     .yAxisGrid(chartData: chartData)
-                    .yAxisLabels(chartData: chartData)
+                    .yAxisLabels(chartData: chartData, specifier: "%.2f", colourIndicator: .none)
+                    .averageLine(chartData: chartData, markerName: "Average", labelPosition: .yAxis(specifier: "%.1f"), labelFont: .footnote.monospaced(), lineColour: .init(UIColor.secondaryLabel), strokeStyle: StrokeStyle(lineWidth: 2, dash: [8,10]), addToLegends: true)
                     .legends(chartData: chartData, columns: [GridItem(.flexible()), GridItem(.flexible())])
+                    .padding()
+                    .font(.footnote.monospaced())
                     .frame(maxWidth: .infinity, minHeight: 400, maxHeight: 400, alignment: .center)
-                    .contextMenu {
-                        Button {
-                            
-                        } label: {
-                            Label {
-                                Text("Share chart")
-                            } icon: {
-                                Image(systemName: "square.and.arrow.up")
-                            }
-                        }
-                    }
                 if loading {
                     Color.init(UIColor.secondaryLabel).opacity(0.5)
                         .overlay {
@@ -153,7 +160,7 @@ struct AnalyticsChartView: View {
             }
         }
         .onAppear(perform: {
-            if !loading {
+            if !loading && self.chartData.dataSets.dataPoints.isEmpty {
                 refresh(newTime: self.time)
             }
         })

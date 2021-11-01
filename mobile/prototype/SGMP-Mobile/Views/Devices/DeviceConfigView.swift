@@ -102,16 +102,16 @@ struct DeviceConfigEgaugeView: DeviceConfigViewProtocol {
                         TitleDescCellView(title: "KEY", content: "\(key)")
                     }, expandable: {
 //                        NavigationLink {
-//                            SpecificDeviceKeyView(key: key, deviceName: detail.name)
+//                            
 //                        } label: {
-//                            SpecificDeviceKeyChartSelfLoadView(deviceName: detail.name, key: key, date: (Date(timeIntervalSinceNow: -300), Date()))
-//                                .allowsHitTesting(false)
-//                                .frame(height: 72)
+//                            DeviceFormulaAnalyticsChartView(device: detail, formula: "\(detail.name).\(key)")
 //                        }
+                        DeviceFormulaAnalyticsChartView(device: detail, formula: "\(detail.name).\(key)")
                     }).frame(maxHeight: .infinity)
                 } else {
                     TitleDescCellView(title: "KEY", content: "\(key)")
                 }
+                
             }
         }
     }

@@ -79,13 +79,14 @@ class NetworkManager : BaseManager {
     
     // MARK: - Analytics Timeseries
     func getAnalyticsTimeSeries(houseId : UInt64, startDate: Date, endDate: Date, forumla: String? = nil, analyticsName: String? = nil, interval: Double? = nil, callback: @escaping (([AnalyticsTimeSeriesFrame]?, Error?) -> Void)) -> Void {
+        
         if let profile = Defaults[.userProfile],
             ( (forumla == nil && analyticsName != nil) || (forumla != nil && analyticsName == nil) ) // can only have one in the call
         {
             let parameters = AnalyticsTimeSeriesRequest(start_time: UInt64(startDate.timeIntervalSince1970 * 1000), end_time: UInt64(endDate.timeIntervalSince1970 * 1000), house_id: houseId, fine: false, average: interval, formula: forumla, analytics_name: analyticsName)
             AF.request("\(SgmpHostString)api/data/read", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default, headers: .init(["Authorization": "Bearer \(profile.accessToken)"]))
                 .responseDecodable(of: AnalyticsTimeSeriesResponse.self) { response in
-                    debugPrint(response)
+//                    debugPrint(response)
                     callback(response.value?.data, response.error)
                     self.responsePostHandlerForExpiredToken(response: response)
                 }
