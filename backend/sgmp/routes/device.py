@@ -52,6 +52,7 @@ def device_details():
             'status': 'ok',
             'device': {
                 'device_id': device.device_id,
+                'house_id': device.house_id,
                 'name': device.name,
                 'description': device.description,
                 'type': device.type,
