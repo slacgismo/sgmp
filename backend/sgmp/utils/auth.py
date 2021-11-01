@@ -2,6 +2,8 @@ from functools import wraps
 from flask import json, request, g, jsonify
 import cognitojwt
 
+from models.device import Device
+
 from utils.logging import get_logger
 import utils.config as config
 
@@ -107,3 +109,61 @@ def check_house_access():
             }), 403
         return __check_house_access
     return _check_house_access
+
+def check_house_or_device_access():
+    def _check_house_or_device_access(f):
+        @wraps(f)
+        def __check_house_or_device_access(*args, **kwargs):
+            try:
+                data = request.json
+            except:
+                return jsonify({
+                    'status': 'error',
+                    'message': 'bad request'
+                }), 400
+            
+            if 'admin' in g.user['roles']:
+                return f(*args, **kwargs)
+
+            requested_house_ids = []
+            if 'house_id' in data:
+                requested_house_ids = [int(data['house_id'])]
+            elif 'device_id' in data:
+                # Ensure user has access to all devices
+                if isinstance(data['device_id'], int):
+                    device_ids = [data['device_id']]
+                elif isinstance(data['device_id'], str):
+                    device_ids = [int(data['device_id'])]
+                elif isinstance(data['device_id'], list):
+                    device_ids = data['device_id']
+
+                for device_id in device_ids:
+                    device = Device.query.filter_by(device_id=device_id).first()
+                    if device is None:
+                        logger.warn('User %s attempts to access nonexist device %d' % (g.user['email'], device_id))
+                        return jsonify({
+                            'status': 'error',
+                            'message': 'access denied'
+                        }), 403
+                    
+                    requested_house_ids.append(device.house_id)
+
+            # For each house, check if user has access
+            check_ok = True
+            for requested_house_id in requested_house_ids:
+                if requested_house_id != g.user['house_id']:
+                    check_ok = False
+                    logger.warn('User %s is assigned to house %d but tried to access house %d' % (g.user['email'], g.user['house_id'], requested_house_id))
+
+            if check_ok:
+                return f(*args, **kwargs)
+
+            if config.ENFORCE_AUTHENTICATION == '0':
+                return f(*args, **kwargs)
+
+            return jsonify({
+                'status': 'error',
+                'message': 'access denied'
+            }), 403
+        return __check_house_or_device_access
+    return _check_house_or_device_access
