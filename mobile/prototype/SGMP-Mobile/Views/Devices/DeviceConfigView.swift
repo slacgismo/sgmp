@@ -7,21 +7,6 @@
 
 import SwiftUI
 
-struct DeviceConfigCellView : View {
-    var title : String?
-    var content : String?
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text("\(title ?? "-")")
-                .font(.footnote.smallCaps())
-                .foregroundColor(.init(UIColor.secondaryLabel))
-            Text("\(content ?? "-")")
-                .font(.subheadline.monospaced())
-        }
-    }
-}
-
 protocol DeviceConfigViewProtocol : View {
     var detail : DeviceDetail { get set }
 }
@@ -36,7 +21,7 @@ struct DeviceConfigDefaultView: DeviceConfigViewProtocol {
     
     var body: some View {
         Group {
-            DeviceConfigCellView(title: "Data", content: "Format not supported")
+            TitleDescCellView(title: "Data", content: "Format not supported")
         }
     }
 }
@@ -59,9 +44,9 @@ struct DeviceConfigSonnenView: DeviceConfigViewProtocol {
     
     var body: some View {
         Group {
-            DeviceConfigCellView(title: "IP", content: config?.ip)
-            DeviceConfigCellView(title: "Serial", content: config?.serial)
-            DeviceConfigCellView(title: "Token", content: config?.token)
+            TitleDescCellView(title: "IP", content: config?.ip)
+            TitleDescCellView(title: "Serial", content: config?.serial)
+            TitleDescCellView(title: "Token", content: config?.token)
         }
     }
 }
@@ -85,10 +70,10 @@ struct DeviceConfigPowerflexView: DeviceConfigViewProtocol {
     
     var body: some View {
         Group {
-            DeviceConfigCellView(title: "ID", content: "ACC \(config?.acc_id ?? "-") / ACS \(config?.acs_id ?? "-")")
-            DeviceConfigCellView(title: "Username", content: config?.username)
-            DeviceConfigCellView(title: "Password", content: config?.password)
-            DeviceConfigCellView(title: "URL", content: config?.url)
+            TitleDescCellView(title: "ID", content: "ACC \(config?.acc_id ?? "-") / ACS \(config?.acs_id ?? "-")")
+            TitleDescCellView(title: "Username", content: config?.username)
+            TitleDescCellView(title: "Password", content: config?.password)
+            TitleDescCellView(title: "URL", content: config?.url)
         }
     }
 }
@@ -110,22 +95,22 @@ struct DeviceConfigEgaugeView: DeviceConfigViewProtocol {
     
     var body: some View {
         Group {
-            DeviceConfigCellView(title: "IP", content: config?.ip)
+            TitleDescCellView(title: "IP", content: config?.ip)
             ForEach(config?.keys ?? [], id: \.self) { key in
                 if key.starts(with: "A.") {
                     ExpandableView(title: {
-                        DeviceConfigCellView(title: "KEY", content: "\(key)")
+                        TitleDescCellView(title: "KEY", content: "\(key)")
                     }, expandable: {
-                        NavigationLink {
-                            SpecificDeviceKeyView(key: key, deviceName: detail.name)
-                        } label: {
-                            SpecificDeviceKeyChartSelfLoadView(deviceName: detail.name, key: key, date: (Date(timeIntervalSinceNow: -300), Date()))
-                                .allowsHitTesting(false)
-                                .frame(height: 72)
-                        }
+//                        NavigationLink {
+//                            SpecificDeviceKeyView(key: key, deviceName: detail.name)
+//                        } label: {
+//                            SpecificDeviceKeyChartSelfLoadView(deviceName: detail.name, key: key, date: (Date(timeIntervalSinceNow: -300), Date()))
+//                                .allowsHitTesting(false)
+//                                .frame(height: 72)
+//                        }
                     }).frame(maxHeight: .infinity)
                 } else {
-                    DeviceConfigCellView(title: "KEY", content: "\(key)")
+                    TitleDescCellView(title: "KEY", content: "\(key)")
                 }
             }
         }

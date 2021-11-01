@@ -31,11 +31,11 @@ struct AnalyticsSelectionCell: View {
     
     var body: some View {
         NavigationLink {
-            
+            AnalyticsView(analytics: analytics, houseId: houseId, currentValue: value)
         } label: {
             HStack {
                 VStack(alignment: .center, spacing: 8) {
-                    if showIcon || defaultShowIcon || expanded {
+                    if showIcon || defaultShowIcon {
                         Image(systemName: analytics.sfSymbolName)
                             .font(expanded ? .title : .body)
                             .matchedGeometryEffect(id: "view.icon", in: animation)
@@ -46,7 +46,7 @@ struct AnalyticsSelectionCell: View {
                             .matchedGeometryEffect(id: "view.id", in: animation)
                     }
                 }
-                .frame(width: expanded ? 64 : (showIcon || defaultShowIcon || showId) ? 32 : 0, alignment: .center)
+                .frame(width: (expanded && (showIcon || defaultShowIcon)) ? 64 : (showIcon || defaultShowIcon || showId) ? 32 : 0, alignment: .center)
                 
                 VStack(alignment: .leading) {
                     Text("\(analytics.description)")
@@ -89,9 +89,7 @@ struct AnalyticsSelectionCell: View {
                     } icon: {
                         Image(systemName: "arrow.triangle.2.circlepath")
                     }
-
                 }
-
             }
             .onAppear(perform: {
                 if value == nil && !loading {

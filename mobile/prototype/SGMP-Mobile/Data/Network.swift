@@ -41,7 +41,7 @@ struct AnalyticsTimeSeriesRequest : Codable {
     var end_time : UInt64
     var house_id : UInt64
     var fine : Bool?
-    var average : UInt64?
+    var average : Double?
     var type : String = "analytics"
     var formula : String?
     var analytics_name : String?

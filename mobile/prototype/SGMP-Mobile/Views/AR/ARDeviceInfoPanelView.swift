@@ -14,8 +14,8 @@ struct ARDeviceInfoPanelView: View {
             NavigationView {
                 List {
                     Section {
-                        DeviceConfigCellView(title: "Description", content: "\(deviceDetail.description)")
-                        DeviceConfigCellView(title: "Type", content: "\(deviceDetail.type)")
+                        TitleDescCellView(title: "Description", content: "\(deviceDetail.description)")
+                        TitleDescCellView(title: "Type", content: "\(deviceDetail.type)")
                     } header: {
                         Text("Info")
                     }

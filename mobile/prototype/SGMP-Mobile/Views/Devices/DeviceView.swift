@@ -27,9 +27,9 @@ struct DeviceView: View {
     var body: some View {
         List {
             Section {
-                DeviceConfigCellView(title: "Device ID", content: "\(device.device_id)")
-                DeviceConfigCellView(title: "Description", content: "\(deviceDetail?.description ?? device.description)")
-                DeviceConfigCellView(title: "Type", content: "\(deviceDetail?.type ?? device.type)")
+                TitleDescCellView(title: "Device ID", content: "\(device.device_id)")
+                TitleDescCellView(title: "Description", content: "\(deviceDetail?.description ?? device.description)")
+                TitleDescCellView(title: "Type", content: "\(deviceDetail?.type ?? device.type)")
             } header: {
                 Text("Info")
             }
