@@ -404,7 +404,7 @@ export default {
   computed: {
     selectAll: {
       get: function () {
-        return this.deviceList ? this.deleteChecked.length == this.deviceList.length : false;
+        return this.deviceList.length ? this.deleteChecked.length == this.deviceList.length : false;
       },
       set: function (value) {
         var selected = [];

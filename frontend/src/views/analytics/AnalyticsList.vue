@@ -408,7 +408,7 @@ export default {
   computed: {
     selectAll: {
       get: function () {
-        return this.analytics ? this.deleteChecked.length == this.analytics.length : false;
+        return this.analytics.length ? this.deleteChecked.length == this.analytics.length : false;
       },
       set: function (value) {
         var selected = [];
