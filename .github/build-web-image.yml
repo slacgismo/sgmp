@@ -1,0 +1,13 @@
+name: build-web-image
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Print packer version
+        uses: hashicorp/packer-github-actions@master
+        with:
+          command: version
+
