@@ -40,6 +40,31 @@ def analytics_list():
     
     return jsonify({'status': 'ok', 'analytics': ret})
 
+@api_analytics.route('/details', methods=['POST'])
+@require_auth()
+@check_house_access()
+def analytics_details():
+    # Read all analytics from database
+    data = request.json
+    if 'house_id' not in data:
+        return err_json('bad request')
+    if 'name' not in data:
+        return err_json('bad request')
+
+    row = Analytics.query.filter_by(house_id=data['house_id'], name=data['name']).first()
+    if row is None:
+        return err_json('analytics not found')
+
+    ret = {
+        'analytics_id': row.analytics_id,
+        'name': row.name,
+        'description': row.description,
+        'formula': row.formula,
+        'continuous_aggregation': row.continuous_aggregation
+    }
+    
+    return jsonify({'status': 'ok', 'analytics': ret})
+
 @api_analytics.route('/create', methods=['POST'])
 @require_auth('admin')
 @check_house_access()
