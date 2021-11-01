@@ -1,3 +1,4 @@
+from os import stat
 from flask import Blueprint, jsonify, request, g
 import random
 import string
@@ -251,6 +252,7 @@ def user_login():
     response = ''
     house_id = ''
     house_description = ''
+    refresh_token = ''
     try:
         client = get_boto3_client('cognito-idp')
         response = client.initiate_auth(
@@ -265,6 +267,7 @@ def user_login():
         # get access token
         if 'AuthenticationResult' in response:
             access_token = response['AuthenticationResult']['IdToken']
+            refresh_token = response['AuthenticationResult']['RefreshToken']
         else:
             return err_json('failed to login')
         
@@ -284,7 +287,36 @@ def user_login():
         'accesstoken': access_token,
         'profile': profile,
         'house_id': house_id,
-        'house_description': house_description
+        'house_description': house_description,
+        'refresh_token': refresh_token
+    })
+
+# refresh the token
+@api_user.route('/refreshToken', methods=['POST'])
+def user_refresh_token ():
+    refresh_token = request.json.get('refresh_token')
+    status = 'ok'
+    if refresh_token is None:
+        return err_json('failed to refresh (no valid token')
+    try:
+        client = get_boto3_client('cognito-idp')
+        response = client.initiate_auth(
+            AuthFlow='REFRESH_TOKEN',
+            AuthParameters={
+                'REFRESH_TOKEN': refresh_token
+            },
+            ClientId=config.COGNITO_APP_CLIENT_ID,
+        )
+        if 'AuthenticationResult' in response:
+            access_token = response['AuthenticationResult']['IdToken']
+        else:
+            return err_json('failed to refresh')
+    except Exception as e:
+        status = str(e)
+    print("here!")
+    return jsonify({
+        'status': status,
+        'accesstoken': access_token
     })
 
 # change the user's password
@@ -348,15 +380,40 @@ def user_update():
 @require_auth('admin')
 def user_delete():
     # Delete the user
-    email = request.json.get('email')
-    if email is None:
+    email_list = request.json.get('user_list')
+    if email_list is None or len(email_list) == 0:
         return err_json('invalid request')
     client = get_boto3_client('cognito-idp')
-    client.admin_delete_user(
-        UserPoolId=config.COGNITO_USER_POOL_ID,
-        Username=email
-    )
+    status = 'ok'
+    try:
+        for email in email_list:
+            client.admin_delete_user(
+                UserPoolId=config.COGNITO_USER_POOL_ID,
+                Username=email
+            )
+    except Exception as e:
+        status = str(e)
 
     return jsonify({
-        'status': 'ok'
+        'status': status
     })
+
+# # forgot password
+# @api_user.route('/forgotPassword', methods=['POST'])
+# def user_forgotPassword():
+#     email = request.json.get('email')
+#     status = 'ok'
+#     if email is None:
+#         return err_json('invalid request')
+#     client = get_boto3_client('cognito-idp')
+#     try:
+#         response = client.forgot_password(
+#             ClientId=config.COGNITO_APP_CLIENT_ID,
+#             Username=email
+#         )
+#     except Exception as e:
+#         status = str(e)
+#     print(response)
+#     return jsonify({
+#         'status': status
+#     })
