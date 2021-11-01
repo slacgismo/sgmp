@@ -212,27 +212,38 @@ def analytics_delete():
         return err_json('bad request')
     
     house_id = int(data['house_id'])
-    name = data['name']
+
+    # Support for multiple deletion
+    if isinstance(data['name'], str):
+        names = [data['name']]
+    elif isinstance(data['name'], list):
+        names = data['name']
+    else:
+        return err_json('bad request')
 
     # Check the analytics object exists
-    row = Analytics.query.filter_by(house_id=house_id, name=name).first()
-    if row is None:
-        return err_json('analytics not found')
+    for name in names:
+        row = Analytics.query.filter_by(house_id=house_id, name=name).first()
+        if row is None:
+            return err_json('analytics %s not found' % name)
 
     # Collect identifiers and attempt to remove them
-    if row.continuous_aggregation:
-        engine = AnalyticsEngine()
-        try:
-            engine.parse_expression(row.formula)
-        except Exception as e:
-            return err_json('could not parse formula: %s' % e)
-        idents = engine.collect_identifiers()
-        for ident in idents:
-            _delete_continuous_aggregation(house_id, ident, row.analytics_id)
+    for name in names:
+        if row.continuous_aggregation:
+            engine = AnalyticsEngine()
+            try:
+                engine.parse_expression(row.formula)
+            except Exception as e:
+                return err_json('could not parse formula: %s' % e)
+            idents = engine.collect_identifiers()
+            for ident in idents:
+                _delete_continuous_aggregation(house_id, ident, row.analytics_id)
 
     # Delete data from database
-    db.session.delete(row)
-    db.session.commit()
+    for name in names:
+        row = Analytics.query.filter_by(house_id=house_id, name=name).first()
+        db.session.delete(row)
+        db.session.commit()
 
     return jsonify({'status': 'ok'})
 
