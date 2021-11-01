@@ -47,7 +47,6 @@ struct AnalyticsSelectionCell: View {
                     }
                 }
                 .frame(width: expanded ? 64 : (showIcon || defaultShowIcon || showId) ? 32 : 0, alignment: .center)
-                .padding(.vertical, expanded ? 16 : 0)
                 
                 VStack(alignment: .leading) {
                     Text("\(analytics.description)")
@@ -61,6 +60,8 @@ struct AnalyticsSelectionCell: View {
                             .matchedGeometryEffect(id: "view.value", in: animation)
                     }
                 }
+                .padding(.vertical, expanded ? 8 : 0)
+                
                 Spacer()
                 if loading {
                     ProgressView()
@@ -79,7 +80,7 @@ struct AnalyticsSelectionCell: View {
                 } icon: {
                     Image(systemName: analytics.sfSymbolName)
                 }
-                Spacer()
+                Divider()
                 Button {
                     refresh()
                 } label: {

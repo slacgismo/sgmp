@@ -18,11 +18,7 @@ struct ARGridView: View {
                 ARGridViewControllerRepresentable()
                     .ignoresSafeArea()
                 ZStack {
-                    if debugMode {
-                        ARDebugPanelView()
-                    } else {
-                        ARDeviceInfoPanelView()
-                    }
+                    ARDeviceInfoPanelView()
                 }
                 .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 8))
                 .frame(maxWidth: proxy.size.width * 1.0, maxHeight: proxy.size.height * 0.55, alignment: .bottom)

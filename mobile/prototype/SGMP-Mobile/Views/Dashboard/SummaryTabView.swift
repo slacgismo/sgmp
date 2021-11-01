@@ -19,6 +19,7 @@ enum SummaryTabPresentView : String, Identifiable
 }
 
 struct SummaryTabView: View {
+    @Namespace private var animation
     @EnvironmentObject var env : Env
     @Default(.expandRowsInDashboard) var expandRowsInDashboard
     @State var refreshDate : Date = Date()

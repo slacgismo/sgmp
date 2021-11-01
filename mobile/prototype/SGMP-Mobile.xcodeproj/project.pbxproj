@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0D079C94271F8BB0006D50D3 /* ListHouseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D079C93271F8BB0006D50D3 /* ListHouseView.swift */; };
-		0D079C96271F9067006D50D3 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D079C95271F9067006D50D3 /* DataManager.swift */; };
 		0D079C99271F9893006D50D3 /* SummaryMetricCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D079C98271F9893006D50D3 /* SummaryMetricCardView.swift */; };
 		0D0D54C6270F8CB700C50FDA /* Image+Crop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0D54C5270F8CB700C50FDA /* Image+Crop.swift */; };
 		0D20B25B270E436400786A05 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 0D20B25A270E436400786A05 /* Kingfisher */; };
@@ -26,7 +25,6 @@
 		0D5543A4270D5C5B009A9B87 /* AR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5543A3270D5C5B009A9B87 /* AR.swift */; };
 		0D5E22AF26FEF427002B0A4B /* AboutAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5E22AE26FEF427002B0A4B /* AboutAppView.swift */; };
 		0D5F56EB272749350029A53B /* ChooseHouseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F56EA272749350029A53B /* ChooseHouseView.swift */; };
-		0D5F56F02727DF780029A53B /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F56EF2727DF780029A53B /* UserManager.swift */; };
 		0D5F56F32727E3170029A53B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F56F22727E3170029A53B /* User.swift */; };
 		0D5F56F6272B99560029A53B /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0D5F56F5272B99560029A53B /* Alamofire */; };
 		0D5F56F8272B99850029A53B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F56F7272B99850029A53B /* NetworkManager.swift */; };
@@ -41,6 +39,8 @@
 		0D5F570E272CDE540029A53B /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F570D272CDE540029A53B /* Device.swift */; };
 		0D5F5710272CE5C20029A53B /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F570F272CE5C20029A53B /* Analytics.swift */; };
 		0D5F79E526FB2D660013AAB1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F79E426FB2D660013AAB1 /* Main.storyboard */; };
+		0D6070B4272F8D96003874BF /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6070B3272F8D96003874BF /* SessionManager.swift */; };
+		0D6070B7272F8F3D003874BF /* EnvVariableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6070B6272F8F3D003874BF /* EnvVariableView.swift */; };
 		0D6E5B8E270D55AE00576AA4 /* ARDebugPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6E5B8D270D55AE00576AA4 /* ARDebugPanelView.swift */; };
 		0D6E5B90270D572D00576AA4 /* ARGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6E5B8F270D572D00576AA4 /* ARGridView.swift */; };
 		0D73893F26FA97CF000C43A6 /* ARInteractiveViewNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D73893E26FA97CF000C43A6 /* ARInteractiveViewNode.swift */; };
@@ -74,7 +74,6 @@
 
 /* Begin PBXFileReference section */
 		0D079C93271F8BB0006D50D3 /* ListHouseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListHouseView.swift; sourceTree = "<group>"; };
-		0D079C95271F9067006D50D3 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		0D079C98271F9893006D50D3 /* SummaryMetricCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryMetricCardView.swift; sourceTree = "<group>"; };
 		0D0D54C5270F8CB700C50FDA /* Image+Crop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Crop.swift"; sourceTree = "<group>"; };
 		0D20B25F270E479300786A05 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
@@ -91,7 +90,6 @@
 		0D5543A3270D5C5B009A9B87 /* AR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AR.swift; sourceTree = "<group>"; };
 		0D5E22AE26FEF427002B0A4B /* AboutAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppView.swift; sourceTree = "<group>"; };
 		0D5F56EA272749350029A53B /* ChooseHouseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseHouseView.swift; sourceTree = "<group>"; };
-		0D5F56EF2727DF780029A53B /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserManager.swift; path = Network/UserManager.swift; sourceTree = "<group>"; };
 		0D5F56F22727E3170029A53B /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		0D5F56F7272B99850029A53B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		0D5F56FC272BAE270029A53B /* DeviceSelectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceSelectionCell.swift; sourceTree = "<group>"; };
@@ -106,6 +104,8 @@
 		0D5F79E426FB2D660013AAB1 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		0D5F79E626FB2DCA0013AAB1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		0D5F7A0726FB33380013AAB1 /* SGMP-Mobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SGMP-Mobile.entitlements"; sourceTree = "<group>"; };
+		0D6070B3272F8D96003874BF /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		0D6070B6272F8F3D003874BF /* EnvVariableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvVariableView.swift; sourceTree = "<group>"; };
 		0D6E5B8D270D55AE00576AA4 /* ARDebugPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARDebugPanelView.swift; sourceTree = "<group>"; };
 		0D6E5B8F270D572D00576AA4 /* ARGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARGridView.swift; sourceTree = "<group>"; };
 		0D73893E26FA97CF000C43A6 /* ARInteractiveViewNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARInteractiveViewNode.swift; sourceTree = "<group>"; };
@@ -155,7 +155,6 @@
 		0D079C97271F906B006D50D3 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				0D079C95271F9067006D50D3 /* DataManager.swift */,
 				0D5F56F7272B99850029A53B /* NetworkManager.swift */,
 			);
 			path = Network;
@@ -250,6 +249,16 @@
 			path = Analytics;
 			sourceTree = "<group>";
 		};
+		0D6070B5272F8F2A003874BF /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				0D5E22AE26FEF427002B0A4B /* AboutAppView.swift */,
+				0D6070B6272F8F3D003874BF /* EnvVariableView.swift */,
+				0DE2E7C426F8625C00932B41 /* SettingsTabView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		0D73894026FA9827000C43A6 /* Touch */ = {
 			isa = PBXGroup;
 			children = (
@@ -282,8 +291,7 @@
 				0D5F570A272CD9350029A53B /* Analytics */,
 				0D5F56ED2727493F0029A53B /* Devices */,
 				0DE2E7C226F8625600932B41 /* CameraTabView.swift */,
-				0DE2E7C426F8625C00932B41 /* SettingsTabView.swift */,
-				0D5E22AE26FEF427002B0A4B /* AboutAppView.swift */,
+				0D6070B5272F8F2A003874BF /* Settings */,
 				0D73894726FAA72E000C43A6 /* Decorations */,
 				0DE2E7C626F99B0500932B41 /* AR */,
 			);
@@ -301,10 +309,10 @@
 		0DE2E79D26F85C9C00932B41 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
-				0DE2E7BC26F8601200932B41 /* EnvironmentManager.swift */,
-				0D5F56EF2727DF780029A53B /* UserManager.swift */,
 				0DE2E79B26F85C9A00932B41 /* BaseManager.swift */,
+				0DE2E7BC26F8601200932B41 /* EnvironmentManager.swift */,
 				0D20B25F270E479300786A05 /* EventManager.swift */,
+				0D6070B3272F8D96003874BF /* SessionManager.swift */,
 				0D079C97271F906B006D50D3 /* Network */,
 			);
 			path = Manager;
@@ -465,7 +473,6 @@
 				0D0D54C6270F8CB700C50FDA /* Image+Crop.swift in Sources */,
 				0D079C99271F9893006D50D3 /* SummaryMetricCardView.swift in Sources */,
 				0D5F56F8272B99850029A53B /* NetworkManager.swift in Sources */,
-				0D5F56F02727DF780029A53B /* UserManager.swift in Sources */,
 				0D5081012718FDEA00EE0A4F /* ListDeviceView.swift in Sources */,
 				0D6E5B8E270D55AE00576AA4 /* ARDebugPanelView.swift in Sources */,
 				0DE2E7C526F8625C00932B41 /* SettingsTabView.swift in Sources */,
@@ -486,6 +493,7 @@
 				0DE2E7AB26F85DA100932B41 /* Bundle+Version.swift in Sources */,
 				0D6E5B90270D572D00576AA4 /* ARGridView.swift in Sources */,
 				0D50810327191F8B00EE0A4F /* DeviceView.swift in Sources */,
+				0D6070B7272F8F3D003874BF /* EnvVariableView.swift in Sources */,
 				0D5081092719569F00EE0A4F /* SpecificDeviceKeyView.swift in Sources */,
 				0DE1F784270FC30A00714744 /* ARInteractiveViewNode+QR.swift in Sources */,
 				0D7C332A26FDA76100B219E7 /* Button+Style.swift in Sources */,
@@ -495,10 +503,10 @@
 				0D73893F26FA97CF000C43A6 /* ARInteractiveViewNode.swift in Sources */,
 				0D5F5710272CE5C20029A53B /* Analytics.swift in Sources */,
 				0D5E22AF26FEF427002B0A4B /* AboutAppView.swift in Sources */,
-				0D079C96271F9067006D50D3 /* DataManager.swift in Sources */,
 				0D5F56FF272BB7120029A53B /* Codable+Dict.swift in Sources */,
 				0DE1F7922710300C00714744 /* UIViewController+Child.swift in Sources */,
 				0DE2E7B026F85DA100932B41 /* Class+Runtime.swift in Sources */,
+				0D6070B4272F8D96003874BF /* SessionManager.swift in Sources */,
 				0D73894626FAA72B000C43A6 /* ToastView.swift in Sources */,
 				0D5F570C272CDC4E0029A53B /* AnalyticsSelectionCell.swift in Sources */,
 				0D51EE0E26F27EDF00BCAAB3 /* SgmpApp.swift in Sources */,
@@ -633,12 +641,13 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "SGMP-Mobile/SGMP-Mobile.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "\"SGMP-Mobile/Preview Content\"";
 				DEVELOPMENT_TEAM = 9QJ8M25J77;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SGMP-Mobile/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = SGMP;
 				INFOPLIST_KEY_NSCameraUsageDescription = "For showing AR layers";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -669,12 +678,13 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "SGMP-Mobile/SGMP-Mobile.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "\"SGMP-Mobile/Preview Content\"";
 				DEVELOPMENT_TEAM = 9QJ8M25J77;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SGMP-Mobile/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = SGMP;
 				INFOPLIST_KEY_NSCameraUsageDescription = "For showing AR layers";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

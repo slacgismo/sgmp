@@ -45,8 +45,16 @@ struct SettingsTabView: View {
                     }
                     .padding(.vertical)
                     
+                    if debugMode {
+                        Button {
+                            SessionManager.shared.refreshToken()
+                        } label: {
+                            Text("Refresh Token")
+                        }
+                    }
+                    
                     Button {
-                        userProfile = nil
+                        SessionManager.shared.logout()
                     } label: {
                         Text("Logout")
                     }
@@ -70,24 +78,15 @@ struct SettingsTabView: View {
                 }
                 
                 if debugMode {
-                    Text("SGMP \(Bundle.main.versionString ?? "NULL") (\(Bundle.main.buildString ?? "NULL"))")
-                        .font(.caption.monospaced())
-                        .textSelection(.enabled)
-                    Text("Model \(UIDevice.current.model) (\(UIDevice.current.name))")
-                        .font(.caption.monospaced())
-                        .textSelection(.enabled)
-                    Text("System \(UIDevice.current.systemName) \(UIDevice.current.systemVersion)")
-                        .font(.caption.monospaced())
-                        .textSelection(.enabled)
-                    Text("Token \(userProfile?.accessToken ?? "-")")
-                        .font(.caption.monospaced())
-                        .textSelection(.enabled)
+                    NavigationLink("Debug Variables", destination: EnvVariableView())
                 }
             } header: {
-                Text("Debug Info")
+                Text("Extras")
             }
 
-        }.navigationTitle("Settings")
+        }
+        .animation(.easeInOut)
+        .navigationTitle("Settings")
     }
 }
 

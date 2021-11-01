@@ -35,11 +35,6 @@ class Env: ObservableObject {
     var cancellableSet : Set<AnyCancellable> = Set()
     
     init() {
-        Defaults.observe(.userProfile) { change in
-            DispatchQueue.main.async {
-                self.loginRequired = change.newValue == nil
-            }
-        }.tieToLifetime(of: self)
         
         self.$currentDashboardHouse.sink { house in
             DispatchQueue.main.async {

@@ -80,26 +80,3 @@ struct AnalyticsAggregatedResponse : Codable {
     var status : String
     var value : Double?
 }
-
-// MARK: - User
-struct ProfileResponse : Codable {
-    var email : String
-    var name : String
-    var roles : [String]
-    var houseId : UInt64
-}
-
-struct UserLoginRequest : Codable {
-    var email : String
-    var password : String
-
-}
-
-struct UserLoginResponse : Codable {
-    var status : String
-    var message : String?
-    var accesstoken : String?
-    var profile : ProfileResponse?
-    var houseId : UInt64?
-    var houseDescription : String?
-}

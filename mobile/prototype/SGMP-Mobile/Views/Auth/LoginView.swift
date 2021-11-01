@@ -26,15 +26,17 @@ struct LoginView: View {
             return
         }
         networking = true
-        UserManager.shared.login(email: email, password: password) { response, err in
+        NetworkManager.shared.login(email: email, password: password) { response, err in
             if let err = err {
                 errorMsg = "\(err)"
             } else if let response = response {
                 if let message = response.message, response.status != "ok" {
                     errorMsg = "\(message)"
                 }
-                else if let profile = response.profile, let token = response.accesstoken {
-                    Defaults[.userProfile] = .init(profileResponse: profile, token: token)
+                else if let profile = response.profile,
+                        let refreshToken = response.refresh_token,
+                        let accessToken = response.accesstoken {
+                    Defaults[.userProfile] = .init(profileResponse: profile, accessToken: accessToken, refreshToken: refreshToken)
                 }
             }
             networking = false
