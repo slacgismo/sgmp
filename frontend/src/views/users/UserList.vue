@@ -24,7 +24,7 @@
 
   <div class="p-4 mt-8 sm:px-8 sm:py-4">
     <div class="p-4 bg-white rounded">
-      <div class="flex justify-between">
+      <div class="p-1 flex justify-between">
         <div class="relative text-gray-400">
           <span class="absolute inset-y-0 left-0 flex items-center pl-2">
             <svg
@@ -61,147 +61,81 @@
             placeholder="Search user"
           />
         </div>
-        <div>
-          <Menu as="div" class="relative inline-block text-left">
-            <div>
-              <MenuButton
-                class="
-                  inline-flex
-                  justify-center
-                  w-28
-                  px-4
-                  py-2
-                  text-sm
-                  font-medium
-                  text-white
-                  rounded-md
-                  bg-gray-400
-                  hover:bg-gray-300
-                  focus:outline-none
-                  focus-visible:ring-2
-                  focus-visible:ring-white
-                  focus-visible:ring-opacity-75
-                "
-              >
-                Actions
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="
-                    w-5
-                    h-5
-                    ml-2
-                    -mr-1
-                    text-violet-200
-                    hover:text-violet-100
-                  "
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </MenuButton>
-            </div>
 
-            <transition
-              enter-active-class="transition duration-100 ease-out"
-              enter-from-class="transform scale-95 opacity-0"
-              enter-to-class="transform scale-100 opacity-100"
-              leave-active-class="transition duration-75 ease-in"
-              leave-from-class="transform scale-100 opacity-100"
-              leave-to-class="transform scale-95 opacity-0"
+        <div class="flex gap-4">
+          <div v-if="selected.length > 0 || selectAll">
+            <button
+              class="
+                w-24
+                px-2
+                py-2
+                text-sm text-white
+                rounded-md
+                bg-red-900
+                hover:bg-red-800
+                group
+                flex
+                items-center
+              "
+              @click="TogglePopup()"
             >
-              <MenuItems
-                class="
-                  absolute
-                  right-0
-                  w-28
-                  mt-1
-                  origin-top-right
-                  bg-white
-                  divide-y divide-gray-100
-                  rounded-md
-                  shadow-lg
-                  ring-1 ring-black ring-opacity-5
-                  z-50
-                  focus:outline-none
-                "
-              >
-                <div class="px-1 py-1">
-                  <MenuItem v-slot="{ active }">
-                    <router-link v-slot="{ navigate }" :to="{ name: 'createuser' }">
-                      <button
-                        @click="navigate"
-                        :class="[
-                          active ? 'bg-gray-400 text-white' : 'text-gray-900',
-                          'group flex rounded-md items-center w-full px-2 py-2 text-sm',
-                        ]"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="w-5 h-5 mr-2"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                          />
-                        </svg>
-                        Create
-                      </button>
-                    </router-link>
-                  </MenuItem>
-                  <MenuItem v-slot="{ active }">
-                    <button
-                      :class="[
-                        active ? 'bg-red-800 text-white' : 'text-gray-900',
-                        'group flex rounded-md items-center w-full px-2 py-2 text-sm',
-                      ]"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="w-5 h-5 mr-2 text-violet-400"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                        />
-                      </svg>
-                      Delete
-                    </button>
-                  </MenuItem>
-                </div>
-              </MenuItems>
-            </transition>
-          </Menu>
-          <!-- <div>
-            <button class="flex items-center bg-red-900 p-2 text-white rounded text-sm pr-3 hover:bg-red-800">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6 mr-1"
+                class="w-5 h-5 mr-2 text-violet-400"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                />
               </svg>
-              Add User
+              Delete
             </button>
-          </div> -->
+            <popup
+              :title="getConfirmMsg()"
+              :request="getDeleteRequest()"
+              v-if="popupTriggers"
+              :TogglePopup="() => TogglePopup()"
+            />
+          </div>
+
+          <router-link v-slot="{ navigate }" :to="{ name: 'createuser' }">
+            <button
+              @click="navigate"
+              class="
+                w-24
+                px-2
+                py-2
+                text-sm text-white
+                rounded-md
+                bg-gray-400
+                hover:bg-gray-300
+                group
+                flex
+                items-center
+              "
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                />
+              </svg>
+              Create
+            </button>
+          </router-link>
         </div>
       </div>
       <table class="w-full mt-2 text-gray-500">
@@ -233,6 +167,8 @@
             <td class="p-2">
               <input
                 type="checkbox"
+                :value="user.email"
+                v-model="selected"
                 class="
                   h-5
                   w-5
@@ -390,6 +326,7 @@
 <script>
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
 import { ref } from "vue";
+import Popup from "@/components/popup/ConfirmationPopup.vue";
 import httpReq from "@/util/requestOptions";
 import constants from "@/util/constants";
 
@@ -399,10 +336,24 @@ export default {
     MenuButton,
     MenuItems,
     MenuItem,
+    Popup,
   },
   data() {
     return {
       userList: [],
+      selected: [],
+    };
+  },
+  setup() {
+    const selectAll = ref(false);
+    const popupTriggers = ref(false);
+    const TogglePopup = () => {
+      popupTriggers.value = !popupTriggers.value;
+    };
+    return {
+      selectAll,
+      popupTriggers,
+      TogglePopup,
     };
   },
   mounted() {
@@ -428,13 +379,6 @@ export default {
         console.error(error);
       });
   },
-
-  setup() {
-    const selectAll = ref(false);
-    return {
-      selectAll,
-    };
-  },
   methods: {
     formatDate(timestamp) {
       const options = {
@@ -442,7 +386,6 @@ export default {
         month: "short",
         day: "numeric",
       };
-
       return `${new Date(timestamp).toLocaleDateString("en", options)}`;
     },
     formatDays(timestamp) {
@@ -451,13 +394,25 @@ export default {
       if (days >= 0) return `${days} days ago`;
       else return "-";
     },
-
     getAvatar(name) {
       if (!name) {
         name = "";
       }
       return `https://ui-avatars.com/api/?name=` + name + `&background=random`;
     },
+    getConfirmMsg() {
+      if (this.selectAll && this.selected.length != this.userList.length) {
+        this.selected = [];
+        for(let i = 0; i < this.userList.length; i++) {
+          this.selected.push(this.userList[i].email);
+        }
+      }
+      return "Are you sure to delete\n" + 
+        this.selected.join("\n") + "?";
+    },
+    getDeleteRequest() {
+      return {"email": this.selected.toString()};
+    }
   },
 };
 </script>
