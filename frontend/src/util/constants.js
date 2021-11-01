@@ -24,6 +24,7 @@ export default Object.freeze({
         Voltage1: "l1_voltage",
         Voltage2: "l2_voltage"
     }),
+    deviceTypes: Object.freeze(['sonnen', 'egauge', 'powerflex']),
     sources: Object.freeze({ Battery: "sonnen" }),
     chartTypes: Object.freeze({ Column: "column", Line: "line", Donut: "donut" })
 })

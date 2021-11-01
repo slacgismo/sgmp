@@ -7,7 +7,7 @@
       <svg xmlns="http://www.w3.org/2000/svg" class="h-2 w-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
       </svg>
-      <span class="text-gray-600">Devices</span>
+      <span class="text-gray-600">Analytics</span>
     </div>
   </div>
 
@@ -44,7 +44,7 @@
               border border-gray-300
               focus:outline-none focus:ring-gray-500 focus:ring-gray-500 focus:z-10
             "
-            placeholder="Search device"
+            placeholder="Search analytics item"
           />
         </div>
         <div>
@@ -106,7 +106,7 @@
               >
                 <div class="px-1 py-1">
                   <MenuItem v-slot="{ active }">
-                    <router-link v-slot="{ navigate }" :to="{ name: 'createdevice' }">
+                    <router-link v-slot="{ navigate }" :to="{ name: 'createanalytics' }">
                       <button
                         @click="navigate"
                         :class="[
@@ -174,41 +174,44 @@
               />
             </th>
             <th class="text-left text-gray-600">Name</th>
-            <th class="text-left text-gray-600">Type</th>
             <th class="text-left text-gray-600">Description</th>
+            <th class="text-left text-gray-600">Formula</th>
+            <th class="text-left text-gray-600">Aggregation</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
-          <tr v-for="device in deviceList" :key="device.device_id">
+          <tr v-for="item in analytics" :key="item.name">
             <td class="p-2">
               <input
                 type="checkbox"
                 class="h-5 w-5 text-blue-500 border-gray-300 rounded cursor-pointer focus:ring-0"
-                :value="device.device_id"
+                :value="item.name"
                 v-model="deleteChecked"
               />
             </td>
-            <td><router-link :to="{ name: 'updatedevice', params: { id: device.device_id } }">{{ device.name }}</router-link></td>
-            <td>{{ device.type }}</td>
-            <td>{{ device.description }}</td>
+            <td><router-link :to="{ name: 'updateanalytics', params: { name: item.name } }">{{ item.name }}</router-link></td>
+            <td>{{ item.description }}</td>
+            <td class="font-mono">{{ item.formula }}</td>
+            <td v-if="item.continuous_aggregation">Enabled</td>
+            <td v-else>Disabled</td>
           </tr>
-          <tr v-show="deviceList.length === 0 && !deviceListLoading">
-            <td colspan="4" class="p-2">No device.</td>
+          <tr v-show="analytics.length === 0 && !listLoading">
+            <td colspan="5" class="p-2">No analytics item.</td>
           </tr>
-          <tr v-show="deviceListLoading">
-            <td colspan="4" class="py-4"><loading /></td>
+          <tr v-show="listLoading">
+            <td colspan="5" class="py-4"><loading /></td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="4" class="py-2">
+            <td colspan="5" class="py-2">
               <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
                 <div>
                   <p class="text-sm text-gray-500">
                     Page
                     <span class="font-medium underline">1</span>
                     of
-                    <span class="font-medium">{{ this.deviceList.length }}</span>
+                    <span class="font-medium">{{ this.analytics.length }}</span>
                   </p>
                 </div>
                 <div>
@@ -292,15 +295,18 @@
       </table>
     </div>
   </div>
-  <generic-popup v-show="showDeleteConfirm" popup-title="Delete Devices" :togglePopup="() => confirmDelete()" :yesAction="() => performDelete()" :showNo="true" :showYes="true">
-    Are you sure to delete the following devices?
-    <br /><pre v-for="id in deleteChecked" :key="id">{{ deviceIdNameMap[id] }}</pre>
+  <generic-popup v-show="showDeleteConfirm" popup-title="Delete Analytics" :togglePopup="() => confirmDelete()" :yesAction="() => performDelete()" :showNo="true" :showYes="true">
+    Are you sure to delete the following analytics items?
+    <br /><pre v-for="id in deleteChecked" :key="id">{{ id }}</pre>
+  </generic-popup>
+
+  <generic-popup v-show="showLoadingPopup">
+      <loading />
   </generic-popup>
 </template>
 
 <script>
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
-import { ref } from 'vue';
 import httpReq from "@/util/requestOptions";
 import constants from "@/util/constants";
 import Loading from "@/components/Loading.vue";
@@ -319,23 +325,23 @@ export default {
   },
   data() {
     return {
-      deviceList: [],
+      analytics: [],
       deleteChecked: [],
-      deviceIdNameMap: {},
-      deviceListLoading: true,
+      listLoading: true,
       showDeleteConfirm: false,
+      showLoadingPopup: false
     }
   },
   mounted() {
-    this.loadDevices();
+    this.loadAnalytics();
   },
   setup() {
   },
   methods: {
-    loadDevices: function () {
+    loadAnalytics: function () {
       // Fetch data for the device list
       fetch(
-          constants.server + "/api/device/list", // endpoint
+          constants.server + "/api/analytics/list", // endpoint
           httpReq.post({ house_id: localStorage.getItem("house_id") }) // requestOptions
         )
         .then(async response => {
@@ -347,13 +353,8 @@ export default {
             const error = (data && data.message) || response.status;
             return Promise.reject(error);
           }
-          this.deviceIdNameMap = {};
-          this.deviceList = data.devices;
-          this.deviceListLoading = false;
-
-          for (const device of data.devices) {
-            this.deviceIdNameMap[device.device_id] = device.name;
-          }
+          this.analytics = data.analytics;
+          this.listLoading = false;
         })
         .catch(error => {
           this.errorMessage = error;
@@ -368,11 +369,13 @@ export default {
       if (this.deleteChecked.length > 0) this.showDeleteConfirm = true;
     },
     performDelete: function() {
+      this.showLoadingPopup = true;
+
       let promises = [];
       for (const id of this.deleteChecked) {
         promises.push(fetch(
-            constants.server + "/api/device/delete", // endpoint
-            httpReq.post({ device_id: id }) // requestOptions
+            constants.server + "/api/analytics/delete", // endpoint
+            httpReq.post({ house_id: localStorage.getItem('house_id'), name: id }) // requestOptions
           )
           .then(async response => {
             const data = await response.json();
@@ -388,12 +391,13 @@ export default {
 
       Promise.all(promises).then(() => {
         alert('Deletion complete.');
+        this.showLoadingPopup = false;
         this.showDeleteConfirm = false;
         this.deviceIdNameMap = {};
         this.deviceList = {};
         this.deviceListLoading = true;
 
-        this.loadDevices();
+        this.loadAnalytics();
       })
       .catch(error => {
         this.errorMessage = error;
@@ -404,14 +408,14 @@ export default {
   computed: {
     selectAll: {
       get: function () {
-        return this.deviceList ? this.deleteChecked.length == this.deviceList.length : false;
+        return this.analytics ? this.deleteChecked.length == this.analytics.length : false;
       },
       set: function (value) {
         var selected = [];
 
         if (value) {
-          this.deviceList.forEach(function (device) {
-            selected.push(device.device_id);
+          this.analytics.forEach(function(item) {
+            selected.push(item.name);
           });
         }
 

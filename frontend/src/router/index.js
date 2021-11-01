@@ -44,6 +44,36 @@ const routes = [
         meta: { auth: [constants.roles.Admin] }
       },
       {
+        path: '/devices/create',
+        name: 'createdevice',
+        component: () => import('@/views/devices/CreateDevice.vue'),
+        meta: { auth: [constants.roles.Admin] }
+      },
+      {
+        path: '/devices/update/:id',
+        name: 'updatedevice',
+        component: () => import('@/views/devices/UpdateDevice.vue'),
+        meta: { auth: [constants.roles.Admin] }
+      },
+      {
+        path: '/analytics',
+        name: 'analytics',
+        component: () => import('@/views/analytics/AnalyticsList.vue'),
+        meta: { auth: [constants.roles.Admin] }
+      },
+      {
+        path: '/analytics/create',
+        name: 'createanalytics',
+        component: () => import('@/views/analytics/CreateAnalytics.vue'),
+        meta: { auth: [constants.roles.Admin] }
+      },
+      {
+        path: '/analytics/update/:name',
+        name: 'updateanalytics',
+        component: () => import('@/views/analytics/UpdateAnalytics.vue'),
+        meta: { auth: [constants.roles.Admin] }
+      },
+      {
         path: '/users',
         name: 'users',
         component: () => import('@/views/users/UserList.vue'),
