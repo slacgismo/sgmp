@@ -120,7 +120,6 @@ Sample request:
 }
 ```
 
-```
 ### `/api/user/changePassword`
 
 Change user's  password (Only admin)
