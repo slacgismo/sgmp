@@ -304,7 +304,7 @@ import { ref } from 'vue';
 import httpReq from "@/util/requestOptions";
 import constants from "@/util/constants";
 import Loading from "@/components/Loading.vue";
-import GenericPopup from "@/components/GenericPopup.vue";
+import GenericPopup from "@/components/popup/GenericPopup.vue";
 
 export default {
   components: {

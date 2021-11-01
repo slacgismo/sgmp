@@ -167,7 +167,7 @@
 <script>
 import httpReq from "@/util/requestOptions";
 import constants from "@/util/constants";
-import GenericPopup from '@/components/GenericPopup.vue';
+import GenericPopup from '@/components/popup/GenericPopup.vue';
 import Loading from '@/components/Loading.vue';
 
 export default {

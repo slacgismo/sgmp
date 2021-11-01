@@ -11,11 +11,11 @@
     "
   >
     <div class="rounded-md bg-white p-8">
-      <h1 class="text-2xl text-gray-800 mb-4">{{ popupTitle }}</h1>
+      <h1 class="text-2xl text-gray-800 mb-4 text-center">{{ popupTitle }}</h1>
       <slot>
 
       </slot>
-      <div class="flex mt-4" v-if="showButtons">
+      <div class="flex mt-8 justify-around" v-if="showButtons">
         <button
           class="px-4 py-2 w-24 text-sm text-white rounded-md bg-red-900 hover:bg-red-700"
           @click="close()"
