@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-between px-4 mt-4 sm:px-8">
-    <h2 class="text-2xl text-gray-600">Create User</h2>
+    <h2 class="text-2xl text-gray-600">Update User</h2>
 
     <div class="flex items-center space-x-1 text-xs">
       <router-link to="/" class="font-bold text-indigo-700">Home</router-link>
@@ -33,53 +33,19 @@
           d="M9 5l7 7-7 7"
         />
       </svg>
-      <span class="text-gray-600">Create</span>
+      <span class="text-gray-600">Update</span>
     </div>
   </div>
 
   <div class="p-4 mt-8 sm:px-8 sm:py-4">
     <div class="p-4 bg-white rounded">
-      <form class="space-y-4" @submit.prevent="validateCreate">
+      <form class="space-y-4" @submit.prevent="validateUpdate">
         <div class="flex items-center">
           <label for="email" class="w-1/6 text-gray-600 font-bold">Email</label>
           <div class="relative text-gray-400 w-5/6">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                />
-              </svg>
+            <span class="relative w-5/6 font-mono">
+              {{ user.email }}
             </span>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              autocomplete="email"
-              v-model="email"
-              class="
-                w-full
-                py-4
-                text-sm text-gray-900
-                rounded-md
-                pl-10
-                border border-gray-300
-                focus:outline-none
-                focus:ring-blue-500
-                focus:border-blue-500
-                focus:z-10
-              "
-              placeholder="Email address"
-              required=""
-            />
           </div>
         </div>
 
@@ -109,7 +75,7 @@
               name="username"
               type="username"
               autocomplete="current-username"
-              v-model="username"
+              v-model="user.name"
               required=""
               class="
                 w-full
@@ -130,7 +96,7 @@
 
         <div class="flex items-center">
           <label for="role" class="w-1/6 text-gray-600 font-bold">Role</label>
-          <select class="py-3.5 border-gray-300 rounded-md text-sm w-5/6" v-model="role" required="">
+          <select class="py-3.5 border-gray-300 rounded-md text-sm w-5/6" v-model="user.role" required="">
             <option disabled value="">-- Please select a role --</option>
             <option v-for="option in roleOptions" v-bind:value="option">
               {{ option }}
@@ -177,31 +143,43 @@
             "
             @click="saveChange()"
           >
-            Create
+            Update
           </button>
         </div>
       </form>
     </div>
   </div>
+  <generic-popup v-show="showLoadingPopup">
+      <loading />
+  </generic-popup>
 </template>
 
 <script>
 import HouseInput from "@/components/HouseInput.vue";
+import GenericPopup from '@/components/popup/GenericPopup.vue';
+import Loading from '@/components/Loading.vue';
 import httpReq from "@/util/requestOptions";
 import constants from "@/util/constants";
 
 export default {
   components: {
     HouseInput,
+    GenericPopup,
+    Loading
   },
   mounted() {
     this.getRoles();
+    this.getUserProfile();
   },
   data() {
     return {
-      email: "",
-      username: "",
-      role: "",
+      user: {
+        email: this.$route.params.email,
+        name: "",
+        role: "",
+        house_id: ""
+      },
+      showLoadingPopup: false,
       roleOptions: [],
       selectedHouse: {}
     };
@@ -230,14 +208,38 @@ export default {
           console.error(error);
         });
     },
-    validateCreate() {
+    getUserProfile() {
+      // Fetch data for the user profile
+      fetch(
+        constants.server + "/api/user/profile", // endpoint
+        httpReq.post({ email: this.$route.params.email }) // requestOptions
+      )
+      .then(async response => {
+        const data = await response.json();
+
+        // check for error response
+        if (!response.ok) {
+          // get error message from body or default to response status
+          const error = (data && data.message) || response.status;
+          return Promise.reject(error);
+        }
+
+        this.user.name = data.profile.name;
+        this.user.role = data.profile.roles.toString();
+      })
+      .catch(error => {
+        this.errorMessage = error;
+        console.error(error);
+      });
+    },
+    validateUpdate() {
       if (this.username && this.email && this.role && this.selectedHouse.house_id) {
         return true;
       }
       return false;
     },
     saveChange() {
-      if (!this.validateCreate()) {
+      if (!this.validateUpdate()) {
         return;
       }
       // POST request to create user

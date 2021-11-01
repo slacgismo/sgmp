@@ -155,11 +155,13 @@
               />
             </td>
             <td class="flex items-center py-4">
-              <img
-                class="inline-block h-12 w-12 rounded-full ring-2 ring-white"
-                :src="getAvatar(user.name)"
-                alt=""
-              />
+              <router-link :to="{ name: 'updateuser', params: { email: user.email } }">
+                <img
+                  class="inline-block h-12 w-12 rounded-full ring-2 ring-white"
+                  :src="getAvatar(user.name)"
+                  alt=""
+                />
+              </router-link>
               <div class="px-4">
                 <div>
                   <a href="#" class="text-gray-600 font-bolder">{{

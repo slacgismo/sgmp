@@ -85,6 +85,12 @@ const routes = [
         component: () => import('@/views/users/CreateUser.vue'),
         meta: { auth: [constants.roles.Admin] }
       },
+      {
+        path: '/users/update/:email',
+        name: 'updateuser',
+        component: () => import('@/views/users/UpdateUser.vue'),
+        meta: { auth: [constants.roles.Admin] }
+      },
     ],
   },
   {
