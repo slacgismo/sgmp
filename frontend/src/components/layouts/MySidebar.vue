@@ -251,6 +251,38 @@
           </li>
         </router-link>
 
+        <router-link
+          v-show="isAdmin()"
+          v-slot="{ isExactActive, href, navigate }"
+          to="/analytics"
+        >
+          <li
+            class="px-4 cursor-pointer"
+            :class="[
+              isExactActive ? 'bg-white text-red-900' : 'hover:bg-gray-100',
+            ]"
+          >
+            <a class="py-3 flex items-center" :href="href" @click="navigate">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <!-- https://icomoon.io/ -->
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M23.506 19.169l-10.794-9.252c0.503-0.944 0.788-2.022 0.788-3.167 0-3.728-3.022-6.75-6.75-6.75-0.682 0-1.34 0.102-1.96 0.29l3.9 3.9c0.583 0.583 0.583 1.538 0 2.121l-2.379 2.379c-0.583 0.583-1.538 0.583-2.121 0l-3.9-3.9c-0.188 0.62-0.29 1.279-0.29 1.96 0 3.728 3.022 6.75 6.75 6.75 1.145 0 2.222-0.285 3.167-0.788l9.252 10.794c0.537 0.626 1.454 0.662 2.037 0.078l2.379-2.379c0.583-0.583 0.548-1.5-0.078-2.037z"
+                />
+              </svg>
+              Analytics Items
+            </a>
+          </li>
+        </router-link>
+
         <li v-show="isAdmin()">
           <Disclosure v-slot="{ open }" :default-open="isUserManagementActive">
             <DisclosureButton
