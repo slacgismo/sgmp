@@ -16,21 +16,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Print packer version
-        uses: hashicorp/packer-github-actions@master
-        with:
-          command: version
-      - name: Validate template
-        uses: hashicorp/packer-github-actions@master
-        with:
-          working_directory: backend/sgmp
-          command: validate
-          arguments: -syntax-only
-          target: packer.pkr.hcl
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@master
         with:
-          role-to-assume: arn:aws:iam::382062740342:role/GitHubActionsRole
+          role-to-assume: arn:aws:iam::041414866712:role/gismolab_sgmp_github_actions
           aws-region: us-west-1
       - name: Copy files to the test website with the AWS CLI
         run: |
