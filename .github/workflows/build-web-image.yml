@@ -17,6 +17,7 @@ jobs:
       - name: Validate template
         uses: hashicorp/packer-github-actions@master
         with:
+          working_directory: backend/sgmp
           command: validate
           arguments: -syntax-only
           target: packer.pkr.hcl
@@ -31,6 +32,7 @@ jobs:
 #      - name: Build artifact
 #        uses: hashicorp/packer-github-actions@master
 #        with:
+#          working_directory: backend/sgmp
 #          command: build
 #          arguments: "-color=false -on-error=abort"
 #          target: packer.pkr.hcl
