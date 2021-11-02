@@ -2,6 +2,10 @@ name: build-web-image
 on: [push]
 jobs:
   build:
+    defaults:
+      run:
+        shell: bash
+        working-directory: backend/sgmp
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -10,4 +14,25 @@ jobs:
         uses: hashicorp/packer-github-actions@master
         with:
           command: version
-
+      - name: Validate template
+        uses: hashicorp/packer-github-actions@master
+        with:
+          command: validate
+          arguments: -syntax-only
+          target: packer.pkr.hcl
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::382062740342:role/GitHubActionsRole
+          aws-region: us-west-1
+      - name: Copy files to the test website with the AWS CLI
+        run: |
+          aws sts get-caller-identity
+#      - name: Build artifact
+#        uses: hashicorp/packer-github-actions@master
+#        with:
+#          command: build
+#          arguments: "-color=false -on-error=abort"
+#          target: packer.pkr.hcl
+#        env:
+#          PACKER_LOG: 1
