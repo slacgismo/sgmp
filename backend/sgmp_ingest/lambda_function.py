@@ -1,11 +1,18 @@
+import boto3
 import psycopg2
 import psycopg2.extras
 import os
 import json
 import dns.resolver
+import random
 
 sql_house = 'INSERT INTO house_data (timestamp, house_id, device_name, field, value_decimal, value_text) VALUES %s'
 sql_event = 'INSERT INTO events (timestamp, house_id, device_name, "type", "data") VALUES (to_timestamp(%s), %s, %s, %s, %s)'
+
+secretsmanager = boto3.client('secretsmanager')
+ec2 = boto3.client('ec2')
+
+resource_prefix = os.environ['RESOURCE_PREFIX']
 
 # Function reference: https://stackoverflow.com/questions/6027558/flatten-nested-dictionaries-compressing-keys
 def flatten(d, parent_key='') -> dict:
@@ -23,30 +30,47 @@ def flatten(d, parent_key='') -> dict:
                 items.append((new_key, str(v)))
     return dict(items)
 
+def read_pg_pass():
+    response = secretsmanager.get_secret_value(SecretId=(resource_prefix + '_credentials'))
+    
+    secret = response['SecretString']
+    secret = json.loads(secret)
+    
+    pg_pass = secret['tsdb_sgmp']
+    return pg_pass
+    
+def read_pg_host():
+    custom_filter = [
+        {
+            'Name': 'tag:aws:autoscaling:groupName', 
+            'Values': [(resource_prefix + '_consul')]
+        },
+        {
+            'Name': 'instance-state-name',
+            'Values': ['running']
+        }
+    ]
+    
+    consul_ip = []
+    response = ec2.describe_instances(Filters=custom_filter)
+    for r in response['Reservations']:
+        for i in r['Instances']:
+            consul_ip.append(i['NetworkInterfaces'][0]['PrivateIpAddress'])
+    
+    resolver = dns.resolver.Resolver()
+    resolver.nameservers = consul_ip
+    resolver.port = 8600
+    answer = resolver.query('master.tsdb.service.consul', 'A')
+    pg_host = answer[0].to_text()
+    return pg_host
 
 def lambda_handler(event, context):
-    pg_user = os.environ['PG_USER']
-    pg_pass = os.environ['PG_PASS']
-    pg_database = os.environ['PG_DATABASE']
+    pg_database = 'sgmp'
+    pg_user = 'sgmp'
+    pg_host = read_pg_host()
+    pg_pass = read_pg_pass()
     
-    if 'PG_HOST' in os.environ:
-        # PG_HOST is hard-coded in environment variables
-        pg_host = os.environ['PG_HOST']
-        print('Using hard-coded PG_HOST %s' % pg_host)
-    elif 'CONSUL_DNS' in os.environ:
-        # Resolve master TimescaleDB host from Consul DNS servers
-        consul_dns = os.environ['CONSUL_DNS']
-        
-        resolver = dns.resolver.Resolver()
-        answer = resolver.query(consul_dns, 'A')
-        ips = [a.to_text() for a in answer]
-        consul_ip = ips[0]
-        
-        resolver.nameservers = [consul_ip]
-        answer = resolver.query('master.tsdb.service.consul', 'A')
-        pg_host = answer[0].to_text()
-        print('Consul returned TimescaleDB master %s' % pg_host)
-        
+    print('Consul returned TimescaleDB master %s' % pg_host)
 
     # Connect to database
     conn = psycopg2.connect(
