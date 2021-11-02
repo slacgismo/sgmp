@@ -2,6 +2,7 @@ name: build-web-image
 on:
   push:
     paths:
+      - '.github/workflows/build-web-image.yml'
       - 'backend/sgmp/**'
 jobs:
   build:
