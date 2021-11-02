@@ -13,6 +13,13 @@ timescaledb-tune -yes
 mkdir /var/run/postgresql/13-main.pg_stat_tmp
 chown postgres:postgres /var/run/postgresql/13-main.pg_stat_tmp
 
+# Retrieve database credentials
+apt-get install -y awscli jq
+SECRET=$(aws secretsmanager get-secret-value --secret-id ${resource_prefix}_credentials --region ${region} | jq -r ".SecretString")
+REPLICATOR_PASSWORD=$(echo $SECRET | jq -r ".tsdb_replicator")
+REWIND_PASSWORD=$(echo $SECRET | jq -r ".tsdb_rewind_user")
+POSTGRES_PASSWORD=$(echo $SECRET | jq -r ".tsdb_postgres")
+
 # Run Patroni
 cat > /etc/patroni.yml <<EOF
 scope: tsdb
@@ -77,13 +84,13 @@ postgresql:
   authentication:
     replication:
       username: replicator
-      password: ${replicator_password}
+      password: $REPLICATOR_PASSWORD
     superuser:
       username: postgres
-      password: ${postgres_password}
+      password: $POSTGRES_PASSWORD
     rewind:  # Has no effect on postgres 10 and lower
       username: rewind_user
-      password: ${rewind_password}
+      password: $REWIND_PASSWORD
   pg_hba:
   - host replication replicator 127.0.0.1/32 md5
   - host replication replicator ${cidr} md5

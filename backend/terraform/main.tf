@@ -11,6 +11,14 @@ module "network" {
   private_subnets    = var.private_subnets
 }
 
+module "iam" {
+  source = "./iam"
+
+  region = var.region
+  resource_prefix = var.resource_prefix
+  tags = var.tags
+}
+
 module "bastion" {
   source     = "./bastion"
   depends_on = [module.network]
@@ -22,7 +30,7 @@ module "bastion" {
   ami_id           = var.bastion_ami
   subnet_id        = module.network.public_subnets[0]
   sg_id            = module.network.bastion_sg_id
-  instance_profile = var.instance_profile
+  instance_profile = module.iam.bastion_profile_name
 
   user_data = <<-EOF
               #!/bin/bash
@@ -38,10 +46,9 @@ module "iot" {
   region          = var.region
   resource_prefix = var.resource_prefix
   tags            = var.tags
-  consul_dns      = module.consul.consul_dns
-  tsdb_password   = random_password.tsdb_postgres.result
   subnet_ids      = module.network.public_subnets
   lambda_sg_id    = module.network.lambda_sg_id
+  lambda_role_arn = module.iam.lambda_role_arn
 }
 
 module "consul" {
@@ -56,7 +63,7 @@ module "consul" {
   key_name         = var.key_name
   subnet_ids       = module.network.public_subnets
   vpc_id           = module.network.vpc_id
-  instance_profile = var.instance_profile
+  instance_profile = module.iam.consul_profile_name
   replicas_per_az  = var.consul_replicas_per_az
 }
 
@@ -69,15 +76,14 @@ module "tsdb" {
 
   tsdb_ami           = var.tsdb_ami
   tsdb_instance_type = var.tsdb_instance_type
-  instance_profile   = var.instance_profile
+  instance_profile   = module.iam.tsdb_profile_name
   sg_id              = module.network.tsdb_sg_id
   key_name           = var.key_name
   subnet_ids         = module.network.public_subnets
   user_data = templatefile("tsdb_provision.sh", {
-    replicator_password = random_password.tsdb_replicator.result,
-    postgres_password   = random_password.tsdb_postgres.result,
-    rewind_password     = random_password.tsdb_rewind_user.result,
-    cidr                = var.cidr
+    resource_prefix = var.resource_prefix,
+    region = var.region,
+    cidr = var.cidr
   })
   volume_size  = var.tsdb_volume_size
   cluster_size = var.tsdb_cluster_size

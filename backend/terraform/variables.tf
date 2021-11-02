@@ -113,7 +113,3 @@ variable "bastion_ami" {
   type    = string
   default = "ami-029139ef905224a72"
 }
-
-variable "instance_profile" {
-  type = string
-}

@@ -9,4 +9,3 @@ tsdb_volume_size         = 100
 rds_allocated_storage    = 8
 rds_engine_version       = "8.0.26"
 rds_major_engine_version = "8.0"
-instance_profile         = "SGMP_EC2"
