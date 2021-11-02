@@ -22,15 +22,14 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::041414866712:role/gismolab_sgmp_github_actions
           aws-region: us-west-1
-      - name: Copy files to the test website with the AWS CLI
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      - name: Build, tag, and push image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: sgmp
+          IMAGE_TAG: ${{ github.sha }}
         run: |
-          aws sts get-caller-identity
-#      - name: Build artifact
-#        uses: hashicorp/packer-github-actions@master
-#        with:
-#          working_directory: backend/sgmp
-#          command: build
-#          arguments: "-color=false -on-error=abort"
-#          target: packer.pkr.hcl
-#        env:
-#          PACKER_LOG: 1
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG

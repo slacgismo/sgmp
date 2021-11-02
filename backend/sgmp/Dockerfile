@@ -1,17 +1,31 @@
-FROM python:3.8-slim-buster
+FROM python:3.8-slim-buster AS builder
 
-WORKDIR /app
+WORKDIR /tmp
 
-RUN apt-get update
-RUN apt-get install -y default-libmysqlclient-dev libpq-dev build-essential
+RUN apt-get update && \
+    apt-get install -y default-libmysqlclient-dev libpq-dev build-essential && \
+    rm -rf /var/lib/apt/lists/*
 
-ADD requirements.txt /app
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+ADD requirements.txt /tmp
 RUN pip install -r requirements.txt
 RUN pip install gunicorn
 
-ADD . /app
+FROM python:3.8-slim-buster
+
+RUN apt-get update && \
+    apt-get install -y libpq5 && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+COPY --from=builder /opt/venv /opt/venv
+COPY . /app
 
 ENV WORKER=4
+ENV PATH="/opt/venv/bin:$PATH"
 
 EXPOSE 80
 
