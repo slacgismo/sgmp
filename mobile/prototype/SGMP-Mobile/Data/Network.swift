@@ -6,9 +6,15 @@
 //
 
 import Foundation
+import Defaults
 
-let SgmpHostString = "http://54.176.249.126/"
-let SgmpHostUrl : URL = URL(string: SgmpHostString)!
+let SgmpHostStringDefault = "http://gismolab-sgmp-staging-1374415927.us-west-1.elb.amazonaws.com/"
+var SgmpHostString : String {
+    return Defaults[.customEndpoint] ? Defaults[.customEndpointUrl] : SgmpHostStringDefault
+}
+var SgmpHostUrl : URL {
+    return URL(string: SgmpHostString)!
+}
 
 struct Response : Codable {
     var status : String

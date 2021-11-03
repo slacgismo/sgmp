@@ -148,4 +148,8 @@ extension Defaults.Keys {
     static let showIconInDeviceList = Key<Bool>("showIconInDeviceList", default: false)
     static let showIconInAnalyticsList = Key<Bool>("showIconInAnalyticsList", default: false)
     static let expandRowsInAnalyticsList = Key<Bool>("expandRowsInAnalyticsList", default: false)
+    
+    // MARK: - Network
+    static let customEndpoint = Key<Bool>("customEndpoint", default: false)
+    static let customEndpointUrl = Key<String>("customEndpointUrl", default: "http://gismolab-sgmp-staging-1374415927.us-west-1.elb.amazonaws.com/")
 }

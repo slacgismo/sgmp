@@ -14,6 +14,8 @@ struct SettingsTabView: View {
     @Default(.userProfile) var userProfile
     @Default(.debugMode) var debugMode
     @Default(.crashAnalytics) var crashAnalytics
+    @Default(.customEndpoint) var customEndpoint
+    @Default(.customEndpointUrl) var customEndpointUrl
     
     var body: some View {
         List {
@@ -79,6 +81,16 @@ struct SettingsTabView: View {
                 
                 if debugMode {
                     NavigationLink("Debug Variables", destination: EnvVariableView())
+                    
+                    Toggle(isOn: $customEndpoint) {
+                        Text("Custom API Endpoint")
+                    }
+                    
+                    if customEndpoint {
+                        TextField("Endpoint", text: $customEndpointUrl, prompt: Text("http://").font(.body.monospaced()))
+                            .textFieldStyle(DefaultTextFieldStyle())
+                            .font(.body.monospaced())
+                    }
                 }
             } header: {
                 Text("Extras")
