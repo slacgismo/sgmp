@@ -117,6 +117,16 @@ module "web" {
   staging_instance_type = var.staging_instance_type
   staging_subnet_id     = module.network.public_subnets[0]
   staging_ami           = var.staging_ami
+
+  vpc_id = module.network.vpc_id
+  subnet_ids = module.network.public_subnets
+  staging_desired_count = var.staging_desired_count
+  staging_image_uri = var.staging_image_uri
+  consul_dns = module.consul.consul_dns
+
+  task_role_policy_arn = module.iam.ecs_task_role_policy_arn
+  execution_role_policy_arn = module.iam.ecs_execution_role_policy_arn
+
   sg_id                 = module.network.web_sg_id
 
   user_data = <<-EOF

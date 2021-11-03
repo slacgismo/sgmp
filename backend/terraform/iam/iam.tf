@@ -37,6 +37,13 @@ resource "aws_iam_policy" "web_services" {
           "cognito-sync:*"
         ],
         Resource = ["*"]
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "secretsmanager:GetSecretValue"
+        ],
+        Resource = [data.aws_secretsmanager_secret.db_credentials.arn]
       }
     ]
   })
@@ -103,6 +110,17 @@ data "aws_iam_policy_document" "ec2_instance" {
   }
 }
 
+data "aws_iam_policy_document" "ec2_and_ecs" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com", "ecs-tasks.amazonaws.com"]
+    }
+  }
+}
+
 data "aws_iam_policy_document" "lambda" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -146,7 +164,7 @@ resource "aws_iam_role" "web" {
   name = "${var.resource_prefix}_web"
   description = "Role that will be attached to the backend API ECS Task"
 
-  assume_role_policy = data.aws_iam_policy_document.ec2_instance.json
+  assume_role_policy = data.aws_iam_policy_document.ec2_and_ecs.json
 
   tags = var.tags
 }

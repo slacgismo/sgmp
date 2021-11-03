@@ -9,3 +9,4 @@ tsdb_volume_size         = 100
 rds_allocated_storage    = 8
 rds_engine_version       = "8.0.26"
 rds_major_engine_version = "8.0"
+staging_image_uri        = "041414866712.dkr.ecr.us-west-1.amazonaws.com/sgmp:66eef0b46d1cd38e3fa8ceff42548affb933719f"

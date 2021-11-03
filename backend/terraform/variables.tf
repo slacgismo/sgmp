@@ -109,6 +109,15 @@ variable "staging_ami" {
   default = "ami-029139ef905224a72"
 }
 
+variable "staging_desired_count" {
+  type = number
+  default = 1
+}
+
+variable "staging_image_uri" {
+  type = string
+}
+
 variable "bastion_ami" {
   type    = string
   default = "ami-029139ef905224a72"

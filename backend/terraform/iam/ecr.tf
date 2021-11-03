@@ -56,6 +56,38 @@ resource "aws_iam_policy" "github_actions" {
   tags = var.tags
 }
 
+resource "aws_iam_policy" "ecs_execution" {
+  name = "${var.resource_prefix}_ecs_execution"
+  description = "Policy that allows ECS to pull image from ECR"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "ecr:GetAuthorizationToken",
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ],
+        Resource = "*"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "secretsmanager:GetSecretValue"
+        ],
+        Resource = [data.aws_secretsmanager_secret.db_credentials.arn]
+      }
+    ]
+  })
+
+  tags = var.tags
+}
+
 resource "aws_iam_role" "github" {
   name = "${var.resource_prefix}_github_actions"
   description = "Role that will be assumed by GitHub Actions to perform CI actions"
