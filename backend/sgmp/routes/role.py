@@ -12,24 +12,47 @@ api_role = Blueprint('role', __name__)
 def list_user_in_group(group_name):
     user_list = []
     client = get_boto3_client('cognito-idp')
+    next_token = ''
+    groups = []
     response = client.list_users_in_group(
         UserPoolId=config.COGNITO_USER_POOL_ID,
-        GroupName=group_name,
+        GroupName=group_name
     )
-    for user in response['Users']:
-        user_list.append(user['Username'])
-    
+    groups += response['Users']
+
+    # paginate through the list
+    if 'NextToken' in response:
+        next_token = response['NextToken']
+    while next_token != '':
+        response = client.list_users_in_group(
+            UserPoolId=config.COGNITO_USER_POOL_ID,
+            GroupName=group_name,
+            NextToken = next_token
+        )
+        groups += response['Users']
+        if 'NextToken' in response:
+            next_token = response['NextToken']
+        else:
+            next_token = ''
+
+    # take email out from the list
+    user_list = []
+    for user in groups:
+        for attribute in user['Attributes']:
+            if attribute['Name'] == 'email':
+                user_list.append(attribute['Value'])
     return user_list
 
 def delete_group(group_name):
     try:
         client = get_boto3_client('cognito-idp')
-        response = client.delete_group(
+        client.delete_group(
             GroupName=group_name,
             UserPoolId=config.COGNITO_USER_POOL_ID
         )
     except Exception:
         return None
+    return 'ok'
 ################################
 
 # list all of roles
@@ -46,10 +69,13 @@ def role_list():
     for group in response['Groups']:
         role_list.append(group['GroupName'])
 
-    return jsonify({
-        'status': 'ok',
-        'role_list': role_list,
-    })
+    # put assigned users into role
+    user_list_for_role = {}
+    for role in role_list:
+        user_list_for_role[role] = list_user_in_group(role)
+    user_list_for_role['status'] = 'ok'
+
+    return jsonify(user_list_for_role)
 
 # create a role
 @api_role.route('/create', methods=['POST'])

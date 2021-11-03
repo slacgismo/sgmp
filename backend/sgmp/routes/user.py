@@ -43,16 +43,21 @@ def search_role_for_user(email):
 
 def get_user_information_from_email(email):
     client = get_boto3_client('cognito-idp')
-    response = client.admin_get_user(
-        UserPoolId=config.COGNITO_USER_POOL_ID,
-        Username=email
-    )
+    try:
+        response = client.admin_get_user(
+            UserPoolId=config.COGNITO_USER_POOL_ID,
+            Username=email
+        )
+    except Exception as e:
+        return 'error'
     user_info = {}
     user_info['create_date'] = response['UserCreateDate']
     for attribute in response['UserAttributes']:
         attribute_name = attribute['Name']
         attribute_value = attribute['Value']
         user_info[attribute_name] = attribute_value
+    if 'custom:home' not in user_info:
+        user_info['custom:home'] = ''
     return user_info
 
 
@@ -76,20 +81,26 @@ def update_user_attribute(email, name, house_id):
 
 def remove_user_from_role(email, role):
     client = get_boto3_client('cognito-idp')
-    client.admin_remove_user_from_group(
-        UserPoolId=config.COGNITO_USER_POOL_ID,
-        Username=email,
-        GroupName=role
-    )
+    try:
+        client.admin_remove_user_from_group(
+            UserPoolId=config.COGNITO_USER_POOL_ID,
+            Username=email,
+            GroupName=role
+        )
+    except Exception as e:
+        return 'error'
     return 'ok'
 
 def add_user_into_role(email, role):
     client = get_boto3_client('cognito-idp')
-    client.admin_add_user_to_group(
-        UserPoolId=config.COGNITO_USER_POOL_ID,
-        Username=email,
-        GroupName=role
-    )
+    try:
+        client.admin_add_user_to_group(
+            UserPoolId=config.COGNITO_USER_POOL_ID,
+            Username=email,
+            GroupName=role
+        )
+    except Exception as e:
+        return 'error'
     return 'ok'
 
 def house_validate(house_id):
@@ -119,20 +130,57 @@ def user_profile():
         'profile': g.user
     })
 
+# return the user information
+@api_user.route('/information', methods=['POST'])
+@require_auth("admin")
+def user_information():
+    email = request.json.get("email")
+    user_information = get_user_information_from_email(email)
+    if user_information == 'error':
+        return err_json("error in reading user information")
+    user_groups = search_role_for_user(email)
+    if user_groups == 'error' or user_groups is None:
+        return err_json("error in reading user group")
+    
+    print(user_information)
+    house_id = user_information['custom:home']
+    house_description = get_house_description(house_id)
+    name = user_information['name']
+    create_date = user_information['create_date']
+    return jsonify({
+        "status": 'ok',
+        "group": user_groups[0],
+        "house_id": int(user_information['custom:home']),
+        "house_description": house_description,
+        "create_date": create_date,
+        "name": name
+    })
+
 #list the users
 @api_user.route('/list', methods=['GET'])
 @require_auth('admin')
 def user_list():
     client = get_boto3_client('cognito-idp')
     us_pool_id = config.COGNITO_USER_POOL_ID
+    users = []
+    user_list = []
+    pagination_token = ''
     response_list_users = client.list_users(
         UserPoolId=us_pool_id,
         Limit=30,
     )
+    users += response_list_users['Users']
+    if 'PaginationToken' in response_list_users: 
+        pagination_token = response_list_users['PaginationToken']
+    while pagination_token != '':
+        response_list_users = client.list_users(
+            UserPoolId=us_pool_id,
+            Limit=30,
+            PaginationToken = pagination_token
+        )
+        users += response_list_users['Users']
 
-    user_list = []
-
-    for user_entry in response_list_users['Users']:
+    for user_entry in users:
         user_list_entry = {}
         user_list_entry['create_time'] = user_entry['UserCreateDate']
         for attribute in user_entry['Attributes']:
@@ -141,7 +189,7 @@ def user_list():
             if attribute['Name'] == 'name':
                 user_list_entry['name'] = attribute['Value']
             if attribute['Name'] == 'custom:home':
-                user_list_entry['house_id'] = attribute['Value']
+                user_list_entry['house_id'] = int(attribute['Value'])
                 user_list_entry['house_description'] = get_house_description(attribute['Value'])
         user_list_entry['role'] = search_role_for_user(user_list_entry['email'])
         
@@ -286,7 +334,7 @@ def user_login():
         'status': 'ok',
         'accesstoken': access_token,
         'profile': profile,
-        'house_id': house_id,
+        'house_id': int(house_id),
         'house_description': house_description,
         'refresh_token': refresh_token
     })
@@ -347,7 +395,7 @@ def user_change_password():
 @api_user.route('/update', methods=['POST'])
 @require_auth('admin')
 def user_update():
-    # Check the user exists
+    # Check the input
     email = request.json.get('email')
     name = request.json.get('name')
     role = request.json.get('role')
@@ -356,7 +404,7 @@ def user_update():
         return err_json('invalid request')
     if house_validate(house_id) != 'ok':
         return err_json('invalid house id')
-    # update name
+    # update user
     if update_user_attribute(email, name, house_id) != 'ok':
         return err_json('error in updating name')
     # update role
@@ -370,8 +418,14 @@ def user_update():
         if add_user_into_role(email, role) != 'ok':
             return err_json('error in adding role')
 
-    # Update the user
+    house_description = get_house_description(house_id)
+
     return jsonify({
+        'email': email,
+        'name': name,
+        'role': role,
+        "house_id": int(house_id),
+        "house_description": house_description,
         'status': 'ok'
     })
 

@@ -23,7 +23,26 @@ Sample response:
         "status": "ok"
     }
 ```
+### `/api/user/information`
 
+Return user's information based on user's email
+sameple request:
+```
+{
+    "email": "slac.sgmp.1@gmail.com"
+}
+```
+sample response:
+```
+{
+    "create_date": 1633731381768,
+    "group": "admin",
+    "house_description": "House B",
+    "house_id": 1,
+    "name": "boba milk tea",
+    "status": "ok"
+}
+```
 ### `/api/user/list`
 
 Lists all users.
@@ -36,7 +55,7 @@ Sample response:
         {
             "create_time": 1635291520261,
             "email": "yingdonc@andrew.cmu.edu",
-            "house_id": "1",
+            "house_id": 1,
             "house_description": "House B",
             "name": "yingdong chen",
             "role": [
@@ -89,7 +108,7 @@ Sample response:
         "name": "Chih-Wei Fang",
         "roles": ["visitor"]
     },
-    "house_id": "1",
+    "house_id": 1,
     "house_description": "house B",
     "refresh_token": "xxxx"
 }
@@ -146,9 +165,9 @@ Updates the data of an user. Must specify the email to identify the user. Other 
 Sample request, finds the user with email `chihweif@andrew.cmu.edu` and sets its name and role:
 ```
 {
-    "email": "chihweif@andrew.cmu.edu",
-    "name": "Chih-Wei Fang",
-    "role": "admin",
+    "email": "dummy@dummy.com",
+    "name": "smart tartan",
+    "role": "researcher",
     "house_id": "1"
 }
 ```
@@ -156,6 +175,11 @@ Sample request, finds the user with email `chihweif@andrew.cmu.edu` and sets its
 Sample response:
 ```
 {
+    "email": "dummy@dummy.com",
+    "house_description": "House B",
+    "house_id": 1,
+    "name": "smart tartan",
+    "role": "researcher",
     "status": "ok"
 }
 ```
@@ -184,11 +208,21 @@ Lists all roles.
 Sample response:
 ```
 {
+    "admin": [
+        "chihweif@gmail.com",
+        "slac.sgmp.1@gmail.com",
+        "huilinl@andrew.cmu.edu"
+    ],
+    "researcher": [
+        "dummy@dummy.com",
+        "huilin.liu@sv.cmu.edu"
+    ],
     "status": "ok",
-    "roles": [
-        "admin",
-        "researcher",
-        "visitor"
+    "visitor": [
+        "chihweif@andrew.cmu.edu",
+        "hzheng3@andrew.cmu.edu",
+        "slac.sgmp.2@gmail.com",
+        "haotian.zheng@sv.cmu.edu"
     ]
 }
 ```
