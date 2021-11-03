@@ -94,8 +94,19 @@ export default {
       endPoint: "/api/house/list",
     };
   },
+  props: {
+    house_id: Number
+  },
   mounted() {
     this.getList();
+  },
+  watch: {
+    house_id: {
+      immediate: true,
+      handler() {
+        document.house_id = this.house_id;
+      },
+    }
   },
   methods: {
     resetSelection() {
@@ -116,6 +127,15 @@ export default {
         currentDesc.includes(currentInput) || currentId.includes(currentInput)
       );
     },
+    validate() {
+      if (this.$refs.dropdowninput) {
+        if (!this.selectedItem.length || this.selectedItem.length <= 0) {
+          this.$refs.dropdowninput.style.borderColor = "red";
+          return false;
+        }
+      }
+      return true;
+    },
     getList() {
       // GET request to fetch data for the item list
       fetch(
@@ -133,6 +153,12 @@ export default {
           }
 
           this.itemList = data.houses;
+          if (this.house_id) {
+            let selected = this.itemList.filter(item => item.house_id === this.house_id);
+            if (selected.length > 0) {
+              this.selectedItem = selected[0];
+            }
+          }
           this.loaded = true;
         })
         .catch((error) => {

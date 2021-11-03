@@ -84,7 +84,7 @@
         </div>
 
         <div class="flex items-center">
-          <label for="username" class="w-1/6 text-gray-600 font-bold"
+          <label for="name" class="w-1/6 text-gray-600 font-bold"
             >Name</label
           >
           <div class="relative text-gray-400 w-5/6">
@@ -105,11 +105,11 @@
               </svg>
             </span>
             <input
-              id="username"
-              name="username"
-              type="username"
-              autocomplete="current-username"
-              v-model="username"
+              id="name"
+              name="name"
+              type="name"
+              autocomplete="current-name"
+              v-model="name"
               required=""
               class="
                 w-full
@@ -142,6 +142,7 @@
           <label for="house" class="w-1/6 text-gray-600 font-bold">House</label>
           <house-input
             id="house"
+            ref="houseInput"
             class="w-5/6"
             @onItemSelected="selectedHouse = $event"
             @onItemReset="selectedHouse = {}"
@@ -200,7 +201,7 @@ export default {
   data() {
     return {
       email: "",
-      username: "",
+      name: "",
       role: "",
       roleOptions: [],
       selectedHouse: {}
@@ -231,7 +232,10 @@ export default {
         });
     },
     validateCreate() {
-      if (this.username && this.email && this.role && this.selectedHouse.house_id) {
+      if (!this.$refs.houseInput.validate()) {
+        return false;
+      }
+      if (this.name && this.email && this.role && this.selectedHouse.house_id) {
         return true;
       }
       return false;
@@ -246,7 +250,7 @@ export default {
         httpReq.post({
           // requestOptions
           "email": this.email,
-          "name": this.username,
+          "name": this.name,
           "role": this.role,
           "house_id": this.selectedHouse.house_id.toString()
         })

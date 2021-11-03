@@ -108,6 +108,8 @@
           <label for="house" class="w-1/6 text-gray-600 font-bold">House</label>
           <house-input
             id="house"
+            ref="houseInput"
+            :house_id="user.house_id"
             class="w-5/6"
             @onItemSelected="selectedHouse = $event"
             @onItemReset="selectedHouse = {}"
@@ -167,17 +169,20 @@ export default {
     GenericPopup,
     Loading
   },
+  props: {
+    selectedUser: String
+  },
   mounted() {
     this.getRoles();
-    this.getUserProfile();
   },
   data() {
+    const profile = JSON.parse(this.$route.params.selectedUser);
     return {
       user: {
-        email: this.$route.params.email,
-        name: "",
-        role: "",
-        house_id: ""
+        email: profile.email,
+        name: profile.name,
+        role: profile.role.toString(),
+        house_id: parseInt(profile.house_id)
       },
       showLoadingPopup: false,
       roleOptions: [],
@@ -208,32 +213,14 @@ export default {
           console.error(error);
         });
     },
-    getUserProfile() {
-      // Fetch data for the user profile
-      fetch(
-        constants.server + "/api/user/profile", // endpoint
-        httpReq.post({ email: this.$route.params.email }) // requestOptions
-      )
-      .then(async response => {
-        const data = await response.json();
-
-        // check for error response
-        if (!response.ok) {
-          // get error message from body or default to response status
-          const error = (data && data.message) || response.status;
-          return Promise.reject(error);
-        }
-
-        this.user.name = data.profile.name;
-        this.user.role = data.profile.roles.toString();
-      })
-      .catch(error => {
-        this.errorMessage = error;
-        console.error(error);
-      });
-    },
     validateUpdate() {
-      if (this.username && this.email && this.role && this.selectedHouse.house_id) {
+      if (!this.$refs.houseInput.validate()) {
+        return false;
+      }
+      if (this.selectedHouse.house_id) {
+        this.user.house_id = this.selectedHouse.house_id;
+      }
+      if (this.user.email && this.user.name && this.user.role && this.user.house_id) {
         return true;
       }
       return false;
@@ -242,16 +229,10 @@ export default {
       if (!this.validateUpdate()) {
         return;
       }
-      // POST request to create user
+      // POST request to update user profile
       fetch(
-        constants.server + "/api/user/create", // endpoint
-        httpReq.post({
-          // requestOptions
-          "email": this.email,
-          "name": this.username,
-          "role": this.role,
-          "house_id": this.selectedHouse.house_id.toString()
-        })
+        constants.server + "/api/user/update", // endpoint
+        httpReq.post(this.user)
       )
         .then(async (response) => {
           const data = await response.json();
@@ -262,6 +243,15 @@ export default {
             const error = (data && data.message) || response.status;
             return Promise.reject(error);
           }
+          console.log("Update successful!");
+          if (localStorage.email == this.user.email) {
+            localStorage.setItem("email", this.user.email);
+            localStorage.setItem("name", this.user.name);
+            localStorage.setItem("role", this.user.role);
+            localStorage.setItem("house_id", this.user.house_id);
+            // localStorage.setItem("house_desc", this.user.house_id);
+          }
+
           this.$router.push("/users");
         })
         .catch((error) => {

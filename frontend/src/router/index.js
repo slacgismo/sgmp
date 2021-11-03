@@ -86,9 +86,10 @@ const routes = [
         meta: { auth: [constants.roles.Admin] }
       },
       {
-        path: '/users/update/:email',
+        path: '/users/update/',
         name: 'updateuser',
         component: () => import('@/views/users/UpdateUser.vue'),
+        props: true,
         meta: { auth: [constants.roles.Admin] }
       },
     ],
