@@ -383,19 +383,35 @@
                     </a>
                   </li>
                 </router-link>
-                <li class="px-8 hover:bg-gray-100">
-                  <a href="#" class="py-3 flex items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-5 w-5"
-                      fill="currentColor"
-                      viewBox="0 0 16 16"
+                <router-link
+                  v-slot="{ isExactActive, href, navigate }"
+                  :to="{ name: 'roles' }"
+                >
+                  <li
+                    class="pl-8"
+                    :class="[
+                      isExactActive
+                        ? 'bg-white text-red-900'
+                        : 'hover:bg-gray-100',
+                    ]"
+                  >
+                    <a
+                      class="py-3 flex items-center"
+                      :href="href"
+                      @click="navigate"
                     >
-                      <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
-                    </svg>
-                    Roles
-                  </a>
-                </li>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                        fill="currentColor"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                      </svg>
+                      Roles
+                    </a>
+                  </li>
+                </router-link>
               </ul>
             </DisclosurePanel>
           </Disclosure>

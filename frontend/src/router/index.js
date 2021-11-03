@@ -92,6 +92,18 @@ const routes = [
         props: true,
         meta: { auth: [constants.roles.Admin] }
       },
+      {
+        path: '/roles',
+        name: 'roles',
+        component: () => import('@/views/roles/RoleList.vue'),
+        meta: { auth: [constants.roles.Admin] }
+      },
+      {
+        path: '/roles/create',
+        name: 'createrole',
+        component: () => import('@/views/roles/CreateRole.vue'),
+        meta: { auth: [constants.roles.Admin] }
+      }
     ],
   },
   {
