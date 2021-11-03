@@ -11,12 +11,26 @@ module "network" {
   private_subnets    = var.private_subnets
 }
 
+module "cognito" {
+  source = "./cognito"
+
+  resource_prefix = var.resource_prefix
+  tags            = var.tags
+}
+
 module "iam" {
   source = "./iam"
 
-  region = var.region
+  region          = var.region
   resource_prefix = var.resource_prefix
-  tags = var.tags
+  tags            = var.tags
+}
+
+module "ecs" {
+  source = "./ecs"
+
+  resource_prefix = var.resource_prefix
+  tags            = var.tags
 }
 
 module "bastion" {
@@ -49,6 +63,8 @@ module "iot" {
   subnet_ids      = module.network.public_subnets
   lambda_sg_id    = module.network.lambda_sg_id
   lambda_role_arn = module.iam.lambda_role_arn
+
+  ecs_web_task_role_arn = module.iam.ecs_web_task_role_arn
 }
 
 module "consul" {
@@ -82,8 +98,8 @@ module "tsdb" {
   subnet_ids         = module.network.public_subnets
   user_data = templatefile("tsdb_provision.sh", {
     resource_prefix = var.resource_prefix,
-    region = var.region,
-    cidr = var.cidr
+    region          = var.region,
+    cidr            = var.cidr
   })
   volume_size  = var.tsdb_volume_size
   cluster_size = var.tsdb_cluster_size
@@ -111,6 +127,7 @@ module "web" {
   source     = "./web"
   depends_on = [module.network, module.consul]
 
+  region                = var.region
   key_name              = var.key_name
   resource_prefix       = var.resource_prefix
   tags                  = var.tags
@@ -118,16 +135,33 @@ module "web" {
   staging_subnet_id     = module.network.public_subnets[0]
   staging_ami           = var.staging_ami
 
-  vpc_id = module.network.vpc_id
+  vpc_id     = module.network.vpc_id
   subnet_ids = module.network.public_subnets
+
   staging_desired_count = var.staging_desired_count
-  staging_image_uri = var.staging_image_uri
-  consul_dns = module.consul.consul_dns
+  staging_image_uri     = var.staging_image_uri
+  staging_cpu           = var.staging_cpu
+  staging_memory        = var.staging_memory
 
-  task_role_policy_arn = module.iam.ecs_task_role_policy_arn
-  execution_role_policy_arn = module.iam.ecs_execution_role_policy_arn
+  production_desired_count = var.production_desired_count
+  production_image_uri     = var.production_image_uri
+  production_cpu           = var.production_cpu
+  production_memory        = var.production_memory
 
-  sg_id                 = module.network.web_sg_id
+  ecs_cluster_arn = module.ecs.cluster_arn
+  mysql_host      = module.rds.dns
+
+  iot_certificate_id  = module.iot.iot_certificate_id
+  iot_endpoint        = module.iot.iot_endpoint
+  iot_private_key_arn = module.iot.iot_private_key_arn
+
+  cognito_user_pool_id  = module.cognito.user_pool_id
+  cognito_app_client_id = module.cognito.app_client_id
+
+  task_role_arn      = module.iam.ecs_web_task_role_arn
+  execution_role_arn = module.iam.ecs_web_execution_role_arn
+
+  sg_id = module.network.web_sg_id
 
   user_data = <<-EOF
               #!/bin/bash

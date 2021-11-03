@@ -14,7 +14,7 @@ resource "aws_lambda_function" "ingest" {
   }
 
   vpc_config {
-    subnet_ids = var.subnet_ids
+    subnet_ids         = var.subnet_ids
     security_group_ids = [var.lambda_sg_id]
   }
 }

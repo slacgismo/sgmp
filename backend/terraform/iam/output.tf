@@ -14,14 +14,10 @@ output "tsdb_profile_name" {
   value = aws_iam_instance_profile.tsdb.name
 }
 
-output "ecs_execution_role_policy_arn" {
-  value = aws_iam_policy.ecs_execution.arn
+output "ecs_web_execution_role_arn" {
+  value = aws_iam_role.ecs_web_execution.arn
 }
 
-output "ecs_task_role_policy_arn" {
-  value = aws_iam_policy.web_services.arn
-}
-
-output "web_role_arn" {
-  value = aws_iam_role.web.arn
+output "ecs_web_task_role_arn" {
+  value = aws_iam_role.ecs_web_task.arn
 }

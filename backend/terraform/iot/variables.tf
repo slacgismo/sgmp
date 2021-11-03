@@ -21,3 +21,7 @@ variable "subnet_ids" {
 variable "lambda_sg_id" {
   type = string
 }
+
+variable "ecs_web_task_role_arn" {
+  type = string
+}

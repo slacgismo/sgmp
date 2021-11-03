@@ -110,8 +110,37 @@ variable "staging_ami" {
 }
 
 variable "staging_desired_count" {
-  type = number
+  type    = number
   default = 1
+}
+
+variable "staging_cpu" {
+  type    = number
+  default = 512
+}
+
+variable "staging_memory" {
+  type    = number
+  default = 1024
+}
+
+variable "production_image_uri" {
+  type = string
+}
+
+variable "production_desired_count" {
+  type    = number
+  default = 4
+}
+
+variable "production_cpu" {
+  type    = number
+  default = 1024
+}
+
+variable "production_memory" {
+  type    = number
+  default = 2048
 }
 
 variable "staging_image_uri" {

@@ -2,6 +2,10 @@ variable "resource_prefix" {
   type = string
 }
 
+variable "region" {
+  type = string
+}
+
 variable "tags" {
   type = map(string)
 }
@@ -34,14 +38,46 @@ variable "image_uri" {
   type = string
 }
 
-variable "consul_dns" {
+variable "task_role_arn" {
   type = string
 }
 
-variable "task_role_policy_arn" {
+variable "execution_role_arn" {
   type = string
 }
 
-variable "execution_role_policy_arn" {
+variable "cpu" {
+  type = number
+}
+
+variable "memory" {
+  type = number
+}
+
+variable "database_credentials_arn" {
+  type = string
+}
+
+variable "iot_private_key_arn" {
+  type = string
+}
+
+variable "iot_certificate_id" {
+  type = string
+}
+
+variable "iot_endpoint" {
+  type = string
+}
+
+variable "mysql_host" {
+  type = string
+}
+
+variable "cognito_user_pool_id" {
+  type = string
+}
+
+variable "cognito_app_client_id" {
   type = string
 }
