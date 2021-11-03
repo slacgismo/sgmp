@@ -451,23 +451,3 @@ def user_delete():
     return jsonify({
         'status': status
     })
-
-# # forgot password
-# @api_user.route('/forgotPassword', methods=['POST'])
-# def user_forgotPassword():
-#     email = request.json.get('email')
-#     status = 'ok'
-#     if email is None:
-#         return err_json('invalid request')
-#     client = get_boto3_client('cognito-idp')
-#     try:
-#         response = client.forgot_password(
-#             ClientId=config.COGNITO_APP_CLIENT_ID,
-#             Username=email
-#         )
-#     except Exception as e:
-#         status = str(e)
-#     print(response)
-#     return jsonify({
-#         'status': status
-#     })
