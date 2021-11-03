@@ -1,40 +1,7 @@
 <template>
   <div class="flex justify-between px-4 mt-4 sm:px-8">
     <h2 class="text-2xl text-gray-600">Update Device</h2>
-
-    <div class="flex items-center space-x-1 text-xs">
-      <router-link to="/" class="font-bold text-indigo-700">Home</router-link>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-2 w-2"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M9 5l7 7-7 7"
-        />
-      </svg>
-      <router-link to="/devices" class="font-bold text-indigo-700">Devices</router-link>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-2 w-2"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M9 5l7 7-7 7"
-        />
-      </svg>
-      <span class="text-gray-600">Update</span>
-    </div>
+    <navigation-bar naviText="Devices" routePath="/devices" plainText="Update" />
   </div>
 
   <div class="p-4 mt-8 sm:px-8 sm:py-4">
@@ -146,9 +113,11 @@
 <script>
 import httpReq from "@/util/requestOptions";
 import constants from "@/util/constants";
+import NavigationBar from "@/components/layouts/NavigationBar.vue";
 
 export default {
   components: {
+    NavigationBar
   },
   mounted() {
     // Fetch data for the device details

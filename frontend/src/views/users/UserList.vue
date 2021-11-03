@@ -1,25 +1,7 @@
 <template>
   <div class="flex justify-between px-4 mt-4 sm:px-8">
     <h2 class="text-2xl text-gray-600">User List</h2>
-
-    <div class="flex items-center space-x-1 text-xs">
-      <router-link to="/" class="font-bold text-indigo-700">Home</router-link>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-2 w-2"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M9 5l7 7-7 7"
-        />
-      </svg>
-      <span class="text-gray-600">Users</span>
-    </div>
+    <navigation-bar plainText="Users" />
   </div>
 
   <div class="p-4 mt-8 sm:px-8 sm:py-4">
@@ -354,6 +336,7 @@ import httpReq from "@/util/requestOptions";
 import constants from "@/util/constants";
 import Loading from "@/components/Loading.vue";
 import GenericPopup from "@/components/popup/GenericPopup.vue";
+import NavigationBar from "@/components/layouts/NavigationBar.vue";
 
 export default {
   components: {
@@ -363,6 +346,7 @@ export default {
     MenuItem,
     Loading,
     GenericPopup,
+    NavigationBar
   },
   data() {
     return {
@@ -388,12 +372,6 @@ export default {
         day: "numeric",
       };
       return `${new Date(timestamp).toLocaleDateString("en", options)}`;
-    },
-    formatDays(timestamp) {
-      const msPerDay = 1000 * 60 * 60 * 24;
-      let days = Math.floor((new Date() - new Date(timestamp)) / msPerDay);
-      if (days >= 0) return `${days} days ago`;
-      else return "-";
     },
     getAvatar(name) {
       if (!name) {
