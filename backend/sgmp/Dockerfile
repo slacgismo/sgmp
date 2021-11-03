@@ -16,7 +16,7 @@ RUN pip install gunicorn
 FROM python:3.8-slim-buster
 
 RUN apt-get update && \
-    apt-get install -y libpq5 && \
+    apt-get install -y libpq5 default-libmysqlclient-dev && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
