@@ -17,8 +17,30 @@ enum AnalyticsChartTimeMode : Hashable {
 }
 
 struct AnalyticsChartTimePair : Codable, Equatable {
-    var from : Date
-    var to : Date
+    var from : Date {
+        didSet {
+            if to.timeIntervalSince(from) < 0 {
+                Toast.default(image: .init(systemName: "xmark")!, title: "Incorrect Parameter", subtitle: "end time cannot be before start time").show(haptic: .warning)
+                from = to.advanced(by: -60 * 60)
+            }
+            if to.timeIntervalSince(from) > 60 * 60 * 24 {
+                Toast.default(image: .init(systemName: "xmark")!, title: "Incorrect Parameter", subtitle: "time period larger than 1 day").show(haptic: .warning)
+                from = to.advanced(by: -60 * 60 * 24)
+            }
+        }
+    }
+    var to : Date {
+        didSet {
+            if to.timeIntervalSince(from) < 0 {
+                Toast.default(image: .init(systemName: "xmark")!, title: "Incorrect Parameter", subtitle: "end time cannot be before start time").show(haptic: .warning)
+                to = from.advanced(by: 60 * 60)
+            }
+            if to.timeIntervalSince(from) > 60 * 60 * 24 {
+                Toast.default(image: .init(systemName: "xmark")!, title: "Incorrect Parameter", subtitle: "time period larger than 1 day").show(haptic: .warning)
+                to = from.advanced(by: 60 * 60 * 24)
+            }
+        }
+    }
 }
 
 struct AnalyticsChartView: View {
@@ -29,24 +51,13 @@ struct AnalyticsChartView: View {
     @State var loading : Bool = false
     
     @State var timeMode : AnalyticsChartTimeMode = .ten_min
-    @State var time : AnalyticsChartTimePair = .init(from: .now.advanced(by: -60 * 10), to: .now) {
-        willSet {
-            
-        }
-        didSet {
-            
-        }
-    }
+    @State var time : AnalyticsChartTimePair = .init(from: .now.advanced(by: -60 * 10), to: .now)
     
     @State var chartData : LineChartData = .init(dataSets: .init(dataPoints: []))
     
     func refresh (newTime : AnalyticsChartTimePair? = nil) {
         let from = newTime?.from ?? time.from
         let to = newTime?.to ?? time.to
-        if (from >= to) {
-            Toast.default(image: .init(systemName: "xmark")!, title: "Incorrect Parameter", subtitle: "end time cannot be before start time").show(haptic: .warning)
-            return
-        }
         loading = true
         NetworkManager.shared.getAnalyticsTimeSeries(houseId: houseId, startDate: from, endDate: to, analyticsName: analytics.name, interval: to.timeIntervalSince(from) * 1000.0 / 200.0) { frames, err in
             if let err = err {
