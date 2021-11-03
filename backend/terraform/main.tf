@@ -163,6 +163,8 @@ module "web" {
 
   sg_id = module.network.web_sg_id
 
+  acm_certificate_arn = module.certificates.acm_certificate_arn
+
   user_data = <<-EOF
               #!/bin/bash
               /opt/consul/bin/run-consul --client --cluster-tag-key consul-servers --cluster-tag-value auto-join
@@ -200,6 +202,64 @@ module "web" {
               chown -R ubuntu:ubuntu /home/ubuntu
 
               EOF
+}
+
+data "aws_lb" "staging_api" {
+  arn = module.web.staging_lb_arn
+}
+
+data "aws_lb" "production_api" {
+  arn = module.web.production_lb_arn
+}
+
+module "dns_zone" {
+  source  = "terraform-aws-modules/route53/aws//modules/zones"
+  version = "~> 2.0"
+
+  zones = {
+    "${var.dns_zone_name}" = {
+      comment = "SGMP Route 53 Zone"
+    }
+  }
+
+  tags = var.tags
+}
+
+module "dns_records" {
+  source  = "terraform-aws-modules/route53/aws//modules/records"
+  version = "~> 2.0"
+
+  zone_name = keys(module.dns_zone.route53_zone_zone_id)[0]
+
+  records = [
+    {
+      name    = "api"
+      type    = "A"
+      alias   = {
+        name    = data.aws_lb.production_api.dns_name
+        zone_id = data.aws_lb.production_api.zone_id
+      }
+    },
+    {
+      name    = "api-staging"
+      type    = "A"
+      alias   = {
+        name    = data.aws_lb.staging_api.dns_name
+        zone_id = data.aws_lb.staging_api.zone_id
+      }
+    },
+  ]
+
+  depends_on = [module.dns_zone]
+}
+
+module "certificates" {
+  source = "./certificates"
+
+  depends_on = [module.dns_zone]
+
+  zone_name = var.dns_zone_name
+  tags = var.tags
 }
 
 output "bastion_ip" {

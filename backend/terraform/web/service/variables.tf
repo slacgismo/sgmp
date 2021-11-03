@@ -81,3 +81,7 @@ variable "cognito_user_pool_id" {
 variable "cognito_app_client_id" {
   type = string
 }
+
+variable "acm_certificate_arn" {
+  type = string
+}

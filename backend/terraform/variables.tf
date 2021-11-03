@@ -23,6 +23,10 @@ variable "resource_prefix" {
   default = "gismolab_sgmp"
 }
 
+variable "dns_zone_name" {
+  type = string
+}
+
 variable "tags" {
   type = map(string)
   default = {

@@ -25,6 +25,7 @@ module "staging" {
   iot_endpoint             = var.iot_endpoint
   cognito_user_pool_id     = var.cognito_user_pool_id
   cognito_app_client_id    = var.cognito_app_client_id
+  acm_certificate_arn      = var.acm_certificate_arn
 }
 
 module "production" {
@@ -50,4 +51,5 @@ module "production" {
   iot_endpoint             = var.iot_endpoint
   cognito_user_pool_id     = var.cognito_user_pool_id
   cognito_app_client_id    = var.cognito_app_client_id
+  acm_certificate_arn      = var.acm_certificate_arn
 }
