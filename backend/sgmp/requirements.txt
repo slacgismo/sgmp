@@ -8,6 +8,7 @@ charset-normalizer==2.0.6
 click==8.0.1
 cognitojwt==1.4.1
 cryptography==35.0.0
+dnspython==2.1.0
 ecdsa==0.17.0
 Flask==2.0.1
 Flask-Cors==3.0.10
