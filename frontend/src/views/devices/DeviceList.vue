@@ -48,120 +48,74 @@
             v-model="searchText"
           />
         </div>
-        <div>
-          <Menu as="div" class="relative inline-block text-left">
-            <div>
-              <MenuButton
-                class="
-                  inline-flex
-                  justify-center
-                  w-full
-                  px-4
-                  py-2
-                  text-sm
-                  font-medium
-                  text-white
-                  rounded-md
-                  bg-gray-400
-                  hover:bg-gray-300
-                  focus:outline-none
-                  focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75
-                "
-              >
-                Actions
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="w-5 h-5 ml-2 -mr-1 text-violet-200 hover:text-violet-100"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </MenuButton>
-            </div>
-
-            <transition
-              enter-active-class="transition duration-100 ease-out"
-              enter-from-class="transform scale-95 opacity-0"
-              enter-to-class="transform scale-100 opacity-100"
-              leave-active-class="transition duration-75 ease-in"
-              leave-from-class="transform scale-100 opacity-100"
-              leave-to-class="transform scale-95 opacity-0"
+        <div class="flex gap-4">
+          <router-link v-slot="{ navigate }" :to="{ name: 'createdevice' }">
+            <button
+              @click="navigate"
+              class="
+                w-24
+                px-2
+                py-2
+                text-sm text-white
+                rounded-md
+                bg-gray-400
+                hover:bg-gray-300
+                group
+                flex
+                items-center
+              "
             >
-              <MenuItems
-                class="
-                  absolute
-                  right-0
-                  w-32
-                  mt-1
-                  origin-top-right
-                  bg-white
-                  divide-y divide-gray-100
-                  rounded-md
-                  shadow-lg
-                  ring-1 ring-black ring-opacity-5
-                  z-50
-                  focus:outline-none
-                "
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                <div class="px-1 py-1">
-                  <MenuItem v-slot="{ active }">
-                    <router-link v-slot="{ navigate }" :to="{ name: 'createdevice' }">
-                      <button
-                        @click="navigate"
-                        :class="[
-                          active ? 'bg-gray-400 text-white' : 'text-gray-900',
-                          'group flex rounded-md items-center w-full px-2 py-2 text-sm',
-                        ]"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="w-5 h-5 mr-2"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                          />
-                        </svg>
-                        Create
-                      </button>
-                    </router-link>
-                  </MenuItem>
-                  <MenuItem v-slot="{ active }">
-                    <button
-                      :class="[
-                        active ? 'bg-red-800 text-white' : 'text-gray-900',
-                        'group flex rounded-md items-center w-full px-2 py-2 text-sm',
-                      ]"
-                      @click="confirmDelete()"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="w-5 h-5 mr-2 text-violet-400"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                        />
-                      </svg>
-                      Delete
-                    </button>
-                  </MenuItem>
-                </div>
-              </MenuItems>
-            </transition>
-          </Menu>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                />
+              </svg>
+              Create
+            </button>
+          </router-link>
+
+          <button
+            class="
+              w-24
+              px-2
+              py-2
+              text-sm text-white
+              rounded-md
+              bg-red-900
+              hover:bg-red-800
+              disabled:bg-red-900 disabled:cursor-default
+              group
+              flex
+              items-center
+            "
+            @click="confirmDelete()"
+            :disabled="!this.deleteChecked.length"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-5 h-5 mr-2 text-violet-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+              />
+            </svg>
+            Delete
+          </button>
         </div>
       </div>
       <table class="w-full mt-2 text-gray-500">

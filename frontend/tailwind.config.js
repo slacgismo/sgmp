@@ -12,7 +12,11 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      cursor: ['disabled'],
+      pointerEvents: ['disabled'],
+      backgroundColor: ['disabled'],
+    },
   },
   plugins: [require('@tailwindcss/forms')],
 }
