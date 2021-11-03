@@ -10,7 +10,7 @@
       justify-center
     "
   >
-    <div class="rounded-md bg-white p-8">
+    <div class="rounded-md bg-white p-8 max-w-screen-sm">
       <h1 class="text-2xl text-gray-800 mb-4 text-center">{{ popupTitle }}</h1>
       <slot>
 

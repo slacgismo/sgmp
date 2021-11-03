@@ -151,18 +151,21 @@
       </form>
     </div>
   </div>
+  <generic-popup v-show="createResult" :popup-title="createResult" :togglePopup="() => createCallBack()"  :showClose="true" />
 </template>
 
 <script>
 import HouseInput from "@/components/HouseInput.vue";
 import NavigationBar from "@/components/layouts/NavigationBar.vue";
+import GenericPopup from "@/components/popup/GenericPopup.vue";
 import httpReq from "@/util/requestOptions";
 import constants from "@/util/constants";
 
 export default {
   components: {
     HouseInput,
-    NavigationBar
+    NavigationBar,
+    GenericPopup
   },
   mounted() {
     this.getRoles();
@@ -173,7 +176,8 @@ export default {
       name: "",
       role: "",
       roleOptions: [],
-      selectedHouse: {}
+      selectedHouse: {},
+      createResult: ""
     };
   },
   methods: {
@@ -228,21 +232,25 @@ export default {
           const data = await response.json();
 
           // check for error response
-          if (!response.ok) {
+          if (!response.ok || data.status != "ok") {
             // get error message from body or default to response status
-            const error = (data && data.message) || response.status;
+            const error = (data && data.message) || data.status || response.status;
             return Promise.reject(error);
           }
-          this.$router.push("/users");
+          this.createResult = "Creation complete!";
         })
         .catch((error) => {
           this.errorMessage = error;
-          alert("User creation error: " + error);
+          this.createResult = "Error: " + error;
         });
     },
     cancel() {
       this.$router.back();
     },
+    createCallBack() {
+      this.createResult = "";
+      this.$router.push("/users");
+    }
   },
 };
 </script>

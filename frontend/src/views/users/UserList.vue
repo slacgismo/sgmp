@@ -328,6 +328,8 @@
   <generic-popup v-show="showLoadingPopup">
     <loading />
   </generic-popup>
+  <generic-popup v-show="deleteResult" :popup-title="deleteResult" :togglePopup="() => deleteCallBack()"  :showClose="true" />
+
 </template>
 
 <script>
@@ -358,7 +360,8 @@ export default {
       pageIndex: 0,
       maxPage: 0,
       numPerPage: constants.numPerPage,
-      searchText: ""
+      searchText: "",
+      deleteResult: ""
     };
   },
   mounted() {
@@ -427,21 +430,26 @@ export default {
             const error = (data && data.message) || response.status;
             return Promise.reject(error);
           }
-          console.log("Deletion complete.");
-          this.showLoadingPopup = false;
-          this.showDeleteConfirm = false;
-          this.deleteChecked = [];
-          this.listLoading = true;
-          this.loadUsers();
+          this.deleteResult = "Deletion complete!";
         })
         .catch((error) => {
           this.errorMessage = error;
-          console.error(error);
+          this.deleteResult = "Error: " + error;
+        })
+        .finally(() => {
+          this.showLoadingPopup = false;
+          this.showDeleteConfirm = false;
         });
     },
     updatePage: function(offset) {
       var newIdx = this.pageIndex + offset;
       this.pageIndex = Math.min(Math.max(0, newIdx), this.maxPage - 1);
+    },
+    deleteCallBack: function() {
+      this.deleteResult = "";
+      this.deleteChecked = [];
+      this.listLoading = true;
+      this.loadUsers();
     }
   },
   computed: {
