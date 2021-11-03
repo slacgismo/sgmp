@@ -31,7 +31,7 @@ def resolve_tsdb_host():
     ]
     
     # Collect a list of Consul server IPs
-    ec2 = boto3.client('ec2')
+    ec2 = boto3.client('ec2', region_name=config.AWS_REGION)
     consul_ip = []
     response = ec2.describe_instances(Filters=tag_filter)
     for r in response['Reservations']:
