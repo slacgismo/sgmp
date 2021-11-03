@@ -1,5 +1,6 @@
 export default Object.freeze({
     server: "http://54.176.249.126",
+    numPerPage: 10,
     timeFormat: {
         month: "short",
         day: "numeric",

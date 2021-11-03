@@ -58,7 +58,8 @@
               focus:ring-gray-500
               focus:z-10
             "
-            placeholder="Search user"
+            placeholder="Search user name"
+            v-model="searchText"
           />
         </div>
 
@@ -106,6 +107,7 @@
               rounded-md
               bg-red-900
               hover:bg-red-800
+              disabled:bg-red-900 disabled:cursor-default
               group
               flex
               items-center
@@ -156,7 +158,7 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
-          <tr v-for="user in userList" :key="user.email">
+          <tr v-for="user in computedList" :key="user.email">
             <td class="p-2">
               <input
                 type="checkbox"
@@ -218,9 +220,9 @@
                 <div>
                   <p class="text-sm text-gray-500">
                     Page
-                    <span class="font-medium underline">1</span>
+                    <span class="font-medium underline">{{ pageIndex + 1 }}</span>
                     of
-                    <span class="font-medium">{{ this.userList.length }}</span>
+                    <span class="font-medium">{{ maxPage }}</span>
                   </p>
                 </div>
                 <div>
@@ -235,7 +237,7 @@
                     "
                     aria-label="Pagination"
                   >
-                    <a
+                    <button
                       href="#"
                       class="
                         relative
@@ -248,9 +250,11 @@
                         font-medium
                         text-gray-500
                         hover:bg-gray-50
+                        disabled:bg-white disabled:cursor-default
                       "
+                      @click="updatePage(-1)"
+                      :disabled="pageIndex == 0"
                     >
-                      <span class="sr-only">Previous</span>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         class="h-6 w-6"
@@ -265,7 +269,7 @@
                           d="M15 19l-7-7 7-7"
                         />
                       </svg>
-                    </a>
+                    </button>
                     <a
                       aria-current="page"
                       class="
@@ -281,9 +285,9 @@
                         font-medium
                       "
                     >
-                      1
+                      {{ pageIndex + 1 }}
                     </a>
-                    <a
+                    <button
                       href="#"
                       class="
                         relative
@@ -297,9 +301,11 @@
                         font-medium
                         text-gray-500
                         hover:bg-gray-50
+                        disabled:bg-white disabled:cursor-default
                       "
+                      @click="updatePage(1)"
+                      :disabled="pageIndex == maxPage - 1"
                     >
-                      <span class="sr-only">Next</span>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         class="h-6 w-6"
@@ -314,7 +320,7 @@
                           d="M9 5l7 7-7 7"
                         />
                       </svg>
-                    </a>
+                    </button>
                   </nav>
                 </div>
               </div>
@@ -365,6 +371,10 @@ export default {
       listLoading: true,
       showDeleteConfirm: false,
       showLoadingPopup: false,
+      pageIndex: 0,
+      maxPage: 0,
+      numPerPage: constants.numPerPage,
+      searchText: ""
     };
   },
   mounted() {
@@ -408,6 +418,7 @@ export default {
           }
 
           this.userList = data.user_list;
+          this.maxPage = 1 + parseInt((data.user_list.length - 1) / this.numPerPage);
           this.listLoading = false;
         })
         .catch((error) => {
@@ -441,7 +452,7 @@ export default {
           console.log("Deletion complete.");
           this.showLoadingPopup = false;
           this.showDeleteConfirm = false;
-          this.userList = {};
+          this.deleteChecked = [];
           this.listLoading = true;
           this.loadUsers();
         })
@@ -450,6 +461,10 @@ export default {
           console.error(error);
         });
     },
+    updatePage: function(offset) {
+      var newIdx = this.pageIndex + offset;
+      this.pageIndex = Math.min(Math.max(0, newIdx), this.maxPage - 1);
+    }
   },
   computed: {
     selectAll: {
@@ -468,11 +483,20 @@ export default {
         }
 
         this.deleteChecked = selected;
-      },
+      }
     },
-    userProfile: function (user) {
-      return { email: user.email };
-    },
+    computedList: {
+      get: function () {
+        const startIdx = this.pageIndex * this.numPerPage;
+        var list = this.userList;
+        if (this.searchText) {
+          list = list.filter(item => 
+            item.name.toLowerCase().includes(this.searchText.toLowerCase()));
+        }
+        this.maxPage = 1 + parseInt((list.length - 1) / this.numPerPage);
+        return list.slice(startIdx, startIdx + this.numPerPage);
+      }
+    }
   },
 };
 </script>

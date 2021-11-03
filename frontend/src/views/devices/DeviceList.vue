@@ -45,6 +45,7 @@
               focus:outline-none focus:ring-gray-500 focus:ring-gray-500 focus:z-10
             "
             placeholder="Search device"
+            v-model="searchText"
           />
         </div>
         <div>
@@ -179,7 +180,7 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
-          <tr v-for="device in deviceList" :key="device.device_id">
+          <tr v-for="device in computedList" :key="device.device_id">
             <td class="p-2">
               <input
                 type="checkbox"
@@ -206,14 +207,14 @@
                 <div>
                   <p class="text-sm text-gray-500">
                     Page
-                    <span class="font-medium underline">1</span>
+                    <span class="font-medium underline">{{ pageIndex + 1 }}</span>
                     of
-                    <span class="font-medium">{{ this.deviceList.length }}</span>
+                    <span class="font-medium">{{ maxPage }}</span>
                   </p>
                 </div>
                 <div>
                   <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                    <a
+                    <button
                       href="#"
                       class="
                         relative
@@ -226,7 +227,10 @@
                         font-medium
                         text-gray-500
                         hover:bg-gray-50
+                        disabled:bg-white disabled:cursor-default
                       "
+                      @click="updatePage(-1)"
+                      :disabled="pageIndex == 0"
                     >
                       <span class="sr-only">Previous</span>
                       <svg
@@ -238,7 +242,7 @@
                       >
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                       </svg>
-                    </a>
+                    </button>
                     <a
                       aria-current="page"
                       class="
@@ -254,9 +258,9 @@
                         font-medium
                       "
                     >
-                      1
+                      {{ pageIndex + 1 }}
                     </a>
-                    <a
+                    <button
                       href="#"
                       class="
                         relative
@@ -270,9 +274,11 @@
                         font-medium
                         text-gray-500
                         hover:bg-gray-50
+                        disabled:bg-white disabled:cursor-default
                       "
+                      @click="updatePage(1)"
+                      :disabled="pageIndex == maxPage - 1"
                     >
-                      <span class="sr-only">Next</span>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         class="h-6 w-6"
@@ -282,7 +288,7 @@
                       >
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                       </svg>
-                    </a>
+                    </button>
                   </nav>
                 </div>
               </div>
@@ -300,7 +306,6 @@
 
 <script>
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
-import { ref } from 'vue';
 import httpReq from "@/util/requestOptions";
 import constants from "@/util/constants";
 import Loading from "@/components/Loading.vue";
@@ -315,8 +320,6 @@ export default {
     Loading,
     GenericPopup
   },
-  setup() {
-  },
   data() {
     return {
       deviceList: [],
@@ -324,12 +327,14 @@ export default {
       deviceIdNameMap: {},
       deviceListLoading: true,
       showDeleteConfirm: false,
+      pageIndex: 0,
+      maxPage: 0,
+      numPerPage: constants.numPerPage,
+      searchText: ""
     }
   },
   mounted() {
     this.loadDevices();
-  },
-  setup() {
   },
   methods: {
     loadDevices: function () {
@@ -349,6 +354,7 @@ export default {
           }
           this.deviceIdNameMap = {};
           this.deviceList = data.devices;
+          this.maxPage = 1 + parseInt((data.devices.length - 1) / this.numPerPage);
           this.deviceListLoading = false;
 
           for (const device of data.devices) {
@@ -399,6 +405,10 @@ export default {
         this.errorMessage = error;
         console.error(error);
       });
+    },
+    updatePage: function(offset) {
+      var newIdx = this.pageIndex + offset;
+      this.pageIndex = Math.min(Math.max(0, newIdx), this.maxPage - 1);
     }
   },
   computed: {
@@ -416,6 +426,18 @@ export default {
         }
 
         this.deleteChecked = selected;
+      }
+    },
+    computedList: {
+      get: function () {
+        const startIdx = this.pageIndex * this.numPerPage;
+        var list = this.deviceList;
+        if (this.searchText) {
+          list = list.filter(item => 
+            item.description.toLowerCase().includes(this.searchText.toLowerCase()));
+        }
+        this.maxPage = 1 + parseInt((list.length - 1) / this.numPerPage);
+        return list.slice(startIdx, startIdx + this.numPerPage);
       }
     }
   }
