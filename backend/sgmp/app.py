@@ -25,10 +25,13 @@ import models.house
 
 from utils.tsdb import put_tsdb_conn
 import utils.config as config
+import utils.iot as iot
 
 app = Flask(__name__)
 CORS(app)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+iot.initialize()
 
 if config.DATABASE_URL is None:
     if config.MYSQL_DATABASE is None or config.MYSQL_HOST is None or config.MYSQL_USER is None or config.MYSQL_PASS is None:

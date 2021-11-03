@@ -2,11 +2,11 @@ from flask import g
 
 import psycopg2
 import psycopg2.pool
-import boto3
 import dns.resolver
 
 import utils.config as config
 
+from utils.functions import get_boto3_client
 from utils.logging import get_logger
 
 logger = get_logger('tsdb')
@@ -31,7 +31,7 @@ def resolve_tsdb_host():
     ]
     
     # Collect a list of Consul server IPs
-    ec2 = boto3.client('ec2', region_name=config.AWS_REGION)
+    ec2 = get_boto3_client('ec2')
     consul_ip = []
     response = ec2.describe_instances(Filters=tag_filter)
     for r in response['Reservations']:
