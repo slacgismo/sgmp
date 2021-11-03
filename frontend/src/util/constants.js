@@ -1,5 +1,5 @@
 export default Object.freeze({
-    server: "http://54.176.249.126",
+    server: "http://gismolab-sgmp-staging-1374415927.us-west-1.elb.amazonaws.com/",
     numPerPage: 10,
     timeFormat: {
         month: "short",
