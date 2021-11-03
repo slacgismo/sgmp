@@ -27,7 +27,7 @@ export default {
   props: {
     title: String,
     labels: Array,
-    request: String
+    request: Object
   },
   mounted() {
     // POST request to fetch data for the donut chart

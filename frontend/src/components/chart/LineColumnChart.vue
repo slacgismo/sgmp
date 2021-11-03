@@ -24,7 +24,7 @@ export default {
   components: { apexchart: VueApexCharts, Loading },
   props: {
     title: String,
-    request: String
+    request: Object
   },
   mounted() {
     // POST request to fetch data for the line-column chart

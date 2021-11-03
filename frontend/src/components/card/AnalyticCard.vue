@@ -28,7 +28,7 @@ export default {
     title: String,
     img: String,
     period: String,
-    request: String
+    request: Object
   },
   data() {
     return {
