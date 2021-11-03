@@ -29,7 +29,13 @@ import utils.config as config
 app = Flask(__name__)
 CORS(app)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = config.DATABASE_URL
+
+if config.DATABASE_URL is None:
+    if config.MYSQL_DATABASE is None or config.MYSQL_HOST is None or config.MYSQL_USER is None or config.MYSQL_PASS is None:
+        raise Exception('MySQL connection information is not present!')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://%s:%s@%s/%s' % (config.MYSQL_USER, config.MYSQL_PASS, config.MYSQL_HOST, config.MYSQL_DATABASE)
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = config.DATABASE_URL
 db.init_app(app)
 migrate = Migrate(app, db)
 

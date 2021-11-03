@@ -12,7 +12,7 @@ from utils.logging import get_logger
 logger = get_logger('tsdb')
 
 def resolve_tsdb_host():
-    if len(config.TSDB_HOST) > 0:
+    if config.TSDB_HOST is not None:
         logger.info('Using configured TSDB_HOST %s' % config.TSDB_HOST)
         return config.TSDB_HOST
     

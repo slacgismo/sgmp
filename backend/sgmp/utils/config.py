@@ -16,8 +16,12 @@ def get_config(key, default=None):
 
     return default
 
-DATABASE_URL = get_config('DATABASE_URL', 'sqlite:///test.sqlite')
-TSDB_HOST = get_config('TSDB_HOST', '')
+DATABASE_URL = get_config('DATABASE_URL')
+MYSQL_HOST = get_config('MYSQL_HOST')
+MYSQL_USER = get_config('MYSQL_USER')
+MYSQL_PASS = get_config('MYSQL_PASS')
+MYSQL_DATABASE = get_config('MYSQL_DATABASE')
+TSDB_HOST = get_config('TSDB_HOST')
 TSDB_USER = get_config('TSDB_USER')
 TSDB_PASS = get_config('TSDB_PASS')
 TSDB_DATABASE = get_config('TSDB_DATABASE')
