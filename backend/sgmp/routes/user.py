@@ -209,7 +209,6 @@ def user_create():
     house = request.json.get('house_id')
     role = request.json.get('role')
     password = random_password_generator()
-    status = 'ok'
 
     # validte if the input invalidate
     if email is None or name is None or house is None or role is None:
@@ -243,12 +242,12 @@ def user_create():
             Permanent=True
         )
         if add_user_into_role(email, role) != 'ok':
-            status = 'error in adding role'
+            return err_json('error in adding user')
     except Exception as e:
-        status = str(e)
+        return err_json("error in creating user")
 
     return jsonify({
-        'status': status
+        'status': 'ok'
     })
 
 # user password update
@@ -275,7 +274,6 @@ def user_updatePassword():
     else:
         return err_json('failed to login')
     
-    status = 'ok'
     try:
         client.change_password(
             PreviousPassword=old_password,
@@ -283,9 +281,9 @@ def user_updatePassword():
             AccessToken=str(access_token)
         )
     except Exception as e:
-        status = str(e)
+        return err_json(str(e))
     return jsonify({
-        'status': status
+        'status': 'ok'
     })
 
 # user authentication
@@ -343,7 +341,6 @@ def user_login():
 @api_user.route('/refreshToken', methods=['POST'])
 def user_refresh_token ():
     refresh_token = request.json.get('refresh_token')
-    status = 'ok'
     if refresh_token is None:
         return err_json('failed to refresh (no valid token')
     try:
@@ -360,10 +357,10 @@ def user_refresh_token ():
         else:
             return err_json('failed to refresh')
     except Exception as e:
-        status = str(e)
+        return err_json("error in refreshing token")
     print("here!")
     return jsonify({
-        'status': status,
+        'status': 'ok',
         'accesstoken': access_token
     })
 
@@ -376,7 +373,6 @@ def user_change_password():
     if email is None or new_password is None:
         return err_json('invalid request')
     client = get_boto3_client('cognito-idp')
-    status = 'ok'
     try:
         client.admin_set_user_password(
             UserPoolId=config.COGNITO_USER_POOL_ID,
@@ -385,10 +381,10 @@ def user_change_password():
             Permanent=True
         )
     except Exception as e:
-        status = e
+        return err_json("error in changing password")
 
     return jsonify({
-        'status': status
+        'status': 'ok'
     })
 
 # update user's profile 
@@ -438,7 +434,6 @@ def user_delete():
     if email_list is None or len(email_list) == 0:
         return err_json('invalid request')
     client = get_boto3_client('cognito-idp')
-    status = 'ok'
     try:
         for email in email_list:
             client.admin_delete_user(
@@ -446,8 +441,8 @@ def user_delete():
                 Username=email
             )
     except Exception as e:
-        status = str(e)
+        return err_json('error in deleting user account')
 
     return jsonify({
-        'status': status
+        'status': 'ok'
     })
