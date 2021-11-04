@@ -58,7 +58,7 @@
       />
     </router-link>
 
-    <router-link v-if="visible" :to="{ name: 'battery' }">
+    <router-link :to="{ name: 'battery' }">
       <!-- https://www.svgrepo.com/svg/326915/battery-charging-sharp -->
       <dashboard-card
         :unit="constants.units.Power"
@@ -118,10 +118,7 @@
   <div class="grid grid-cols-1 px-4 gap-4 mt-8 sm:px-8">
     <left-right-y-axes-chart
       title="Grid Frequency and Voltage"
-      leftAxisTitle="Grid frequency (Hz)"
-      :leftAxisType="constants.chartTypes.Line"
-      rightAxis1Title="L1 Voltage (V)"
-      rightAxis2Title="L2 Voltage (V)"
+      :axes="axes"
       :request="getTSRequest([
         constants.analytics.Frequency,
         constants.analytics.Voltage1,
@@ -153,7 +150,11 @@ export default {
     return {
       now,
       constants,
-      visible: false
+      axes: [
+        {title: "Grid frequency (Hz)", type: constants.chartTypes.Line},
+        {title: "L1 Voltage (V)", type: constants.chartTypes.Line},
+        {title: "L1 Voltage (V)", type: constants.chartTypes.Line}
+      ]
     };
   },
   created() {
@@ -170,14 +171,6 @@ export default {
           // get error message from body or default to response status
           const error = (data && data.message) || response.status;
           return Promise.reject(error);
-        }
-
-        if (data && data.devices) {
-          for (let i = 0; i < data.devices.length; i++) {
-            if (data.devices[i].type == constants.sources.Battery) {
-              this.visible = true;
-            }
-          }
         }
       })
       .catch((error) => {

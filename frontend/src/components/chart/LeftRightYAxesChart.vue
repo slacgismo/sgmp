@@ -21,7 +21,8 @@ import Loading from "@/components/Loading.vue";
 import httpReq from "@/util/requestOptions";
 import constants from "@/util/constants";
 
-const colorBlue = "#008FFB";
+// blue, orange, green
+const colors = ["#008FFB", "#00E396", "#FEB019"];
 const colorOrange = "#00E396";
 const colorGreen = "#FEB019";
 
@@ -34,30 +35,8 @@ export default {
     leftAxisType: String,
     rightAxis1Title: String,
     rightAxis2Title: String,
+    axes: Object,
     request: Object
-  },
-  mounted() {
-    // POST request to fetch data for the 3 y-axis chart
-    fetch(
-        constants.server + "/api/data/read", // endpoint
-        httpReq.post(this.request) // requestOptions
-      )
-      .then(async response => {
-        const data = await response.json();
-
-        // check for error response
-        if (!response.ok) {
-          // get error message from body or default to response status
-          const error = (data && data.message) || response.status;
-          return Promise.reject(error);
-        }
-
-        this.updateChart(data.results);
-      })
-      .catch(error => {
-        this.errorMessage = error;
-        console.error(error);
-      });
   },
   setup() {
     return {
@@ -76,6 +55,13 @@ export default {
       immediate: true,
       handler() {
         document.request = this.request;
+        this.fetchData();
+      },
+    },
+    axes: {
+      immediate: true,
+      handler() {
+        document.axes = this.axes;
       },
     },
     leftAxisTitle: {
@@ -111,25 +97,61 @@ export default {
   },
   methods: {
     updateChart(results) {
-      if (!results || results.length != 3) {
+      if (!results || results.length < 1) {
         return;
       }
 
-      let timeLabels = [], leftSeries = [], right1Series = [], right2Series = [];
-      // let cumulativeEnergy = 0;
+      let timeLabels = [], series = [], yAxes = [], strokes = { width: []};
+      for (let i = 0; i < results.length; i++) {
+        series[i] = {
+          name: this.axes[i].title,
+          type: this.axes[i].type,
+          data: []
+        };
+
+        if (this.axes[i].type == constants.chartTypes.Line) {
+          strokes.width[i] = 4; // line is not visible if the stroke is 0
+        } else {
+          strokes.width[i] = 0;
+        }
+
+        yAxes[i] = {
+          axisTicks: {
+            show: true,
+          },
+          axisBorder: {
+            show: true,
+            color: colors[i],
+          },
+          labels: {
+            style: {
+              colors: colors[i],
+            },
+          },
+          title: {
+            text: this.axes[i].title,
+            style: {
+              color: colors[i],
+            },
+          },
+        };
+        if (results.length > 1 && i > 0) {
+          yAxes[i].opposite = true;
+        }
+        if (results.length > 2 && i == 0) {
+          yAxes[i].forceNiceScale = false;
+          yAxes[i].min = 0;
+          yAxes[i].max = 100;
+          yAxes[i].tickAmount = 4;
+        }
+      }
+      
       for (let i = 0; i < results[0].data.length; i++) {
         timeLabels.push(new Date(results[0].data[i].timestamp).
           toLocaleDateString("en", constants.timeFormat));
-        leftSeries.push((results[0].data[i].value).toFixed(3));
-        right1Series.push((results[1].data[i].value).toFixed(3));
-        right2Series.push((results[2].data[i].value).toFixed(3));
-      }
-      
-      let strokes = {};
-      if (this.leftAxisType == constants.chartTypes.Column) {
-        strokes = {
-          width: [0, 4, 4],
-        }; // line is not visible if the stroke is 0
+        for (let j = 0; j < results.length; j++) {
+          series[j].data.push(results[j].data[i].value.toFixed(3));
+        }
       }
 
       this.options = {
@@ -138,99 +160,39 @@ export default {
           position: "bottom",
         },
         stroke: strokes,
-        series: [
-          {
-            name: this.leftAxisTitle,
-            type: this.leftAxisType,
-            data: leftSeries,
-          },
-          {
-            name: this.rightAxis1Title,
-            type: constants.chartTypes.Line,
-            data: right1Series,
-          },
-          {
-            name: this.rightAxis2Title,
-            type: constants.chartTypes.Line,
-            data: right2Series,
-          },
-        ],
-        yaxis: [
-          {
-            forceNiceScale: false,
-            min: 0,
-            max: 100,
-            tickAmount: 4,
-            axisTicks: {
-              show: true,
-            },
-            axisBorder: {
-              show: true,
-              color: colorBlue,
-            },
-            labels: {
-              style: {
-                colors: colorBlue,
-              },
-            },
-            title: {
-              text: this.leftAxisTitle,
-              style: {
-                color: colorBlue,
-              },
-            },
-            tooltip: {
-              enabled: true,
-            },
-          },
-          {
-            opposite: true,
-            axisTicks: {
-              show: true,
-            },
-            axisBorder: {
-              show: true,
-              color: colorOrange,
-            },
-            labels: {
-              style: {
-                colors: colorOrange,
-              },
-            },
-            title: {
-              text: this.rightAxis1Title,
-              style: {
-                color: colorOrange,
-              },
-            },
-          },
-          {
-            opposite: true,
-            axisTicks: {
-              show: true,
-            },
-            axisBorder: {
-              show: true,
-              color: colorGreen,
-            },
-            labels: {
-              style: {
-                colors: colorGreen,
-              },
-            },
-            title: {
-              text: this.rightAxis2Title,
-              style: {
-                color: colorGreen,
-              },
-            },
-          },
-        ],
+        series: series,
+        yaxis: yAxes
       };
 
       this.$refs.leftRightAxesChart.updateOptions(this.options, true);
       this.loaded = true;
     },
-  },
+    fetchData() {
+      if (!this.request) {
+        return;
+      }
+      // POST request to fetch data for the 3 y-axis chart
+      fetch(
+        constants.server + "/api/data/read", // endpoint
+        httpReq.post(this.request) // requestOptions
+      )
+      .then(async response => {
+        const data = await response.json();
+
+        // check for error response
+        if (!response.ok) {
+          // get error message from body or default to response status
+          const error = (data && data.message) || response.status;
+          return Promise.reject(error);
+        }
+
+        this.updateChart(data.results);
+      })
+      .catch(error => {
+        this.errorMessage = error;
+        console.error(error);
+      });
+    }
+  }
 };
 </script>

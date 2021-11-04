@@ -121,7 +121,6 @@
                   </li>
                 </router-link>
                 <router-link
-                  v-if="visible"
                   v-slot="{ isExactActive, href, navigate }"
                   :to="{ name: 'battery' }"
                 >
@@ -443,8 +442,7 @@ export default {
   },
   data() {
     return {
-      visible: false,
-      userRoutes: ["users", "createuser", "roles"],
+      userRoutes: ["users", "createuser", "updateuser", "roles", "createrole"],
       // configRoutes: ["devices", "createdevice", "updatedevice", "analytics", "createanalytics", "updateanalytics"]
     };
   },
@@ -462,15 +460,6 @@ export default {
           // get error message from body or default to response status
           const error = (data && data.message) || response.status;
           return Promise.reject(error);
-        }
-
-        if (data && data.devices) {
-          for (let i = 0; i < data.devices.length; i++) {
-            if (data.devices[i].type == constants.sources.Battery) {
-              this.visible = true;
-              break;
-            }
-          }
         }
       })
       .catch((error) => {
