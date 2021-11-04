@@ -214,11 +214,11 @@ export default {
           }
           console.log("Update successful!");
           if (localStorage.email == this.user.email) {
-            localStorage.setItem("email", this.user.email);
-            localStorage.setItem("name", this.user.name);
-            localStorage.setItem("role", this.user.role);
-            localStorage.setItem("house_id", this.user.house_id);
-            // localStorage.setItem("house_desc", this.user.house_id);
+            localStorage.setItem("email", data.email);
+            localStorage.setItem("name", data.name);
+            localStorage.setItem("role", data.role);
+            localStorage.setItem("house_id", data.house_id);
+            localStorage.setItem("house_desc", data.house_description);
           }
 
           this.$router.push("/users");
