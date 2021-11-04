@@ -70,12 +70,17 @@ def role_list():
         role_list.append(group['GroupName'])
 
     # put assigned users into role
-    user_list_for_role = {}
+    user_list_for_role = []
     for role in role_list:
-        user_list_for_role[role] = list_user_in_group(role)
-    user_list_for_role['status'] = 'ok'
+        role_entry = {}
+        role_entry['role'] = role
+        role_entry['users'] = list_user_in_group(role)
+        user_list_for_role.append(role_entry)
 
-    return jsonify(user_list_for_role)
+    return jsonify({
+        'status': 'ok',
+        'role_list': user_list_for_role
+    })
 
 # create a role
 @api_role.route('/create', methods=['POST'])
