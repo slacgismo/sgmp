@@ -134,10 +134,11 @@
               />
             </th>
             <th class="text-left text-gray-600">Role</th>
+            <th class="text-left text-gray-600">Users</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
-          <tr v-for="role in computedList" :key="role">
+          <tr v-for="role in computedList" :key="role.role">
             <td class="p-2">
               <input
                 type="checkbox"
@@ -150,11 +151,12 @@
                   cursor-pointer
                   focus:ring-0
                 "
-                :value="role"
+                :value="role.role"
                 v-model="deleteChecked"
               />
             </td>
-            <td>{{ role }}</td>
+            <td>{{ role.role }}</td>
+            <td class="whitespace-pre-wrap">{{ role.users.join(", ") }}</td>
           </tr>
           <tr v-show="roleList.length === 0 && !listLoading">
             <td colspan="5" class="p-2">No role found.</td>
@@ -448,7 +450,7 @@ export default {
         var list = this.roleList;
         if (this.searchText) {
           list = list.filter(item => 
-            item.toLowerCase().includes(this.searchText.toLowerCase()));
+            item.role.toLowerCase().includes(this.searchText.toLowerCase()));
         }
         this.maxPage = 1 + parseInt((list.length - 1) / this.numPerPage);
         return list.slice(startIdx, startIdx + this.numPerPage);
