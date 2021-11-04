@@ -220,7 +220,7 @@
         </li>
 
         <li v-show="isAdmin()">
-          <Disclosure v-slot="{ open }" :default-open="true">
+          <Disclosure v-slot="{ open }" :default-open="isActive(configRoutes)">
             <DisclosureButton
               class="px-4 py-3 flex items-center w-52 hover:bg-gray-100"
               :class="open ? 'bg-gray-100' : ''"
@@ -443,7 +443,7 @@ export default {
   data() {
     return {
       userRoutes: ["users", "createuser", "updateuser", "roles", "createrole"],
-      // configRoutes: ["devices", "createdevice", "updatedevice", "analytics", "createanalytics", "updateanalytics"]
+      configRoutes: ["devices", "createdevice", "updatedevice", "analytics", "createanalytics", "updateanalytics"]
     };
   },
   created() {

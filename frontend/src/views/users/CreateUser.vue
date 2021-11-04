@@ -197,7 +197,9 @@ export default {
             return Promise.reject(error);
           }
 
-          this.roleOptions = data.role_list;
+          this.roleOptions = Object.keys(data.role_list).map(function(k){
+            return data.role_list[k].role
+          });
         })
         .catch((error) => {
           this.errorMessage = error;
@@ -225,7 +227,7 @@ export default {
           "email": this.email,
           "name": this.name,
           "role": this.role,
-          "house_id": this.selectedHouse.house_id
+          "house_id": this.selectedHouse.house_id.toString()
         })
       )
         .then(async (response) => {

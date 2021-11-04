@@ -133,7 +133,7 @@
                 "
               />
             </th>
-            <th class="text-left text-gray-600">Role</th>
+            <th class="text-left text-gray-600 px-4">Role</th>
             <th class="text-left text-gray-600">Users</th>
           </tr>
         </thead>
@@ -155,7 +155,7 @@
                 v-model="deleteChecked"
               />
             </td>
-            <td>{{ role.role }}</td>
+            <td class="px-4">{{ role.role }}</td>
             <td class="whitespace-pre-wrap">{{ role.users.join(", ") }}</td>
           </tr>
           <tr v-show="roleList.length === 0 && !listLoading">

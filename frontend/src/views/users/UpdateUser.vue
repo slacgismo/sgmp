@@ -175,7 +175,9 @@ export default {
             return Promise.reject(error);
           }
 
-          this.roleOptions = data.role_list;
+          this.roleOptions = Object.keys(data.role_list).map(function(k){
+            return data.role_list[k].role
+          });
         })
         .catch((error) => {
           this.errorMessage = error;
