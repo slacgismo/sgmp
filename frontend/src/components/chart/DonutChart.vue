@@ -39,7 +39,7 @@ export default {
         const data = await response.json();
 
         // check for error response
-        if (!response.ok) {
+        if (!response.ok || !data.results) {
           // get error message from body or default to response status
           const error = (data && data.message) || response.status;
           return Promise.reject(error);
@@ -49,7 +49,8 @@ export default {
       })
       .catch((error) => {
         this.errorMessage = error;
-        console.error("There was an error!", error);
+        console.error("Donut chart error:", error);
+        this.loaded = true;
       });
   },
   setup() {

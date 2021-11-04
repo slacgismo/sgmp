@@ -23,8 +23,6 @@ import constants from "@/util/constants";
 
 // blue, orange, green
 const colors = ["#008FFB", "#00E396", "#FEB019"];
-const colorOrange = "#00E396";
-const colorGreen = "#FEB019";
 
 export default {
   name: "LeftRightYAxesChart",
@@ -98,6 +96,7 @@ export default {
   methods: {
     updateChart(results) {
       if (!results || results.length < 1) {
+        this.loaded = true;
         return;
       }
 
@@ -180,7 +179,7 @@ export default {
         const data = await response.json();
 
         // check for error response
-        if (!response.ok) {
+        if (!response.ok || !data.results) {
           // get error message from body or default to response status
           const error = (data && data.message) || response.status;
           return Promise.reject(error);
@@ -191,6 +190,7 @@ export default {
       .catch(error => {
         this.errorMessage = error;
         console.error(error);
+        this.loaded = true;
       });
     }
   }

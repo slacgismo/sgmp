@@ -225,7 +225,7 @@ export default {
           "email": this.email,
           "name": this.name,
           "role": this.role,
-          "house_id": this.selectedHouse.house_id.toString()
+          "house_id": this.selectedHouse.house_id
         })
       )
         .then(async (response) => {
