@@ -17,6 +17,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+      # The AWS Role name is hardcoded currently to the gismolab account
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@master
         with:
