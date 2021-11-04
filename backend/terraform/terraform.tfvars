@@ -9,6 +9,6 @@ tsdb_volume_size         = 100
 rds_allocated_storage    = 8
 rds_engine_version       = "8.0.26"
 rds_major_engine_version = "8.0"
-staging_image_uri        = "041414866712.dkr.ecr.us-west-1.amazonaws.com/sgmp:01c312894762cc7322688f01ad14689ec1ac3bde"
+staging_image_uri        = "041414866712.dkr.ecr.us-west-1.amazonaws.com/sgmp:bd56194f112076e7cc665082f7681938fa6e8e74"
 production_image_uri     = "041414866712.dkr.ecr.us-west-1.amazonaws.com/sgmp:01c312894762cc7322688f01ad14689ec1ac3bde"
 dns_zone_name            = "gismolab-sgmp.cwfang.me"
