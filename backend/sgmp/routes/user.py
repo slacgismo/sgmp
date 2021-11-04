@@ -281,7 +281,7 @@ def user_updatePassword():
             AccessToken=str(access_token)
         )
     except Exception as e:
-        return err_json(str(e))
+        return err_json('error in updating password')
     return jsonify({
         'status': 'ok'
     })
@@ -324,7 +324,7 @@ def user_login():
             house_description = get_house_description(house_id)
 
     except Exception as e:
-        return err_json(str(e))
+        return err_json('error in logging in the account')
 
     profile = decode_id_token(access_token)
 
