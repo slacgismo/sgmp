@@ -14,12 +14,6 @@ const routes = [
         meta: { auth: [] }
       },
       {
-        path: '/users',
-        name: 'users',
-        component: () => import('@/views/users/UserList.vue'),
-        meta: { auth: [constants.roles.Admin] }
-      },
-      {
         path: '/reports/solar',
         name: 'solar',
         component: () => import('@/views/reports/Solar.vue'),
@@ -47,14 +41,50 @@ const routes = [
         path: '/devices',
         name: 'devices',
         component: () => import('@/views/devices/DeviceList.vue'),
-        meta: { auth: [] }
+        meta: { auth: [constants.roles.Admin] }
       },
-      // TODO
-      // {
-      //   path: '/outage',
-      //   name: 'outage',
-      //   component: () => import('@/views/Outage.vue'),
-      // },
+      {
+        path: '/devices/create',
+        name: 'createdevice',
+        component: () => import('@/views/devices/CreateDevice.vue'),
+        meta: { auth: [constants.roles.Admin] }
+      },
+      {
+        path: '/devices/update/:id',
+        name: 'updatedevice',
+        component: () => import('@/views/devices/UpdateDevice.vue'),
+        meta: { auth: [constants.roles.Admin] }
+      },
+      {
+        path: '/analytics',
+        name: 'analytics',
+        component: () => import('@/views/analytics/AnalyticsList.vue'),
+        meta: { auth: [constants.roles.Admin] }
+      },
+      {
+        path: '/analytics/create',
+        name: 'createanalytics',
+        component: () => import('@/views/analytics/CreateAnalytics.vue'),
+        meta: { auth: [constants.roles.Admin] }
+      },
+      {
+        path: '/analytics/update/:name',
+        name: 'updateanalytics',
+        component: () => import('@/views/analytics/UpdateAnalytics.vue'),
+        meta: { auth: [constants.roles.Admin] }
+      },
+      {
+        path: '/users',
+        name: 'users',
+        component: () => import('@/views/users/UserList.vue'),
+        meta: { auth: [constants.roles.Admin] }
+      },
+      {
+        path: '/users/create',
+        name: 'createuser',
+        component: () => import('@/views/users/CreateUser.vue'),
+        meta: { auth: [constants.roles.Admin] }
+      },
     ],
   },
   {

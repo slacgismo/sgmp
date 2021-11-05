@@ -16,30 +16,37 @@
         />
       </svg>
     </button>
-    <div class="flex">
-      <h1 class="text-2xl px-2 py-4 text-gray-800">
+    <div class="flex items-center space-x-1">
+      <h1 class="text-2xl py-4 text-gray-800">
         Smart Grid Management Platform
       </h1>
-      <select
-        class="
-          w-32 h-auto
-          space-x-2
-          px-2
-          py-4
-          text-sm
-          border-0 border-b-2 border-gray-200
-          hover:border-red-900
-        "
-        @change="onChangeHome($event)"
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-4 w-4"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
       >
-        <option
-          :value="house.house_id"
-          v-for="house in houseList"
-          :key="house.house_id"
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 5l7 7-7 7"
+        />
+      </svg>
+      <div v-if="isAdmin">
+        <button
+          class="text-2xl text-red-900 hover:underline"
+          :key="house"
+          @click="TogglePopup()"
         >
-          {{ house.description }}
-        </option>
-      </select>
+          {{ house }}
+        </button>
+        <popup v-if="popupTriggers" :TogglePopup="() => TogglePopup()"> </popup>
+      </div>
+      <div v-else>
+        <h2 class="text-2xl text-red-900">{{ house }}</h2>
+      </div>
     </div>
 
     <Menu as="div" class="relative">
@@ -106,13 +113,13 @@
               >
             </MenuItem>
             <MenuItem v-slot="{ active }">
-              <a
-                href="#"
+              <router-link
+                :to="{ name: 'devices' }"
                 :class="[
                   active ? 'bg-gray-100' : '',
                   'block px-4 py-2 text-sm text-gray-700',
                 ]"
-                >Settings</a
+                >Settings</router-link
               >
             </MenuItem>
           </div>
@@ -133,10 +140,11 @@
 </template>
 
 <script>
+import { ref, computed } from "vue";
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
+import Popup from "@/components/Popup.vue";
 import httpReq from "@/util/requestOptions";
 import constants from "@/util/constants";
-// import ulist from '@/data/users/userList.json';
 
 export default {
   components: {
@@ -144,14 +152,32 @@ export default {
     MenuButton,
     MenuItems,
     MenuItem,
+    Popup,
+  },
+  setup() {
+    const isAdmin = computed(() => {
+      return localStorage.getItem("roles") == constants.roles.Admin;
+    });
+    const popupTriggers = ref(false);
+    const TogglePopup = () => {
+      popupTriggers.value = !popupTriggers.value;
+    };
+    return {
+      isAdmin,
+      popupTriggers,
+      TogglePopup,
+    };
   },
   data() {
     return {
+      house: "",
       houseList: {},
     };
   },
   created() {
-    // POST request to fetch data for the line-column chart
+    this.house = localStorage.getItem("house_desc");
+
+    // POST request to fetch data for the houses
     fetch(
       constants.server + "/api/house/list", // endpoint
       httpReq.get() // requestOptions
@@ -190,9 +216,6 @@ export default {
     logout() {
       localStorage.clear();
     },
-    onChangeHome(event) {
-      this.$data.houseId = parseInt(event.target.value);
-    }
   },
 };
 </script>

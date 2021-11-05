@@ -121,6 +121,7 @@
                   </li>
                 </router-link>
                 <router-link
+                  v-if="visible"
                   v-slot="{ isExactActive, href, navigate }"
                   :to="{ name: 'battery' }"
                 >
@@ -212,38 +213,17 @@
           </Disclosure>
         </li>
 
-        <!-- <router-link v-slot="{ isExactActive, href, navigate }" :to="{ name: 'outage' }"> -->
         <li
-          class="px-4 cursor-pointer"
-          :class="[
-            isExactActive ? 'bg-white text-red-900' : 'hover:bg-gray-100',
-          ]"
+          v-show="isAdmin()"
+          class="px-4 py-2 mt-2 text-xs uppercase tracking-wider font-bold"
         >
-          <a class="py-3 flex items-center" :href="href" @click="navigate">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5 mr-2"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                d="M15.684,16.959L10.879,8.52c0.886-0.343,1.517-1.193,1.517-2.186c0-1.296-1.076-2.323-2.396-2.323S7.604,5.037,7.604,6.333c0,0.993,0.63,1.843,1.517,2.186l-4.818,8.439c-0.189,0.311,0.038,0.708,0.412,0.708h10.558C15.645,17.667,15.871,17.27,15.684,16.959 M8.562,6.333c0-0.778,0.645-1.382,1.438-1.382s1.438,0.604,1.438,1.382c0,0.779-0.645,1.412-1.438,1.412S8.562,7.113,8.562,6.333 M5.55,16.726L10,8.91l4.435,7.815H5.55z M15.285,9.62c1.26-2.046,1.26-4.525,0-6.572c-0.138-0.223-0.064-0.512,0.162-0.646c0.227-0.134,0.521-0.063,0.658,0.16c1.443,2.346,1.443,5.2,0,7.546c-0.236,0.382-0.641,0.17-0.658,0.159C15.221,10.131,15.147,9.842,15.285,9.62 M13.395,8.008c0.475-1.063,0.475-2.286,0-3.349c-0.106-0.238,0.004-0.515,0.246-0.62c0.242-0.104,0.525,0.004,0.632,0.242c0.583,1.305,0.583,2.801,0,4.106c-0.214,0.479-0.747,0.192-0.632,0.242C13.398,8.523,13.288,8.247,13.395,8.008 M3.895,10.107c-1.444-2.346-1.444-5.2,0-7.546c0.137-0.223,0.431-0.294,0.658-0.16c0.226,0.135,0.299,0.424,0.162,0.646c-1.26,2.047-1.26,4.525,0,6.572c0.137,0.223,0.064,0.512-0.162,0.646C4.535,10.277,4.131,10.489,3.895,10.107 M5.728,8.387c-0.583-1.305-0.583-2.801,0-4.106c0.106-0.238,0.39-0.346,0.631-0.242c0.242,0.105,0.353,0.382,0.247,0.62c-0.475,1.063-0.475,2.286,0,3.349c0.106,0.238-0.004,0.515-0.247,0.62c-0.062,0.027-0.128,0.04-0.192,0.04C5.982,8.668,5.807,8.563,5.728,8.387"
-              />
-            </svg>
-            Outage
-            <span
-              class="ml-auto text-xs bg-red-900 text-white px-2 py-1 rounded-sm"
-              >1</span
-            >
-          </a>
-        </li>
-        <!-- </router-link> -->
-
-        <li class="px-4 py-2 mt-2 text-xs uppercase tracking-wider font-bold">
           Settings
         </li>
-        <router-link v-slot="{ isExactActive, href, navigate }" to="/devices">
+        <router-link
+          v-show="isAdmin()"
+          v-slot="{ isExactActive, href, navigate }"
+          to="/devices"
+        >
           <li
             class="px-4 cursor-pointer"
             :class="[
@@ -258,19 +238,51 @@
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
-                <!-- http://svgicons.sparkk.fr/ -->
+                <!-- https://icomoon.io/ -->
                 <path
-                  d="M17.237,3.056H2.93c-0.694,0-1.263,0.568-1.263,1.263v8.837c0,0.694,0.568,1.263,1.263,1.263h4.629v0.879c-0.015,0.086-0.183,0.306-0.273,0.423c-0.223,0.293-0.455,0.592-0.293,0.92c0.07,0.139,0.226,0.303,0.577,0.303h4.819c0.208,0,0.696,0,0.862-0.379c0.162-0.37-0.124-0.682-0.374-0.955c-0.089-0.097-0.231-0.252-0.268-0.328v-0.862h4.629c0.694,0,1.263-0.568,1.263-1.263V4.319C18.5,3.625,17.932,3.056,17.237,3.056 M8.053,16.102C8.232,15.862,8.4,15.597,8.4,15.309v-0.89h3.366v0.89c0,0.303,0.211,0.562,0.419,0.793H8.053z M17.658,13.156c0,0.228-0.193,0.421-0.421,0.421H2.93c-0.228,0-0.421-0.193-0.421-0.421v-1.263h15.149V13.156z M17.658,11.052H2.509V4.319c0-0.228,0.193-0.421,0.421-0.421h14.308c0.228,0,0.421,0.193,0.421,0.421V11.052z"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M23.506 19.169l-10.794-9.252c0.503-0.944 0.788-2.022 0.788-3.167 0-3.728-3.022-6.75-6.75-6.75-0.682 0-1.34 0.102-1.96 0.29l3.9 3.9c0.583 0.583 0.583 1.538 0 2.121l-2.379 2.379c-0.583 0.583-1.538 0.583-2.121 0l-3.9-3.9c-0.188 0.62-0.29 1.279-0.29 1.96 0 3.728 3.022 6.75 6.75 6.75 1.145 0 2.222-0.285 3.167-0.788l9.252 10.794c0.537 0.626 1.454 0.662 2.037 0.078l2.379-2.379c0.583-0.583 0.548-1.5-0.078-2.037z"
                 />
               </svg>
-              Devices
+              Device Configuration
             </a>
           </li>
         </router-link>
 
-        <li class="px-4 py-2 mt-2 text-xs uppercase tracking-wider font-bold" v-show="isAdmin()">
-          Authorization
-        </li>
+        <router-link
+          v-show="isAdmin()"
+          v-slot="{ isExactActive, href, navigate }"
+          to="/analytics"
+        >
+          <li
+            class="px-4 cursor-pointer"
+            :class="[
+              isExactActive ? 'bg-white text-red-900' : 'hover:bg-gray-100',
+            ]"
+          >
+            <a class="py-3 flex items-center" :href="href" @click="navigate">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <!-- https://icomoon.io/ -->
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M23.506 19.169l-10.794-9.252c0.503-0.944 0.788-2.022 0.788-3.167 0-3.728-3.022-6.75-6.75-6.75-0.682 0-1.34 0.102-1.96 0.29l3.9 3.9c0.583 0.583 0.583 1.538 0 2.121l-2.379 2.379c-0.583 0.583-1.538 0.583-2.121 0l-3.9-3.9c-0.188 0.62-0.29 1.279-0.29 1.96 0 3.728 3.022 6.75 6.75 6.75 1.145 0 2.222-0.285 3.167-0.788l9.252 10.794c0.537 0.626 1.454 0.662 2.037 0.078l2.379-2.379c0.583-0.583 0.548-1.5-0.078-2.037z"
+                />
+              </svg>
+              Analytics Items
+            </a>
+          </li>
+        </router-link>
+
         <li v-show="isAdmin()">
           <Disclosure v-slot="{ open }" :default-open="isUserManagementActive">
             <DisclosureButton
@@ -291,7 +303,7 @@
                   d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
                 />
               </svg>
-              Role Management
+              User Management
               <span class="ml-auto">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -368,13 +380,15 @@ import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 
+import constants from "@/util/constants";
+import httpReq from "@/util/requestOptions";
+
 export default {
   components: {
     Disclosure,
     DisclosureButton,
     DisclosurePanel,
   },
-
   setup() {
     const route = useRoute();
 
@@ -388,6 +402,41 @@ export default {
       route,
       isUserManagementActive,
     };
+  },
+  data() {
+    return {
+      visible: false,
+    };
+  },
+  created() {
+    // POST request to fetch data for the houses
+    fetch(
+      constants.server + "/api/device/list", // endpoint
+      httpReq.post({ house_id: localStorage.getItem("house_id") }) // requestOptions
+    )
+      .then(async (response) => {
+        const data = await response.json();
+
+        // check for error response
+        if (!response.ok) {
+          // get error message from body or default to response status
+          const error = (data && data.message) || response.status;
+          return Promise.reject(error);
+        }
+
+        if (data && data.devices) {
+          for (let i = 0; i < data.devices.length; i++) {
+            if (data.devices[i].type == constants.sources.Battery) {
+              this.visible = true;
+              break;
+            }
+          }
+        }
+      })
+      .catch((error) => {
+        this.errorMessage = error;
+        console.error(error);
+      });
   },
 };
 </script>

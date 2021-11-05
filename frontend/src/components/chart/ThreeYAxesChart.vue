@@ -10,7 +10,7 @@
         :height="300"
         :options="options"
         :series="series"
-      />
+      ></apexchart>
     </div>
   </div>
 </template>
@@ -20,33 +20,17 @@ import VueApexCharts from "vue3-apexcharts";
 import Loading from "@/components/Loading.vue";
 import httpReq from "@/util/requestOptions";
 import constants from "@/util/constants";
-// to be replaced with real data
-import frequency from "@/data/home/frequency.json";
-import voltage from "@/data/home/voltage.json";
-
-const colorBlue = "#008FFB";
-const colorOrange = "#00E396";
-const colorGreen = "#FEB019";
 
 export default {
   name: "ThreeYAxesChart",
   components: { apexchart: VueApexCharts, Loading },
   props: {
     title: String,
-    leftAxisTitle: String,
-    leftAxisType: String,
-    rightAxis1Title: String,
-    rightAxis2Title: String,
+    labels: Array,
     request: String
   },
   mounted() {
     // POST request to fetch data for the 3 y-axis chart
-    let requestBody = {
-      "start_time": new Date().getTime()-3600000,
-      "end_time": new Date().getTime(),
-      "type": "device",
-      "device_id": 2
-    };
     fetch(
         constants.server + "/api/data/read", // endpoint
         httpReq.post(this.request) // requestOptions
@@ -81,36 +65,18 @@ export default {
         document.title = this.title;
       },
     },
+    labels: {
+      immediate: true,
+      handler() {
+        document.labels = this.labels;
+      }
+    },
     request: {
       immediate: true,
       handler() {
         document.request = this.request;
       },
     },
-    leftAxisTitle: {
-      immediate: true,
-      handler() {
-        document.leftAxisTitle = this.leftAxisTitle;
-      },
-    },
-    leftAxisType: {
-      immediate: true,
-      handler() {
-        document.leftAxisType = this.leftAxisType;
-      },
-    },
-    rightAxis1Title: {
-      immediate: true,
-      handler() {
-        document.rightAxis1Title = this.rightAxis1Title;
-      },
-    },
-    rightAxis2Title: {
-      immediate: true,
-      handler() {
-        document.rightAxis2Title = this.rightAxis2Title;
-      },
-    }
   },
   data() {
     return {
@@ -124,23 +90,25 @@ export default {
         return;
       }
 
-      const format = {
-        month: "short",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      };
-      let timeLabels = [], leftSeries = [], right1Series = [], right2Series = [];
-      // let cumulativeEnergy = 0;
-      for (let i = 0; i < results[0].data.length; i++) {
-        timeLabels.push(new Date(results[0].data[i].timestamp).
-          toLocaleDateString("en", format));
-        leftSeries.push((results[0].data[i].value).toFixed(2));
-        right1Series.push((results[1].data[i].value).toFixed(2));
-        right2Series.push((results[2].data[i].value).toFixed(2));
-        // leftSeries.push((results[i].value / 1000).toFixed(2)) // W = 1/1000 kW
-        // cumulativeEnergy += (results[i].value / 12000) // interval 5 min = 1/12 h, W = 1/1000 kW
-        // right1Series.push(cumulativeEnergy.toFixed(2))
+      let timeLabels = [], series = new Array(3), size = 0, availableIdx = 0;
+      for (let j = 0; j < 3; j++) {
+        let tmp = results[j].data;
+        if (tmp && tmp.length > 0) {
+          size = tmp.length;
+          availableIdx = j;
+        }
+        series[j] = new Array();
+      }
+
+      for (let i = 0; i < size; i++) {
+        timeLabels.push(new Date(results[availableIdx].data[i].timestamp).
+          toLocaleDateString("en", constants.timeFormat));
+        for (let j = 0; j < 3; j++) {
+          if (!results[j].data || results[j].data.length == 0) {
+            continue;
+          }
+          series[j].push((results[j].data[i].value).toFixed(3));
+        }
       }
       
       let strokes = {};
@@ -151,99 +119,59 @@ export default {
       }
 
       this.options = {
-        labels: timeLabels,
-        legend: {
-          position: "bottom",
+        chart: {
+          height: 350,
+          type: "line",
+          stacked: false,
         },
-        stroke: strokes,
         series: [
           {
-            name: this.leftAxisTitle,
-            type: this.leftAxisType,
-            data: leftSeries,
+            name: this.labels[0],
+            type: "column",
+            data: series[0],
           },
           {
-            name: this.rightAxis1Title,
-            type: constants.chartTypes.Line,
-            data: right1Series,
+            name: this.labels[1],
+            type: "area",
+            data: series[1],
           },
           {
-            name: this.rightAxis2Title,
-            type: constants.chartTypes.Line,
-            data: right2Series,
-          },
+            name: this.labels[2],
+            type: "line",
+            data: series[2],
+          }
         ],
-        yaxis: [
-          {
-            forceNiceScale: false,
-            min: 0,
-            max: 100,
-            tickAmount: 4,
-            axisTicks: {
-              show: true,
-            },
-            axisBorder: {
-              show: true,
-              color: colorBlue,
-            },
-            labels: {
-              style: {
-                colors: colorBlue,
-              },
-            },
-            title: {
-              text: this.leftAxisTitle,
-              style: {
-                color: colorBlue,
-              },
-            },
-            tooltip: {
-              enabled: true,
-            },
+        stroke: {
+          width: [0, 2, 5],
+          curve: "smooth",
+        },
+        plotOptions: {
+          bar: {
+            columnWidth: "50%",
           },
-          {
-            opposite: true,
-            axisTicks: {
-              show: true,
-            },
-            axisBorder: {
-              show: true,
-              color: colorOrange,
-            },
-            labels: {
-              style: {
-                colors: colorOrange,
-              },
-            },
-            title: {
-              text: this.rightAxis1Title,
-              style: {
-                color: colorOrange,
-              },
-            },
+        },
+
+        fill: {
+          opacity: [0.85, 0.25, 1],
+          gradient: {
+            inverseColors: false,
+            shade: "light",
+            type: "vertical",
+            opacityFrom: 0.85,
+            opacityTo: 0.55,
+            stops: [0, 100, 100, 100],
           },
-          {
-            opposite: true,
-            axisTicks: {
-              show: true,
-            },
-            axisBorder: {
-              show: true,
-              color: colorGreen,
-            },
-            labels: {
-              style: {
-                colors: colorGreen,
-              },
-            },
-            title: {
-              text: this.rightAxis2Title,
-              style: {
-                color: colorGreen,
-              },
-            },
+        },
+        labels: timeLabels,
+        yaxis: {
+          title: {
+            text: "Average Power (kW)",
           },
-        ],
+          min: 0,
+        },
+        legend: {
+          position: "bottom",
+        }
       };
 
       this.$refs.multiAxesChart.updateOptions(this.options, true);

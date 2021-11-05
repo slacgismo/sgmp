@@ -199,8 +199,20 @@ export default {
             } else {
               localStorage.setItem("username", "User");
             }
-            if (data.profile && data.profile.roles) {
-              localStorage.setItem("roles", data.profile.roles);
+            if (data.profile) {
+              if (data.profile.roles) {
+                localStorage.setItem("roles", data.profile.roles);
+              }
+              if (data.profile.email) {
+                localStorage.setItem("email", data.profile.email);
+              }
+              if (data.house_id) {
+                localStorage.setItem("house_id", parseInt(data.house_id));
+                if (!data.house_description) {  // fallback: shouldn't happen
+                  data.house_description = "House";
+                }
+                localStorage.setItem("house_desc", data.house_description);
+              }
             }
 
             this.$router.push(this.$route.query.redirect || "/");

@@ -37,7 +37,7 @@
             img="charging.svg"
             :period="getPeriod(State.Day)"
             :request="
-              getAggRequest(State.Month, 'avg', '-neg(sonnen.status.Pac_total_W)')
+              getAggRequest(State.Day, 'avg', constants.analytics.BatteryCharging)
             "
           />
           <analytic-card
@@ -46,41 +46,15 @@
             img="discharging.svg"
             :period="getPeriod(State.Day)"
             :request="
-              getAggRequest(State.Month, 'avg', 'pos(sonnen.status.Pac_total_W)')
-            "
-          />
-          <!-- https://www.svgrepo.com/svg/285729/award-champion -->
-          <analytic-card
-            :unit="constants.units.Percentage"
-            :title="HIGH"
-            img="champion.svg"
-            :request="
-              getAggRequest(
-                State.Day,
-                'max',
-                'sonnen.battery.battery_status.relativestateofcharge'
-              )
-            "
-          />
-          <!-- https://www.svgrepo.com/svg/125860/down-arrow -->
-          <analytic-card
-            :unit="constants.units.Percentage"
-            :title="LOW"
-            img="down-arrow.svg"
-            :request="
-              getAggRequest(
-                State.Day,
-                'min',
-                'sonnen.battery.battery_status.relativestateofcharge'
-              )
+              getAggRequest(State.Day, 'avg', constants.analytics.BatteryDischarging)
             "
           />
         </div>
-        <three-y-axes-chart
+        <left-right-y-axes-chart
           :title="TITLE"
           leftAxisTitle="SOC (%)" :leftAxisType="constants.chartTypes.Column"
-          rightAxis1Title="Average Charging (W)"
-          rightAxis2Title="Average Discharging (W)"
+          :rightAxis1Title="CHARGINGAXIS"
+          :rightAxis2Title="DISCHARGINGAXIS"
           :request="getTSRequest(State.Day)"
         />
       </tab>
@@ -93,7 +67,7 @@
             img="charging.svg"
             :period="getPeriod(State.Week)"
             :request="
-              getAggRequest(State.Month, 'avg', '-neg(sonnen.status.Pac_total_W)')
+              getAggRequest(State.Week, 'avg', constants.analytics.BatteryCharging)
             "
           />
           <analytic-card
@@ -102,39 +76,15 @@
             img="discharging.svg"
             :period="getPeriod(State.Week)"
             :request="
-              getAggRequest(State.Month, 'avg', 'pos(sonnen.status.Pac_total_W)')
-            "
-          />
-          <analytic-card
-            :unit="constants.units.Percentage"
-            :title="HIGH"
-            img="champion.svg"
-            :request="
-              getAggRequest(
-                State.Week,
-                'max',
-                'sonnen.battery.battery_status.relativestateofcharge'
-              )
-            "
-          />
-          <analytic-card
-            :unit="constants.units.Percentage"
-            :title="LOW"
-            img="down-arrow.svg"
-            :request="
-              getAggRequest(
-                State.Week,
-                'min',
-                'sonnen.battery.battery_status.relativestateofcharge'
-              )
+              getAggRequest(State.Week, 'avg', constants.analytics.BatteryDischarging)
             "
           />
         </div>
-        <three-y-axes-chart
+        <left-right-y-axes-chart
           :title="TITLE"
           leftAxisTitle="SOC (%)" :leftAxisType="constants.chartTypes.Column"
-          rightAxis1Title="Average Charging (W)"
-          rightAxis2Title="Average Discharging (W)"
+          :rightAxis1Title="CHARGINGAXIS"
+          :rightAxis2Title="DISCHARGINGAXIS"
           :request="getTSRequest(State.Week)"
         />
       </tab>
@@ -147,7 +97,7 @@
             img="charging.svg"
             :period="getPeriod(State.Month)"
             :request="
-              getAggRequest(State.Month, 'avg', '-neg(sonnen.status.Pac_total_W)')
+              getAggRequest(State.Month, 'avg', constants.analytics.BatteryCharging)
             "
           />
           <analytic-card
@@ -156,10 +106,10 @@
             img="discharging.svg"
             :period="getPeriod(State.Month)"
             :request="
-              getAggRequest(State.Month, 'avg', 'pos(sonnen.status.Pac_total_W)')
+              getAggRequest(State.Month, 'avg', constants.analytics.BatteryDischarging)
             "
           />
-          <analytic-card
+          <!-- <analytic-card
             :unit="constants.units.Percentage"
             :title="HIGH"
             img="champion.svg"
@@ -167,7 +117,7 @@
               getAggRequest(
                 State.Month,
                 'max',
-                'sonnen.battery.battery_status.relativestateofcharge'
+                constants.analytics.SOC
               )
             "
           />
@@ -179,16 +129,16 @@
               getAggRequest(
                 State.Month,
                 'min',
-                'sonnen.battery.battery_status.relativestateofcharge'
+                constants.analytics.SOC
               )
             "
-          />
+          /> -->
         </div>
-        <three-y-axes-chart
+        <left-right-y-axes-chart
           :title="TITLE"
           leftAxisTitle="SOC (%)" :leftAxisType="constants.chartTypes.Column"
-          rightAxis1Title="Average Charging (W)"
-          rightAxis2Title="Average Discharging (W)"
+          :rightAxis1Title="CHARGINGAXIS"
+          :rightAxis2Title="DISCHARGINGAXIS"
           :request="getTSRequest(State.Month)"
         />
       </tab>
@@ -200,13 +150,15 @@
 import VueApexCharts from "vue3-apexcharts";
 import Tabs from "@/components/tab/Tabs.vue";
 import Tab from "@/components/tab/Tab.vue";
-import ThreeYAxesChart from "@/components/chart/ThreeYAxesChart.vue";
+import LeftRightYAxesChart from "@/components/chart/LeftRightYAxesChart.vue";
 import AnalyticCard from "@/components/card/AnalyticCard.vue";
 import constants from '@/util/constants';
 import { ref } from "vue";
 const State = Object.freeze({ Day: 0, Week: 1, Month: 2 });
 const CHARGING = "Average Charging";
 const DISCHARGING = "Average Discharging";
+const CHARGINGAXIS = "Average Charging (kW)";
+const DISCHARGINGAXIS = "Average Discharging (kW)";
 const HIGH = "Highest State Of Charge (SOC)";
 const LOW = "Lowest State Of Charge (SOC)";
 const TITLE = "Battery Power, Energy and State Of Charge (SOC)";
@@ -217,7 +169,7 @@ export default {
     apexchart: VueApexCharts,
     Tabs,
     Tab,
-    ThreeYAxesChart,
+    LeftRightYAxesChart,
     AnalyticCard,
   },
   setup() {
@@ -231,6 +183,8 @@ export default {
       State,
       CHARGING,
       DISCHARGING,
+      CHARGINGAXIS,
+      DISCHARGINGAXIS,
       HIGH,
       LOW,
       TITLE,
@@ -243,40 +197,42 @@ export default {
       return `${now.toLocaleDateString("en", { month: "long" })}`;
     },
     getPeriod(type) {
-      const format = {
-        month: "short",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-      };
       let start = new Date(this.getStartTime(now, type));
       return `${
-        start.toLocaleDateString("en", format) +
+        start.toLocaleDateString("en", constants.timeFormat) +
         ` ~\n` +
-        now.toLocaleDateString("en", format)
+        now.toLocaleDateString("en", constants.timeFormat)
       }`;
     },
     getTSRequest(type) {
-      let interval = 3600000; // 1 hour = 60 * 60 * 1000
-      if (type == State.Day) {
-        interval = 300000; // 5 min
-      }
-      return {
+      let ret = {
         "start_time": this.getStartTime(now, type),
         "end_time": now.getTime(),
         "type": "analytics",
-        "formula": ["sonnen.battery.battery_status.relativestateofcharge", "-neg(sonnen.status.Pac_total_W)", "pos(sonnen.status.Pac_total_W)"],
-        "average": interval
+        "analytics_name": [constants.analytics.SOC, constants.analytics.BatteryCharging, constants.analytics.BatteryDischarging],
+        "house_id": localStorage.getItem("house_id")
       };
+      // Weekly and montly data are by default averaged over 1 hour
+      if (type == State.Day) {
+        ret['average'] = 300000; // 5 min
+        ret['fine'] = true;
+      }
+      return ret;
     },
-    getAggRequest(type, aggFunc, formula) {
-      return {
+    getAggRequest(type, aggFunc, analyticsName) {
+      let ret = {
         start_time: this.getStartTime(now, type),
         end_time: now.getTime(),
         type: "analytics",
         agg_function: aggFunc,
-        formula: formula,
+        analytics_name: analyticsName,
+        house_id: localStorage.getItem("house_id")
       };
+      if (type == State.Day) {
+        // We want fine-grained data
+        ret['fine'] = true;
+      }
+      return ret;
     },
     getStartTime(now, type) {
       let cur = now.getTime();

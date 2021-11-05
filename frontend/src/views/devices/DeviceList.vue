@@ -106,23 +106,31 @@
               >
                 <div class="px-1 py-1">
                   <MenuItem v-slot="{ active }">
-                    <button
-                      :class="[
-                        active ? 'bg-gray-400 text-white' : 'text-gray-900',
-                        'group flex rounded-md items-center w-full px-2 py-2 text-sm',
-                      ]"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="w-5 h-5 mr-2"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
+                    <router-link v-slot="{ navigate }" :to="{ name: 'createdevice' }">
+                      <button
+                        @click="navigate"
+                        :class="[
+                          active ? 'bg-gray-400 text-white' : 'text-gray-900',
+                          'group flex rounded-md items-center w-full px-2 py-2 text-sm',
+                        ]"
                       >
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                      </svg>
-                      Add Device
-                    </button>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="w-5 h-5 mr-2"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                          />
+                        </svg>
+                        Create
+                      </button>
+                    </router-link>
                   </MenuItem>
                   <MenuItem v-slot="{ active }">
                     <button
@@ -130,6 +138,7 @@
                         active ? 'bg-red-800 text-white' : 'text-gray-900',
                         'group flex rounded-md items-center w-full px-2 py-2 text-sm',
                       ]"
+                      @click="confirmDelete()"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -152,20 +161,6 @@
               </MenuItems>
             </transition>
           </Menu>
-          <!-- <div>
-            <button class="flex items-center bg-red-900 p-2 text-white rounded text-sm pr-3 hover:bg-red-800">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6 mr-1"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-              </svg>
-              Add User
-            </button>
-          </div> -->
         </div>
       </div>
       <table class="w-full mt-2 text-gray-500">
@@ -189,17 +184,24 @@
               <input
                 type="checkbox"
                 class="h-5 w-5 text-blue-500 border-gray-300 rounded cursor-pointer focus:ring-0"
-                :checked="selectAll"
+                :value="device.device_id"
+                v-model="deleteChecked"
               />
             </td>
-            <td>{{ device.name }}</td>
+            <td><router-link :to="{ name: 'updatedevice', params: { id: device.device_id } }">{{ device.name }}</router-link></td>
             <td>{{ device.type }}</td>
             <td>{{ device.description }}</td>
+          </tr>
+          <tr v-show="deviceList.length === 0 && !deviceListLoading">
+            <td colspan="4" class="p-2">No device.</td>
+          </tr>
+          <tr v-show="deviceListLoading">
+            <td colspan="4" class="py-4"><loading /></td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="7" class="py-2">
+            <td colspan="4" class="py-2">
               <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
                 <div>
                   <p class="text-sm text-gray-500">
@@ -290,23 +292,10 @@
       </table>
     </div>
   </div>
-  
-  <Dialog :open="isOpen" @close="setIsOpen">
-    <DialogOverlay />
-
-    <DialogTitle>Deactivate account</DialogTitle>
-    <DialogDescription>
-      This will permanently deactivate your account
-    </DialogDescription>
-
-    <p>
-      Are you sure you want to deactivate your account? All of your data will be
-      permanently removed. This action cannot be undone.
-    </p>
-
-    <button @click="setIsOpen(false)">Deactivate</button>
-    <button @click="setIsOpen(false)">Cancel</button>
-  </Dialog>
+  <generic-popup v-show="showDeleteConfirm" popup-title="Delete Devices" :togglePopup="() => confirmDelete()" :yesAction="() => performDelete()" :showNo="true" :showYes="true">
+    Are you sure to delete the following devices?
+    <br /><pre v-for="id in deleteChecked" :key="id">{{ deviceIdNameMap[id] }}</pre>
+  </generic-popup>
 </template>
 
 <script>
@@ -314,6 +303,8 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
 import { ref } from 'vue';
 import httpReq from "@/util/requestOptions";
 import constants from "@/util/constants";
+import Loading from "@/components/Loading.vue";
+import GenericPopup from "@/components/GenericPopup.vue";
 
 export default {
   components: {
@@ -321,43 +312,112 @@ export default {
     MenuButton,
     MenuItems,
     MenuItem,
+    Loading,
+    GenericPopup
   },
-  data () {
+  setup() {
+  },
+  data() {
     return {
-      deviceList: []
+      deviceList: [],
+      deleteChecked: [],
+      deviceIdNameMap: {},
+      deviceListLoading: true,
+      showDeleteConfirm: false,
     }
   },
   mounted() {
-    // GET request to fetch data for the user list
-    fetch(
-        constants.server + "/api/device/list", // endpoint
-        httpReq.get() // requestOptions
-      )
-      .then(async response => {
-        const data = await response.json();
+    this.loadDevices();
+  },
+  setup() {
+  },
+  methods: {
+    loadDevices: function () {
+      // Fetch data for the device list
+      fetch(
+          constants.server + "/api/device/list", // endpoint
+          httpReq.post({ house_id: localStorage.getItem("house_id") }) // requestOptions
+        )
+        .then(async response => {
+          const data = await response.json();
 
-        // check for error response
-        if (!response.ok) {
-          // get error message from body or default to response status
-          const error = (data && data.message) || response.status;
-          return Promise.reject(error);
-        }
+          // check for error response
+          if (!response.ok) {
+            // get error message from body or default to response status
+            const error = (data && data.message) || response.status;
+            return Promise.reject(error);
+          }
+          this.deviceIdNameMap = {};
+          this.deviceList = data.devices;
+          this.deviceListLoading = false;
 
-        this.deviceList = data.devices;
+          for (const device of data.devices) {
+            this.deviceIdNameMap[device.device_id] = device.name;
+          }
+        })
+        .catch(error => {
+          this.errorMessage = error;
+          console.error(error);
+        });
+    },
+    confirmDelete: function() {
+      if (this.showDeleteConfirm) {
+        this.showDeleteConfirm = false;
+        return;
+      }
+      if (this.deleteChecked.length > 0) this.showDeleteConfirm = true;
+    },
+    performDelete: function() {
+      let promises = [];
+      for (const id of this.deleteChecked) {
+        promises.push(fetch(
+            constants.server + "/api/device/delete", // endpoint
+            httpReq.post({ device_id: id }) // requestOptions
+          )
+          .then(async response => {
+            const data = await response.json();
+
+            // check for error response
+            if (!response.ok) {
+              // get error message from body or default to response status
+              const error = (data && data.message) || response.status;
+              return Promise.reject(error);
+            }
+          }));
+      }
+
+      Promise.all(promises).then(() => {
+        alert('Deletion complete.');
+        this.showDeleteConfirm = false;
+        this.deviceIdNameMap = {};
+        this.deviceList = {};
+        this.deviceListLoading = true;
+
+        this.loadDevices();
       })
       .catch(error => {
         this.errorMessage = error;
         console.error(error);
       });
-  },
-
-  setup() {
-    const selectAll = ref(false)
-    return {
-      selectAll
     }
   },
-  methods: {
+  computed: {
+    selectAll: {
+      get: function () {
+        return this.deviceList ? this.deleteChecked.length == this.deviceList.length : false;
+      },
+      set: function (value) {
+        var selected = [];
+
+        if (value) {
+          this.deviceList.forEach(function (device) {
+            selected.push(device.device_id);
+          });
+        }
+
+        this.deleteChecked = selected;
+      }
+    }
   }
 }
 </script>

@@ -1,0 +1,254 @@
+<template>
+  <div class="flex justify-between px-4 mt-4 sm:px-8">
+    <h2 class="text-2xl text-gray-600">Update Analytics</h2>
+
+    <div class="flex items-center space-x-1 text-xs">
+      <router-link to="/" class="font-bold text-indigo-700">Home</router-link>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-2 w-2"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 5l7 7-7 7"
+        />
+      </svg>
+      <router-link to="/analytics" class="font-bold text-indigo-700">Analytics</router-link>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-2 w-2"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 5l7 7-7 7"
+        />
+      </svg>
+      <span class="text-gray-600">Update</span>
+    </div>
+  </div>
+
+  <div class="p-4 mt-8 sm:px-8 sm:py-4">
+    <div class="p-4 bg-white rounded">
+      <form class="space-y-4" @submit.prevent="validateCreate">
+        <div class="flex items-center">
+          <label for="analytics-name" class="w-1/6 text-gray-600 font-bold">Analytics Name</label>
+          <div class="relative text-gray-400 w-5/6">
+            <div class="relative w-5/6 font-mono">
+              {{ analytics.name }}
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center">
+          <label for="analytics-description" class="w-1/6 text-gray-600 font-bold">Description</label>
+          <div class="relative text-gray-400 w-5/6">
+            <input
+              id="analytics-description"
+              name="analytics-description"
+              type="text"
+              v-model="analytics.description"
+              class="
+                w-full
+                py-4
+                text-sm text-gray-900
+                rounded-md
+                border border-gray-300
+                focus:outline-none
+                focus:ring-blue-500
+                focus:border-blue-500
+                focus:z-10
+              "
+              placeholder="Description"
+              required=""
+            />
+          </div>
+        </div>
+        <div class="flex items-center">
+          <label for="analytics-formula" class="w-1/6 text-gray-600 font-bold">Formula</label>
+          <div class="relative text-gray-400 w-5/6">
+            <input
+              id="analytics-formula"
+              name="analytics-formula"
+              type="text"
+              v-model="analytics.formula"
+              class="
+                w-full
+                py-4
+                text-sm text-gray-900
+                rounded-md
+                border border-gray-300
+                focus:outline-none
+                focus:ring-blue-500
+                focus:border-blue-500
+                focus:z-10
+                font-mono
+              "
+              placeholder="Formula"
+              required=""
+            />
+          </div>
+        </div>
+        <div class="flex items-center">
+          <label class="w-1/6 text-gray-600 font-bold">Continuous Aggregation</label>
+          <div class="relative text-gray-400 w-5/6">
+            <input
+                v-model="analytics.continuous_aggregation"
+                :value="false"
+                type="radio"
+                id="ca-false"
+                class="h-5 w-5 text-blue-500 border-gray-300 rounded-full cursor-pointer focus:ring-0"
+              /><label class="py-5 text-gray-500" for="ca-false"> Disabled&nbsp;</label>
+            <input
+                v-model="analytics.continuous_aggregation"
+                :value="true"
+                type="radio"
+                id="ca-true"
+                class="h-5 w-5 text-blue-500 border-gray-300 rounded-full cursor-pointer focus:ring-0"
+              /><label class="py-5 text-gray-500" for="ca-true"> Enabled</label>
+          </div>
+        </div>
+        <div class="flex items-center">
+          <label class="w-1/6 text-gray-600 font-bold">&nbsp;</label>
+          <div class="relative text-gray-400 w-5/6 text-gray-500">
+            Please note that enabling Continuous Aggregation on a large amount of data can take up to 5 minutes per new identifier in the formula.
+          </div>
+        </div>
+
+        <div class="flex justify-evenly content-center p-8">
+          <button
+            class="
+              py-4
+              w-36
+              text-sm text-white
+              rounded-md
+              bg-gray-400
+              hover:bg-gray-300
+            "
+            @click="cancel()"
+          >
+            Cancel
+          </button>
+          <button
+            class="
+              py-4
+              w-36
+              text-sm text-white
+              rounded-md
+              bg-red-900
+              hover:bg-red-800
+              focus:outline-none
+              focus:ring-2
+              focus:ring-offset-2
+              focus:ring-red-700
+            "
+            @click="saveChange()"
+          >
+            Update
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <generic-popup v-show="showLoadingPopup">
+      <loading />
+  </generic-popup>
+</template>
+
+<script>
+import httpReq from "@/util/requestOptions";
+import constants from "@/util/constants";
+import GenericPopup from '@/components/GenericPopup.vue';
+import Loading from '@/components/Loading.vue';
+
+export default {
+  components: {
+      GenericPopup,
+      Loading
+  },
+  mounted() {
+    // Fetch data for the device details
+    fetch(
+        constants.server + "/api/analytics/details", // endpoint
+        httpReq.post({ house_id: localStorage.getItem('house_id'), name: this.$route.params.name }) // requestOptions
+      )
+      .then(async response => {
+        const data = await response.json();
+
+        // check for error response
+        if (!response.ok) {
+          // get error message from body or default to response status
+          const error = (data && data.message) || response.status;
+          return Promise.reject(error);
+        }
+
+        this.analytics.name = data.analytics.name;
+        this.analytics.description = data.analytics.description;
+        this.analytics.formula = data.analytics.formula;
+        this.analytics.continuous_aggregation = data.analytics.continuous_aggregation;
+      })
+      .catch(error => {
+        this.errorMessage = error;
+        console.error(error);
+      });
+  },
+  data() {
+    return {
+      analytics: {
+        name: '',
+        description: '',
+        formula: '',
+        continuous_aggregation: false
+      },
+      showLoadingPopup: false
+    };
+  },
+  methods: {
+    validateCreate() {
+      if (this.analytics.name && this.analytics.description && this.analytics.formula) {
+        return true;
+      }
+      return false;
+    },
+    saveChange() {
+      if (!this.validateCreate()) {
+        return;
+      }
+      this.showLoadingPopup = true;
+      // POST request to update analytics
+      fetch(
+        constants.server + "/api/analytics/update", // endpoint
+        httpReq.post({ ...this.analytics, house_id: localStorage.getItem('house_id') })
+      )
+        .then(async (response) => {
+          this.showLoadingPopup = false;
+          const data = await response.json();
+
+          // check for error response
+          if (!response.ok) {
+            // get error message from body or default to response status
+            const error = (data && data.message) || response.status;
+            return Promise.reject(error);
+          }
+          this.$router.push("/analytics");
+        })
+        .catch((error) => {
+          this.errorMessage = error;
+          alert("Analytics update error: " + error);
+        });
+    },
+    cancel() {
+      this.$router.back();
+    },
+  },
+};
+</script>
