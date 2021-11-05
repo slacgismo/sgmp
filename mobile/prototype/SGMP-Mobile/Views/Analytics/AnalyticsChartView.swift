@@ -23,9 +23,9 @@ struct AnalyticsChartTimePair : Codable, Equatable {
                 Toast.default(image: .init(systemName: "xmark")!, title: "Incorrect Parameter", subtitle: "end time cannot be before start time").show(haptic: .warning)
                 from = to.advanced(by: -60 * 60)
             }
-            if to.timeIntervalSince(from) > 60 * 60 * 24 {
+            if to.timeIntervalSince(from) > 60 * 60 * 24 * 3 {
                 Toast.default(image: .init(systemName: "xmark")!, title: "Incorrect Parameter", subtitle: "time period larger than 1 day").show(haptic: .warning)
-                from = to.advanced(by: -60 * 60 * 24)
+                from = to.advanced(by: -60 * 60 * 24 * 3)
             }
         }
     }
@@ -35,9 +35,9 @@ struct AnalyticsChartTimePair : Codable, Equatable {
                 Toast.default(image: .init(systemName: "xmark")!, title: "Incorrect Parameter", subtitle: "end time cannot be before start time").show(haptic: .warning)
                 to = from.advanced(by: 60 * 60)
             }
-            if to.timeIntervalSince(from) > 60 * 60 * 24 {
+            if to.timeIntervalSince(from) > 60 * 60 * 24 * 3 {
                 Toast.default(image: .init(systemName: "xmark")!, title: "Incorrect Parameter", subtitle: "time period larger than 1 day").show(haptic: .warning)
-                to = from.advanced(by: 60 * 60 * 24)
+                to = from.advanced(by: 60 * 60 * 24 * 3)
             }
         }
     }
