@@ -7,24 +7,7 @@
         Reports / <span class="text-xl text-gray-600">Battery</span>
       </h2>
     </div>
-    <div class="flex items-center space-x-1 text-xs">
-      <router-link to="/" class="font-bold text-indigo-700">Home</router-link>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-2 w-2"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M9 5l7 7-7 7"
-        />
-      </svg>
-      <span class="text-gray-600">Reports</span>
-    </div>
+    <navigation-bar plainText="Reports" />
   </div>
   <div class="px-4 mt-8 sm:px-8">
     <tabs v-model="active">
@@ -52,9 +35,7 @@
         </div>
         <left-right-y-axes-chart
           :title="TITLE"
-          leftAxisTitle="SOC (%)" :leftAxisType="constants.chartTypes.Column"
-          :rightAxis1Title="CHARGINGAXIS"
-          :rightAxis2Title="DISCHARGINGAXIS"
+          :axes="axes"
           :request="getTSRequest(State.Day)"
         />
       </tab>
@@ -80,11 +61,10 @@
             "
           />
         </div>
+
         <left-right-y-axes-chart
           :title="TITLE"
-          leftAxisTitle="SOC (%)" :leftAxisType="constants.chartTypes.Column"
-          :rightAxis1Title="CHARGINGAXIS"
-          :rightAxis2Title="DISCHARGINGAXIS"
+          :axes="axes"
           :request="getTSRequest(State.Week)"
         />
       </tab>
@@ -134,11 +114,10 @@
             "
           /> -->
         </div>
+
         <left-right-y-axes-chart
           :title="TITLE"
-          leftAxisTitle="SOC (%)" :leftAxisType="constants.chartTypes.Column"
-          :rightAxis1Title="CHARGINGAXIS"
-          :rightAxis2Title="DISCHARGINGAXIS"
+          :axes="axes"
           :request="getTSRequest(State.Month)"
         />
       </tab>
@@ -152,17 +131,19 @@ import Tabs from "@/components/tab/Tabs.vue";
 import Tab from "@/components/tab/Tab.vue";
 import LeftRightYAxesChart from "@/components/chart/LeftRightYAxesChart.vue";
 import AnalyticCard from "@/components/card/AnalyticCard.vue";
+import NavigationBar from "@/components/layouts/NavigationBar.vue";
+import httpReq from "@/util/requestOptions";
 import constants from '@/util/constants';
 import { ref } from "vue";
+
 const State = Object.freeze({ Day: 0, Week: 1, Month: 2 });
 const CHARGING = "Average Charging";
 const DISCHARGING = "Average Discharging";
-const CHARGINGAXIS = "Average Charging (kW)";
-const DISCHARGINGAXIS = "Average Discharging (kW)";
-const HIGH = "Highest State Of Charge (SOC)";
-const LOW = "Lowest State Of Charge (SOC)";
-const TITLE = "Battery Power, Energy and State Of Charge (SOC)";
+// const HIGH = "Highest State Of Charge (SOC)";
+// const LOW = "Lowest State Of Charge (SOC)";
+const TITLE = "Battery Power";
 const now = new Date();
+const ts_analytics = [constants.analytics.SOC, constants.analytics.BatteryCharging, constants.analytics.BatteryDischarging];
 
 export default {
   components: {
@@ -171,6 +152,7 @@ export default {
     Tab,
     LeftRightYAxesChart,
     AnalyticCard,
+    NavigationBar
   },
   setup() {
     const active = ref(0);
@@ -183,14 +165,40 @@ export default {
       State,
       CHARGING,
       DISCHARGING,
-      CHARGINGAXIS,
-      DISCHARGINGAXIS,
-      HIGH,
-      LOW,
+      // HIGH,
+      // LOW,
       TITLE,
       now,
-      constants
+      constants,
+      analyticItems: null,
+      axes: [
+        {title: "State of Charge (%)", type: constants.chartTypes.Column},
+        {title: "Average Charging (kW)", type: constants.chartTypes.Line}, 
+        {title: "Average Discharging (kW)", type: constants.chartTypes.Line}
+      ]
     };
+  },
+  beforeCreate() {
+    // Fetch data for the analytic items list
+      fetch(
+          constants.server + "/api/analytics/list", // endpoint
+          httpReq.post({ house_id: localStorage.getItem("house_id") }) // requestOptions
+        )
+      .then(response => response.json())
+      .then(data => {
+        this.analyticItems = [];
+        for (let i = 0; i < ts_analytics.length; i++) {
+          if (data.analytics.some(item => item.name === ts_analytics[i])) {
+            this.analyticItems.push(ts_analytics[i]);
+          } else {
+            this.axes.splice(i, 1);
+          }
+        }
+      })
+      .catch(error => {
+        this.errorMessage = error;
+        console.error(error);
+      });
   },
   methods: {
     getCurrentMonth() {
@@ -205,11 +213,14 @@ export default {
       }`;
     },
     getTSRequest(type) {
+      if (!this.analyticItems) {
+        return;
+      }
       let ret = {
         "start_time": this.getStartTime(now, type),
         "end_time": now.getTime(),
         "type": "analytics",
-        "analytics_name": [constants.analytics.SOC, constants.analytics.BatteryCharging, constants.analytics.BatteryDischarging],
+        "analytics_name": this.analyticItems,
         "house_id": localStorage.getItem("house_id")
       };
       // Weekly and montly data are by default averaged over 1 hour
@@ -249,7 +260,7 @@ export default {
           start = cur - 86400000; // 1000 * 3600 * 24 = 86400000
       }
       return start;
-    },
+    }
   },
 };
 </script>

@@ -1,5 +1,6 @@
 export default Object.freeze({
-    server: "http://54.176.249.126",
+    server: "https://api-staging.gismolab-sgmp.cwfang.me/",
+    numPerPage: 10,
     timeFormat: {
         month: "short",
         day: "numeric",
@@ -7,7 +8,7 @@ export default Object.freeze({
         minute: "2-digit",
     },
     roles: Object.freeze({ Admin: "admin", Researcher: "researcher", Visitor: "visitor" }),
-    units: Object.freeze({ Power: "kW", Energy: "kWh", Percentage: "%", Seconds: "sec" }),
+    units: Object.freeze({ Power: "kW", Energy: "kWh", Percentage: "%", Number: "", Millisecond: "ms" }),
     // Mapping between energy type and formula
     analytics: Object.freeze({
         Solar: "solar",
@@ -17,6 +18,8 @@ export default Object.freeze({
         BatteryDischarging: "battery_discharging",
         SOC: "soc",
         EV: "ev",
+        EVChargingCount: "ev_event_count",
+        EVChargingDuration: "ev_charge_duration",
         Load: "load",
         Frequency: "l1_frequency",
         Voltage1: "l1_voltage",

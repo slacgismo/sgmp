@@ -1,14 +1,7 @@
 <template>
   <div class="flex justify-between px-4 mt-4 sm:px-8">
-    <h2 class="text-2xl text-gray-600">Device List</h2>
-
-    <div class="flex items-center space-x-1 text-xs">
-      <router-link to="/" class="font-bold text-indigo-700">Home</router-link>
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-2 w-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-      </svg>
-      <span class="text-gray-600">Analytics</span>
-    </div>
+    <h2 class="text-2xl text-gray-600">Analytic Items</h2>
+    <navigation-bar plainText="Analytics" />
   </div>
 
   <div class="p-4 mt-8 sm:px-8 sm:py-4">
@@ -44,123 +37,78 @@
               border border-gray-300
               focus:outline-none focus:ring-gray-500 focus:ring-gray-500 focus:z-10
             "
-            placeholder="Search analytics item"
+            placeholder="Search analytic item"
+            v-model="searchText"
           />
         </div>
-        <div>
-          <Menu as="div" class="relative inline-block text-left">
-            <div>
-              <MenuButton
-                class="
-                  inline-flex
-                  justify-center
-                  w-full
-                  px-4
-                  py-2
-                  text-sm
-                  font-medium
-                  text-white
-                  rounded-md
-                  bg-gray-400
-                  hover:bg-gray-300
-                  focus:outline-none
-                  focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75
-                "
-              >
-                Actions
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="w-5 h-5 ml-2 -mr-1 text-violet-200 hover:text-violet-100"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </MenuButton>
-            </div>
-
-            <transition
-              enter-active-class="transition duration-100 ease-out"
-              enter-from-class="transform scale-95 opacity-0"
-              enter-to-class="transform scale-100 opacity-100"
-              leave-active-class="transition duration-75 ease-in"
-              leave-from-class="transform scale-100 opacity-100"
-              leave-to-class="transform scale-95 opacity-0"
+        <div class="flex gap-4">
+          <router-link v-slot="{ navigate }" :to="{ name: 'createanalytics' }">
+            <button
+              @click="navigate"
+              class="
+                w-24
+                px-2
+                py-2
+                text-sm text-white
+                rounded-md
+                bg-gray-400
+                hover:bg-gray-300
+                group
+                flex
+                items-center
+              "
             >
-              <MenuItems
-                class="
-                  absolute
-                  right-0
-                  w-32
-                  mt-1
-                  origin-top-right
-                  bg-white
-                  divide-y divide-gray-100
-                  rounded-md
-                  shadow-lg
-                  ring-1 ring-black ring-opacity-5
-                  z-50
-                  focus:outline-none
-                "
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                <div class="px-1 py-1">
-                  <MenuItem v-slot="{ active }">
-                    <router-link v-slot="{ navigate }" :to="{ name: 'createanalytics' }">
-                      <button
-                        @click="navigate"
-                        :class="[
-                          active ? 'bg-gray-400 text-white' : 'text-gray-900',
-                          'group flex rounded-md items-center w-full px-2 py-2 text-sm',
-                        ]"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="w-5 h-5 mr-2"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                          />
-                        </svg>
-                        Create
-                      </button>
-                    </router-link>
-                  </MenuItem>
-                  <MenuItem v-slot="{ active }">
-                    <button
-                      :class="[
-                        active ? 'bg-red-800 text-white' : 'text-gray-900',
-                        'group flex rounded-md items-center w-full px-2 py-2 text-sm',
-                      ]"
-                      @click="confirmDelete()"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="w-5 h-5 mr-2 text-violet-400"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                        />
-                      </svg>
-                      Delete
-                    </button>
-                  </MenuItem>
-                </div>
-              </MenuItems>
-            </transition>
-          </Menu>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                />
+              </svg>
+              Create
+            </button>
+          </router-link>
+
+          <button
+            class="
+              w-24
+              px-2
+              py-2
+              text-sm text-white
+              rounded-md
+              bg-red-900
+              hover:bg-red-800
+              disabled:bg-red-900 disabled:cursor-default
+              group
+              flex
+              items-center
+            "
+            @click="confirmDelete()"
+            :disabled="!this.deleteChecked.length"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-5 h-5 mr-2 text-violet-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+              />
+            </svg>
+            Delete
+          </button>
         </div>
       </div>
       <table class="w-full mt-2 text-gray-500">
@@ -180,7 +128,7 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
-          <tr v-for="item in analytics" :key="item.name">
+          <tr v-for="item in computedList" :key="item.name">
             <td class="p-2">
               <input
                 type="checkbox"
@@ -209,14 +157,14 @@
                 <div>
                   <p class="text-sm text-gray-500">
                     Page
-                    <span class="font-medium underline">1</span>
+                    <span class="font-medium underline">{{ pageIndex + 1 }}</span>
                     of
-                    <span class="font-medium">{{ this.analytics.length }}</span>
+                    <span class="font-medium">{{ maxPage }}</span>
                   </p>
                 </div>
                 <div>
                   <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                    <a
+                    <button
                       href="#"
                       class="
                         relative
@@ -229,7 +177,10 @@
                         font-medium
                         text-gray-500
                         hover:bg-gray-50
+                        disabled:bg-white disabled:cursor-default
                       "
+                      @click="updatePage(-1)"
+                      :disabled="pageIndex == 0"
                     >
                       <span class="sr-only">Previous</span>
                       <svg
@@ -241,7 +192,7 @@
                       >
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                       </svg>
-                    </a>
+                    </button>
                     <a
                       aria-current="page"
                       class="
@@ -257,9 +208,9 @@
                         font-medium
                       "
                     >
-                      1
+                      {{ pageIndex + 1 }}
                     </a>
-                    <a
+                    <button
                       href="#"
                       class="
                         relative
@@ -273,9 +224,11 @@
                         font-medium
                         text-gray-500
                         hover:bg-gray-50
+                        disabled:bg-white disabled:cursor-default
                       "
+                      @click="updatePage(1)"
+                      :disabled="pageIndex == maxPage - 1"
                     >
-                      <span class="sr-only">Next</span>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         class="h-6 w-6"
@@ -285,7 +238,7 @@
                       >
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                       </svg>
-                    </a>
+                    </button>
                   </nav>
                 </div>
               </div>
@@ -296,7 +249,7 @@
     </div>
   </div>
   <generic-popup v-show="showDeleteConfirm" popup-title="Delete Analytics" :togglePopup="() => confirmDelete()" :yesAction="() => performDelete()" :showNo="true" :showYes="true">
-    Are you sure to delete the following analytics items?
+    Are you sure to delete the following analytic items?
     <br /><pre v-for="id in deleteChecked" :key="id">{{ id }}</pre>
   </generic-popup>
 
@@ -310,7 +263,8 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
 import httpReq from "@/util/requestOptions";
 import constants from "@/util/constants";
 import Loading from "@/components/Loading.vue";
-import GenericPopup from "@/components/GenericPopup.vue";
+import GenericPopup from "@/components/popup/GenericPopup.vue";
+import NavigationBar from "@/components/layouts/NavigationBar.vue";
 
 export default {
   components: {
@@ -319,9 +273,8 @@ export default {
     MenuItems,
     MenuItem,
     Loading,
-    GenericPopup
-  },
-  setup() {
+    GenericPopup,
+    NavigationBar
   },
   data() {
     return {
@@ -329,13 +282,15 @@ export default {
       deleteChecked: [],
       listLoading: true,
       showDeleteConfirm: false,
-      showLoadingPopup: false
+      showLoadingPopup: false,
+      pageIndex: 0,
+      maxPage: 0,
+      numPerPage: constants.numPerPage,
+      searchText: ""
     }
   },
   mounted() {
     this.loadAnalytics();
-  },
-  setup() {
   },
   methods: {
     loadAnalytics: function () {
@@ -354,6 +309,7 @@ export default {
             return Promise.reject(error);
           }
           this.analytics = data.analytics;
+          this.maxPage = 1 + parseInt((data.analytics.length - 1) / this.numPerPage);
           this.listLoading = false;
         })
         .catch(error => {
@@ -403,12 +359,16 @@ export default {
         this.errorMessage = error;
         console.error(error);
       });
+    },
+    updatePage: function(offset) {
+      var newIdx = this.pageIndex + offset;
+      this.pageIndex = Math.min(Math.max(0, newIdx), this.maxPage - 1);
     }
   },
   computed: {
     selectAll: {
       get: function () {
-        return this.analytics ? this.deleteChecked.length == this.analytics.length : false;
+        return this.analytics.length ? this.deleteChecked.length == this.analytics.length : false;
       },
       set: function (value) {
         var selected = [];
@@ -420,6 +380,18 @@ export default {
         }
 
         this.deleteChecked = selected;
+      }
+    },
+    computedList: {
+      get: function () {
+        const startIdx = this.pageIndex * this.numPerPage;
+        var list = this.analytics;
+        if (this.searchText) {
+          list = list.filter(item => 
+            item.description.toLowerCase().includes(this.searchText.toLowerCase()));
+        }
+        this.maxPage = 1 + parseInt((list.length - 1) / this.numPerPage);
+        return list.slice(startIdx, startIdx + this.numPerPage);
       }
     }
   }

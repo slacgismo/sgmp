@@ -23,7 +23,7 @@ export default {
     unit: String, // either power (kW) or time (min)
     title: String,
     img: String,
-    request: String,
+    request: Object,
   },
   data() {
     return {

@@ -85,6 +85,25 @@ const routes = [
         component: () => import('@/views/users/CreateUser.vue'),
         meta: { auth: [constants.roles.Admin] }
       },
+      {
+        path: '/users/update/',
+        name: 'updateuser',
+        component: () => import('@/views/users/UpdateUser.vue'),
+        props: true,
+        meta: { auth: [constants.roles.Admin] }
+      },
+      {
+        path: '/roles',
+        name: 'roles',
+        component: () => import('@/views/roles/RoleList.vue'),
+        meta: { auth: [constants.roles.Admin] }
+      },
+      {
+        path: '/roles/create',
+        name: 'createrole',
+        component: () => import('@/views/roles/CreateRole.vue'),
+        meta: { auth: [constants.roles.Admin] }
+      }
     ],
   },
   {

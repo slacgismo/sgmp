@@ -24,15 +24,27 @@
     </div>
   </div>
 
-  <div class="px-4 mt-4 sm:px-8">
-    <div class="flex items-center bg-red-100 rounded-sm overflow-hidden shadow">
+  <div v-if="outages.length > 0" class="px-4 mt-4 sm:px-8">
+    <div class="flex items-center bg-red-100 rounded-sm shadow">
       <div class="p-4">
         <!-- https://uxwing.com/emergency-icon/ -->
         <img src="/src/assets/img/outage.svg" class="h-6 w-6" />
       </div>
-      <div>
-        <h3 class="text-gray-700 font-bold">Outage:</h3>
-        <p class="text-gray-700">xxx</p>
+      <div class="w-full">
+        <table class="w-full my-2">
+          <thead>
+            <tr>
+              <th class="text-left text-gray-700 font-bold">Outage</th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-500">
+            <tr v-for="outage in outages">
+              <td class="w-2/12">{{ outage.device }}</td>
+              <td class="w-8/12">{{ outage.message }}</td>
+              <td class="w-2/12 text-right pr-4">{{ outage.timestamp }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -58,7 +70,7 @@
       />
     </router-link>
 
-    <router-link v-if="visible" :to="{ name: 'battery' }">
+    <router-link :to="{ name: 'battery' }">
       <!-- https://www.svgrepo.com/svg/326915/battery-charging-sharp -->
       <dashboard-card
         :unit="constants.units.Power"
@@ -118,10 +130,7 @@
   <div class="grid grid-cols-1 px-4 gap-4 mt-8 sm:px-8">
     <left-right-y-axes-chart
       title="Grid Frequency and Voltage"
-      leftAxisTitle="Grid frequency (Hz)"
-      :leftAxisType="constants.chartTypes.Line"
-      rightAxis1Title="L1 Voltage (V)"
-      rightAxis2Title="L2 Voltage (V)"
+      :axes="axes"
       :request="getTSRequest([
         constants.analytics.Frequency,
         constants.analytics.Voltage1,
@@ -153,14 +162,24 @@ export default {
     return {
       now,
       constants,
-      visible: false
+      outages: [],
+      axes: [
+        {title: "Grid frequency (Hz)", type: constants.chartTypes.Line},
+        {title: "L1 Voltage (V)", type: constants.chartTypes.Line},
+        {title: "L1 Voltage (V)", type: constants.chartTypes.Line}
+      ]
     };
   },
   created() {
-    // POST request to fetch data for the houses
+    // POST request to fetch outage data for the houses
     fetch(
-      constants.server + "/api/device/list", // endpoint
-      httpReq.post({"house_id": localStorage.getItem("house_id")}) // requestOptions
+      constants.server + "/api/event/read", // endpoint
+      httpReq.post({
+        "start_time": new Date().setHours(0, 0, 0, 0),
+        "end_time": now.getTime(),
+        "type": "WARNING",
+        "house_id": localStorage.getItem("house_id")
+      }) // requestOptions
     )
       .then(async (response) => {
         const data = await response.json();
@@ -171,13 +190,13 @@ export default {
           const error = (data && data.message) || response.status;
           return Promise.reject(error);
         }
-
-        if (data && data.devices) {
-          for (let i = 0; i < data.devices.length; i++) {
-            if (data.devices[i].type == constants.sources.Battery) {
-              this.visible = true;
-            }
-          }
+        for (let i = 0; i < data.events.length; i++) {
+          this.outages.push({
+            device: "[" + data.events[i].device_name + "]",
+            timestamp: new Date(data.events[i].timestamp).
+            toLocaleDateString("en", constants.timeFormat),
+            message: data.events[i].data.data
+          })
         }
       })
       .catch((error) => {

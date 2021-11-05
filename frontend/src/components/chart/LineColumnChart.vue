@@ -24,7 +24,7 @@ export default {
   components: { apexchart: VueApexCharts, Loading },
   props: {
     title: String,
-    request: String
+    request: Object
   },
   mounted() {
     // POST request to fetch data for the line-column chart
@@ -36,7 +36,7 @@ export default {
         const data = await response.json();
 
         // check for error response
-        if (!response.ok) {
+        if (!response.ok || !data.data) {
           // get error message from body or default to response status
           const error = (data && data.message) || response.status;
           return Promise.reject(error);
@@ -46,7 +46,8 @@ export default {
       })
       .catch(error => {
         this.errorMessage = error;
-        console.error('There was an error!', error);
+        console.error('LineColumnChart error: ', error);
+        this.loaded = true;
       });
   },
   setup() {

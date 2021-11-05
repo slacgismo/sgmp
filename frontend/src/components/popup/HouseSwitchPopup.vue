@@ -139,20 +139,8 @@ export default {
             return Promise.reject(error);
           }
 
-          // if (data.houses) {
-          //   this.$root.house = {
-          //     id: this.selected,
-          //     description: "x"
-          //   };
-          // }
-          // To be removed after backend API is ready
-          if (this.selected == 1) {
-            this.$parent.house = "House B";
-          } else {
-            this.$parent.house = "House A";
-          }
-          localStorage.setItem("house_id", this.selected);
-          localStorage.setItem("house_desc", this.$parent.house);
+          localStorage.setItem("house_id", data.house_id);
+          localStorage.setItem("house_desc", data.house_description);
           this.$router.go();  // reload page
         })
         .catch((error) => {

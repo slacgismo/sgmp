@@ -5,29 +5,8 @@
       <img src="/src/assets/img/sun.svg" class="h-12 w-12" />
 
       <h2 class="px-4 text-xl text-gray-400">Reports / <span class="text-xl text-gray-600">Solar</span></h2>
-      <!-- <div class="px-4">
-        <h2 class="text-xl text-gray-400">Reports / </h2>
-        <h2 class="text-xl text-gray-600">Solar</h2>
-      </div> -->
     </div>
-    <div class="flex items-center space-x-1 text-xs">
-      <router-link to="/" class="font-bold text-indigo-700">Home</router-link>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-2 w-2"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M9 5l7 7-7 7"
-        />
-      </svg>
-      <span class="text-gray-600">Reports</span>
-    </div>
+    <navigation-bar plainText="Reports" />
   </div>
   <div class="px-4 mt-8 sm:px-8">
     <tabs v-model="active">
@@ -72,8 +51,10 @@ import Tabs from "@/components/tab/Tabs.vue";
 import Tab from "@/components/tab/Tab.vue";
 import LineColumnChart from "@/components/chart/LineColumnChart.vue";
 import AnalyticCard from '@/components/card/AnalyticCard.vue';
+import NavigationBar from "@/components/layouts/NavigationBar.vue";
 import constants from '@/util/constants';
 import { ref } from "vue";
+
 const State = Object.freeze({ Day: 0, Week: 1, Month: 2 });
 const PEAK = "Peak Solar Production";
 const AVG = "Average Energy Generation";
@@ -81,7 +62,7 @@ const TITLE = "Solar Generation";
 const now = new Date();
 
 export default {
-  components: { apexchart: VueApexCharts, Tabs, Tab, LineColumnChart, AnalyticCard },
+  components: { apexchart: VueApexCharts, Tabs, Tab, LineColumnChart, AnalyticCard, NavigationBar },
   setup() {
     const active = ref(0);
     return {

@@ -142,7 +142,7 @@
 <script>
 import { ref, computed } from "vue";
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
-import Popup from "@/components/Popup.vue";
+import Popup from "@/components/popup/HouseSwitchPopup.vue";
 import httpReq from "@/util/requestOptions";
 import constants from "@/util/constants";
 

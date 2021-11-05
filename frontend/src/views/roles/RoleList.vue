@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-between px-4 mt-4 sm:px-8">
-    <h2 class="text-2xl text-gray-600">Device List</h2>
-    <navigation-bar plainText="Devices" />
+    <h2 class="text-2xl text-gray-600">Role List</h2>
+    <navigation-bar plainText="Roles" />
   </div>
 
   <div class="p-4 mt-8 sm:px-8 sm:py-4">
@@ -35,14 +35,18 @@
               rounded-md
               pl-10
               border border-gray-300
-              focus:outline-none focus:ring-gray-500 focus:ring-gray-500 focus:z-10
+              focus:outline-none
+              focus:ring-gray-500
+              focus:ring-gray-500
+              focus:z-10
             "
-            placeholder="Search device"
+            placeholder="Search role"
             v-model="searchText"
           />
         </div>
+
         <div class="flex gap-4">
-          <router-link v-slot="{ navigate }" :to="{ name: 'createdevice' }">
+          <router-link v-slot="{ navigate }" :to="{ name: 'createrole' }">
             <button
               @click="navigate"
               class="
@@ -118,39 +122,58 @@
               <input
                 v-model="selectAll"
                 type="checkbox"
-                class="h-5 w-5 text-blue-500 border-gray-300 rounded cursor-pointer focus:ring-0"
+                class="
+                  h-5
+                  w-5
+                  text-blue-500
+                  border-gray-300
+                  rounded
+                  cursor-pointer
+                  focus:ring-0
+                "
               />
             </th>
-            <th class="text-left text-gray-600">Name</th>
-            <th class="text-left text-gray-600">Type</th>
-            <th class="text-left text-gray-600">Description</th>
+            <th class="text-left text-gray-600 px-4 w-1/4">Role</th>
+            <th class="text-left text-gray-600">Users</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
-          <tr v-for="device in computedList" :key="device.device_id">
+          <tr v-for="role in computedList" :key="role.role">
             <td class="p-2">
               <input
                 type="checkbox"
-                class="h-5 w-5 text-blue-500 border-gray-300 rounded cursor-pointer focus:ring-0"
-                :value="device.device_id"
+                class="
+                  h-5
+                  w-5
+                  text-blue-500
+                  border-gray-300
+                  rounded
+                  cursor-pointer
+                  focus:ring-0
+                "
+                :value="role.role"
                 v-model="deleteChecked"
               />
             </td>
-            <td><router-link :to="{ name: 'updatedevice', params: { id: device.device_id } }">{{ device.name }}</router-link></td>
-            <td>{{ device.type }}</td>
-            <td>{{ device.description }}</td>
+            <td class="px-4">{{ role.role }}</td>
+            <td class="whitespace-pre-wrap">{{ role.users.join(", ") }}</td>
           </tr>
-          <tr v-show="deviceList.length === 0 && !deviceListLoading">
-            <td colspan="4" class="p-2">No device.</td>
+          <tr v-show="roleList.length === 0 && !listLoading">
+            <td colspan="5" class="p-2">No role found.</td>
           </tr>
-          <tr v-show="deviceListLoading">
-            <td colspan="4" class="py-4"><loading /></td>
+          <tr v-show="listLoading">
+            <td colspan="5" class="py-4"><loading /></td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="4" class="py-2">
-              <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+            <td colspan="7" class="py-2">
+              <div
+                class="
+                  hidden
+                  sm:flex-1 sm:flex sm:items-center sm:justify-between
+                "
+              >
                 <div>
                   <p class="text-sm text-gray-500">
                     Page
@@ -160,7 +183,17 @@
                   </p>
                 </div>
                 <div>
-                  <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                  <nav
+                    class="
+                      relative
+                      z-0
+                      inline-flex
+                      rounded-md
+                      shadow-sm
+                      -space-x-px
+                    "
+                    aria-label="Pagination"
+                  >
                     <button
                       href="#"
                       class="
@@ -179,7 +212,6 @@
                       @click="updatePage(-1)"
                       :disabled="pageIndex == 0"
                     >
-                      <span class="sr-only">Previous</span>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         class="h-6 w-6"
@@ -187,7 +219,12 @@
                         viewBox="0 0 24 24"
                         stroke="currentColor"
                       >
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M15 19l-7-7 7-7"
+                        />
                       </svg>
                     </button>
                     <a
@@ -233,7 +270,12 @@
                         viewBox="0 0 24 24"
                         stroke="currentColor"
                       >
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M9 5l7 7-7 7"
+                        />
                       </svg>
                     </button>
                   </nav>
@@ -245,14 +287,28 @@
       </table>
     </div>
   </div>
-  <generic-popup v-show="showDeleteConfirm" popup-title="Delete Devices" :togglePopup="() => confirmDelete()" :yesAction="() => performDelete()" :showNo="true" :showYes="true">
-    Are you sure to delete the following devices?
-    <br /><pre v-for="id in deleteChecked" :key="id">{{ deviceIdNameMap[id] }}</pre>
+  <generic-popup
+    v-show="showDeleteConfirm"
+    popup-title="Delete Role"
+    :togglePopup="() => confirmDelete()"
+    :yesAction="() => performDelete()"
+    :showNo="true"
+    :showYes="true"
+  >
+    Are you sure to delete the following roles?
+    <br />
+    <pre v-for="id in deleteChecked" :key="id">{{ id }}</pre>
   </generic-popup>
+
+  <generic-popup v-show="showLoadingPopup">
+    <loading />
+  </generic-popup>
+
+  <generic-popup v-show="deleteResult" :popup-title="deleteResult" :togglePopup="() => deleteCallBack()"  :showClose="true" />
 </template>
 
 <script>
-import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
+import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
 import httpReq from "@/util/requestOptions";
 import constants from "@/util/constants";
 import Loading from "@/components/Loading.vue";
@@ -271,28 +327,37 @@ export default {
   },
   data() {
     return {
-      deviceList: [],
+      roleList: [],
       deleteChecked: [],
-      deviceIdNameMap: {},
-      deviceListLoading: true,
+      listLoading: true,
       showDeleteConfirm: false,
+      showLoadingPopup: false,
       pageIndex: 0,
       maxPage: 0,
       numPerPage: constants.numPerPage,
-      searchText: ""
-    }
+      searchText: "",
+      deleteResult: ""
+    };
   },
   mounted() {
-    this.loadDevices();
+    this.loadRoles();
   },
   methods: {
-    loadDevices: function () {
-      // Fetch data for the device list
+    formatDate(timestamp) {
+      const options = {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      };
+      return `${new Date(timestamp).toLocaleDateString("en", options)}`;
+    },
+    loadRoles: function () {
+      // GET request to fetch data for the role list
       fetch(
-          constants.server + "/api/device/list", // endpoint
-          httpReq.post({ house_id: localStorage.getItem("house_id") }) // requestOptions
-        )
-        .then(async response => {
+        constants.server + "/api/role/list", // endpoint
+        httpReq.get() // requestOptions
+      )
+        .then(async (response) => {
           const data = await response.json();
 
           // check for error response
@@ -301,76 +366,78 @@ export default {
             const error = (data && data.message) || response.status;
             return Promise.reject(error);
           }
-          this.deviceIdNameMap = {};
-          this.deviceList = data.devices;
-          this.maxPage = 1 + parseInt((data.devices.length - 1) / this.numPerPage);
-          this.deviceListLoading = false;
 
-          for (const device of data.devices) {
-            this.deviceIdNameMap[device.device_id] = device.name;
-          }
+          this.roleList = data.role_list;
+          this.maxPage = 1 + parseInt((data.role_list.length - 1) / this.numPerPage);
+          this.listLoading = false;
         })
-        .catch(error => {
+        .catch((error) => {
           this.errorMessage = error;
           console.error(error);
         });
     },
-    confirmDelete: function() {
+    confirmDelete: function () {
       if (this.showDeleteConfirm) {
         this.showDeleteConfirm = false;
         return;
       }
       if (this.deleteChecked.length > 0) this.showDeleteConfirm = true;
     },
-    performDelete: function() {
+    performDelete: function () {
+      this.showLoadingPopup = true;
+      // POST request to delete the selected role(s)
       let promises = [];
       for (const id of this.deleteChecked) {
         promises.push(fetch(
-            constants.server + "/api/device/delete", // endpoint
-            httpReq.post({ device_id: id }) // requestOptions
+            constants.server + "/api/role/delete", // endpoint
+            httpReq.post({ role: id }) // requestOptions
           )
           .then(async response => {
             const data = await response.json();
-
             // check for error response
-            if (!response.ok) {
+            if (!response.ok || data.status != 'ok') {
               // get error message from body or default to response status
               const error = (data && data.message) || response.status;
               return Promise.reject(error);
             }
           }));
       }
-
       Promise.all(promises).then(() => {
-        alert('Deletion complete.');
-        this.showDeleteConfirm = false;
-        this.deviceIdNameMap = {};
-        this.deviceList = {};
-        this.deviceListLoading = true;
-
-        this.loadDevices();
+        this.deleteResult = "Deletion complete!";
       })
       .catch(error => {
         this.errorMessage = error;
-        console.error(error);
+        this.deleteResult = "Error: " + error;
+      })
+      .finally(() => {
+        this.showLoadingPopup = false;
+        this.showDeleteConfirm = false;
       });
     },
     updatePage: function(offset) {
       var newIdx = this.pageIndex + offset;
       this.pageIndex = Math.min(Math.max(0, newIdx), this.maxPage - 1);
+    },
+    deleteCallBack: function() {
+      this.deleteResult = "";
+      this.deleteChecked = [];
+      this.listLoading = true;
+      this.loadRoles();
     }
   },
   computed: {
     selectAll: {
       get: function () {
-        return this.deviceList.length ? this.deleteChecked.length == this.deviceList.length : false;
+        return this.roleList.length
+          ? this.deleteChecked.length == this.roleList.length
+          : false;
       },
       set: function (value) {
         var selected = [];
 
         if (value) {
-          this.deviceList.forEach(function (device) {
-            selected.push(device.device_id);
+          this.roleList.forEach(function (item) {
+            selected.push(item.role);
           });
         }
 
@@ -380,15 +447,15 @@ export default {
     computedList: {
       get: function () {
         const startIdx = this.pageIndex * this.numPerPage;
-        var list = this.deviceList;
+        var list = this.roleList;
         if (this.searchText) {
           list = list.filter(item => 
-            item.description.toLowerCase().includes(this.searchText.toLowerCase()));
+            item.role.toLowerCase().includes(this.searchText.toLowerCase()));
         }
         this.maxPage = 1 + parseInt((list.length - 1) / this.numPerPage);
         return list.slice(startIdx, startIdx + this.numPerPage);
       }
     }
-  }
-}
+  },
+};
 </script>

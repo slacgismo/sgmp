@@ -8,24 +8,7 @@
         Reports / <span class="text-xl text-gray-600">Electric Vehicle</span>
       </h2>
     </div>
-    <div class="flex items-center space-x-1 text-xs">
-      <router-link to="/" class="font-bold text-indigo-700">Home</router-link>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-2 w-2"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M9 5l7 7-7 7"
-        />
-      </svg>
-      <span class="text-gray-600">Reports</span>
-    </div>
+    <navigation-bar plainText="Reports" />
   </div>
   <div class="px-4 mt-8 sm:px-8">
     <tabs v-model="active">
@@ -49,24 +32,22 @@
           />
           <!-- https://www.svgrepo.com/svg/310384/book-number -->
           <analytic-card
+            :unit="constants.units.Number"
             :title="NUMBER"
             img="number.svg"
-            :request="getAggRequest(State.Day, 'avg', constants.analytics.EV)"
+            :request="getAggRequest(State.Day, 'count', constants.analytics.EVChargingCount)"
             :period="getPeriod(State.Day)"
           />
           <!-- https://www.svgrepo.com/svg/123236/time -->
           <analytic-card
-            :unit="constants.units.Seconds"
+            :unit="constants.units.Millisecond"
             :title="DURATION"
             img="time.svg"
-            :request="getAggRequest(State.Day, 'avg', constants.analytics.EV)"
+            :request="getAggRequest(State.Day, 'avg', constants.analytics.EVChargingDuration)"
             :period="getPeriod(State.Day)"
           />
         </div>
-        <line-column-chart
-          :title="TITLE"
-          :request="getTSRequest(State.Day)"
-        />
+        <line-column-chart :title="TITLE" :request="getTSRequest(State.Day)" />
       </tab>
 
       <tab title="Last 7 days">
@@ -86,23 +67,21 @@
             :period="getPeriod(State.Week)"
           />
           <analytic-card
+            :unit="constants.units.Number"
             :title="NUMBER"
             img="number.svg"
-            :request="getAggRequest(State.Week, 'avg', constants.analytics.EV)"
+            :request="getAggRequest(State.Week, 'count', constants.analytics.EVChargingCount)"
             :period="getPeriod(State.Week)"
           />
           <analytic-card
-            :unit="constants.units.Seconds"
+            :unit="constants.units.Millisecond"
             :title="DURATION"
             img="time.svg"
-            :request="getAggRequest(State.Week, 'avg', constants.analytics.EV)"
+            :request="getAggRequest(State.Week, 'avg', constants.analytics.EVChargingDuration)"
             :period="getPeriod(State.Week)"
           />
         </div>
-        <line-column-chart
-          :title="TITLE"
-          :request="getTSRequest(State.Week)"
-        />
+        <line-column-chart :title="TITLE" :request="getTSRequest(State.Week)" />
       </tab>
 
       <tab :title="getCurrentMonth()">
@@ -122,16 +101,17 @@
             :period="getPeriod(State.Month)"
           />
           <analytic-card
+            :unit="constants.units.Number"
             :title="NUMBER"
             img="number.svg"
-            :request="getAggRequest(State.Month, 'avg', constants.analytics.EV)"
+            :request="getAggRequest(State.Month, 'count', constants.analytics.EVChargingCount)"
             :period="getPeriod(State.Month)"
           />
           <analytic-card
-            :unit="constants.units.Seconds"
+            :unit="constants.units.Millisecond"
             :title="DURATION"
             img="time.svg"
-            :request="getAggRequest(State.Month, 'avg', constants.analytics.EV)"
+            :request="getAggRequest(State.Month, 'avg', constants.analytics.EVChargingDuration)"
             :period="getPeriod(State.Month)"
           />
         </div>
@@ -150,8 +130,10 @@ import Tabs from "@/components/tab/Tabs.vue";
 import Tab from "@/components/tab/Tab.vue";
 import LineColumnChart from "@/components/chart/LineColumnChart.vue";
 import AnalyticCard from "@/components/card/AnalyticCard.vue";
-import constants from '@/util/constants';
+import NavigationBar from "@/components/layouts/NavigationBar.vue";
+import constants from "@/util/constants";
 import { ref } from "vue";
+
 const State = Object.freeze({ Day: 0, Week: 1, Month: 2 });
 const POWER = "Average Power Consumption";
 const ENERGY = "Average Energy Consumption";
@@ -167,6 +149,7 @@ export default {
     Tab,
     LineColumnChart,
     AnalyticCard,
+    NavigationBar
   },
   setup() {
     const active = ref(0);
@@ -183,7 +166,7 @@ export default {
       DURATION,
       TITLE,
       now,
-      constants
+      constants,
     };
   },
   methods: {
@@ -204,12 +187,12 @@ export default {
         end_time: now.getTime(),
         type: "analytics",
         analytics_name: constants.analytics.EV,
-        house_id: localStorage.getItem("house_id")
+        house_id: localStorage.getItem("house_id"),
       };
       // Weekly and montly data are by default averaged over 1 hour
       if (type == State.Day) {
-        ret['average'] = 300000; // 5 min
-        ret['fine'] = true;
+        ret["average"] = 300000; // 5 min
+        ret["fine"] = true;
       }
       return ret;
     },
@@ -220,11 +203,11 @@ export default {
         type: "analytics",
         agg_function: aggFunc,
         analytics_name: formula,
-        house_id: localStorage.getItem("house_id")
+        house_id: localStorage.getItem("house_id"),
       };
       if (type == State.Day) {
         // We want fine-grained data
-        ret['fine'] = true;
+        ret["fine"] = true;
       }
       return ret;
     },
