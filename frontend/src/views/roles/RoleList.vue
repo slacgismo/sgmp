@@ -133,7 +133,7 @@
                 "
               />
             </th>
-            <th class="text-left text-gray-600 px-4">Role</th>
+            <th class="text-left text-gray-600 px-4 w-1/4">Role</th>
             <th class="text-left text-gray-600">Users</th>
           </tr>
         </thead>
@@ -437,7 +437,7 @@ export default {
 
         if (value) {
           this.roleList.forEach(function (item) {
-            selected.push(item);
+            selected.push(item.role);
           });
         }
 
