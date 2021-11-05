@@ -41,37 +41,37 @@ const routes = [
         path: '/devices',
         name: 'devices',
         component: () => import('@/views/devices/DeviceList.vue'),
-        meta: { auth: [constants.roles.Admin] }
+        meta: { auth: [constants.roles.Admin, constants.roles.Researcher] }
       },
       {
         path: '/devices/create',
         name: 'createdevice',
         component: () => import('@/views/devices/CreateDevice.vue'),
-        meta: { auth: [constants.roles.Admin] }
+        meta: { auth: [constants.roles.Admin, constants.roles.Researcher] }
       },
       {
         path: '/devices/update/:id',
         name: 'updatedevice',
         component: () => import('@/views/devices/UpdateDevice.vue'),
-        meta: { auth: [constants.roles.Admin] }
+        meta: { auth: [constants.roles.Admin, constants.roles.Researcher] }
       },
       {
         path: '/analytics',
         name: 'analytics',
         component: () => import('@/views/analytics/AnalyticsList.vue'),
-        meta: { auth: [constants.roles.Admin] }
+        meta: { auth: [constants.roles.Admin, constants.roles.Researcher] }
       },
       {
         path: '/analytics/create',
         name: 'createanalytics',
         component: () => import('@/views/analytics/CreateAnalytics.vue'),
-        meta: { auth: [constants.roles.Admin] }
+        meta: { auth: [constants.roles.Admin, constants.roles.Researcher] }
       },
       {
         path: '/analytics/update/:name',
         name: 'updateanalytics',
         component: () => import('@/views/analytics/UpdateAnalytics.vue'),
-        meta: { auth: [constants.roles.Admin] }
+        meta: { auth: [constants.roles.Admin, constants.roles.Researcher] }
       },
       {
         path: '/users',
@@ -118,7 +118,7 @@ const router = createRouter({
   scrollBehavior() {
     return { top: 0 }
   },
-  routes,
+  routes
 })
 
 router.beforeEach((to, from, next) => {
