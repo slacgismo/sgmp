@@ -103,6 +103,24 @@ const routes = [
         name: 'createrole',
         component: () => import('@/views/roles/CreateRole.vue'),
         meta: { auth: [constants.roles.Admin] }
+      },
+      {
+        path: '/houses',
+        name: 'houses',
+        component: () => import('@/views/houses/HouseList.vue'),
+        meta: { auth: [constants.roles.Admin] }
+      },
+      {
+        path: '/houses/create',
+        name: 'createhouse',
+        component: () => import('@/views/houses/CreateHouse.vue'),
+        meta: { auth: [constants.roles.Admin] }
+      },
+      {
+        path: '/houses/update/:id',
+        name: 'updatehouse',
+        component: () => import('@/views/houses/UpdateHouse.vue'),
+        meta: { auth: [constants.roles.Admin] }
       }
     ],
   },
