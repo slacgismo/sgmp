@@ -36,7 +36,7 @@ struct SummaryTabView: View {
         }
     }
     
-    var pinnedAnalyticsNames : [String] = ["solar", "battery", "ev", "load"]
+    var pinnedAnalyticsNames : [String] = ["solar", "battery", "ev", "load", "solar_ratio"]
     
     var body: some View {
         ZStack {

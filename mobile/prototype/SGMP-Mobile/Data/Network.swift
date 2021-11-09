@@ -64,7 +64,7 @@ struct AnalyticsTimeSeriesFrame : Codable, Identifiable {
         return timestamp
     }
     var timestamp : UInt64
-    var value : Double
+    var value : Double?
 }
 
 // MARK: - Analytics Aggregate

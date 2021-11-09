@@ -22,7 +22,11 @@ struct DeviceFormulaAnalyticsChartView: View {
                 
                 let dataPoints : [LineChartDataPoint] = frames.compactMap { frame in
                     let date = Date.init(timeIntervalSince1970: Double(frame.timestamp)/1000.0)
-                    return LineChartDataPoint(value: frame.value, xAxisLabel: "\(frame.value.formatted(.number))", description: "\(date.formatted())", date: date)
+                    if let value = frame.value {
+                        return LineChartDataPoint(value: value, xAxisLabel: "\(value.formatted(.number))", description: "\(date.formatted())", date: date)
+                    } else {
+                        return nil
+                    }
                 }
                 let dataSets = LineDataSet.init(dataPoints: dataPoints,
                                                 pointStyle: PointStyle(),

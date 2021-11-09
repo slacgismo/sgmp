@@ -101,12 +101,11 @@ struct DeviceConfigEgaugeView: DeviceConfigViewProtocol {
                     ExpandableView(title: {
                         TitleDescCellView(title: "KEY", content: "\(key)")
                     }, expandable: {
-//                        NavigationLink {
-//                            
-//                        } label: {
-//                            DeviceFormulaAnalyticsChartView(device: detail, formula: "\(detail.name).\(key)")
-//                        }
-                        DeviceFormulaAnalyticsChartView(device: detail, formula: "\(detail.name).\(key)")
+                        NavigationLink {
+                            DeviceFormulaView(device: detail, formula: "\(detail.name).\(key)")
+                        } label: {
+                            DeviceFormulaAnalyticsChartView(device: detail, formula: "\(detail.name).\(key)")
+                        }
                     }).frame(maxHeight: .infinity)
                 } else {
                     TitleDescCellView(title: "KEY", content: "\(key)")

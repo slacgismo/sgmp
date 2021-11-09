@@ -24,7 +24,7 @@ struct AnalyticsChartTimePair : Codable, Equatable {
                 from = to.advanced(by: -60 * 60)
             }
             if to.timeIntervalSince(from) > 60 * 60 * 24 * 3 {
-                Toast.default(image: .init(systemName: "xmark")!, title: "Incorrect Parameter", subtitle: "time period larger than 1 day").show(haptic: .warning)
+                Toast.default(image: .init(systemName: "xmark")!, title: "Incorrect Parameter", subtitle: "time period larger than 3 day").show(haptic: .warning)
                 from = to.advanced(by: -60 * 60 * 24 * 3)
             }
         }
@@ -36,7 +36,7 @@ struct AnalyticsChartTimePair : Codable, Equatable {
                 to = from.advanced(by: 60 * 60)
             }
             if to.timeIntervalSince(from) > 60 * 60 * 24 * 3 {
-                Toast.default(image: .init(systemName: "xmark")!, title: "Incorrect Parameter", subtitle: "time period larger than 1 day").show(haptic: .warning)
+                Toast.default(image: .init(systemName: "xmark")!, title: "Incorrect Parameter", subtitle: "time period larger than 3 day").show(haptic: .warning)
                 to = from.advanced(by: 60 * 60 * 24 * 3)
             }
         }
@@ -97,7 +97,11 @@ struct AnalyticsChartView: View {
                 
                 let dataPoints : [LineChartDataPoint] = frames.compactMap { frame in
                     let date = Date.init(timeIntervalSince1970: Double(frame.timestamp)/1000.0)
-                    return LineChartDataPoint(value: frame.value, xAxisLabel: "\(frame.value.formatted(.number))", description: "\(date.formatted())", date: date)
+                    if let value = frame.value {
+                        return LineChartDataPoint(value: value, xAxisLabel: "\(value.formatted(.number))", description: "\(date.formatted())", date: date)
+                    } else {
+                        return nil
+                    }
                 }
                 let dataSets = LineDataSet.init(dataPoints: dataPoints,
                                                 legendTitle: "\(analytics.description)",

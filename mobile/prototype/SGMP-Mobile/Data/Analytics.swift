@@ -45,7 +45,12 @@ extension DefinedAnalytics {
         case "gridpower": return "powerplug.fill"
         case "l1_frequency": return "timelapse"
         case "l1_voltage": return "bolt.fill"
+        case "l2_frequency": return "timelapse"
+        case "l2_voltage": return "bolt.fill"
+        case "load": return "speedometer"
+        case "soc": return "bolt.batteryblock.fill"
         case "solar": return "sun.min.fill"
+        case "solar_ratio": return "sun.and.horizon.fill"
         default: return "chart.bar.fill"
         }
     }
