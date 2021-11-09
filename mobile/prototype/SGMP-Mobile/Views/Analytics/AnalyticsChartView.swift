@@ -62,7 +62,7 @@ struct AnalyticsChartView: View {
         NetworkManager.shared.getAnalyticsTimeSeries(houseId: houseId, startDate: from, endDate: to, analyticsName: analytics.name, interval: to.timeIntervalSince(from) * 1000.0 / 200.0) { frames, err in
             if let err = err {
                 print("\(err)")
-                Toast.default(image: .init(systemName: "xmark")!, title: "\(err.localizedDescription)").show(haptic: .error)
+//                Toast.default(image: .init(systemName: "xmark")!, title: "\(err.localizedDescription)").show(haptic: .error)
             } else if let frames = frames {
                 Toast.default(image: .init(systemName: "checkmark")!, title: "Showing data frames (\(frames.count))", subtitle: "From \(from.formatted()) to \(to.formatted())").show(haptic: .success)
                 let metadata = ChartMetadata(title: "\(analytics.description)", subtitle: "From \(from.formatted()) to \(to.formatted())")

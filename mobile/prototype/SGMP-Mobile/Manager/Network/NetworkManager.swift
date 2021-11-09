@@ -112,9 +112,23 @@ class NetworkManager : BaseManager {
     }
     
     // MARK: - Analytics Aggregated
-    func getAnalyticsAggregated(formula: String, aggregateFunction : AggregateFunction, startDate: Date, endDate: Date, callback: @escaping ((Double?, Error?) -> Void)) -> Void {
+    func getAnalyticsAggregated(formula: String, houseId : UInt64, aggregateFunction : AggregateFunction, startDate: Date, endDate: Date, callback: @escaping ((Double?, Error?) -> Void)) -> Void {
         if let profile = Defaults[.userProfile] {
-            let parameters = AnalyticsAggregatedRequest(start_time: UInt64(startDate.timeIntervalSince1970 * 1000), end_time: UInt64(endDate.timeIntervalSince1970 * 1000), formula: formula, agg_function: aggregateFunction)
+            let parameters = AnalyticsAggregatedRequest(start_time: UInt64(startDate.timeIntervalSince1970 * 1000), end_time: UInt64(endDate.timeIntervalSince1970 * 1000), formula: formula, agg_function: aggregateFunction, house_id: houseId)
+            AF.request("\(SgmpHostString)api/data/read", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default, headers: .init(["Authorization": "Bearer \(profile.accessToken)"]))
+                .responseDecodable(of: AnalyticsAggregatedResponse.self) { response in
+                    debugPrint(response)
+                    callback(response.value?.value, response.error)
+                    self.responsePostHandlerForExpiredToken(response: response)
+                }
+        } else {
+            callback(nil, nil)
+        }
+    }
+    
+    func getAnalyticsAggregated(analyticsName: String, houseId : UInt64, aggregateFunction : AggregateFunction, startDate: Date, endDate: Date, callback: @escaping ((Double?, Error?) -> Void)) -> Void {
+        if let profile = Defaults[.userProfile] {
+            let parameters = AnalyticsAggregatedRequest(start_time: UInt64(startDate.timeIntervalSince1970 * 1000), end_time: UInt64(endDate.timeIntervalSince1970 * 1000), analytics_name: analyticsName, agg_function: aggregateFunction, house_id: houseId)
             AF.request("\(SgmpHostString)api/data/read", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default, headers: .init(["Authorization": "Bearer \(profile.accessToken)"]))
                 .responseDecodable(of: AnalyticsAggregatedResponse.self) { response in
                     debugPrint(response)

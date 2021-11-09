@@ -27,7 +27,7 @@ struct DeviceFormulaAnalyticsView: View {
         NetworkManager.shared.getAnalyticsTimeSeries(houseId: device.house_id, startDate: from, endDate: to, forumla: formula, interval: to.timeIntervalSince(from) * 1000.0 / 200.0) { frames, err in
             if let err = err {
                 print("\(err)")
-                Toast.default(image: .init(systemName: "xmark")!, title: "\(err.localizedDescription)").show(haptic: .error)
+//                Toast.default(image: .init(systemName: "xmark")!, title: "\(err.localizedDescription)").show(haptic: .error)
             } else if let frames = frames {
                 Toast.default(image: .init(systemName: "checkmark")!, title: "Showing data frames (\(frames.count))", subtitle: "From \(from.formatted()) to \(to.formatted())").show(haptic: .success)
                 let metadata = ChartMetadata(title: "\(formula)", subtitle: "From \(from.formatted()) to \(to.formatted())")

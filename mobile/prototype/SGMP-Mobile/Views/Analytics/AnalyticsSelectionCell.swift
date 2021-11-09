@@ -21,12 +21,18 @@ struct AnalyticsSelectionCell: View {
     
     func refresh () {
         loading = true
-        NetworkManager.shared.getAnalyticsOneshot(houseId: houseId, startDate: .init(timeIntervalSinceNow: -3600), endDate: .now, analyticsName: analytics.name) { frame, err in
+        NetworkManager.shared.getAnalyticsAggregated(analyticsName: analytics.name, houseId: houseId, aggregateFunction: .max, startDate: .init(timeIntervalSinceNow: -20), endDate: .now) { value, err in
             DispatchQueue.main.async {
-                value = frame?.value
+                self.value = value
             }
             self.loading = false
         }
+//        NetworkManager.shared.getAnalyticsOneshot(houseId: houseId, startDate: .init(timeIntervalSinceNow: -20), endDate: .now, analyticsName: analytics.name) { frame, err in
+//            DispatchQueue.main.async {
+//                value = frame?.value
+//            }
+//            self.loading = false
+//        }
     }
     
     var body: some View {

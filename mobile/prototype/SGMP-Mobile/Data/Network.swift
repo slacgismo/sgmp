@@ -78,8 +78,11 @@ struct AnalyticsAggregatedRequest : Codable {
     var start_time : UInt64
     var end_time : UInt64
     var type : String = "analytics"
-    var formula : String
+    var formula : String?
+    var analytics_name : String?
     var agg_function : AggregateFunction
+    var fine : Bool = true
+    var house_id : UInt64
 }
 
 struct AnalyticsAggregatedResponse : Codable {

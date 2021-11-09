@@ -17,7 +17,7 @@ struct SummaryMetricCardView: View {
     @State var iconColor : Color = Color.accentColor
     @State var number : String = "Metric Value"
     
-    var houseId : UInt64?
+    var houseId : UInt64
     var numberCallback: ((Double) -> String)?
     var formula : String?
     var aggregateFunction : AggregateFunction?
@@ -26,7 +26,7 @@ struct SummaryMetricCardView: View {
         if let formula = formula, let aggregateFunction = aggregateFunction, let numberCallback = numberCallback {
             
             refreshing = true
-            NetworkManager.shared.getAnalyticsAggregated(formula: formula, aggregateFunction: aggregateFunction, startDate: .init(timeIntervalSinceNow: -600), endDate: .now) { value, err in
+            NetworkManager.shared.getAnalyticsAggregated(formula: formula, houseId: houseId, aggregateFunction: aggregateFunction, startDate: .init(timeIntervalSinceNow: -600), endDate: .now) { value, err in
                 if let value = value {
                     number = numberCallback(value)
                 }
@@ -81,13 +81,5 @@ struct SummaryMetricCardView: View {
         .onChange(of: refreshDate) { newDate in
             refresh()
         }
-    }
-}
-
-struct SummaryMetricCardView_Previews: PreviewProvider {
-    static var previews: some View {
-        SummaryMetricCardView(refreshDate: .constant(.now), numberCallback: {(value) in
-            "\(value)"
-        })
     }
 }
