@@ -6,7 +6,7 @@ from models.device import Device
 from models.shared import db
 
 from utils.functions import err_json, get_boto3_client
-from utils.auth import require_auth
+from utils.auth import check_house_access, require_auth
 from utils.iot import publish
 from utils.logging import get_logger
 
@@ -44,6 +44,29 @@ def house_list():
         })
     
     return jsonify({'status': 'ok', 'houses': ret})
+
+@api_house.route('/details', methods=['POST'])
+@require_auth()
+@check_house_access()
+def house_details():
+    data = request.json
+
+    if 'house_id' not in data:
+        return err_json('bad request')
+
+    house_id = int(data['house_id'])
+    house = House.query.filter_by(house_id=house_id).first()
+    if house is None:
+        return err_json('house not found')
+
+    return jsonify({
+        'status': 'ok',
+        'house': {
+            'house_id': house.house_id,
+            'name': house.name,
+            'description': house.description
+        }
+    })
 
 @api_house.route('/create', methods=['POST'])
 @require_auth('admin')
