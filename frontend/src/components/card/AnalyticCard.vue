@@ -117,7 +117,7 @@ export default {
   },
   methods: {
     getImage () {
-      return "/src/assets/img/" + this.img;
+      return "/icons/" + this.img;
     },
     formatMS (ms) {
       let sec = ms / 1000;

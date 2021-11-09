@@ -80,7 +80,7 @@ export default {
   },
   methods: {
     getImage() {
-      return "/src/assets/img/" + this.img;
+      return "/icons/" + this.img;
     },
   },
 };
