@@ -47,7 +47,7 @@ export default {
           return Promise.reject(error);
         }
 
-        this.value = data.value.toFixed(3) + " " + this.unit;
+        this.value = data.value.toFixed(2) + " " + this.unit;
         this.visible = true;
       })
       .catch((error) => {

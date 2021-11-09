@@ -149,7 +149,7 @@ export default {
         timeLabels.push(new Date(results[0].data[i].timestamp).
           toLocaleDateString("en", constants.timeFormat));
         for (let j = 0; j < results.length; j++) {
-          series[j].data.push(results[j].data[i].value.toFixed(3));
+          series[j].data.push(results[j].data[i].value.toFixed(2));
         }
       }
 
