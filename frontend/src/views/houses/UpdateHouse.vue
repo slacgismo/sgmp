@@ -96,6 +96,29 @@
     Are you sure to generate a new set of credentials for {{ name }}?<br />
     By doing so, the existing credentials will be revoked. Before the new credentials is uploaded to the edge device, it would not be able to publish any data!
   </generic-popup>
+
+  <generic-popup v-show="showLoading" :showNo="false" :showYes="false">
+    <loading />
+  </generic-popup>
+
+  <generic-popup v-show="showGeneratedKeys" popup-title="Device Credentials" :togglePopup="() => toggleGeneratedKeys()" :showClose="true" :showNo="false" :showYes="false">
+    Please copy this to the edge device:
+    <textarea
+      class="
+          w-full
+          py-4
+          h-72
+          text-sm text-gray-900
+          rounded-md
+          border border-gray-300
+          focus:outline-none
+          focus:ring-blue-500
+          focus:border-blue-500
+          focus:z-10
+          font-mono"
+      disabled>{{ credentials }}</textarea>
+    Note that the credentials will only be shown once!
+  </generic-popup>
 </template>
 
 <script>
@@ -103,11 +126,13 @@ import httpReq from "@/util/requestOptions";
 import constants from "@/util/constants";
 import NavigationBar from "@/components/layouts/NavigationBar.vue";
 import GenericPopup from "@/components/popup/GenericPopup.vue";
+import Loading from "@/components/Loading.vue";
 
 export default {
   components: {
     NavigationBar,
-    GenericPopup
+    GenericPopup,
+    Loading
   },
   mounted() {
     // Fetch data for the house details
@@ -137,7 +162,10 @@ export default {
     return {
       name: '',
       description: '',
-      showGenerateKeysConfirm: false
+      showGenerateKeysConfirm: false,
+      showGeneratedKeys: false,
+      showLoading: false,
+      credentials: ''
     };
   },
   methods: {
@@ -147,8 +175,31 @@ export default {
       }
       return false;
     },
+    toggleGeneratedKeys() {
+      this.showGeneratedKeys = !this.showGeneratedKeys;
+    },
     confirmGenerateKeys() {
       this.showGenerateKeysConfirm = !this.showGenerateKeysConfirm;
+    },
+    generateKeys() {
+      this.showGenerateKeysConfirm = false;
+      this.showLoading = true;
+      fetch(
+        constants.server + '/api/house/generateKeys',
+        httpReq.post({ house_id: this.$route.params.id })
+      ).then(async (response) => {
+        const data = await response.json();
+
+        if (!response.ok) {
+          // get error message from body or default to response status
+          const error = (data && data.message) || response.status;
+          return Promise.reject(error);
+        }
+
+        this.credentials = JSON.stringify(data);
+        this.showGeneratedKeys = true;
+        this.showLoading = false;
+      });
     },
     saveChange() {
       if (!this.validateCreate()) {

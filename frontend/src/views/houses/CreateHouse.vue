@@ -96,7 +96,24 @@
   <generic-popup v-show="showCredentials" popup-title="Device Credentials" :togglePopup="() => confirmCredentials()" :showClose="true">
     Please copy the following credentials and paste it to the edge device. You will only be able to view the credentials once.<br />
     Make sure the credentials are saved before closing this window.
-    <pre>{{createHouseResponse}}</pre>
+    <textarea
+      class="
+          w-full
+          py-4
+          h-72
+          text-sm text-gray-900
+          rounded-md
+          border border-gray-300
+          focus:outline-none
+          focus:ring-blue-500
+          focus:border-blue-500
+          focus:z-10
+          font-mono"
+      disabled>{{ createHouseResponse }}</textarea>
+  </generic-popup>
+
+  <generic-popup v-show="showLoading" :showNo="false" :showYes="false">
+    <loading />
   </generic-popup>
 </template>
 
@@ -105,11 +122,13 @@ import httpReq from "@/util/requestOptions";
 import constants from "@/util/constants";
 import NavigationBar from "@/components/layouts/NavigationBar.vue";
 import GenericPopup from "@/components/popup/GenericPopup.vue";
+import Loading from "@/components/Loading.vue";
 
 export default {
   components: {
     NavigationBar,
-    GenericPopup
+    GenericPopup,
+    Loading
   },
   mounted() {
   },
@@ -119,8 +138,9 @@ export default {
         name: '',
         description: ''
       },
-      createHouseResponse: JSON.stringify({ status: 'ok', privateKey: 'AABBCC', certificate: 'CCDDEE' }, null, 2),
-      showCredentials: true
+      createHouseResponse: '',
+      showCredentials: false,
+      showLoading: false
     };
   },
   methods: {
@@ -128,7 +148,7 @@ export default {
       this.$router.push("/houses");
     },
     validateCreate() {
-      if (this.description) {
+      if (this.house.description && this.house.name) {
         return true;
       }
       return false;
@@ -138,9 +158,10 @@ export default {
         return;
       }
       // POST request to update house
+      this.showLoading = true;
       fetch(
         constants.server + "/api/house/create", // endpoint
-        httpReq.post({ house: this.house })
+        httpReq.post(this.house)
       )
         .then(async (response) => {
           const data = await response.json();
@@ -151,10 +172,12 @@ export default {
             const error = (data && data.message) || response.status;
             return Promise.reject(error);
           }
+          this.showLoading = false;
           this.createHouseResponse = JSON.stringify(data);
           this.showCredentials = true;
         })
         .catch((error) => {
+          this.showLoading = false;
           this.errorMessage = error;
           alert("House creation error: " + error);
         });
