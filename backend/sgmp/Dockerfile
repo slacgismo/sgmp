@@ -29,4 +29,4 @@ ENV PATH="/opt/venv/bin:$PATH"
 
 EXPOSE 80
 
-CMD ["sh", "-c", "gunicorn -w $WORKER -b 0.0.0.0:80 app:app"]
+CMD ["sh", "-c", "gunicorn -t 600 -w $WORKER -b 0.0.0.0:80 app:app"]
