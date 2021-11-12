@@ -115,13 +115,14 @@
     />
 
     <three-y-axes-chart
-      title="Power Consumption"
-      :labels="['Load (kW)', 'EV (kW)', 'Battery (kW)']"
+      title="Power"
+      :axes="powerAxes"
       :request="
         getTSRequest([
           constants.analytics.Load,
           constants.analytics.EV,
-          constants.analytics.BatteryCharging,
+          constants.analytics.Solar,
+          constants.analytics.BatteryCharging
         ])
       "
     />
@@ -167,6 +168,12 @@ export default {
         {title: "Grid frequency (Hz)", type: constants.chartTypes.Line},
         {title: "L1 Voltage (V)", type: constants.chartTypes.Line},
         {title: "L1 Voltage (V)", type: constants.chartTypes.Line}
+      ],
+      powerAxes: [
+        {title: "Load (kW)", type: constants.chartTypes.Line},
+        {title: "EV (kW)", type: constants.chartTypes.Line},
+        {title: "Solar (kW)", type: constants.chartTypes.Column},
+        {title: "Battery (kW)", type: constants.chartTypes.Line}
       ]
     };
   },

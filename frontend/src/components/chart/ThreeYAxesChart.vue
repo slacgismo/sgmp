@@ -26,7 +26,7 @@ export default {
   components: { apexchart: VueApexCharts, Loading },
   props: {
     title: String,
-    labels: Array,
+    axes: Object,
     request: Object
   },
   mounted() {
@@ -66,10 +66,10 @@ export default {
         document.title = this.title;
       },
     },
-    labels: {
+    axes: {
       immediate: true,
       handler() {
-        document.labels = this.labels;
+        document.axes = this.axes;
       }
     },
     request: {
@@ -87,71 +87,47 @@ export default {
   },
   methods: {
     updateChart(results) {
-      if (!results || results.length != 3) {
+      if (!results || results.length < 1) {
+        this.loaded = true;
         return;
       }
 
-      let timeLabels = [], series = new Array(3), size = 0, availableIdx = 0;
-      for (let j = 0; j < 3; j++) {
-        let tmp = results[j].data;
-        if (tmp && tmp.length > 0) {
-          size = tmp.length;
-          availableIdx = j;
-        }
-        series[j] = new Array();
-      }
+      let timeLabels = [], series = [], strokes = { width: []};
+      for (let i = 0; i < results.length; i++) {
+        series[i] = {
+          name: this.axes[i].title,
+          type: this.axes[i].type,
+          data: []
+        };
 
-      for (let i = 0; i < size; i++) {
-        timeLabels.push(new Date(results[availableIdx].data[i].timestamp).
-          toLocaleDateString("en", constants.timeFormat));
-        for (let j = 0; j < 3; j++) {
-          if (!results[j].data || results[j].data.length == 0) {
-            continue;
-          }
-          series[j].push((results[j].data[i].value).toFixed(2));
+        if (this.axes[i].type == constants.chartTypes.Line) {
+          strokes.width[i] = 4; // line is not visible if the stroke is 0
+        } else {
+          strokes.width[i] = 0;
         }
       }
       
-      let strokes = {};
-      if (this.leftAxisType == constants.chartTypes.Column) {
-        strokes = {
-          width: [0, 4, 4],
-        }; // line is not visible if the stroke is 0
+      for (let i = 0; i < results[0].data.length; i++) {
+        timeLabels.push(new Date(results[0].data[i].timestamp).
+          toLocaleDateString("en", constants.timeFormat));
+        for (let j = 0; j < results.length; j++) {
+          series[j].data.push(results[j].data[i].value.toFixed(2));
+        }
       }
 
       this.options = {
-        chart: {
-          height: 350,
-          type: "line",
-          stacked: false,
+        labels: timeLabels,
+        legend: {
+          position: "bottom",
         },
-        series: [
-          {
-            name: this.labels[0],
-            type: "column",
-            data: series[0],
-          },
-          {
-            name: this.labels[1],
-            type: "area",
-            data: series[1],
-          },
-          {
-            name: this.labels[2],
-            type: "line",
-            data: series[2],
-          }
-        ],
-        stroke: {
-          width: [0, 2, 5],
-          curve: "smooth",
-        },
+        stroke: strokes,
+        series: series,
+        
         plotOptions: {
           bar: {
             columnWidth: "50%",
           },
         },
-
         fill: {
           opacity: [0.85, 0.25, 1],
           gradient: {
@@ -177,7 +153,7 @@ export default {
 
       this.$refs.multiAxesChart.updateOptions(this.options, true);
       this.loaded = true;
-    },
+    }
   },
 };
 </script>
