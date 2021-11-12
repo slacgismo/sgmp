@@ -119,10 +119,10 @@
       :axes="powerAxes"
       :request="
         getTSRequest([
-          constants.analytics.Load,
           constants.analytics.EV,
+          constants.analytics.BatteryCharging,
           constants.analytics.Solar,
-          constants.analytics.BatteryCharging
+          constants.analytics.Load
         ])
       "
     />
@@ -170,10 +170,10 @@ export default {
         {title: "L1 Voltage (V)", type: constants.chartTypes.Line}
       ],
       powerAxes: [
-        {title: "Load (kW)", type: constants.chartTypes.Line},
         {title: "EV (kW)", type: constants.chartTypes.Line},
+        {title: "Battery (kW)", type: constants.chartTypes.Line},
         {title: "Solar (kW)", type: constants.chartTypes.Column},
-        {title: "Battery (kW)", type: constants.chartTypes.Line}
+        {title: "Load (kW)", type: constants.chartTypes.Line}
       ]
     };
   },
