@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-between px-4 mt-4 sm:px-8">
-    <h2 class="text-2xl text-gray-600">Update User</h2>
+    <h2 class="text-2xl text-gray-600">My Profile</h2>
     <navigation-bar naviText="Users" routePath="/users" plainText="Update" />
   </div>
 
@@ -20,7 +20,7 @@
           <label for="username" class="w-1/6 text-gray-600 font-bold"
             >Name</label
           >
-          <div class="relative text-gray-400 w-5/6">
+          <div class="relative text-gray-400 w-5/6" v-if="isAdmin">
             <span class="absolute inset-y-0 left-0 flex items-center pl-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -59,16 +59,27 @@
               placeholder="User name"
             />
           </div>
+          <div class="relative text-gray-400 w-5/6" v-else>
+            <span class="relative w-5/6 font-mono">
+              {{ user.name }}
+            </span>
+          </div>
         </div>
 
         <div class="flex items-center">
           <label for="role" class="w-1/6 text-gray-600 font-bold">Role</label>
-          <select class="py-3.5 border-gray-300 rounded-md text-sm w-5/6" v-model="user.role" required="">
+          <select v-if="isAdmin" class="py-3.5 border-gray-300 rounded-md text-sm w-5/6" v-model="user.role" required="">
             <option disabled value="">-- Please select a role --</option>
             <option v-for="option in roleOptions" v-bind:value="option">
               {{ option }}
             </option>
           </select>
+
+          <div class="relative text-gray-400 w-5/6" v-else>
+            <span class="relative w-5/6 font-mono">
+              {{ user.role }}
+            </span>
+          </div>
         </div>
 
         <div class="flex items-center">
@@ -76,14 +87,20 @@
           <house-input
             id="house"
             ref="houseInput"
+            v-if="isAdmin"
             :house_id="user.house_id"
             class="w-5/6"
             @onItemSelected="selectedHouse = $event"
             @onItemReset="selectedHouse = {}"
           />
+          <div class="relative text-gray-400 w-5/6" v-else>
+            <span class="relative w-5/6 font-mono">
+              {{ user.house_description }}
+            </span>
+          </div>
         </div>
 
-        <div class="flex justify-evenly content-center p-8">
+        <div class="flex justify-evenly content-center p-8" v-if="isAdmin">
           <button
             class="
               py-4
@@ -121,9 +138,12 @@
   <generic-popup v-show="showLoadingPopup">
       <loading />
   </generic-popup>
+
+  <generic-popup v-show="updateResult" :popup-title="updateResult" :togglePopup="() => updateCallBack()"  :showClose="true" />
 </template>
 
 <script>
+import { computed } from "vue";
 import HouseInput from "@/components/HouseInput.vue";
 import GenericPopup from '@/components/popup/GenericPopup.vue';
 import Loading from '@/components/Loading.vue';
@@ -141,21 +161,32 @@ export default {
   props: {
     selectedUser: String
   },
+  setup() {
+    const isAdmin = computed(() => {
+      return localStorage.getItem("roles") == constants.roles.Admin;
+    });
+    return {
+      isAdmin
+    };
+  },
   mounted() {
-    this.getRoles();
+    if (this.isAdmin) {
+      this.getRoles();
+    }
   },
   data() {
-    const profile = JSON.parse(this.$route.params.selectedUser);
     return {
       user: {
-        email: profile.email,
-        name: profile.name,
-        role: profile.role.toString(),
-        house_id: parseInt(profile.house_id)
+        email: localStorage.getItem("email"),
+        name: localStorage.getItem("username"),
+        role: localStorage.getItem("roles"),
+        house_id: parseInt(localStorage.getItem("house_id")),
+        house_description: localStorage.getItem("house_desc")
       },
       showLoadingPopup: false,
       roleOptions: [],
-      selectedHouse: {}
+      selectedHouse: {},
+      updateResult: ""
     };
   },
   methods: {
@@ -214,25 +245,25 @@ export default {
             const error = (data && data.message) || response.status;
             return Promise.reject(error);
           }
-          console.log("Update successful!");
-          if (localStorage.email == this.user.email) {
-            localStorage.setItem("email", data.email);
-            localStorage.setItem("username", data.name);
-            localStorage.setItem("role", data.role);
-            localStorage.setItem("house_id", data.house_id);
-            localStorage.setItem("house_desc", data.house_description);
-          }
-
-          this.$router.push("/users");
+          this.updateResult = "Profile updated!";
+          localStorage.setItem("email", data.email);
+          localStorage.setItem("username", data.name);
+          localStorage.setItem("role", data.role);
+          localStorage.setItem("house_id", data.house_id);
+          localStorage.setItem("house_desc", data.house_description);
         })
         .catch((error) => {
           this.errorMessage = error;
-          alert("User update error: " + error);
+          this.updateResult = "Profile error: " + error;
         });
     },
     cancel() {
       this.$router.back();
     },
+    updateCallBack() {
+      this.updateResult = "";
+      this.$router.go();
+    }
   },
 };
 </script>

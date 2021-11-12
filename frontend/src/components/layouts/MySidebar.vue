@@ -212,6 +212,37 @@
           </Disclosure>
         </li>
 
+        <li class="px-4 py-2 text-xs uppercase tracking-wider font-bold">
+          Account
+        </li>
+
+        <router-link v-slot="{ isExactActive, href, navigate }" to="/profile">
+          <li
+            class="px-4 cursor-pointer"
+            :class="[
+              isExactActive ? 'bg-white text-red-900' : 'hover:bg-gray-100',
+            ]"
+          >
+            <a class="py-3 flex items-center" :href="href" @click="navigate">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 16.561v-1.237c1.652-0.931 3-3.252 3-5.574 0-3.728 0-6.75-4.5-6.75s-4.5 3.022-4.5 6.75c0 2.322 1.348 4.643 3 5.574v1.237c-5.088 0.416-9 2.916-9 5.939h21c0-3.023-3.912-5.523-9-5.939z"
+                />
+              </svg>
+              Profile
+            </a>
+          </li>
+        </router-link>
+
         <li
           v-show="hasAccess([ROLE.Admin, ROLE.Researcher])"
           class="px-4 py-2 mt-2 text-xs uppercase tracking-wider font-bold"

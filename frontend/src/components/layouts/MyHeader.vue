@@ -63,7 +63,7 @@
         "
       >
         <img class="h-8 w-8 rounded-full" :src="getAvatar()" alt="" />
-        <span>{{ getName() }}</span>
+        <span>{{ username }}</span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-4 w-6"
@@ -103,13 +103,13 @@
         >
           <div>
             <MenuItem v-slot="{ active }">
-              <a
-                href="#"
+              <router-link
+                :to="{ name: 'profile' }"
                 :class="[
                   active ? 'bg-gray-100' : '',
                   'block px-4 py-2 text-sm text-gray-700',
                 ]"
-                >My Profile</a
+                >My Profile</router-link
               >
             </MenuItem>
             <MenuItem v-slot="{ active }">
@@ -170,9 +170,18 @@ export default {
   },
   data() {
     return {
+      username: "Hello!",
       house: "",
       houseList: {},
     };
+  },
+  watch: {
+    username: {
+      immediate: true,
+      handler() {
+        this.username = localStorage.username;
+      },
+    }
   },
   created() {
     this.house = localStorage.getItem("house_desc");
@@ -203,11 +212,8 @@ export default {
       });
   },
   methods: {
-    getName() {
-      return localStorage.username ? localStorage.username : "Hello!";
-    },
     getAvatar() {
-      let name = localStorage.username;
+      let name = this.username;
       if (!name) {
         name = "";
       }
