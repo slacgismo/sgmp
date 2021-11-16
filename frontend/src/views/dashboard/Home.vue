@@ -113,22 +113,6 @@
         ])
       "
     />
-
-    <three-y-axes-chart
-      title="Power"
-      :axes="powerAxes"
-      :request="
-        getTSRequest([
-          constants.analytics.EV,
-          constants.analytics.BatteryCharging,
-          constants.analytics.Solar,
-          constants.analytics.Load
-        ])
-      "
-    />
-  </div>
-
-  <div class="grid grid-cols-1 px-4 gap-4 mt-8 sm:px-8">
     <left-right-y-axes-chart
       title="Grid Frequency and Voltage"
       :axes="axes"
@@ -138,6 +122,25 @@
         constants.analytics.Voltage2,
       ])"
     />
+
+  </div>
+
+  <div class="grid grid-cols-1 px-4 gap-4 mt-8 sm:px-8">
+    <multi-y-axes-chart
+      title="Power"
+      :axes="powerAxes"
+      :request="
+        getTSRequest([
+          constants.analytics.BatteryCharging,
+          constants.analytics.BatteryDischarging,
+          constants.analytics.Solar,
+          constants.analytics.Load,
+          constants.analytics.EV,
+          constants.analytics.GridImport,
+          constants.analytics.GridExport
+        ])
+      "
+    />
   </div>
 </template>
 
@@ -146,7 +149,7 @@ import VueApexCharts from "vue3-apexcharts";
 import DashboardCard from "@/components/card/DashboardCard.vue";
 import DonutChart from "@/components/chart/DonutChart.vue";
 import LeftRightYAxesChart from "@/components/chart/LeftRightYAxesChart.vue";
-import ThreeYAxesChart from "@/components/chart/ThreeYAxesChart.vue";
+import MultiYAxesChart from "@/components/chart/MultiYAxesChart.vue";
 import constants from "@/util/constants";
 import httpReq from "@/util/requestOptions";
 const now = new Date();
@@ -157,7 +160,7 @@ export default {
     DashboardCard,
     DonutChart,
     LeftRightYAxesChart,
-    ThreeYAxesChart
+    MultiYAxesChart
   },
   data() {
     return {
@@ -170,10 +173,13 @@ export default {
         {title: "L1 Voltage (V)", type: constants.chartTypes.Line}
       ],
       powerAxes: [
-        {title: "EV (kW)", type: constants.chartTypes.Line},
-        {title: "Battery (kW)", type: constants.chartTypes.Line},
+        {title: "Battery Charging (kW)", type: constants.chartTypes.Column},
+        {title: "Battery Discharging (kW)", type: constants.chartTypes.Column},
         {title: "Solar (kW)", type: constants.chartTypes.Column},
-        {title: "Load (kW)", type: constants.chartTypes.Line}
+        {title: "Load (kW)", type: constants.chartTypes.Line},
+        {title: "EV (kW)", type: constants.chartTypes.Line},
+        {title: "Grid Import (kW)", type: constants.chartTypes.Line},
+        {title: "Grid Export (kW)", type: constants.chartTypes.Line}
       ]
     };
   },

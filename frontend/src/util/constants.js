@@ -13,6 +13,8 @@ export default Object.freeze({
     analytics: Object.freeze({
         Solar: "solar",
         Grid: "gridpower",
+        GridImport: "grid_import",
+        GridExport: "grid_export",
         Battery: "battery",
         BatteryCharging: "battery_charging",
         BatteryDischarging: "battery_discharging",

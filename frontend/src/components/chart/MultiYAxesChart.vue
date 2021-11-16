@@ -22,7 +22,7 @@ import httpReq from "@/util/requestOptions";
 import constants from "@/util/constants";
 
 export default {
-  name: "ThreeYAxesChart",
+  name: "MultiYAxesChart",
   components: { apexchart: VueApexCharts, Loading },
   props: {
     title: String,
