@@ -112,16 +112,6 @@
                 >My Profile</router-link
               >
             </MenuItem>
-            <MenuItem v-slot="{ active }">
-              <router-link
-                :to="{ name: 'devices' }"
-                :class="[
-                  active ? 'bg-gray-100' : '',
-                  'block px-4 py-2 text-sm text-gray-700',
-                ]"
-                >Settings</router-link
-              >
-            </MenuItem>
           </div>
           <MenuItem v-slot="{ active }" v-on:click="logout()">
             <router-link
