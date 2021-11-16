@@ -131,10 +131,10 @@
       :axes="powerAxes"
       :request="
         getTSRequest([
-          constants.analytics.BatteryCharging,
-          constants.analytics.BatteryDischarging,
           constants.analytics.Solar,
           constants.analytics.Load,
+          constants.analytics.BatteryCharging,
+          constants.analytics.BatteryDischarging,
           constants.analytics.EV,
           constants.analytics.GridImport,
           constants.analytics.GridExport
@@ -173,10 +173,10 @@ export default {
         {title: "L1 Voltage (V)", type: constants.chartTypes.Line}
       ],
       powerAxes: [
-        {title: "Battery Charging (kW)", type: constants.chartTypes.Column},
-        {title: "Battery Discharging (kW)", type: constants.chartTypes.Column},
         {title: "Solar (kW)", type: constants.chartTypes.Column},
         {title: "Load (kW)", type: constants.chartTypes.Line},
+        {title: "Battery Charging (kW)", type: constants.chartTypes.Column},
+        {title: "Battery Discharging (kW)", type: constants.chartTypes.Column},
         {title: "EV (kW)", type: constants.chartTypes.Line},
         {title: "Grid Import (kW)", type: constants.chartTypes.Line},
         {title: "Grid Export (kW)", type: constants.chartTypes.Line}
