@@ -1,0 +1,29 @@
+post:
+  summary: Delete user
+  operationId: userDelete
+  tags:
+    - user
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            email:
+              type: string
+  responses:
+    '200':
+      description: Successfully deleted user
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

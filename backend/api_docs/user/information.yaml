@@ -1,0 +1,39 @@
+post:
+  summary: Retrieve information for a specific user
+  operationId: userInformation
+  tags:
+    - user
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            email:
+              type: string
+  responses:
+    '200':
+      description: Desired user profile
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              group:
+                type: string
+              house_id:
+                type: integer
+              house_description:
+                type: string
+              create_date:
+                type: integer
+              name:
+                type: string
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
