@@ -1,0 +1,72 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: SGMP Smart Grid Management Platform
+  license:
+    name: MIT
+servers:
+  - url: https://api-staging.gismolab-sgmp.cwfang.me/api
+paths:
+  /user/profile:
+    $ref: ./user/profile.yaml
+  /user/information:
+    $ref: ./user/information.yaml
+  /user/list:
+    $ref: ./user/list.yaml
+  /user/create:
+    $ref: ./user/create.yaml
+  /user/updatePassword:
+    $ref: ./user/updatePassword.yaml
+  /user/login:
+    $ref: ./user/login.yaml
+  /user/refreshToken:
+    $ref: ./user/refreshToken.yaml
+  /user/changePassword:
+    $ref: ./user/changePassword.yaml
+  /user/update:
+    $ref: ./user/update.yaml
+  /user/delete:
+    $ref: ./user/delete.yaml
+  /analytics/list:
+    $ref: ./analytics/list.yaml
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    AnalyticsItem:
+      type: object
+      properties:
+        analytics_id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        formula:
+          type: string
+    SessionUser:
+      type: object
+      properties:
+        roles:
+          type: array
+          items:
+            type: string
+        email:
+          type: string
+        name:
+          type: string
+        house_id:
+          type: integer
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+
+security:
+  - bearerAuth: []

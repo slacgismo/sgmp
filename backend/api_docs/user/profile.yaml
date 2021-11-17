@@ -1,0 +1,23 @@
+get:
+  summary: Retrieve current user profile
+  operationId: userProfile
+  tags:
+    - user
+  responses:
+    '200':
+      description: Current user profile
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              profile:
+                $ref: "#/components/schemas/SessionUser"
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

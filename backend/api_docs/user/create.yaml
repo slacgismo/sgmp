@@ -1,0 +1,36 @@
+post:
+  summary: Create a new user
+  description: A email with temporary password will be sent to the email address.
+  operationId: userCreate
+  tags:
+    - user
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            email:
+              type: string
+            name:
+              type: string
+            house_id:
+              type: integer
+            role:
+              type: string
+  responses:
+    '200':
+      description: Successfully created user
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

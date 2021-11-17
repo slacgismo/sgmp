@@ -1,0 +1,42 @@
+post:
+  summary: Perform user log in
+  operationId: userLogin
+  security: []
+  tags:
+    - user
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            email:
+              type: string
+            password:
+              type: string
+  responses:
+    '200':
+      description: Successfully signed in
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              accesstoken:
+                type: string
+              profile:
+                $ref: "#/components/schemas/SessionUser"
+              house_id:
+                type: integer
+              house_description:
+                type: string
+              refresh_token:
+                type: string
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

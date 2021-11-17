@@ -1,0 +1,38 @@
+get:
+  summary: Retrieve user list
+  operationId: userList
+  tags:
+    - user
+  responses:
+    '200':
+      description: User list
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              user_list:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                    name:
+                      type: string
+                    role:
+                      type: string
+                    house_id:
+                      type: integer
+                    house_description:
+                      type: string
+                    create_time:
+                      type: integer
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
