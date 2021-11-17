@@ -29,6 +29,14 @@ paths:
     $ref: ./user/delete.yaml
   /analytics/list:
     $ref: ./analytics/list.yaml
+  /analytics/details:
+    $ref: ./analytics/details.yaml
+  /analytics/create:
+    $ref: ./analytics/create.yaml
+  /analytics/update:
+    $ref: ./analytics/update.yaml
+  /analytics/delete:
+    $ref: ./analytics/delete.yaml
 components:
   securitySchemes:
     bearerAuth:
@@ -60,6 +68,19 @@ components:
           type: string
         house_id:
           type: integer
+    Analytics:
+      type: object
+      properties:
+        analytics_id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        formula:
+          type: string
+        continuous_aggregation:
+          type: boolean
     Error:
       type: object
       properties:

@@ -1,0 +1,42 @@
+post:
+  summary: Create a new analytics item
+  description: |
+    The name must be unique within the house.
+    If continuous aggregation is enabled,
+    expect a few minutes of response time for the initial data
+    filling of TimescaleDB continuous aggregation.
+  operationId: analyticsCreate
+  tags:
+    - analytics
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            house_id:
+              type: integer
+            name:
+              type: string
+            description:
+              type: string
+            formula:
+              type: string
+            continuous_aggregation:
+              type: boolean
+  responses:
+    '200':
+      description: Creation successful
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

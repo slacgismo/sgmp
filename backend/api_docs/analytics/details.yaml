@@ -1,6 +1,6 @@
 post:
-  summary: Retrieve analytics list
-  operationId: analyticsList
+  summary: Retrieve single analytics item
+  operationId: analyticsDetails
   tags:
     - analytics
   requestBody:
@@ -11,9 +11,11 @@ post:
           properties:
             house_id:
               type: integer
+            name:
+              type: string
   responses:
     '200':
-      description: Analytics list
+      description: Analytics item
       content:
         application/json:
           schema:
@@ -22,9 +24,7 @@ post:
               status:
                 type: string
               analytics:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Analytics"
+                $ref: "#/components/schemas/Analytics"
     default:
       description: Error
       content:

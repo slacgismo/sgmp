@@ -1,6 +1,6 @@
 post:
-  summary: Retrieve analytics list
-  operationId: analyticsList
+  summary: Delete one or more analytics items
+  operationId: analyticsDelete
   tags:
     - analytics
   requestBody:
@@ -11,9 +11,13 @@ post:
           properties:
             house_id:
               type: integer
+            name:
+              type: array
+              items:
+                type: string
   responses:
     '200':
-      description: Analytics list
+      description: Deletion successful
       content:
         application/json:
           schema:
@@ -21,10 +25,6 @@ post:
             properties:
               status:
                 type: string
-              analytics:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Analytics"
     default:
       description: Error
       content:

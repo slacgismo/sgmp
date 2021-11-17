@@ -1,6 +1,7 @@
 post:
-  summary: Retrieve analytics list
-  operationId: analyticsList
+  summary: Update an existing analytics item
+  description: House ID and name cannot be modified.
+  operationId: analyticsUpdate
   tags:
     - analytics
   requestBody:
@@ -11,9 +12,17 @@ post:
           properties:
             house_id:
               type: integer
+            name:
+              type: string
+            description:
+              type: string
+            formula:
+              type: string
+            continuous_aggregation:
+              type: boolean
   responses:
     '200':
-      description: Analytics list
+      description: Update successful
       content:
         application/json:
           schema:
@@ -21,10 +30,6 @@ post:
             properties:
               status:
                 type: string
-              analytics:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Analytics"
     default:
       description: Error
       content:
