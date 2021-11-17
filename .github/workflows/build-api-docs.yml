@@ -34,4 +34,4 @@ jobs:
           aws-region: us-west-1
       - name: Push bundled documentations to S3 bucket
         run: |
-          aws s3 cp redoc-static.html s3://sgmp-api-docs/${GITHUB_REF##*/}.html
+          aws s3 cp redoc-static.html s3://sgmp-api-docs/${GITHUB_REF#refs/heads/}.html
