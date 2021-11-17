@@ -37,6 +37,8 @@ paths:
     $ref: ./analytics/update.yaml
   /analytics/delete:
     $ref: ./analytics/delete.yaml
+  /data/read:
+    $ref: ./data/read.yaml
 components:
   securitySchemes:
     bearerAuth:
@@ -81,6 +83,20 @@ components:
           type: string
         continuous_aggregation:
           type: boolean
+    DataDeviceRow:
+      type: object
+      properties:
+        timestamp:
+          type: integer
+        data:
+          type: object
+    DataAnalyticsRow:
+      type: object
+      properties:
+        timestamp:
+          type: integer
+        value:
+          type: float
     Error:
       type: object
       properties:
