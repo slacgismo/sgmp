@@ -213,13 +213,13 @@
         </li>
 
         <li
-          v-show="isAdmin()"
+          v-show="hasAccess([ROLE.Admin, ROLE.Researcher])"
           class="px-4 py-2 mt-2 text-xs uppercase tracking-wider font-bold"
         >
           Administration
         </li>
 
-        <li v-show="isAdmin()">
+        <li v-show="hasAccess([ROLE.Admin, ROLE.Researcher])">
           <Disclosure v-slot="{ open }" :default-open="isActive(configRoutes)">
             <DisclosureButton
               class="px-4 py-3 flex items-center w-52 hover:bg-gray-100"
@@ -312,7 +312,7 @@
           </Disclosure>
         </li>
 
-        <li v-show="isAdmin()">
+        <li v-show="hasAccess([ROLE.Admin])">
           <Disclosure v-slot="{ open }" :default-open="isActive(userRoutes)">
             <DisclosureButton
               class="px-4 py-3 flex items-center w-52 hover:bg-gray-100"
@@ -446,7 +446,6 @@
 </template>
 
 <script>
-import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 
@@ -467,6 +466,7 @@ export default {
   },
   data() {
     return {
+      ROLE: constants.roles,
       userRoutes: ["users", "createuser", "updateuser", "roles", "createrole"],
       configRoutes: ["devices", "createdevice", "updatedevice", "analytics", "createanalytics", "updateanalytics"]
     };
@@ -495,6 +495,12 @@ export default {
   methods: {
     isActive(routes) {
       return routes.includes(this.route.name);
+    },
+    hasAccess(roles) {
+      if (roles.length && !roles.includes(localStorage.roles)) {
+        return false;
+      }
+      return true;
     }
   }
 };

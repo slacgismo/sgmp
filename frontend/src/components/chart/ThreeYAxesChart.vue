@@ -108,7 +108,7 @@ export default {
           if (!results[j].data || results[j].data.length == 0) {
             continue;
           }
-          series[j].push((results[j].data[i].value).toFixed(3));
+          series[j].push((results[j].data[i].value).toFixed(2));
         }
       }
       

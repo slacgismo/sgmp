@@ -58,10 +58,10 @@ export default {
         } else {
           switch (this.unit) {
             case constants.units.Power:
-              this.value = (data.value).toFixed(3) + " " + this.unit;
+              this.value = (data.value).toFixed(2) + " " + this.unit;
               break;
             case constants.units.Energy:
-              this.value = (data.value / 12).toFixed(3) + " " + this.unit;
+              this.value = (data.value / 12).toFixed(2) + " " + this.unit;
               break;
             case constants.units.Percentage:
               this.value = data.value + " " + this.unit;
@@ -73,7 +73,7 @@ export default {
               this.value = this.formatMS(data.value);
               break;
             default:
-              this.value = data.value.toFixed(3);
+              this.value = data.value.toFixed(2);
           }
         }
         
@@ -117,7 +117,7 @@ export default {
   },
   methods: {
     getImage () {
-      return "/src/assets/img/" + this.img;
+      return "/icons/" + this.img;
     },
     formatMS (ms) {
       let sec = ms / 1000;
