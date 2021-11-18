@@ -83,6 +83,23 @@
               focus:ring-offset-2
               focus:ring-red-700
             "
+            @click="confirmSync()"
+          >
+            Synchronize Configuration
+          </button>
+          <button
+            class="
+              py-4
+              w-36
+              text-sm text-white
+              rounded-md
+              bg-red-900
+              hover:bg-red-800
+              focus:outline-none
+              focus:ring-2
+              focus:ring-offset-2
+              focus:ring-red-700
+            "
             @click="confirmGenerateKeys()"
           >
             Generate AWS Credentials
@@ -95,6 +112,10 @@
   <generic-popup v-show="showGenerateKeysConfirm" popup-title="Generate Credentials" :togglePopup="() => confirmGenerateKeys()" :yesAction="() => generateKeys()" :showNo="true" :showYes="true">
     Are you sure to generate a new set of credentials for {{ name }}?<br />
     By doing so, the existing credentials will be revoked. Before the new credentials is uploaded to the edge device, it would not be able to publish any data!
+  </generic-popup>
+
+  <generic-popup v-show="showSyncConfirm" popup-title="Sync Configuration" :togglePopup="() => confirmSync()" :yesAction="() => sync()" :showNo="true" :showYes="true">
+    Are you sure to synchronize the device configuration for house {{ name }}?
   </generic-popup>
 
   <generic-popup v-show="showLoading" :showNo="false" :showYes="false">
@@ -118,6 +139,10 @@
           font-mono"
       disabled>{{ credentials }}</textarea>
     Note that the credentials will only be shown once!
+  </generic-popup>
+
+  <generic-popup v-show="showSyncComplete" popup-title="Sync Configuration" :togglePopup="() => toggleSyncComplete()" :showClose="true" :showNo="false" :showYes="false">
+    Successfully synchronized device configuration for house {{ name }}.
   </generic-popup>
 </template>
 
@@ -165,6 +190,8 @@ export default {
       showGenerateKeysConfirm: false,
       showGeneratedKeys: false,
       showLoading: false,
+      showSyncConfirm: false,
+      showSyncComplete: false,
       credentials: ''
     };
   },
@@ -180,6 +207,12 @@ export default {
     },
     confirmGenerateKeys() {
       this.showGenerateKeysConfirm = !this.showGenerateKeysConfirm;
+    },
+    confirmSync() {
+      this.showSyncConfirm = !this.showSyncConfirm;
+    },
+    toggleSyncComplete() {
+      this.showSyncComplete = !this.showSyncComplete;
     },
     generateKeys() {
       this.showGenerateKeysConfirm = false;
@@ -198,6 +231,25 @@ export default {
 
         this.credentials = JSON.stringify(data);
         this.showGeneratedKeys = true;
+        this.showLoading = false;
+      });
+    },
+    sync() {
+      this.showSyncConfirm = false;
+      this.showLoading = true;
+      fetch(
+        constants.server + '/api/house/sync',
+        httpReq.post({ house_id: this.$route.params.id })
+      ).then(async (response) => {
+        const data = await response.json();
+
+        if (!response.ok) {
+          // get error message from body or default to response status
+          const error = (data && data.message) || response.status;
+          return Promise.reject(error);
+        }
+
+        this.showSyncComplete = true;
         this.showLoading = false;
       });
     },

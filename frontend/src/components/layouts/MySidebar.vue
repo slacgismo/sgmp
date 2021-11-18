@@ -416,7 +416,7 @@
           </Disclosure>
         </li>
 
-        <router-link v-slot="{ isExactActive, href, navigate }" to="/houses" v-show="isAdmin()">
+        <router-link v-slot="{ isExactActive, href, navigate }" to="/houses" v-show="hasAccess([ROLE.Admin])">
           <li
             class="px-4 cursor-pointer"
             :class="[
