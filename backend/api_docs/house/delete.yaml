@@ -1,0 +1,30 @@
+post:
+  summary: Delete house
+  description: All devices and analytic items must be deleted before the house can be removed.
+  operationId: houseDelete
+  tags:
+    - house
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            house_id:
+              type: integer
+  responses:
+    '200':
+      description: Deletion successful
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

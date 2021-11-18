@@ -1,0 +1,47 @@
+post:
+  summary: Create house
+  description: |
+    House name must be globally unique.
+    Upon successful creation the AWS IoT Core credentials will be generated and attached to the API response.
+    Note that the credentials are not stored anywhere in the backend, therefore this is the only chance for client to retrieve the credentials.
+  operationId: houseCreate
+  tags:
+    - house
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+  responses:
+    '200':
+      description: Creation successful
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              house_id:
+                type: integer
+                description: ID of the newly created house
+              cert:
+                type: string
+                description: AWS IoT Core certificate for the edge device, in PEM format
+              private_key:
+                type: string
+                description: AWS IoT Core private key for the edge device, in PEM format
+              public_key:
+                type: string
+                description: AWS IoT Core public key for the edge device, in PEM format
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

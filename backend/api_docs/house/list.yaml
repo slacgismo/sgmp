@@ -1,0 +1,28 @@
+get:
+  summary: Retrieve house list
+  description: |
+    For admin full list will be returned.
+    Otherwise only the houses the user has access to will be returned.
+  operationId: houseList
+  tags:
+    - house
+  responses:
+    '200':
+      description: House list
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              houses:
+                type: array
+                items:
+                  $ref: "#/components/schemas/House"
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

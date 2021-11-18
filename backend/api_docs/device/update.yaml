@@ -1,0 +1,48 @@
+post:
+  summary: Update device
+  description: |
+    Two methods of looking up device: using device_id or a combination of house_id + name.
+    Either way the user must have access to the house where the device is located.
+    Only description and config can be modified.
+  operationId: deviceUpdate
+  tags:
+    - device
+  requestBody:
+    content:
+      application/json:
+        schema:
+          oneOf:
+            - type: object
+              properties:
+                device_id:
+                  type: integer
+                description:
+                  type: string
+                config:
+                  type: object
+            - type: object
+              properties:
+                house_id:
+                  type: integer
+                name:
+                  type: string
+                description:
+                  type: string
+                config:
+                  type: object
+  responses:
+    '200':
+      description: Update successful
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

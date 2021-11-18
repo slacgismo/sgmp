@@ -1,0 +1,39 @@
+post:
+  summary: Create a new device
+  description: |
+    The name must be unique within the house.
+  operationId: deviceCreate
+  tags:
+    - device
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            house_id:
+              type: integer
+            name:
+              type: string
+            description:
+              type: string
+            type:
+              type: string
+            config:
+              type: object
+  responses:
+    '200':
+      description: Creation successful
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

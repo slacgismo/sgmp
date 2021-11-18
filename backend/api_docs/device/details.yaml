@@ -1,0 +1,67 @@
+post:
+  summary: Retrieve device details
+  description: |
+    Two lookup method: using device_id or the combination of house_id + name.
+    Either way the user must have access to the house where the device is located.
+    For the first method house_id will also be returned.
+  operationId: deviceDetails
+  tags:
+    - device
+  requestBody:
+    content:
+      application/json:
+        schema:
+          oneOf:
+            - type: object
+              properties:
+                device_id:
+                  type: integer
+            - type: object
+              properties:
+                house_id:
+                  type: integer
+                name:
+                  type: string
+  responses:
+    '200':
+      description: Device details
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: object
+                properties:
+                  status:
+                    type: string
+                  device_id:
+                    type: integer
+                  house_id:
+                    type: integer
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  type:
+                    type: string
+                  config:
+                    type: object
+              - type: object
+                properties:
+                  status:
+                    type: string
+                  device_id:
+                    type: integer
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  type:
+                    type: string
+                  config:
+                    type: object
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

@@ -39,6 +39,32 @@ paths:
     $ref: ./analytics/delete.yaml
   /data/read:
     $ref: ./data/read.yaml
+  /device/list:
+    $ref: ./device/list.yaml
+  /device/details:
+    $ref: ./device/details.yaml
+  /device/create:
+    $ref: ./device/create.yaml
+  /device/update:
+    $ref: ./device/update.yaml
+  /device/delete:
+    $ref: ./device/delete.yaml
+  /event/read:
+    $ref: ./event/read.yaml
+  /house/list:
+    $ref: ./house/list.yaml
+  /house/details:
+    $ref: ./house/details.yaml
+  /house/create:
+    $ref: ./house/create.yaml
+  /house/update:
+    $ref: ./house/update.yaml
+  /house/delete:
+    $ref: ./house/delete.yaml
+  /house/generateKeys:
+    $ref: ./house/generateKeys.yaml
+  /house/sync:
+    $ref: ./house/sync.yaml
 components:
   securitySchemes:
     bearerAuth:
@@ -97,6 +123,15 @@ components:
           type: integer
         value:
           type: float
+    House:
+      type: object
+      properties:
+        house_id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
     Error:
       type: object
       properties:

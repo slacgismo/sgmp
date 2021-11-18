@@ -1,0 +1,31 @@
+post:
+  summary: Retrieve house details
+  operationId: houseDetails
+  tags:
+    - house
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            house_id:
+              type: integer
+  responses:
+    '200':
+      description: Device details
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              house:
+                $ref: "#/components/schemas/House"
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

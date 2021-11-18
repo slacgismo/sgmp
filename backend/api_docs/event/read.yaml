@@ -1,0 +1,65 @@
+post:
+  summary: Read events
+  description: |
+    Reads the event in a specific house within the given time range.
+    Can optionally filter by event types and/or device names.
+  operationId: eventRead
+  tags:
+    - event
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            house_id:
+              type: integer
+            start_time:
+              type: integer
+              description: In Unix millisecond timestamp
+            end_time:
+              type: integer
+              description: In Unix millisecond timestamp
+            type:
+              type: array
+              description: Filter by event types
+              items:
+                type: string
+            device_name:
+              type: array
+              description: Filter by device names
+              items:
+                type: string
+          required:
+            - house_id
+            - start_time
+            - end_time
+  responses:
+    '200':
+      description: Event list
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              events:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: integer
+                    device_name:
+                      type: string
+                    type:
+                      type: string
+                    data:
+                      type: object
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

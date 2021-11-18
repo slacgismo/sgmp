@@ -1,0 +1,31 @@
+post:
+  summary: Sync edge device config
+  description: |
+    Pushes device configuration to the edge device.
+  operationId: houseSync
+  tags:
+    - house
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            house_id:
+              type: integer
+  responses:
+    '200':
+      description: Synchronization successful
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
