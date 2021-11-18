@@ -3,6 +3,7 @@ from flask import Blueprint, jsonify, request, g
 
 from models.house import House
 from models.device import Device
+from models.analytics import Analytics
 from models.shared import db
 
 from utils.functions import err_json, get_boto3_client
@@ -156,10 +157,13 @@ def house_delete():
         return err_json('bad request')
     house_id = int(data['house_id'])
 
-    # Check that no devices exist under the house
+    # Check that no device and analytics exist under the house
     count = Device.query.filter_by(house_id=house_id).count()
     if count > 0:
-        return err_json('house is not empty')
+        return err_json('house still have devices')
+    count = Analytics.query.filter_by(house_id=house_id).count()
+    if count > 0:
+        return err_json('house still have analytics')
 
     # Check for existance
     house = House.query.filter_by(house_id=house_id).first()
