@@ -243,6 +243,33 @@
           </li>
         </router-link>
 
+        <router-link v-slot="{ isExactActive, href, navigate }" to="/resetPwd">
+          <li
+            class="px-4 cursor-pointer"
+            :class="[
+              isExactActive ? 'bg-white text-red-900' : 'hover:bg-gray-100',
+            ]"
+          >
+            <a class="py-3 flex items-center" :href="href" @click="navigate">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                />
+              </svg>
+              Reset Password
+            </a>
+          </li>
+        </router-link>
+
         <li
           v-show="hasAccess([ROLE.Admin, ROLE.Researcher])"
           class="px-4 py-2 mt-2 text-xs uppercase tracking-wider font-bold"

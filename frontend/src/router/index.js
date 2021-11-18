@@ -44,6 +44,12 @@ const routes = [
         meta: { auth: [] }
       },
       {
+        path: '/resetPwd',
+        name: 'resetPwd',
+        component: () => import('@/views/users/ResetPassword.vue'),
+        meta: { auth: [] }
+      },
+      {
         path: '/devices',
         name: 'devices',
         component: () => import('@/views/devices/DeviceList.vue'),
@@ -160,7 +166,7 @@ router.beforeEach((to, from, next) => {
         sessionStorage.house_id = profile.house_id;
         sessionStorage.house_desc = profile.house_desc;
       }
-      
+
       if (!sessionStorage.username) {
           // redirect to the login page if unauthorized
           return next({ path: '/login', query: { redirect: to.path } });

@@ -218,7 +218,11 @@ export default {
           newUsers.push(thisUser);
         }
       }
-      localStorage.setItem("users", JSON.stringify(newUsers));
+      if (newUsers.length > 0) {
+        localStorage.setItem("users", JSON.stringify(newUsers));
+      } else {
+        localStorage.clear();
+      }
 
       sessionStorage.clear();
     },

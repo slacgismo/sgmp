@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-between px-4 mt-4 sm:px-8">
     <h2 class="text-2xl text-gray-600">My Profile</h2>
-    <navigation-bar naviText="Users" routePath="/users" plainText="Update" />
+    <navigation-bar naviText="Users" routePath="/users" plainText="Profile" />
   </div>
 
   <div class="p-4 mt-8 sm:px-8 sm:py-4">
