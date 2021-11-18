@@ -148,7 +148,7 @@ export default {
     // Fetch data for the device details
     fetch(
         constants.server + "/api/analytics/details", // endpoint
-        httpReq.post({ house_id: localStorage.getItem('house_id'), name: this.$route.params.name }) // requestOptions
+        httpReq.post({ house_id: sessionStorage.getItem('house_id'), name: this.$route.params.name }) // requestOptions
       )
       .then(async response => {
         const data = await response.json();
@@ -196,7 +196,7 @@ export default {
       // POST request to update analytics
       fetch(
         constants.server + "/api/analytics/update", // endpoint
-        httpReq.post({ ...this.analytics, house_id: localStorage.getItem('house_id') })
+        httpReq.post({ ...this.analytics, house_id: sessionStorage.getItem('house_id') })
       )
         .then(async (response) => {
           this.showLoadingPopup = false;

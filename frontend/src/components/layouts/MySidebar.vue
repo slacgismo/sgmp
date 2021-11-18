@@ -481,7 +481,7 @@ export default {
     // POST request to fetch data for the houses
     fetch(
       constants.server + "/api/device/list", // endpoint
-      httpReq.post({ house_id: localStorage.getItem("house_id") }) // requestOptions
+      httpReq.post({ house_id: sessionStorage.getItem("house_id") }) // requestOptions
     )
       .then(async (response) => {
         const data = await response.json();
@@ -503,7 +503,7 @@ export default {
       return routes.includes(this.route.name);
     },
     hasAccess(roles) {
-      if (roles.length && !roles.includes(localStorage.roles)) {
+      if (roles.length && !roles.includes(sessionStorage.roles)) {
         return false;
       }
       return true;

@@ -146,7 +146,7 @@ export default {
   },
   setup() {
     const isAdmin = computed(() => {
-      return localStorage.getItem("roles") == constants.roles.Admin;
+      return sessionStorage.getItem("roles") == constants.roles.Admin;
     });
     const popupTriggers = ref(false);
     const TogglePopup = () => {
@@ -169,12 +169,12 @@ export default {
     username: {
       immediate: true,
       handler() {
-        this.username = localStorage.username;
+        this.username = sessionStorage.username;
       },
     }
   },
   created() {
-    this.house = localStorage.getItem("house_desc");
+    this.house = sessionStorage.getItem("house_desc");
 
     // POST request to fetch data for the houses
     fetch(
@@ -210,7 +210,17 @@ export default {
       return `https://ui-avatars.com/api/?name=` + name + `&background=random`;
     },
     logout() {
-      localStorage.clear();
+      let users = JSON.parse(localStorage.getItem("users"));
+      let newUsers = [];
+      for (let i = 0; i < users.length; i++) {
+        let thisUser = users.pop();
+        if (thisUser.email != sessionStorage.getItem("email")) {
+          newUsers.push(thisUser);
+        }
+      }
+      localStorage.setItem("users", JSON.stringify(newUsers));
+
+      sessionStorage.clear();
     },
   },
 };

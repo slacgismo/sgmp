@@ -191,7 +191,7 @@ export default {
         "start_time": new Date().setHours(0, 0, 0, 0),
         "end_time": now.getTime(),
         "type": "WARNING",
-        "house_id": localStorage.getItem("house_id")
+        "house_id": sessionStorage.getItem("house_id")
       }) // requestOptions
     )
       .then(async (response) => {
@@ -235,7 +235,7 @@ export default {
         agg_function: "max",
         analytics_name: formula,
         fine: true,
-        house_id: localStorage.getItem("house_id")
+        house_id: sessionStorage.getItem("house_id")
       };
     },
     getDonutRequest(formulae) {
@@ -254,7 +254,7 @@ export default {
         type: "analytics",
         agg_function: "avg",
         formula: power2Energy,
-        house_id: localStorage.getItem("house_id")
+        house_id: sessionStorage.getItem("house_id")
       };
     },
     getTSRequest(formula) {
@@ -266,7 +266,7 @@ export default {
         analytics_name: formula,
         fine: true,
         average: 300000, // 5 minute = 5 * 60 * 1000
-        house_id: localStorage.getItem("house_id")
+        house_id: sessionStorage.getItem("house_id")
       };
     },
   },

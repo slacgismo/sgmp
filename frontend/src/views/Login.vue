@@ -192,28 +192,45 @@ export default {
             const error = (data && data.message) || response.status;
             return Promise.reject(error);
           }
-          if (data.accesstoken) {
-            localStorage.setItem("token", data.accesstoken);
-            if (data.profile && data.profile.name) {
-              localStorage.setItem("username", data.profile.name);
+          
+          let signed = [];  // users that signed in already
+          if (localStorage.getItem("users")) {
+            signed = JSON.parse(localStorage.getItem("users"));
+          }
+
+          let profile = {};
+          if (data.profile) {
+            profile.token = data.accesstoken;
+            sessionStorage.setItem("token", data.accesstoken);
+
+            if (data.profile.name) {
+              profile.username = data.profile.name;
             } else {
-              localStorage.setItem("username", "User");
+              profile.username = "User";
             }
-            if (data.profile) {
-              if (data.profile.roles) {
-                localStorage.setItem("roles", data.profile.roles);
-              }
-              if (data.profile.email) {
-                localStorage.setItem("email", data.profile.email);
-              }
-              if (data.house_id) {
-                localStorage.setItem("house_id", parseInt(data.house_id));
-                if (!data.house_description) {  // fallback: shouldn't happen
-                  data.house_description = "House";
-                }
-                localStorage.setItem("house_desc", data.house_description);
-              }
+            sessionStorage.setItem("username", profile.username);
+
+            if (data.profile.email) {
+              profile.email = data.profile.email;
+              sessionStorage.setItem("email", profile.email);
             }
+            if (data.profile.roles) {
+              profile.roles = data.profile.roles;
+              sessionStorage.setItem("roles", profile.roles);
+            }
+            if (data.house_id) {
+              profile.house_id = parseInt(data.house_id);
+              sessionStorage.setItem("house_id", profile.house_id);
+
+              if (!data.house_description) {  // fallback: shouldn't happen
+                data.house_description = "House";
+              }
+              profile.house_desc = data.house_description;
+              sessionStorage.setItem("house_desc", profile.house_desc);
+            }
+
+            signed.push(profile);
+            localStorage.setItem("users", JSON.stringify(signed));
 
             this.$router.push(this.$route.query.redirect || "/");
           }

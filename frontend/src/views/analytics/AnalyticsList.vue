@@ -297,7 +297,7 @@ export default {
       // Fetch data for the device list
       fetch(
           constants.server + "/api/analytics/list", // endpoint
-          httpReq.post({ house_id: localStorage.getItem("house_id") }) // requestOptions
+          httpReq.post({ house_id: sessionStorage.getItem("house_id") }) // requestOptions
         )
         .then(async response => {
           const data = await response.json();
@@ -331,7 +331,7 @@ export default {
       for (const id of this.deleteChecked) {
         promises.push(fetch(
             constants.server + "/api/analytics/delete", // endpoint
-            httpReq.post({ house_id: localStorage.getItem('house_id'), name: id }) // requestOptions
+            httpReq.post({ house_id: sessionStorage.getItem('house_id'), name: id }) // requestOptions
           )
           .then(async response => {
             const data = await response.json();

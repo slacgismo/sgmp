@@ -187,7 +187,7 @@ export default {
       // POST request to create analytics
       fetch(
         constants.server + "/api/analytics/create", // endpoint
-        httpReq.post({ ...this.analytics, house_id: localStorage.getItem('house_id') })
+        httpReq.post({ ...this.analytics, house_id: sessionStorage.getItem('house_id') })
       )
         .then(async (response) => {
           this.showLoadingPopup = false;

@@ -113,15 +113,15 @@ export default {
   methods: {
     saveChange() {
       if (typeof(this.selected) != "number" ||
-          this.selected == localStorage.getItem("house_id")) {
+          this.selected == sessionStorage.getItem("house_id")) {
         this.TogglePopup();
         return;
       }
 
       let request = {
-        "email": localStorage.getItem("email"),
-        "name": localStorage.getItem("username"),
-        "role": localStorage.getItem("roles"),
+        "email": sessionStorage.getItem("email"),
+        "name": sessionStorage.getItem("username"),
+        "role": sessionStorage.getItem("roles"),
         "house_id": this.selected
       };
       // POST request to change the house selection
@@ -139,8 +139,8 @@ export default {
             return Promise.reject(error);
           }
 
-          localStorage.setItem("house_id", data.house_id);
-          localStorage.setItem("house_desc", data.house_description);
+          sessionStorage.setItem("house_id", data.house_id);
+          sessionStorage.setItem("house_desc", data.house_description);
           this.$router.go();  // reload page
         })
         .catch((error) => {

@@ -163,7 +163,7 @@ export default {
   },
   setup() {
     const isAdmin = computed(() => {
-      return localStorage.getItem("roles") == constants.roles.Admin;
+      return sessionStorage.getItem("roles") == constants.roles.Admin;
     });
     return {
       isAdmin
@@ -177,11 +177,11 @@ export default {
   data() {
     return {
       user: {
-        email: localStorage.getItem("email"),
-        name: localStorage.getItem("username"),
-        role: localStorage.getItem("roles"),
-        house_id: parseInt(localStorage.getItem("house_id")),
-        house_description: localStorage.getItem("house_desc")
+        email: sessionStorage.getItem("email"),
+        name: sessionStorage.getItem("username"),
+        role: sessionStorage.getItem("roles"),
+        house_id: parseInt(sessionStorage.getItem("house_id")),
+        house_description: sessionStorage.getItem("house_desc")
       },
       showLoadingPopup: false,
       roleOptions: [],
@@ -246,11 +246,11 @@ export default {
             return Promise.reject(error);
           }
           this.updateResult = "Profile updated!";
-          localStorage.setItem("email", data.email);
-          localStorage.setItem("username", data.name);
-          localStorage.setItem("role", data.role);
-          localStorage.setItem("house_id", data.house_id);
-          localStorage.setItem("house_desc", data.house_description);
+          sessionStorage.setItem("email", data.email);
+          sessionStorage.setItem("username", data.name);
+          sessionStorage.setItem("role", data.role);
+          sessionStorage.setItem("house_id", data.house_id);
+          sessionStorage.setItem("house_desc", data.house_description);
         })
         .catch((error) => {
           this.errorMessage = error;

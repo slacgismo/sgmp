@@ -215,12 +215,12 @@ export default {
             return Promise.reject(error);
           }
           console.log("Update successful!");
-          if (localStorage.email == this.user.email) {
-            localStorage.setItem("email", data.email);
-            localStorage.setItem("username", data.name);
-            localStorage.setItem("role", data.role);
-            localStorage.setItem("house_id", data.house_id);
-            localStorage.setItem("house_desc", data.house_description);
+          if (sessionStorage.email == this.user.email) {
+            sessionStorage.setItem("email", data.email);
+            sessionStorage.setItem("username", data.name);
+            sessionStorage.setItem("role", data.role);
+            sessionStorage.setItem("house_id", data.house_id);
+            sessionStorage.setItem("house_desc", data.house_description);
           }
 
           this.$router.push("/users");

@@ -182,7 +182,7 @@ export default {
     // Fetch data for the analytic items list
       fetch(
           constants.server + "/api/analytics/list", // endpoint
-          httpReq.post({ house_id: localStorage.getItem("house_id") }) // requestOptions
+          httpReq.post({ house_id: sessionStorage.getItem("house_id") }) // requestOptions
         )
       .then(response => response.json())
       .then(data => {
@@ -221,7 +221,7 @@ export default {
         "end_time": now.getTime(),
         "type": "analytics",
         "analytics_name": this.analyticItems,
-        "house_id": localStorage.getItem("house_id")
+        "house_id": sessionStorage.getItem("house_id")
       };
       // Weekly and montly data are by default averaged over 1 hour
       if (type == State.Day) {
@@ -237,7 +237,7 @@ export default {
         type: "analytics",
         agg_function: aggFunc,
         analytics_name: analyticsName,
-        house_id: localStorage.getItem("house_id")
+        house_id: sessionStorage.getItem("house_id")
       };
       if (type == State.Day) {
         // We want fine-grained data

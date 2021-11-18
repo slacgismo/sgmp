@@ -169,7 +169,7 @@ export default {
       // POST request to create device
       fetch(
         constants.server + "/api/device/create", // endpoint
-        httpReq.post({ ...this.device, house_id: localStorage.getItem('house_id') })
+        httpReq.post({ ...this.device, house_id: sessionStorage.getItem('house_id') })
       )
         .then(async (response) => {
           const data = await response.json();

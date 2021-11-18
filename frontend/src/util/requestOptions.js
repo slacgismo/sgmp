@@ -30,7 +30,7 @@ export default {
 
 function headers() {
     // restriction: only handles single user at one time
-    const authHeader = localStorage.token ? { 'Authorization': 'Bearer ' + localStorage.token } : {}
+    const authHeader = sessionStorage.token ? { 'Authorization': 'Bearer ' + sessionStorage.token } : {}
     return {
         headers: {
             ...authHeader,

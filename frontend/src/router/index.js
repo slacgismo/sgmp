@@ -131,13 +131,25 @@ router.beforeEach((to, from, next) => {
   // check authentication before route
   const { auth } = to.meta;
   if (auth) {
-      if (!localStorage.username) {
+      if (sessionStorage.length == 0 && localStorage.length > 0) {
+        let users = JSON.parse(localStorage.getItem("users"));
+        // take the last login session
+        const profile = users[users.length - 1];
+        sessionStorage.token = profile.token;
+        sessionStorage.email = profile.email;
+        sessionStorage.username = profile.username;
+        sessionStorage.roles = profile.roles;
+        sessionStorage.house_id = profile.house_id;
+        sessionStorage.house_desc = profile.house_desc;
+      }
+      
+      if (!sessionStorage.username) {
           // redirect to the login page if unauthorized
           return next({ path: '/login', query: { redirect: to.path } });
       }
 
       // some pages are only accessible by certain role(s)
-      if (auth.length && !auth.includes(localStorage.roles)) {
+      if (auth.length && !auth.includes(sessionStorage.roles)) {
           // redirect to the home page if unauthorized
           return next({ path: '/' });
       }
