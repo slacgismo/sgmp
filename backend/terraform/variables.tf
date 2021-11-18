@@ -103,16 +103,6 @@ variable "rds_multi_az" {
   default = true
 }
 
-variable "staging_instance_type" {
-  type    = string
-  default = "t3.small"
-}
-
-variable "staging_ami" {
-  type    = string
-  default = "ami-029139ef905224a72"
-}
-
 variable "staging_desired_count" {
   type    = number
   default = 1
