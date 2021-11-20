@@ -1,4 +1,9 @@
 import json
+import os
+
+os.system('rm -rf certs')
+os.system('mkdir certs')
+os.system('wget https://www.amazontrust.com/repository/AmazonRootCA1.pem -O certs/AmazonRootCA1.pem')
 
 json_str = input('Enter JSON results from API: ')
 obj = json.loads(json_str)
