@@ -1,0 +1,29 @@
+post:
+  summary: Delete role
+  operationId: roleDelete
+  tags:
+    - role
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            role:
+              type: string
+  responses:
+    '200':
+      description: Successfully deleted user
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

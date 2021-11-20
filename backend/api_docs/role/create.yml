@@ -1,0 +1,30 @@
+post:
+  summary: Create a new role
+  operationId: roleCreate
+  security: []
+  tags:
+    - role
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            role:
+              type: string
+  responses:
+    '200':
+      description: Successfully created role
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
