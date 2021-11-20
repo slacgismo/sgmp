@@ -27,6 +27,12 @@ paths:
     $ref: ./user/update.yaml
   /user/delete:
     $ref: ./user/delete.yaml
+  /role/create:
+    $ref: ./role/create.yaml
+  /role/delete:
+    $ref: ./role/delete.yaml
+  /role/list:
+    $ref: ./role/list.yaml
   /analytics/list:
     $ref: ./analytics/list.yaml
   /analytics/details:

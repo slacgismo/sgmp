@@ -1,7 +1,6 @@
 post:
   summary: Create a new role
   operationId: roleCreate
-  security: []
   tags:
     - role
   requestBody:
