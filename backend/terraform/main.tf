@@ -105,6 +105,10 @@ module "tsdb" {
   cluster_size = var.tsdb_cluster_size
 }
 
+data "aws_secretsmanager_secret_version" "credentials" {
+  secret_id = "${var.resource_prefix}_credentials"
+}
+
 module "rds" {
   source = "./rds"
 
@@ -118,7 +122,7 @@ module "rds" {
   engine_version       = var.rds_engine_version
   major_engine_version = var.rds_major_engine_version
   allocated_storage    = var.rds_allocated_storage
-  password             = random_password.rds.result
+  password             = jsondecode(data.aws_secretsmanager_secret_version.credentials.secret_string)["rds"]
   delete_protection    = var.rds_delete_protection
   multi_az             = var.rds_multi_az
 }
@@ -223,4 +227,24 @@ module "certificates" {
 
 output "bastion_ip" {
   value = module.bastion.bastion_ip
+}
+
+output "rds_endpoint" {
+  value = module.rds.dns
+}
+
+output "iot_cert_id" {
+  value = module.iot.iot_certificate_id
+}
+
+output "iot_endpoint" {
+  value = module.iot.iot_endpoint
+}
+
+output "cognito_user_pool_id" {
+  value = module.cognito.user_pool_id
+}
+
+output "cognito_app_client_id" {
+  value = module.cognito.app_client_id
 }
