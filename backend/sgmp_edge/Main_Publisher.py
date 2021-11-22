@@ -93,6 +93,16 @@ def collect_and_publish():
         except Exception as e:
             # Stop if we encounter an exception
             logger.warning('Can\'t read from device %s: %s' % (device['name'], e))
+
+            topic = config.DEPLOYMENT_NAME + '_read/' + config.CLIENT_ID + '/' + str(device['device_id']) + '/' + device['name'] + '/' + str(timestamp) + '/event'
+            event_dict = {
+                'type': 'WARNING',
+                'data': {
+                    'data': str(e)
+                }
+            }
+            mqtt.publish(topic, json.dumps(event_dict), QoS=1)
+
             return
 
         # Publish to MQTT
