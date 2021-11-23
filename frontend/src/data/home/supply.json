@@ -1,0 +1,14 @@
+[
+  {
+    "type":"Grid",
+    "energy":86.7
+  },
+  {
+    "type":"Battery",
+    "energy":137.6
+  },
+  {
+    "type":"Solar",
+    "energy":150.3
+  }
+]
