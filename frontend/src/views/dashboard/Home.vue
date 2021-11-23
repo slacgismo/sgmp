@@ -76,7 +76,7 @@
         :unit="constants.units.Power"
         title="Battery Discharging"
         img="battery.svg"
-        :request="getCardRequest(constants.analytics.Battery)"
+        :request="getCardRequest(constants.analytics.BatteryDischarging)"
       />
     </router-link>
 
