@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "slac.jpg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
