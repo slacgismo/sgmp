@@ -3,12 +3,18 @@ import Defaults
 import ARKit
 import Combine
 
+
+/**
+ A `ObservableObject` class that manages the tab bar selection, which provides a 'tab as button' implementation via `MainTabBarData.objectWillChange` property
+ */
 final class MainTabBarData: ObservableObject {
 
     /// This is the index of the item that fires a custom action
     let customActiontemindex: Int
     let objectWillChange = PassthroughSubject<MainTabBarData, Never>()
     var previousItem: Int
+
+    /// Computed property that checks if the current selection tab item is a custom action
     var itemSelected: Int {
         didSet {
             if itemSelected == customActiontemindex {
@@ -37,10 +43,19 @@ final class MainTabBarData: ObservableObject {
     }
 }
 
+
+/**
+ Container view for the tab bar and all sub-pages when tab bar items were clicked
+ */
 struct MainTabView: View {
     
+    
+    /// A variable that syncs with `Defaults.Keys.debugMode`
     @Default(.debugMode) var debugMode
+    
+    /// Environment object inherited from `EnvironmentManager.env`
     @EnvironmentObject var env : Env
+    
     @StateObject var tabData = MainTabBarData(initialIndex: 1, customItemIndex: 2)
     @Default(.userProfile) var userProfile
     

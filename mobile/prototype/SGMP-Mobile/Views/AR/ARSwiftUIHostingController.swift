@@ -8,15 +8,7 @@
 import Foundation
 import SwiftUI
 
-class ARSwiftUIHostingController<Content> : UIHostingController<Content> where Content : View {
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        if let touch = touches.first {
-//            let position = touch.location(in: view)
-//            print(position)
-//        }
-        super.touchesBegan(touches, with: event)
-    }
-    
+class ARSwiftUIHostingController<Content> : UIHostingController<Content> where Content : View {    
     override var prefersStatusBarHidden: Bool {
         return true
     }

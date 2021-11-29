@@ -1,6 +1,8 @@
 import Foundation
 import ARKit
 
+
+/// AR camera tracking state, a wrapper around `ARCamera.TrackingState` but with additional fields like `ARCameraTrackingState.desc`
 enum ARCameraTrackingState {
     
     case notAvailable

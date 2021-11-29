@@ -1,5 +1,8 @@
 import Foundation
 
+
+/// Get a list of sub-classes of the class `T`
+/// - Returns: a list of subclasses
 public func subclasses<T>(of theClass: T) -> [T] {
     let classPtr = address(of: theClass)
     

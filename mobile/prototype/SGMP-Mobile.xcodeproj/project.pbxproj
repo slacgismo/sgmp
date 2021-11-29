@@ -162,14 +162,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0D079C97271F906B006D50D3 /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				0D5F56F7272B99850029A53B /* NetworkManager.swift */,
-			);
-			path = Network;
-			sourceTree = "<group>";
-		};
 		0D4BF618270D3D1400B4496B /* Auth */ = {
 			isa = PBXGroup;
 			children = (
@@ -327,7 +319,7 @@
 				0DE2E7BC26F8601200932B41 /* EnvironmentManager.swift */,
 				0D20B25F270E479300786A05 /* EventManager.swift */,
 				0D6070B3272F8D96003874BF /* SessionManager.swift */,
-				0D079C97271F906B006D50D3 /* Network */,
+				0D5F56F7272B99850029A53B /* NetworkManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";

@@ -10,10 +10,12 @@ import SwiftUI
 import Sentry
 import Defaults
 
-
+/**
+ SGMP App Delegate
+ */
 @main
-/// SGMP
 class SgmpAppDelegate : UIResponder, UIApplicationDelegate {
+    
     var window: UIWindow?
     
     /// Called after the app finishes launching

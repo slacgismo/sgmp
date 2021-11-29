@@ -9,6 +9,9 @@ import Foundation
 import Sentry
 import Defaults
 
+/**
+ A singleton for event tracking, mainly for Sentry SDK for now.
+ */
 class EventManager : BaseManager {
     
     static let instance = EventManager()
@@ -25,6 +28,7 @@ class EventManager : BaseManager {
         SentrySDK.capture(error: err)
     }
     
+    /// Setup event tracking SDK and related UserDefaults listeners to toggle the SDK on or off
     override func setup() {
         _ = Defaults.publisher(.crashAnalytics).sink { changed in
             if changed.oldValue == true {

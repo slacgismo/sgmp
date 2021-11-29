@@ -3,9 +3,14 @@ import SwiftUI
 import Defaults
 import Combine
 
+/**
+ An environment object holding properties that will be supplied as `EnvironmentObject` to SwiftUI views
+ */
 class Env: ObservableObject {
     
     // MARK: - User
+    
+    /// Is user login required, used for showing login modal view in `MainTabView`
     @Published var loginRequired : Bool = false
     
     // MARK: - AR
@@ -134,22 +139,45 @@ class Env: ObservableObject {
     }
 }
 
+/**
+ Extension to `Defaults.Keys` to add custom keys for `UserDefaults`
+ */
 extension Defaults.Keys {
     // MARK: - Debug
+    
+    /// Debug mode, affect UI behaviors
     static let debugMode = Key<Bool>("debugMode", default: false)
+    
+    /// Mock mode, not used at the moment but reserved for future
     static let mockMode = Key<Bool>("mockMode", default: false)
+    
+    /// Enable crash / events analytics SDK
     static let crashAnalytics = Key<Bool>("crashAnalytics", default: false)
     
     // MARK: - User
+    
+    /// User profile
     static let userProfile = Key<UserProfile?>("userProfile", default: nil)
     
     // MARK: - UI
+    
+    /// Expand rows in the dashboard view
     static let expandRowsInDashboard = Key<Bool>("expandRowsInDashboard", default: true)
+    
+    /// Show icons in the device list view
     static let showIconInDeviceList = Key<Bool>("showIconInDeviceList", default: false)
+    
+    /// Show icons in the analytics list view
     static let showIconInAnalyticsList = Key<Bool>("showIconInAnalyticsList", default: false)
+    
+    /// Expand rows in the analytics list view
     static let expandRowsInAnalyticsList = Key<Bool>("expandRowsInAnalyticsList", default: false)
     
     // MARK: - Network
+    
+    /// Use custom root url defined in `customEndpointUrl`
     static let customEndpoint = Key<Bool>("customEndpoint", default: false)
+    
+    /// Custom root url
     static let customEndpointUrl = Key<String>("customEndpointUrl", default: "http://gismolab-sgmp-staging-1374415927.us-west-1.elb.amazonaws.com/")
 }
