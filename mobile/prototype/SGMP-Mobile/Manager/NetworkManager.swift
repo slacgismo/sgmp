@@ -10,6 +10,9 @@ import Defaults
 import Alamofire
 import Toast
 
+/**
+ Singleton for network requests (actually a wrapper around `Alamofire` library)
+ */
 class NetworkManager : BaseManager {
     static let instance = NetworkManager()
     
@@ -18,6 +21,11 @@ class NetworkManager : BaseManager {
     }
     
     // MARK: - House
+    
+    
+    /// Get house list
+    /// - Parameter callback: callback with the type of ((`[House]`, `Error?`) -> Void)
+    /// - Returns: `Void`
     func getHouses(callback: (@escaping ([House], Error?) -> Void)) -> Void {
         if let profile = Defaults[.userProfile] {
             AF.request("\(SgmpHostString)api/house/list", headers: .init(["Authorization": "Bearer \(profile.accessToken)"]))
@@ -33,6 +41,12 @@ class NetworkManager : BaseManager {
 
     
     // MARK: - Device
+    
+    /// Get device list from a particular house
+    /// - Parameters:
+    ///   - houseId: House ID
+    ///   - callback: Callback, note the device list might be null
+    /// - Returns: `Void`
     func getDevices(houseId : UInt64, callback : (@escaping ([Device]?, Error?) -> Void)) -> Void {
         if let profile = Defaults[.userProfile] {
             let parameters = ListDevicesRequest(house_id: houseId)
@@ -48,6 +62,12 @@ class NetworkManager : BaseManager {
     }
     
     // MARK: - Device Detail
+    
+    /// Get details of a device
+    /// - Parameters:
+    ///   - deviceId: Device ID
+    ///   - callback: Callback
+    /// - Returns: `Void`
     func getDeviceDetail(deviceId : UInt64, callback: @escaping ((DeviceDetail?, Error?) -> Void)) -> Void {
         if let profile = Defaults[.userProfile] {
             let parameters = DeviceDetailRequest(device_id: deviceId)
@@ -165,6 +185,9 @@ class NetworkManager : BaseManager {
     }
     
     // MARK: - Misc
+    
+    
+    /// A handler to examine if the `response` has a 401 status code (which means user login expired), and invalidate the current user accordingly
     private func responsePostHandlerForExpiredToken<T>(response : DataResponse<T, AFError>) {
         if (response.response?.statusCode == 401 && Defaults[.userProfile] != nil) {
             Defaults[.userProfile] = nil

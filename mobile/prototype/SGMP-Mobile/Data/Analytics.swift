@@ -9,13 +9,17 @@ import Foundation
 
 // MARK: - Analytics Network
 
-/// Data model for `POST` request to `\list\analytics`
+/**
+ Data model for `POST` request to `\list\analytics`
+ */
 struct ListAnalyticsRequest : Codable {
     /// House ID, obviously
     var house_id : UInt64
 }
 
-// Data model for the response to `ListAnalyticsRequest`
+/**
+ Data model for the response to `ListAnalyticsRequest`
+ */
 struct ListAnalyticsResponse : Codable {
     /// Possible message regarding the reponse, maybe some warnings if the request is invalid
     var message : String?
@@ -40,6 +44,8 @@ struct DefinedAnalytics : Codable, Identifiable {
 // MARK: - Analytics UI
 // MARK: - Device UI
 extension DefinedAnalytics {
+    
+    /// A computed property that returns icon name based on `DefinedAnalytics.name`
     var sfSymbolName : String {
         switch name {
         case "battery": return "battery.100.bolt"

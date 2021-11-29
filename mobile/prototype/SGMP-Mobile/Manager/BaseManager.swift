@@ -1,6 +1,8 @@
 import Foundation
 
-/// Base class for all singletons that can be woken up with a `setupAllBaseManagers()` call
+/**
+ Base class for all singletons that can be woken up with a `setupAllBaseManagers()` call
+ */
 public class BaseManager : NSObject {
     
     /// Access the singleton instance from static methods. Needs to be overriden in subclasses and return its own class type

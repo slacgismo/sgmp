@@ -8,10 +8,13 @@
 import Foundation
 
 // MARK: - Device Network
+
+/// Network data model for `POST` request to `/list/devices`
 struct ListDevicesRequest : Codable {
     var house_id : UInt64
 }
 
+/// Network data model for response to `ListDevicesRequest`
 struct ListDevicesResponse : Codable {
     var status : String
     var devices : [Device]?
@@ -82,6 +85,9 @@ struct DeviceDetail : Decodable {
 
 // MARK: - Device UI
 extension Device {
+    
+    /// Return correct SF Symbol name based on the `Device.type` property
+    /// For example,devices with type as `sonnen` will return a icon that stands for battery
     var sfSymbolName : String {
         switch type {
         case "sonnen": return "minus.plus.batteryblock.fill"

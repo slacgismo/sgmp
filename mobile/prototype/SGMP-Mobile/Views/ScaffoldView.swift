@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ScaffoldView: View {
-    
+
     @EnvironmentObject var env : Env
     
     var body: some View {

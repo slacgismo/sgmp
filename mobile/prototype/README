@@ -16,6 +16,7 @@ Upon `SgmpAppDelegate.application(_:didFinishLaunchingWithOptions:)`, `setupAllB
 #### App
 Currently only has one file `SgmpApp.swift` containing `SgmpAppDelegate`, `SgmpHostingController`, and `RootView`.
 #### Data
+
 #### Helper
 #### Manager
 #### Views

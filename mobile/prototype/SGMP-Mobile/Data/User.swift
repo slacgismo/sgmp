@@ -9,6 +9,10 @@ import Foundation
 import Defaults
 
 // MARK: - User Model
+
+/**
+ User Profile data model that will be serialized into user defaults
+ */
 struct UserProfile : Codable, Defaults.Serializable {
     
     var email : String

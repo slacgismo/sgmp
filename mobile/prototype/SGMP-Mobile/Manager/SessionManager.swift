@@ -10,15 +10,22 @@ import Foundation
 import Defaults
 import Alamofire
 
+/**
+ Singleotn for background fetch
+ */
 class SessionManager : BaseManager {
     
     static let instance = SessionManager()
+    
+    /// Task ID for background token refresh task
     static let taskIdentifier = "com.JustZht.SGMP-Mobile.refreshToken"
       
     override class var shared: SessionManager {
         return instance
     }
     
+    /// The actual worker task to call a `NetworkManager.refreshToken(callback:)` to refresh the token
+    /// - Parameter callback: the optional callback with a type of (`RefreshTokenResponse`?, `Error`?) -> `Void`)
     func refreshToken(callback: ((RefreshTokenResponse?, Error?) -> Void)? = nil) {
         NetworkManager.shared.refreshToken { response, err in
             if let err = err {
@@ -30,6 +37,8 @@ class SessionManager : BaseManager {
         }
     }
     
+    
+    /// Log out, simply clear the `Defaults.Keys.userProfile` key in UserDefaults
     func logout() {
         Defaults[.userProfile] = nil
     }
@@ -62,6 +71,7 @@ class SessionManager : BaseManager {
         }
     }
     
+    /// Issue an task that is 3600 seconds (1 hour) from now, at least
     func scheduleRefreshTokenTask () {
         print("scheduleRefreshTokenTask")
         let task = BGAppRefreshTaskRequest(identifier: SessionManager.taskIdentifier)

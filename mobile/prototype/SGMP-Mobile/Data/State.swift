@@ -139,6 +139,9 @@ class Env: ObservableObject {
     }
 }
 
+/**
+ Extension to `Defaults.Keys` to add custom keys for `UserDefaults`
+ */
 extension Defaults.Keys {
     // MARK: - Debug
     static let debugMode = Key<Bool>("debugMode", default: false)

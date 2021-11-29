@@ -7,6 +7,9 @@
 
 import Foundation
 
+/**
+ 
+ */
 class EnvironmentManager : BaseManager {
     
     static let instance = EnvironmentManager()

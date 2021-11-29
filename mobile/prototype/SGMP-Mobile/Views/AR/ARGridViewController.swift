@@ -4,8 +4,13 @@ import UIKit
 import SwiftUI
 import Defaults
 
+
+/**
+ The `UIViewController` that contains the AR view and shown in SwiftUI using `ARGridViewControllerRepresentable`
+ */
 class ARGridViewController : UIViewController, ARSCNViewDelegate, ARSessionDelegate {
     
+    /// AR View
     var arView : ARSCNView = ARSCNView()
     
     override func viewDidLoad() {
@@ -44,6 +49,13 @@ class ARGridViewController : UIViewController, ARSCNViewDelegate, ARSessionDeleg
     }
     
     // MARK: - ARSCNViewDelegate
+    
+    
+    /// <#Description#>
+    /// - Parameters:
+    ///   - renderer: <#renderer description#>
+    ///   - anchor: <#anchor description#>
+    /// - Returns: <#description#>
     func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
         if let anchor = anchor as? ARImageAnchor {
             if anchor.name == "slac" {
@@ -57,6 +69,12 @@ class ARGridViewController : UIViewController, ARSCNViewDelegate, ARSessionDeleg
         return nil
     }
     
+    
+    /// <#Description#>
+    /// - Parameters:
+    ///   - renderer: <#renderer description#>
+    ///   - node: <#node description#>
+    ///   - anchor: <#anchor description#>
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         node.simdTransform = anchor.transform
         if let anchor = anchor as? ARImageAnchor, anchor.name == "slac" {
