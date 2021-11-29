@@ -1,0 +1,121 @@
+# SGMP iOS Client Documentation
+
+> This is still a work in progress.
+
+## Contact
+
+## Application Structure
+
+### Entry & General Life Cycles
+> Note, SGMP iOS Client is still using single window architecture, as there is no need to have mutiple windows for such usage. Having a single window also benefits the AR functionality, which will be detailed later in the AR section.
+
+The entry point is `SgmpAppDelegate` as well as the storyboard file.   
+Upon `SgmpAppDelegate.application(_:didFinishLaunchingWithOptions:)`, `setupAllBaseManagers()` will be called, which will use runtime look up to init all singletons that are subclasses of `BaseManager`.
+
+### Folders
+#### App
+Currently only has one file `SgmpApp.swift` containing `SgmpAppDelegate`, `SgmpHostingController`, and `RootView`.
+#### Data
+#### Helper
+#### Manager
+#### Views
+
+### File List
+```
+➜  SGMP-Mobile git:(hzheng3/dev) ✗ tree
+.
+├── App
+│   └── SgmpApp.swift
+├── Assets.xcassets
+├── Data
+│   ├── AR.swift
+│   ├── Analytics.swift
+│   ├── Device.swift
+│   ├── Network.swift
+│   ├── State.swift
+│   └── User.swift
+├── Documentation.docc
+│   ├── Documentation.md
+│   └── Resources
+├── Helper
+│   ├── ARInteractiveViewNode+QR.swift
+│   ├── Bundle+Version.swift
+│   ├── Button+Style.swift
+│   ├── Class+Runtime.swift
+│   ├── Codable+Dict.swift
+│   ├── Image+Crop.swift
+│   ├── UIRespondor+Hierarchy.swift
+│   ├── UIViewController+Child.swift
+│   └── View+Snapshot.swift
+├── Info.plist
+├── Main.storyboard
+├── Manager
+│   ├── BaseManager.swift
+│   ├── EnvironmentManager.swift
+│   ├── EventManager.swift
+│   ├── Network
+│   │   └── NetworkManager.swift
+│   └── SessionManager.swift
+├── SGMP-Mobile.entitlements
+└── Views
+    ├── AR
+    │   ├── ARDebugPanelView.swift
+    │   ├── ARDeviceInfoPanelView.swift
+    │   ├── ARGridView.swift
+    │   ├── ARGridViewController.swift
+    │   ├── ARNodeProtocol.swift
+    │   ├── ARRefImageSlacViewHostingController.swift
+    │   ├── ARSwiftUIHostingController.swift
+    │   ├── Touch
+    │   │   ├── ARInteractiveViewNode.swift
+    │   │   └── ARInteractiveViewSlacNode.swift
+    │   └── View
+    │       └── ARRefImageSlacView.swift
+    ├── Analytics
+    │   ├── AnalyticsChartView.swift
+    │   ├── AnalyticsSelectionCell.swift
+    │   ├── AnalyticsView.swift
+    │   └── ListAnalyticsView.swift
+    ├── Auth
+    │   └── LoginView.swift
+    ├── CameraTabView.swift
+    ├── Dashboard
+    │   └── SummaryTabView.swift
+    ├── Decorations
+    │   ├── CardGroupBoxStyle.swift
+    │   ├── CellView.swift
+    │   ├── DashboardGlanceCellView.swift
+    │   ├── ExpandableView.swift
+    │   ├── SummaryMetricCardView.swift
+    │   └── ToastView.swift
+    ├── Devices
+    │   ├── DeviceConfigView.swift
+    │   ├── DeviceFormulaAnalyticsChartView.swift
+    │   ├── DeviceFormulaAnalyticsView.swift
+    │   ├── DeviceFormulaView.swift
+    │   ├── DeviceSelectionCell.swift
+    │   ├── DeviceView.swift
+    │   └── ListDeviceView.swift
+    ├── Houses
+    │   ├── ChooseHouseView.swift
+    │   └── ListHouseView.swift
+    ├── MainTabView.swift
+    ├── ScaffoldView.swift
+    └── Settings
+        ├── AboutAppView.swift
+        ├── EnvVariableView.swift
+        └── SettingsTabView.swift
+
+28 directories, 94 files
+```
+
+## Modules
+
+### Dashboard
+
+### AR
+
+### User
+
+
+## How To Run

@@ -3,9 +3,14 @@ import SwiftUI
 import Defaults
 import Combine
 
+/**
+ An environment object holding properties that will be supplied as `EnvironmentObject` to SwiftUI views
+ */
 class Env: ObservableObject {
     
     // MARK: - User
+    
+    /// Is user login required, used for showing login modal view in `MainTabView`
     @Published var loginRequired : Bool = false
     
     // MARK: - AR

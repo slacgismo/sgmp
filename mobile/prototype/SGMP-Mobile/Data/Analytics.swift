@@ -8,13 +8,20 @@
 import Foundation
 
 // MARK: - Analytics Network
+
+/// Data model for `POST` request to `\list\analytics`
 struct ListAnalyticsRequest : Codable {
+    /// House ID, obviously
     var house_id : UInt64
 }
 
+// Data model for the response to `ListAnalyticsRequest`
 struct ListAnalyticsResponse : Codable {
+    /// Possible message regarding the reponse, maybe some warnings if the request is invalid
     var message : String?
+    /// Status, most of time should be 'ok'
     var status : String
+    /// Parsed analytics list, can be `nil`
     var analytics : [DefinedAnalytics]?
 }
 

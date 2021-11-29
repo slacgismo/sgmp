@@ -1,1 +1,1 @@
-jazzy --build-tool-arguments -scheme,SGMP-Mobile --output ../docs --min-acl private
+jazzy --clean --author 'Haotian Zheng' --author_url https://haotianzheng.com --build-tool-arguments -scheme,SGMP-Mobile --output ../docs --min-acl private --title "SGMP iOS Client" --readme README
