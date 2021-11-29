@@ -18,8 +18,14 @@ struct UserProfile : Codable, Defaults.Serializable {
     var email : String
     var name : String
     var roles : [String]
+    
+    /// Access token that will be used for network request
     var accessToken : String
+    
+    /// Last time access token refreshed
     var accessTokenUpdatedDate : Date
+    
+    /// The token used to refresh access token
     var refreshToken : String
     
     init(profileResponse: ProfileResponse, accessToken: String, refreshToken: String) {

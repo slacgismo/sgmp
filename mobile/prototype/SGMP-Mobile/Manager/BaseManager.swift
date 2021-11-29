@@ -10,6 +10,8 @@ public class BaseManager : NSObject {
         return BaseManager()
     }
     
+    /// Setup function, sub classes should override and provide their own implementation
+    /// - Returns: `Void`
     func setup() -> Void {
         
     }
