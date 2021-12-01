@@ -28,15 +28,25 @@ class Env: ObservableObject {
     }
     
     // MARK: - Houses
+    
+    /// All houses currently available to the user and maintained in the env
     @Published var houses : [House] = []
+    
+    /// The current selected house from `houses` to show on the dashboard
     @Published var currentDashboardHouse : House? = nil
     
     // MARK: - Devices
+    
+    /// The devices list of the current selected house, i.e, `currentDashboardHouse`
     @Published var currentDashboardDevices : [Device] = []
     
     // MARK: - Analytics
+    
+    /// The analytics list of the current selected house, i.e, `currentDashboardHouse`
     @Published var currentDashboardAnalytics : [DefinedAnalytics] = []
     
+    
+    /// A set of `AnyCancellable` to store all Combine subscriptions
     var cancellableSet : Set<AnyCancellable> = Set()
     
     init() {

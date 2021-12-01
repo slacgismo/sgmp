@@ -57,6 +57,8 @@ struct MainTabView: View {
     @EnvironmentObject var env : Env
     
     @StateObject var tabData = MainTabBarData(initialIndex: 1, customItemIndex: 2)
+    
+    /// A variable that syncs with `Defaults.Keys.userProfile`
     @Default(.userProfile) var userProfile
     
     var body: some View {

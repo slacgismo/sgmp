@@ -21,6 +21,8 @@ struct ListDevicesResponse : Codable {
 }
 
 // MARK: - Device Model
+
+/// Device data model
 struct Device : Codable, Identifiable {
     var id : UInt64 {
         return device_id
@@ -33,9 +35,14 @@ struct Device : Codable, Identifiable {
 }
 
 // MARK: - Device Detail Network
+
+/// Request data model for the detail of a device. Need to supply a device ID
 struct DeviceDetailRequest : Codable {
     var device_id : UInt64
 }
+
+
+/// Response data model for the `DeviceDetailRequest` request
 struct DeviceDetailResponse : Decodable {
     var status : String
     var message : String?
@@ -47,11 +54,15 @@ protocol DeviceConfigProtocol : Codable {
     
 }
 
+
+/// Device detail data model, mostly acquired from a `DeviceDetailResponse`
 struct DeviceDetail : Decodable {
     enum CodingKeys: String, CodingKey {
         case config, name, description, type, device_id, house_id
     }
 
+    
+    /// A dynamic config that based on the `type` field, will change to different structs conforming to the `DeviceConfigProtocol`, like `DeviceConfigSonnen`, `DeviceConfigPowerflex`, or other structus
     var config : DeviceConfigProtocol
     var name : String
     var description : String

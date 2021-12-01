@@ -8,7 +8,7 @@
 import Foundation
 
 /**
- 
+ Environment Manager as a singleton holds a global`Env` object that will be fed into SwiftUI views
  */
 class EnvironmentManager : BaseManager {
     
@@ -18,5 +18,7 @@ class EnvironmentManager : BaseManager {
         return instance
     }
     
+    
+    /// The environment object. Adding this to SwiftUI require adding `.environmentObject(EnvironmentManager.instance.env)` to the view
     let env : Env = Env()
 }
