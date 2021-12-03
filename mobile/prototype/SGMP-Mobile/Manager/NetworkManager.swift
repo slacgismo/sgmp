@@ -209,6 +209,10 @@ class NetworkManager : BaseManager {
             }
     }
     
+    
+    /// Refresh token, will immediately callback with nil if there is no user profile in UserDefaults
+    /// - Parameter callback: Callback
+    /// - Returns: `Void`
     func refreshToken(callback: @escaping ((RefreshTokenResponse?, Error?) -> Void)) -> Void {
         if let profile = Defaults[.userProfile] {
             let parameters = RefreshTokenRequest(refresh_token: profile.refreshToken)

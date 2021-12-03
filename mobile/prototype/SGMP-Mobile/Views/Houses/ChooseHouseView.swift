@@ -28,6 +28,7 @@ struct ChooseHouseView: View {
         }
     }
     
+    /// The view
     var body: some View {
         List {
             Section {
