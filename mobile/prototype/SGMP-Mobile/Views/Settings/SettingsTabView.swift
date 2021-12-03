@@ -9,7 +9,13 @@ import Defaults
 import SwiftUI
 import Kingfisher
 
+
+/**
+ Tab view for settings 
+ */
 struct SettingsTabView: View {
+    
+    /// Environment object
     @EnvironmentObject var env : Env
     @Default(.userProfile) var userProfile
     @Default(.debugMode) var debugMode
@@ -74,6 +80,7 @@ struct SettingsTabView: View {
                 Text("Misc")
             }
             
+            #if DEBUG
             Section {
                 Toggle(isOn: $debugMode) {
                     Text("Debug")
@@ -95,7 +102,7 @@ struct SettingsTabView: View {
             } header: {
                 Text("Extras")
             }
-
+            #endif
         }
         .animation(.easeInOut)
         .navigationTitle("Settings")

@@ -124,6 +124,9 @@ AR includes the AR controller using `ARSCNView`, barcode scanning, and animated 
 ### User
 User includes the typical login flow. When the user is not logged in, other tabs will be hidden, only `SettingsTabView` will be shown.
 
+## How To Change API Endpoints
+For new server endpoints, simply change the `SgmpHostStringDefault` in the `Network.swift` file. You may also change `SentryDSN` if you want to use your own Sentry SDK endpoint for app events collection.
+
 ## How To Generate Documentation
 
 The prerequisite here is a working Xcode with Swift 5 toolchain, and [jazzy](https://github.com/realm/jazzy) installed.  

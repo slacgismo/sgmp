@@ -23,7 +23,7 @@
         <a class="header-link" href="../index.html">
           SGMP iOS Client
         </a>
-         (34% documented)
+         (35% documented)
       </p>
     
       <div class="header-col--secondary">
@@ -100,6 +100,9 @@
           <li class="nav-group-name">
             <a class="nav-group-name-link" href="../Global%20Variables.html">Global Variables</a>
             <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Global%20Variables.html#/s:11SGMP_Mobile9SentryDSNSSvp">SentryDSN</a>
+              </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Global%20Variables.html#/s:11SGMP_Mobile14SgmpHostStringSSvp">SgmpHostString</a>
               </li>
@@ -240,9 +243,6 @@
                 <a class="nav-group-task-link" href="../Structs/AboutAppView.html">AboutAppView</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/AboutAppView_Previews.html">AboutAppView_Previews</a>
-              </li>
-              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/AnalyticsAggregatedRequest.html">AnalyticsAggregatedRequest</a>
               </li>
               <li class="nav-group-task">
@@ -346,9 +346,6 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/EnvVariableView.html">EnvVariableView</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/EnvVariableView_Previews.html">EnvVariableView_Previews</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ExpandableView.html">ExpandableView</a>
@@ -875,7 +872,7 @@
                               </td>
                               <td>
                                 <div>
-                                  <p>&lt;#houseId description#&gt;</p>
+                                  <p>House ID</p>
                                 </div>
                               </td>
                             </tr>
@@ -887,7 +884,7 @@
                               </td>
                               <td>
                                 <div>
-                                  <p>&lt;#startDate description#&gt;</p>
+                                  <p>Start Date</p>
                                 </div>
                               </td>
                             </tr>
@@ -899,7 +896,7 @@
                               </td>
                               <td>
                                 <div>
-                                  <p>&lt;#endDate description#&gt;</p>
+                                  <p>End Date</p>
                                 </div>
                               </td>
                             </tr>
@@ -911,7 +908,7 @@
                               </td>
                               <td>
                                 <div>
-                                  <p>&lt;#forumla description#&gt;</p>
+                                  <p>Formula</p>
                                 </div>
                               </td>
                             </tr>
@@ -923,7 +920,7 @@
                               </td>
                               <td>
                                 <div>
-                                  <p>&lt;#analyticsName description#&gt;</p>
+                                  <p>The name for a <code><a href="../Structs/DefinedAnalytics.html">DefinedAnalytics</a></code></p>
                                 </div>
                               </td>
                             </tr>
@@ -935,7 +932,7 @@
                               </td>
                               <td>
                                 <div>
-                                  <p>&lt;#interval description#&gt;</p>
+                                  <p>The interval between each data point</p>
                                 </div>
                               </td>
                             </tr>
@@ -947,7 +944,7 @@
                               </td>
                               <td>
                                 <div>
-                                  <p>&lt;#callback description#&gt;</p>
+                                  <p>Callback</p>
                                 </div>
                               </td>
                             </tr>
@@ -956,7 +953,7 @@
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>&lt;#description#&gt;</p>
+                        <p><code>Void</code></p>
                       </div>
                     </section>
                   </div>
@@ -974,7 +971,12 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Get the last data point from either a forumla or a defined analytics name</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Either <code>forumla</code> or <code>analyticsName</code> has to be provided
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -984,6 +986,89 @@
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getAnalyticsOneshot</span><span class="p">(</span><span class="nv">houseId</span><span class="p">:</span> <span class="kt">UInt64</span><span class="p">,</span> <span class="nv">startDate</span><span class="p">:</span> <span class="kt">Date</span><span class="p">,</span> <span class="nv">endDate</span><span class="p">:</span> <span class="kt">Date</span><span class="p">,</span> <span class="nv">forumla</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">analyticsName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">((</span><span class="kt"><a href="../Structs/AnalyticsTimeSeriesFrame.html">AnalyticsTimeSeriesFrame</a></span><span class="p">?,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">))</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>houseId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>House ID</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>startDate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Start Date</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>endDate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>End Date</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>forumla</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Formula</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>analyticsName</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The name for a <code><a href="../Structs/DefinedAnalytics.html">DefinedAnalytics</a></code></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callback</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Callback</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>Void</code></p>
                       </div>
                     </section>
                   </div>
@@ -1014,7 +1099,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Get analytics value with aggregated function applied</p>
 
                       </div>
                       <div class="declaration">
@@ -1024,6 +1109,89 @@
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getAnalyticsAggregated</span><span class="p">(</span><span class="nv">formula</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">houseId</span><span class="p">:</span> <span class="kt">UInt64</span><span class="p">,</span> <span class="nv">aggregateFunction</span><span class="p">:</span> <span class="kt"><a href="../Enums/AggregateFunction.html">AggregateFunction</a></span><span class="p">,</span> <span class="nv">startDate</span><span class="p">:</span> <span class="kt">Date</span><span class="p">,</span> <span class="nv">endDate</span><span class="p">:</span> <span class="kt">Date</span><span class="p">,</span> <span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">((</span><span class="kt">Double</span><span class="p">?,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">))</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>formula</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Formula</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>houseId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>House ID</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>aggregateFunction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Aggregate function</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>startDate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Start Date</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>endDate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>End Date</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callback</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Callback</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>Void</code></p>
                       </div>
                     </section>
                   </div>
@@ -1108,7 +1276,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Refresh token, will immediately callback with nil if there is no user profile in UserDefaults</p>
 
                       </div>
                       <div class="declaration">
@@ -1118,6 +1286,29 @@
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">refreshToken</span><span class="p">(</span><span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">((</span><span class="kt"><a href="../Structs/RefreshTokenResponse.html">RefreshTokenResponse</a></span><span class="p">?,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">))</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callback</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Callback</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>Void</code></p>
                       </div>
                     </section>
                   </div>
@@ -1170,7 +1361,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="https://haotianzheng.com" target="_blank" rel="external noopener">Haotian Zheng</a>. All rights reserved. (Last updated: 2021-12-02)</p>
+      <p>&copy; 2021 <a class="link" href="https://haotianzheng.com" target="_blank" rel="external noopener">Haotian Zheng</a>. All rights reserved. (Last updated: 2021-12-03)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>

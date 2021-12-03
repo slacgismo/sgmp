@@ -12,6 +12,8 @@ struct ListHouseView: View {
     @EnvironmentObject var env : Env
     @State private var searchText = ""
     
+    /// Refresh `Env.houses` so `results` can be updated
+    /// - Returns: `Void`
     func refresh() -> Void {
         env.updateHouses()
     }
@@ -24,6 +26,7 @@ struct ListHouseView: View {
         }
     }
     
+    /// The view
     var body: some View {
         List {
             Section {

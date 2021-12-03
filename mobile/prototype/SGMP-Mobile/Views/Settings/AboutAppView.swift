@@ -8,8 +8,15 @@
 import SwiftUI
 import Kingfisher
 
+/**
+ About application view
+ */
 struct AboutAppView: View {
+    
+    /// Environment object
     @EnvironmentObject var env : Env
+    
+    /// The view
     var body: some View {
         List {
             Section {
@@ -35,11 +42,5 @@ struct AboutAppView: View {
             
         }
         .navigationTitle("About")
-    }
-}
-
-struct AboutAppView_Previews: PreviewProvider {
-    static var previews: some View {
-        AboutAppView()
     }
 }

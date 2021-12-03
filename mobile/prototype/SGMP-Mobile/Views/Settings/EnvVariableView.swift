@@ -8,8 +8,13 @@
 import SwiftUI
 import Defaults
 
+
+/**
+ Debug view for `Env` variables
+ */
 struct EnvVariableView: View {
     
+    /// User Profile (`UserProfile`) that syncs with `Defaults.Keys.userProfile`
     @Default(.userProfile) var userProfile
     
     var body: some View {
@@ -33,11 +38,5 @@ struct EnvVariableView: View {
                 .font(.caption.monospaced())
                 .textSelection(.enabled)
         }.navigationTitle("Debug Variables")
-    }
-}
-
-struct EnvVariableView_Previews: PreviewProvider {
-    static var previews: some View {
-        EnvVariableView()
     }
 }
