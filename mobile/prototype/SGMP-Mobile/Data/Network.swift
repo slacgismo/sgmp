@@ -8,6 +8,9 @@
 import Foundation
 import Defaults
 
+/// Sentry report endpoint. Replace with your own
+let SentryDSN = "https://e3944001a8194fbd9969258edb9df771@o198829.ingest.sentry.io/5996163"
+
 /// SGMP default root url, acts as the actual root url when `SgmpHostString` is set to not use custom end point
 let SgmpHostStringDefault = "https://api.sgmp.slacgismo.io/"
 

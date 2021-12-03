@@ -33,8 +33,8 @@ class EventManager : BaseManager {
         _ = Defaults.publisher(.crashAnalytics).sink { changed in
             if changed.oldValue == true {
                 SentrySDK.start { options in
-                        options.dsn = "https://e3944001a8194fbd9969258edb9df771@o198829.ingest.sentry.io/5996163"
-                        options.debug = true // Enabled debug when first installing is always helpful
+                        options.dsn = SentryDSN
+                        options.debug = false // Enabled debug when first installing is always helpful
                 }
             } else {
                 SentrySDK.close()
