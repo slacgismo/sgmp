@@ -23,7 +23,7 @@
         <a class="header-link" href="../index.html">
           SGMP iOS Client
         </a>
-         (25% documented)
+         (34% documented)
       </p>
     
       <div class="header-col--secondary">
@@ -282,12 +282,6 @@
                 <a class="nav-group-task-link" href="../Structs/ChooseHouseView_Previews.html">ChooseHouseView_Previews</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/DashboardGlanceCellView.html">DashboardGlanceCellView</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/DashboardGlanceCellView_Previews.html">DashboardGlanceCellView_Previews</a>
-              </li>
-              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/DefinedAnalytics.html">DefinedAnalytics</a>
               </li>
               <li class="nav-group-task">
@@ -381,13 +375,7 @@
                 <a class="nav-group-task-link" href="../Structs/ListAnalyticsView.html">ListAnalyticsView</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/ListCardGroupBoxStyle.html">ListCardGroupBoxStyle</a>
-              </li>
-              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ListDeviceView.html">ListDeviceView</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/ListDeviceView_Previews.html">ListDeviceView_Previews</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ListDevicesRequest.html">ListDevicesRequest</a>
@@ -450,9 +438,6 @@
                 <a class="nav-group-task-link" href="../Structs/SettingsTabView_Previews.html">SettingsTabView_Previews</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/SummaryMetricCardView.html">SummaryMetricCardView</a>
-              </li>
-              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/SummaryTabView.html">SummaryTabView</a>
               </li>
               <li class="nav-group-task">
@@ -460,12 +445,6 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/TitleDescCellView.html">TitleDescCellView</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/ToastView.html">ToastView</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/ToastView_Previews.html">ToastView_Previews</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/UserLoginRequest.html">UserLoginRequest</a>
@@ -793,7 +772,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Get a list of <code><a href="../Structs/DefinedAnalytics.html">DefinedAnalytics</a></code> (formula) from the house</p>
 
                       </div>
                       <div class="declaration">
@@ -803,6 +782,41 @@
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getDefinedAnalytics</span><span class="p">(</span><span class="nv">houseId</span><span class="p">:</span> <span class="kt">UInt64</span><span class="p">,</span> <span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(([</span><span class="kt"><a href="../Structs/DefinedAnalytics.html">DefinedAnalytics</a></span><span class="p">]?,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">))</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>houseId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>House ID</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callback</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Callback</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>Void</code></p>
                       </div>
                     </section>
                   </div>
@@ -833,7 +847,12 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Get time series data from either formula or a defined analytics name</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Either <code>forumla</code> or <code>analyticsName</code> has to be provided
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -843,6 +862,101 @@
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getAnalyticsTimeSeries</span><span class="p">(</span><span class="nv">houseId</span><span class="p">:</span> <span class="kt">UInt64</span><span class="p">,</span> <span class="nv">startDate</span><span class="p">:</span> <span class="kt">Date</span><span class="p">,</span> <span class="nv">endDate</span><span class="p">:</span> <span class="kt">Date</span><span class="p">,</span> <span class="nv">forumla</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">analyticsName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">interval</span><span class="p">:</span> <span class="kt">Double</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(([</span><span class="kt"><a href="../Structs/AnalyticsTimeSeriesFrame.html">AnalyticsTimeSeriesFrame</a></span><span class="p">]?,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">))</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>houseId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>&lt;#houseId description#&gt;</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>startDate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>&lt;#startDate description#&gt;</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>endDate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>&lt;#endDate description#&gt;</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>forumla</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>&lt;#forumla description#&gt;</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>analyticsName</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>&lt;#analyticsName description#&gt;</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>interval</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>&lt;#interval description#&gt;</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callback</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>&lt;#callback description#&gt;</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>&lt;#description#&gt;</p>
                       </div>
                     </section>
                   </div>
@@ -1056,7 +1170,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="https://haotianzheng.com" target="_blank" rel="external noopener">Haotian Zheng</a>. All rights reserved. (Last updated: 2021-11-29)</p>
+      <p>&copy; 2021 <a class="link" href="https://haotianzheng.com" target="_blank" rel="external noopener">Haotian Zheng</a>. All rights reserved. (Last updated: 2021-12-02)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>

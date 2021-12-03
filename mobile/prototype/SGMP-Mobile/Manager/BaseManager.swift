@@ -23,7 +23,7 @@ public class BaseManager : NSObject {
 
 
 /// Use runtime reflection to wake up all subclasses of `BaseManager` by calling the `BaseManager.setup()` function
-/// - Returns: void
+/// - Returns: `Void`
 public func setupAllBaseManagers() -> Void {
     let list = subclasses(of: BaseManager.self)
     list.forEach { (manager) in
@@ -32,6 +32,8 @@ public func setupAllBaseManagers() -> Void {
 }
 
 
+/// Use runtime reflection to wake up all subclasses of `BaseManager` by calling the `BaseManager.destroy()` function
+/// - Returns: `Void`
 public func destroyAllBaseManagers() -> Void {
     let list = subclasses(of: BaseManager.self)
     list.forEach { (manager) in

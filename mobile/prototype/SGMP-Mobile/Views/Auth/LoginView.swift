@@ -8,19 +8,38 @@
 import SwiftUI
 import Defaults
 
+
+/**
+ The view for login
+ */
 struct LoginView: View {
+    
+    /**
+        Field types for the `LoginView`
+     */
     enum LoginField: Hashable {
         case email
         case password
     }
     
     @EnvironmentObject var env : Env
+    
+    /// Current input email
     @State private var email = ""
+    
+    /// Current input password
     @State private var password = ""
+    
+    /// Error message for login failure
     @State private var errorMsg : String = ""
+    
+    /// True if in network calls, used to show loading indicator
     @State private var networking : Bool = false
     @FocusState private var focusedField: LoginField?
     
+    
+    /// Log in with `email` and `password`, return if either of them is empy
+    /// - Note: `password` is always set to empty after this call
     func login() {
         if email.isEmpty || password.isEmpty {
             return
@@ -44,6 +63,8 @@ struct LoginView: View {
         password = ""
     }
     
+    
+    /// The view
     var body: some View {
         NavigationView {
             List {

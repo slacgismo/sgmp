@@ -6,6 +6,7 @@ import Combine
 
 /**
  A `ObservableObject` class that manages the tab bar selection, which provides a 'tab as button' implementation via `MainTabBarData.objectWillChange` property
+ - SeeAlso: `MainTabView`
  */
 final class MainTabBarData: ObservableObject {
 
@@ -49,18 +50,19 @@ final class MainTabBarData: ObservableObject {
  */
 struct MainTabView: View {
     
-    
     /// A variable that syncs with `Defaults.Keys.debugMode`
     @Default(.debugMode) var debugMode
     
     /// Environment object inherited from `EnvironmentManager.env`
     @EnvironmentObject var env : Env
     
+    /// The `MainTabBarData` to hold selected tab bar item
     @StateObject var tabData = MainTabBarData(initialIndex: 1, customItemIndex: 2)
     
     /// A variable that syncs with `Defaults.Keys.userProfile`
     @Default(.userProfile) var userProfile
     
+    /// View
     var body: some View {
         TabView(selection: $tabData.itemSelected) {
             if let userProfile = userProfile {

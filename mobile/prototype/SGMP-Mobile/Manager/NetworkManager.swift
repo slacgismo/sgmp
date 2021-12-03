@@ -83,6 +83,12 @@ class NetworkManager : BaseManager {
     }
     
     // MARK: - Analytics
+    
+    /// Get a list of `DefinedAnalytics` (formula) from the house
+    /// - Parameters:
+    ///   - houseId: House ID
+    ///   - callback: Callback
+    /// - Returns: `Void`
     func getDefinedAnalytics(houseId : UInt64, callback: @escaping (([DefinedAnalytics]?, Error?) -> Void)) -> Void {
         if let profile = Defaults[.userProfile] {
             let parameters = ListAnalyticsRequest(house_id: houseId)
@@ -98,6 +104,18 @@ class NetworkManager : BaseManager {
     }
     
     // MARK: - Analytics Timeseries
+    
+    /// Get time series data from either formula or a defined analytics name
+    /// - Note: Either `forumla` or `analyticsName` has to be provided
+    /// - Parameters:
+    ///   - houseId: <#houseId description#>
+    ///   - startDate: <#startDate description#>
+    ///   - endDate: <#endDate description#>
+    ///   - forumla: <#forumla description#>
+    ///   - analyticsName: <#analyticsName description#>
+    ///   - interval: <#interval description#>
+    ///   - callback: <#callback description#>
+    /// - Returns: <#description#>
     func getAnalyticsTimeSeries(houseId : UInt64, startDate: Date, endDate: Date, forumla: String? = nil, analyticsName: String? = nil, interval: Double? = nil, callback: @escaping (([AnalyticsTimeSeriesFrame]?, Error?) -> Void)) -> Void {
         
         if let profile = Defaults[.userProfile],

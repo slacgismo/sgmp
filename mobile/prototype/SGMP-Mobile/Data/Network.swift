@@ -9,7 +9,7 @@ import Foundation
 import Defaults
 
 /// SGMP default root url, acts as the actual root url when `SgmpHostString` is set to not use custom end point
-let SgmpHostStringDefault = "http://gismolab-sgmp-staging-1374415927.us-west-1.elb.amazonaws.com/"
+let SgmpHostStringDefault = "https://api.sgmp.slacgismo.io/"
 
 /// A computed property that returns end point string (`SgmpHostStringDefault` or `Defaults.Keys.customEndpointUrl` in `UserDefaults`) based on `Defaults.Keys.customEndpoint` in `UserDefaults`
 var SgmpHostString : String {

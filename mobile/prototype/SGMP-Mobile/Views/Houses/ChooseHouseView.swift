@@ -9,12 +9,17 @@ import SwiftUI
 
 struct ChooseHouseView: View {
     @EnvironmentObject var env : Env
+    
+    /// Search input
     @State private var searchText = ""
     
+    /// Refresh house list
+    /// - Returns: `Void`
     func refresh() -> Void {
         env.updateHouses()
     }
     
+    /// Computed property of the houses to display. The result might be filtered by the `searchText` field
     var results: [House] {
         if searchText.isEmpty {
             return env.houses

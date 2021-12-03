@@ -23,14 +23,7 @@
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/App/SgmpApp.swift",
-      "line": 48,
-      "symbol": "SgmpHostingController",
-      "symbol_kind": "source.lang.swift.decl.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/App/SgmpApp.swift",
-      "line": 53,
+      "line": 58,
       "symbol": "SgmpHostingController.viewDidLoad()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
@@ -142,191 +135,149 @@
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/Device.swift",
-      "line": 24,
-      "symbol": "Device",
-      "symbol_kind": "source.lang.swift.decl.struct",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/Device.swift",
-      "line": 29,
+      "line": 31,
       "symbol": "Device.device_id",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/Device.swift",
-      "line": 30,
+      "line": 32,
       "symbol": "Device.name",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/Device.swift",
-      "line": 31,
+      "line": 33,
       "symbol": "Device.description",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/Device.swift",
-      "line": 32,
+      "line": 34,
       "symbol": "Device.type",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/Device.swift",
-      "line": 36,
-      "symbol": "DeviceDetailRequest",
-      "symbol_kind": "source.lang.swift.decl.struct",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/Device.swift",
-      "line": 37,
+      "line": 41,
       "symbol": "DeviceDetailRequest.device_id",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/Device.swift",
-      "line": 39,
-      "symbol": "DeviceDetailResponse",
-      "symbol_kind": "source.lang.swift.decl.struct",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/Device.swift",
-      "line": 40,
+      "line": 47,
       "symbol": "DeviceDetailResponse.status",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/Device.swift",
-      "line": 41,
+      "line": 48,
       "symbol": "DeviceDetailResponse.message",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/Device.swift",
-      "line": 42,
+      "line": 49,
       "symbol": "DeviceDetailResponse.device",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/Device.swift",
-      "line": 46,
+      "line": 53,
       "symbol": "DeviceConfigProtocol",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/Device.swift",
-      "line": 50,
-      "symbol": "DeviceDetail",
-      "symbol_kind": "source.lang.swift.decl.struct",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/Device.swift",
-      "line": 51,
+      "line": 60,
       "symbol": "DeviceDetail.CodingKeys",
       "symbol_kind": "source.lang.swift.decl.enum",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/Device.swift",
-      "line": 52,
+      "line": 61,
       "symbol": "DeviceDetail.CodingKeys.config",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/Device.swift",
-      "line": 52,
+      "line": 61,
       "symbol": "DeviceDetail.CodingKeys.description",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/Device.swift",
-      "line": 52,
+      "line": 61,
       "symbol": "DeviceDetail.CodingKeys.device_id",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/Device.swift",
-      "line": 52,
+      "line": 61,
       "symbol": "DeviceDetail.CodingKeys.house_id",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/Device.swift",
-      "line": 52,
+      "line": 61,
       "symbol": "DeviceDetail.CodingKeys.name",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/Device.swift",
-      "line": 52,
+      "line": 61,
       "symbol": "DeviceDetail.CodingKeys.type",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/Device.swift",
-      "line": 55,
-      "symbol": "DeviceDetail.config",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/Device.swift",
-      "line": 56,
+      "line": 67,
       "symbol": "DeviceDetail.name",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/Device.swift",
-      "line": 57,
+      "line": 68,
       "symbol": "DeviceDetail.description",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/Device.swift",
-      "line": 58,
+      "line": 69,
       "symbol": "DeviceDetail.house_id",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/Device.swift",
-      "line": 59,
+      "line": 70,
       "symbol": "DeviceDetail.device_id",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/Device.swift",
-      "line": 60,
+      "line": 71,
       "symbol": "DeviceDetail.type",
       "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/Device.swift",
-      "line": 87,
-      "symbol": "Device",
-      "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
@@ -681,63 +632,28 @@
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/State.swift",
-      "line": 31,
-      "symbol": "Env.houses",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/State.swift",
-      "line": 32,
-      "symbol": "Env.currentDashboardHouse",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/State.swift",
-      "line": 35,
-      "symbol": "Env.currentDashboardDevices",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/State.swift",
-      "line": 38,
-      "symbol": "Env.currentDashboardAnalytics",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/State.swift",
-      "line": 40,
-      "symbol": "Env.cancellableSet",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/State.swift",
-      "line": 42,
+      "line": 52,
       "symbol": "Env.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/State.swift",
-      "line": 81,
+      "line": 91,
       "symbol": "Env.updateHouses(callback:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/State.swift",
-      "line": 107,
+      "line": 117,
       "symbol": "Env.updateCurrentHouseDevices(callback:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/State.swift",
-      "line": 124,
+      "line": 134,
       "symbol": "Env.updateCurrentHouseAnalytics(callback:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
@@ -793,154 +709,119 @@
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/User.swift",
-      "line": 63,
-      "symbol": "ProfileResponse",
-      "symbol_kind": "source.lang.swift.decl.struct",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/User.swift",
-      "line": 64,
+      "line": 66,
       "symbol": "ProfileResponse.email",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/User.swift",
-      "line": 65,
+      "line": 67,
       "symbol": "ProfileResponse.name",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/User.swift",
-      "line": 66,
+      "line": 68,
       "symbol": "ProfileResponse.roles",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/User.swift",
-      "line": 67,
+      "line": 69,
       "symbol": "ProfileResponse.house_id",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/User.swift",
-      "line": 70,
-      "symbol": "UserLoginRequest",
-      "symbol_kind": "source.lang.swift.decl.struct",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/User.swift",
-      "line": 71,
+      "line": 75,
       "symbol": "UserLoginRequest.email",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/User.swift",
-      "line": 72,
+      "line": 76,
       "symbol": "UserLoginRequest.password",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/User.swift",
-      "line": 75,
-      "symbol": "UserLoginResponse",
-      "symbol_kind": "source.lang.swift.decl.struct",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/User.swift",
-      "line": 76,
+      "line": 82,
       "symbol": "UserLoginResponse.status",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/User.swift",
-      "line": 77,
+      "line": 83,
       "symbol": "UserLoginResponse.message",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/User.swift",
-      "line": 78,
+      "line": 84,
       "symbol": "UserLoginResponse.accesstoken",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/User.swift",
-      "line": 79,
+      "line": 85,
       "symbol": "UserLoginResponse.refresh_token",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/User.swift",
-      "line": 80,
+      "line": 86,
       "symbol": "UserLoginResponse.profile",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/User.swift",
-      "line": 81,
+      "line": 87,
       "symbol": "UserLoginResponse.houseId",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/User.swift",
-      "line": 82,
+      "line": 88,
       "symbol": "UserLoginResponse.houseDescription",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/User.swift",
-      "line": 85,
-      "symbol": "RefreshTokenRequest",
-      "symbol_kind": "source.lang.swift.decl.struct",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/User.swift",
-      "line": 86,
+      "line": 94,
       "symbol": "RefreshTokenRequest.refresh_token",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/User.swift",
-      "line": 89,
-      "symbol": "RefreshTokenResponse",
-      "symbol_kind": "source.lang.swift.decl.struct",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/User.swift",
-      "line": 90,
+      "line": 100,
       "symbol": "RefreshTokenResponse.status",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/User.swift",
-      "line": 91,
+      "line": 101,
       "symbol": "RefreshTokenResponse.message",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Data/User.swift",
-      "line": 92,
+      "line": 102,
       "symbol": "RefreshTokenResponse.accesstoken",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
@@ -1142,24 +1023,10 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Manager/BaseManager.swift",
-      "line": 35,
-      "symbol": "destroyAllBaseManagers()",
-      "symbol_kind": "source.lang.swift.decl.function.free",
-      "warning": "undocumented"
-    },
-    {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Manager/EnvironmentManager.swift",
       "line": 15,
       "symbol": "EnvironmentManager.instance",
       "symbol_kind": "source.lang.swift.decl.var.static",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Manager/EnvironmentManager.swift",
-      "line": 21,
-      "symbol": "EnvironmentManager.env",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
@@ -1192,49 +1059,35 @@
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Manager/NetworkManager.swift",
-      "line": 86,
-      "symbol": "NetworkManager.getDefinedAnalytics(houseId:callback:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Manager/NetworkManager.swift",
-      "line": 101,
-      "symbol": "NetworkManager.getAnalyticsTimeSeries(houseId:startDate:endDate:forumla:analyticsName:interval:callback:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Manager/NetworkManager.swift",
-      "line": 118,
+      "line": 136,
       "symbol": "NetworkManager.getAnalyticsOneshot(houseId:startDate:endDate:forumla:analyticsName:callback:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Manager/NetworkManager.swift",
-      "line": 135,
+      "line": 153,
       "symbol": "NetworkManager.getAnalyticsAggregated(formula:houseId:aggregateFunction:startDate:endDate:callback:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Manager/NetworkManager.swift",
-      "line": 149,
+      "line": 167,
       "symbol": "NetworkManager.getAnalyticsAggregated(analyticsName:houseId:aggregateFunction:startDate:endDate:callback:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Manager/NetworkManager.swift",
-      "line": 165,
+      "line": 183,
       "symbol": "NetworkManager.login(email:password:callback:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Manager/NetworkManager.swift",
-      "line": 174,
+      "line": 192,
       "symbol": "NetworkManager.refreshToken(callback:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
@@ -1983,84 +1836,35 @@
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Auth/LoginView.swift",
-      "line": 11,
-      "symbol": "LoginView",
-      "symbol_kind": "source.lang.swift.decl.struct",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Auth/LoginView.swift",
-      "line": 12,
-      "symbol": "LoginView.LoginField",
-      "symbol_kind": "source.lang.swift.decl.enum",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Auth/LoginView.swift",
-      "line": 13,
+      "line": 21,
       "symbol": "LoginView.LoginField.email",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Auth/LoginView.swift",
-      "line": 14,
+      "line": 22,
       "symbol": "LoginView.LoginField.password",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Auth/LoginView.swift",
-      "line": 17,
+      "line": 25,
       "symbol": "LoginView.env",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Auth/LoginView.swift",
-      "line": 18,
-      "symbol": "LoginView.email",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Auth/LoginView.swift",
-      "line": 19,
-      "symbol": "LoginView.password",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Auth/LoginView.swift",
-      "line": 20,
-      "symbol": "LoginView.errorMsg",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Auth/LoginView.swift",
-      "line": 21,
-      "symbol": "LoginView.networking",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Auth/LoginView.swift",
-      "line": 22,
+      "line": 38,
       "symbol": "LoginView.focusedField",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Auth/LoginView.swift",
-      "line": 24,
-      "symbol": "LoginView.login()",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Auth/LoginView.swift",
-      "line": 111,
+      "line": 132,
       "symbol": "LoginView_Previews",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
@@ -2102,85 +1906,22 @@
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Dashboard/SummaryTabView.swift",
-      "line": 13,
-      "symbol": "SummaryTabPresentView",
-      "symbol_kind": "source.lang.swift.decl.enum",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Dashboard/SummaryTabView.swift",
-      "line": 15,
-      "symbol": "SummaryTabPresentView.showAllHouse",
-      "symbol_kind": "source.lang.swift.decl.enumelement",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Dashboard/SummaryTabView.swift",
-      "line": 21,
-      "symbol": "SummaryTabView",
-      "symbol_kind": "source.lang.swift.decl.struct",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Dashboard/SummaryTabView.swift",
-      "line": 22,
+      "line": 29,
       "symbol": "SummaryTabView.animation",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Dashboard/SummaryTabView.swift",
-      "line": 23,
+      "line": 30,
       "symbol": "SummaryTabView.env",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Dashboard/SummaryTabView.swift",
-      "line": 24,
-      "symbol": "SummaryTabView.expandRowsInDashboard",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Dashboard/SummaryTabView.swift",
-      "line": 25,
-      "symbol": "SummaryTabView.refreshDate",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Dashboard/SummaryTabView.swift",
-      "line": 26,
-      "symbol": "SummaryTabView.presentViewType",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Dashboard/SummaryTabView.swift",
-      "line": 28,
-      "symbol": "SummaryTabView.refresh(showSuccessToast:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Dashboard/SummaryTabView.swift",
-      "line": 39,
-      "symbol": "SummaryTabView.pinnedAnalyticsNames",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Dashboard/SummaryTabView.swift",
-      "line": 182,
+      "line": 204,
       "symbol": "SummaryTabView_Previews",
-      "symbol_kind": "source.lang.swift.decl.struct",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Decorations/CardGroupBoxStyle.swift",
-      "line": 11,
-      "symbol": "ListCardGroupBoxStyle",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
@@ -2203,48 +1944,6 @@
       "line": 12,
       "symbol": "TitleDescCellView.content",
       "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Decorations/DashboardGlanceCellView.swift",
-      "line": 10,
-      "symbol": "DashboardGlanceCellView",
-      "symbol_kind": "source.lang.swift.decl.struct",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Decorations/DashboardGlanceCellView.swift",
-      "line": 12,
-      "symbol": "DashboardGlanceCellView.title",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Decorations/DashboardGlanceCellView.swift",
-      "line": 13,
-      "symbol": "DashboardGlanceCellView.iconName",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Decorations/DashboardGlanceCellView.swift",
-      "line": 14,
-      "symbol": "DashboardGlanceCellView.iconColor",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Decorations/DashboardGlanceCellView.swift",
-      "line": 15,
-      "symbol": "DashboardGlanceCellView.number",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Decorations/DashboardGlanceCellView.swift",
-      "line": 43,
-      "symbol": "DashboardGlanceCellView_Previews",
-      "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
@@ -2279,132 +1978,6 @@
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Decorations/ExpandableView.swift",
       "line": 38,
       "symbol": "ExpandableView_Previews",
-      "symbol_kind": "source.lang.swift.decl.struct",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Decorations/SummaryMetricCardView.swift",
-      "line": 10,
-      "symbol": "SummaryMetricCardView",
-      "symbol_kind": "source.lang.swift.decl.struct",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Decorations/SummaryMetricCardView.swift",
-      "line": 12,
-      "symbol": "SummaryMetricCardView.refreshDate",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Decorations/SummaryMetricCardView.swift",
-      "line": 13,
-      "symbol": "SummaryMetricCardView.refreshing",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Decorations/SummaryMetricCardView.swift",
-      "line": 15,
-      "symbol": "SummaryMetricCardView.title",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Decorations/SummaryMetricCardView.swift",
-      "line": 16,
-      "symbol": "SummaryMetricCardView.iconName",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Decorations/SummaryMetricCardView.swift",
-      "line": 17,
-      "symbol": "SummaryMetricCardView.iconColor",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Decorations/SummaryMetricCardView.swift",
-      "line": 18,
-      "symbol": "SummaryMetricCardView.number",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Decorations/SummaryMetricCardView.swift",
-      "line": 20,
-      "symbol": "SummaryMetricCardView.houseId",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Decorations/SummaryMetricCardView.swift",
-      "line": 21,
-      "symbol": "SummaryMetricCardView.numberCallback",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Decorations/SummaryMetricCardView.swift",
-      "line": 22,
-      "symbol": "SummaryMetricCardView.formula",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Decorations/SummaryMetricCardView.swift",
-      "line": 23,
-      "symbol": "SummaryMetricCardView.aggregateFunction",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Decorations/SummaryMetricCardView.swift",
-      "line": 25,
-      "symbol": "SummaryMetricCardView.refresh()",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Decorations/ToastView.swift",
-      "line": 10,
-      "symbol": "ToastView",
-      "symbol_kind": "source.lang.swift.decl.struct",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Decorations/ToastView.swift",
-      "line": 11,
-      "symbol": "ToastView.colorScheme",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Decorations/ToastView.swift",
-      "line": 12,
-      "symbol": "ToastView.image",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Decorations/ToastView.swift",
-      "line": 13,
-      "symbol": "ToastView.title",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Decorations/ToastView.swift",
-      "line": 14,
-      "symbol": "ToastView.subtitle",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Decorations/ToastView.swift",
-      "line": 51,
-      "symbol": "ToastView_Previews",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
@@ -2809,65 +2382,16 @@
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Devices/ListDeviceView.swift",
-      "line": 12,
-      "symbol": "ListDeviceView",
-      "symbol_kind": "source.lang.swift.decl.struct",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Devices/ListDeviceView.swift",
-      "line": 14,
-      "symbol": "ListDeviceView.houseId",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Devices/ListDeviceView.swift",
-      "line": 16,
+      "line": 22,
       "symbol": "ListDeviceView.env",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Devices/ListDeviceView.swift",
-      "line": 17,
-      "symbol": "ListDeviceView.searchText",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Devices/ListDeviceView.swift",
-      "line": 18,
-      "symbol": "ListDeviceView.devices",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Devices/ListDeviceView.swift",
-      "line": 19,
-      "symbol": "ListDeviceView.showIconInDeviceList",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Devices/ListDeviceView.swift",
-      "line": 21,
+      "line": 33,
       "symbol": "ListDeviceView.refresh(showSuccessToast:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Devices/ListDeviceView.swift",
-      "line": 40,
-      "symbol": "ListDeviceView.results",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Devices/ListDeviceView.swift",
-      "line": 88,
-      "symbol": "ListDeviceView_Previews",
-      "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
@@ -2886,28 +2410,7 @@
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Houses/ChooseHouseView.swift",
-      "line": 12,
-      "symbol": "ChooseHouseView.searchText",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Houses/ChooseHouseView.swift",
-      "line": 14,
-      "symbol": "ChooseHouseView.refresh()",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Houses/ChooseHouseView.swift",
-      "line": 18,
-      "symbol": "ChooseHouseView.results",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/Houses/ChooseHouseView.swift",
-      "line": 62,
+      "line": 67,
       "symbol": "ChooseHouseView_Previews",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
@@ -2956,63 +2459,49 @@
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/MainTabView.swift",
-      "line": 15,
+      "line": 16,
       "symbol": "MainTabBarData.previousItem",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/MainTabView.swift",
-      "line": 31,
+      "line": 32,
       "symbol": "MainTabBarData.reset()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/MainTabView.swift",
-      "line": 39,
+      "line": 40,
       "symbol": "MainTabBarData.init(initialIndex:customItemIndex:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/MainTabView.swift",
-      "line": 59,
-      "symbol": "MainTabView.tabData",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/MainTabView.swift",
-      "line": 60,
-      "symbol": "MainTabView.userProfile",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/MainTabView.swift",
-      "line": 121,
+      "line": 125,
       "symbol": "MainMenuView_Previews",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/ScaffoldView.swift",
-      "line": 10,
+      "line": 11,
       "symbol": "ScaffoldView",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/ScaffoldView.swift",
-      "line": 12,
+      "line": 13,
       "symbol": "ScaffoldView.env",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/fincher/Developer/School/sgmp/mobile/prototype/SGMP-Mobile/Views/ScaffoldView.swift",
-      "line": 19,
+      "line": 20,
       "symbol": "ScaffoldView_Previews",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
