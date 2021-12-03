@@ -14,6 +14,8 @@ import Kingfisher
  Tab view for settings 
  */
 struct SettingsTabView: View {
+    
+    /// Environment object
     @EnvironmentObject var env : Env
     @Default(.userProfile) var userProfile
     @Default(.debugMode) var debugMode

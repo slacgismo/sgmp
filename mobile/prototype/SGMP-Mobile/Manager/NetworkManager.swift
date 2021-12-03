@@ -108,14 +108,14 @@ class NetworkManager : BaseManager {
     /// Get time series data from either formula or a defined analytics name
     /// - Note: Either `forumla` or `analyticsName` has to be provided
     /// - Parameters:
-    ///   - houseId: <#houseId description#>
-    ///   - startDate: <#startDate description#>
-    ///   - endDate: <#endDate description#>
-    ///   - forumla: <#forumla description#>
-    ///   - analyticsName: <#analyticsName description#>
-    ///   - interval: <#interval description#>
-    ///   - callback: <#callback description#>
-    /// - Returns: <#description#>
+    ///   - houseId: House ID
+    ///   - startDate: Start Date
+    ///   - endDate: End Date
+    ///   - forumla: Formula
+    ///   - analyticsName: The name for a `DefinedAnalytics`
+    ///   - interval: The interval between each data point
+    ///   - callback: Callback
+    /// - Returns: `Void`
     func getAnalyticsTimeSeries(houseId : UInt64, startDate: Date, endDate: Date, forumla: String? = nil, analyticsName: String? = nil, interval: Double? = nil, callback: @escaping (([AnalyticsTimeSeriesFrame]?, Error?) -> Void)) -> Void {
         
         if let profile = Defaults[.userProfile],
@@ -133,6 +133,16 @@ class NetworkManager : BaseManager {
         }
     }
     
+    /// Get the last data point from either a forumla or a defined analytics name
+    /// - Note: Either `forumla` or `analyticsName` has to be provided
+    /// - Parameters:
+    ///   - houseId: House ID
+    ///   - startDate: Start Date
+    ///   - endDate: End Date
+    ///   - forumla: Formula
+    ///   - analyticsName: The name for a `DefinedAnalytics`
+    ///   - callback: Callback
+    /// - Returns: `Void`
     func getAnalyticsOneshot(houseId : UInt64, startDate: Date, endDate: Date, forumla: String? = nil, analyticsName: String? = nil, callback: @escaping ((AnalyticsTimeSeriesFrame?, Error?) -> Void)) -> Void {
         if let profile = Defaults[.userProfile],
             ( (forumla == nil && analyticsName != nil) || (forumla != nil && analyticsName == nil) ) // can only have one in the call
@@ -150,6 +160,16 @@ class NetworkManager : BaseManager {
     }
     
     // MARK: - Analytics Aggregated
+    
+    /// Get analytics value with aggregated function applied
+    /// - Parameters:
+    ///   - formula: Formula
+    ///   - houseId: House ID
+    ///   - aggregateFunction: Aggregate function
+    ///   - startDate: Start Date
+    ///   - endDate: End Date
+    ///   - callback: Callback
+    /// - Returns: `Void`
     func getAnalyticsAggregated(formula: String, houseId : UInt64, aggregateFunction : AggregateFunction, startDate: Date, endDate: Date, callback: @escaping ((Double?, Error?) -> Void)) -> Void {
         if let profile = Defaults[.userProfile] {
             let parameters = AnalyticsAggregatedRequest(start_time: UInt64(startDate.timeIntervalSince1970 * 1000), end_time: UInt64(endDate.timeIntervalSince1970 * 1000), formula: formula, agg_function: aggregateFunction, house_id: houseId)
@@ -203,7 +223,6 @@ class NetworkManager : BaseManager {
     }
     
     // MARK: - Misc
-    
     
     /// A handler to examine if the `response` has a 401 status code (which means user login expired), and invalidate the current user accordingly
     private func responsePostHandlerForExpiredToken<T>(response : DataResponse<T, AFError>) {
