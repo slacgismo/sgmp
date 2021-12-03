@@ -10,21 +10,39 @@ import Toast
 import Defaults
 import SwiftUICharts
 
+
+/// All possible present view types on `SummaryTabView`
 enum SummaryTabPresentView : String, Identifiable
 {
+    /// View type for house selection
     case showAllHouse
     var id: String {
         return self.rawValue
     }
 }
 
+/**
+ View for summary tab
+ */
 struct SummaryTabView: View {
+    
     @Namespace private var animation
     @EnvironmentObject var env : Env
+    
+    /// UserDefaults value that syncs with `Defaults.Keys.expandRowsInDashboard`
     @Default(.expandRowsInDashboard) var expandRowsInDashboard
+    
+    /// Latest refresh date
     @State var refreshDate : Date = Date()
+    
+    /// Current present view type, optional, nil means no view to present modally
     @State var presentViewType : SummaryTabPresentView?
     
+    
+    /// Refresh dasboard
+    /// - Parameter showSuccessToast: if set to true, will show a Toast when succeeded.
+    /// - Returns: `Void`
+    /// - Note:The toast will be shown if the network call failed, no matter `showSuccessToast` is set or not
     func refresh(showSuccessToast : Bool = false) -> Void {
         env.updateHouses { houses, err in
             refreshDate = Date()
@@ -36,8 +54,12 @@ struct SummaryTabView: View {
         }
     }
     
+    
+    /// Pinned rows for the analytics items
     var pinnedAnalyticsNames : [String] = ["solar", "battery", "ev", "load", "solar_ratio"]
     
+    
+    /// The view
     var body: some View {
         ZStack {
             if let house = env.currentDashboardHouse {

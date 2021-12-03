@@ -9,13 +9,25 @@ import SwiftUI
 import Defaults
 import Toast
 
+/**
+ List for all devices in the `ListDeviceView.houseId` house
+ - SeeAlso:
+ `SummaryTabView` and `ListHouseView`
+ */
 struct ListDeviceView: View {
     
+    /// House ID
     var houseId : UInt64
     
     @EnvironmentObject var env : Env
+    
+    /// Search input, controls `results`
     @State private var searchText = ""
+    
+    /// Devices currently cached in the view. Use `results` instead to get the items that needs to be shown
     @State var devices : [Device] = []
+    
+    /// UserDefaults variable that syncs with `Defaults.Keys.showIconInDeviceList`
     @Default(.showIconInDeviceList) var showIconInDeviceList
     
     func refresh(showSuccessToast : Bool = false) -> Void {
@@ -36,7 +48,7 @@ struct ListDeviceView: View {
         }
     }
     
-    
+    /// Computed property based on `searchText` and `devices`
     var results: [Device] {
         if searchText.isEmpty {
             return devices
@@ -45,6 +57,7 @@ struct ListDeviceView: View {
         }
     }
     
+    /// The view
     var body: some View {
         List {
             Section {
@@ -82,12 +95,5 @@ struct ListDeviceView: View {
                 }
             }
         }
-    }
-}
-
-struct ListDeviceView_Previews: PreviewProvider {
-    static var previews: some View {
-///       ListDeviceView()
-        ZStack {}
     }
 }

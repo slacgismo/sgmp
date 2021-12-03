@@ -38,13 +38,18 @@ class SgmpAppDelegate : UIResponder, UIApplicationDelegate {
 }
 
 
-/// Root View
+/**
+ Root View, the only content is a `ScaffoldView` with an `Env` from `EnvironmentManager`
+ */
 struct RootView: View {
     var body: some View {
         ScaffoldView().environmentObject(EnvironmentManager.shared.env)
     }
 }
 
+/**
+ Hosting controller for the SwiftUI based `RootView` to use in UIKit
+ */
 class SgmpHostingController : UIHostingController<RootView> {
     
     required init?(coder: NSCoder) {

@@ -1,9 +1,5 @@
 # SGMP iOS Client Documentation
 
-> This is still a work in progress.
-
-## Contact
-
 ## Application Structure
 
 ### Entry & General Life Cycles
@@ -12,18 +8,25 @@
 The entry point is `SgmpAppDelegate` as well as the storyboard file.   
 Upon `SgmpAppDelegate.application(_:didFinishLaunchingWithOptions:)`, `setupAllBaseManagers()` will be called, which will use runtime look up to init all singletons that are subclasses of `BaseManager`.
 
+--- 
+
+The only time the app will wake up in the background is to execute refresh-token tasks defined in the `SessionManager`. Other than that, the app follows normal app lifecycles.
+
 ### Folders
 #### App
 Currently only has one file `SgmpApp.swift` containing `SgmpAppDelegate`, `SgmpHostingController`, and `RootView`.
 #### Data
-
+All the data model used in the app, include `Analytics.swift`, `Device.swift`, `Network.swift`, and `User.swift`.
 #### Helper
+Functions that are either extension methods or individual methods not applicable to general categories.
 #### Manager
+All managers inherit from `BaseManager`, which means they will be initialized upon app startup via runtime reflection. They provide a centralized way for most used methods.  
 #### Views
+Nearly all are SwiftUI views. Certain views like ones in the AR folders are UIKit views with wrappers.
 
 ### File List
 ```
-➜  SGMP-Mobile git:(hzheng3/dev) ✗ tree
+➜  SGMP-Mobile git:(hzheng3/doc) ✗ tree
 .
 ├── App
 │   └── SgmpApp.swift
@@ -54,8 +57,7 @@ Currently only has one file `SgmpApp.swift` containing `SgmpAppDelegate`, `SgmpH
 │   ├── BaseManager.swift
 │   ├── EnvironmentManager.swift
 │   ├── EventManager.swift
-│   ├── Network
-│   │   └── NetworkManager.swift
+│   ├── NetworkManager.swift
 │   └── SessionManager.swift
 ├── SGMP-Mobile.entitlements
 └── Views
@@ -86,9 +88,7 @@ Currently only has one file `SgmpApp.swift` containing `SgmpAppDelegate`, `SgmpH
     │   ├── CardGroupBoxStyle.swift
     │   ├── CellView.swift
     │   ├── DashboardGlanceCellView.swift
-    │   ├── ExpandableView.swift
-    │   ├── SummaryMetricCardView.swift
-    │   └── ToastView.swift
+    │   └── ExpandableView.swift
     ├── Devices
     │   ├── DeviceConfigView.swift
     │   ├── DeviceFormulaAnalyticsChartView.swift
@@ -107,16 +107,33 @@ Currently only has one file `SgmpApp.swift` containing `SgmpAppDelegate`, `SgmpH
         ├── EnvVariableView.swift
         └── SettingsTabView.swift
 
-28 directories, 94 files
+27 directories, 92 files
 ```
 
 ## Modules
 
+Modules here refers to the segmentation of functions and files, not the actual 'module' in Xcode context.
+
 ### Dashboard
+Dashboard includes the summary, the house, the analytics, the device, and all related functionalities.  
+The typical entry point for the dashboard is via the first tab (`SummaryTabView`), although certain views are also presented in the AR view.
 
 ### AR
+AR includes the AR controller using `ARSCNView`, barcode scanning, and animated barcode views.
 
 ### User
+User includes the typical login flow. When the user is not logged in, other tabs will be hidden, only `SettingsTabView` will be shown.
 
+## How To Generate Documentation
 
-## How To Run
+The prerequisite here is a working Xcode with Swift 5 toolchain, and [jazzy](https://github.com/realm/jazzy) installed.  
+From the root path of the [SGMP](https://github.com/pdjs/sgmp) repo, execute:
+
+```bash
+cd mobile/prototype
+./doc.sh
+```
+
+## Contact
+
+[Haotian Zheng](mailto:haotian.zheng@sv.cmu.edu)

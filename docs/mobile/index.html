@@ -22,7 +22,7 @@
         <a class="header-link" href="index.html">
           SGMP iOS Client
         </a>
-         (25% documented)
+         (34% documented)
       </p>
     
       <div class="header-col--secondary">
@@ -281,12 +281,6 @@
                 <a class="nav-group-task-link" href="Structs/ChooseHouseView_Previews.html">ChooseHouseView_Previews</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Structs/DashboardGlanceCellView.html">DashboardGlanceCellView</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Structs/DashboardGlanceCellView_Previews.html">DashboardGlanceCellView_Previews</a>
-              </li>
-              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/DefinedAnalytics.html">DefinedAnalytics</a>
               </li>
               <li class="nav-group-task">
@@ -380,13 +374,7 @@
                 <a class="nav-group-task-link" href="Structs/ListAnalyticsView.html">ListAnalyticsView</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Structs/ListCardGroupBoxStyle.html">ListCardGroupBoxStyle</a>
-              </li>
-              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/ListDeviceView.html">ListDeviceView</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Structs/ListDeviceView_Previews.html">ListDeviceView_Previews</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/ListDevicesRequest.html">ListDevicesRequest</a>
@@ -449,9 +437,6 @@
                 <a class="nav-group-task-link" href="Structs/SettingsTabView_Previews.html">SettingsTabView_Previews</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Structs/SummaryMetricCardView.html">SummaryMetricCardView</a>
-              </li>
-              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/SummaryTabView.html">SummaryTabView</a>
               </li>
               <li class="nav-group-task">
@@ -459,12 +444,6 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/TitleDescCellView.html">TitleDescCellView</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Structs/ToastView.html">ToastView</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Structs/ToastView_Previews.html">ToastView_Previews</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/UserLoginRequest.html">UserLoginRequest</a>
@@ -485,11 +464,6 @@
           <div class="section-content top-matter">
             
             <h1 id='sgmp-ios-client-documentation' class='heading'>SGMP iOS Client Documentation</h1>
-
-<blockquote>
-<p>This is still a work in progress.</p>
-</blockquote>
-<h2 id='contact' class='heading'>Contact</h2>
 <h2 id='application-structure' class='heading'>Application Structure</h2>
 <h3 id='entry-amp-general-life-cycles' class='heading'>Entry &amp; General Life Cycles</h3>
 
@@ -499,16 +473,28 @@
 
 <p>The entry point is <code><a href="Classes/SgmpAppDelegate.html">SgmpAppDelegate</a></code> as well as the storyboard file.<br>
 Upon <code><a href="Classes/SgmpAppDelegate.html#/c:@M@SGMP_Mobile@objc(cs)SgmpAppDelegate(im)application:didFinishLaunchingWithOptions:">SgmpAppDelegate.application(_:didFinishLaunchingWithOptions:)</a></code>, <code><a href="Functions.html#/s:11SGMP_Mobile20setupAllBaseManagersyyF">setupAllBaseManagers()</a></code> will be called, which will use runtime look up to init all singletons that are subclasses of <code><a href="Classes/BaseManager.html">BaseManager</a></code>.</p>
+
+<hr>
+
+<p>The only time the app will wake up in the background is to execute refresh-token tasks defined in the <code><a href="Classes/SessionManager.html">SessionManager</a></code>. Other than that, the app follows normal app lifecycles.</p>
 <h3 id='folders' class='heading'>Folders</h3>
 <h4 id='app' class='heading'>App</h4>
 
 <p>Currently only has one file <code>SgmpApp.swift</code> containing <code><a href="Classes/SgmpAppDelegate.html">SgmpAppDelegate</a></code>, <code><a href="Classes/SgmpHostingController.html">SgmpHostingController</a></code>, and <code><a href="Structs/RootView.html">RootView</a></code>.</p>
 <h4 id='data' class='heading'>Data</h4>
+
+<p>All the data model used in the app, include <code>Analytics.swift</code>, <code>Device.swift</code>, <code>Network.swift</code>, and <code>User.swift</code>.</p>
 <h4 id='helper' class='heading'>Helper</h4>
+
+<p>Functions that are either extension methods or individual methods not applicable to general categories.</p>
 <h4 id='manager' class='heading'>Manager</h4>
+
+<p>All managers inherit from <code><a href="Classes/BaseManager.html">BaseManager</a></code>, which means they will be initialized upon app startup via runtime reflection. They provide a centralized way for most used methods.  </p>
 <h4 id='views' class='heading'>Views</h4>
+
+<p>Nearly all are SwiftUI views. Certain views like ones in the AR folders are UIKit views with wrappers.</p>
 <h3 id='file-list' class='heading'>File List</h3>
-<pre class="highlight plaintext"><code>➜  SGMP-Mobile git:(hzheng3/dev) ✗ tree
+<pre class="highlight plaintext"><code>➜  SGMP-Mobile git:(hzheng3/doc) ✗ tree
 .
 ├── App
 │   └── SgmpApp.swift
@@ -539,8 +525,7 @@ Upon <code><a href="Classes/SgmpAppDelegate.html#/c:@M@SGMP_Mobile@objc(cs)SgmpA
 │   ├── BaseManager.swift
 │   ├── EnvironmentManager.swift
 │   ├── EventManager.swift
-│   ├── Network
-│   │   └── NetworkManager.swift
+│   ├── NetworkManager.swift
 │   └── SessionManager.swift
 ├── SGMP-Mobile.entitlements
 └── Views
@@ -571,9 +556,7 @@ Upon <code><a href="Classes/SgmpAppDelegate.html#/c:@M@SGMP_Mobile@objc(cs)SgmpA
     │   ├── CardGroupBoxStyle.swift
     │   ├── CellView.swift
     │   ├── DashboardGlanceCellView.swift
-    │   ├── ExpandableView.swift
-    │   ├── SummaryMetricCardView.swift
-    │   └── ToastView.swift
+    │   └── ExpandableView.swift
     ├── Devices
     │   ├── DeviceConfigView.swift
     │   ├── DeviceFormulaAnalyticsChartView.swift
@@ -592,13 +575,31 @@ Upon <code><a href="Classes/SgmpAppDelegate.html#/c:@M@SGMP_Mobile@objc(cs)SgmpA
         ├── EnvVariableView.swift
         └── SettingsTabView.swift
 
-28 directories, 94 files
+27 directories, 92 files
 </code></pre>
 <h2 id='modules' class='heading'>Modules</h2>
+
+<p>Modules here refers to the segmentation of functions and files, not the actual &lsquo;module&rsquo; in Xcode context.</p>
 <h3 id='dashboard' class='heading'>Dashboard</h3>
+
+<p>Dashboard includes the summary, the house, the analytics, the device, and all related functionalities.<br>
+The typical entry point for the dashboard is via the first tab (<code><a href="Structs/SummaryTabView.html">SummaryTabView</a></code>), although certain views are also presented in the AR view.</p>
 <h3 id='ar' class='heading'>AR</h3>
+
+<p>AR includes the AR controller using <code>ARSCNView</code>, barcode scanning, and animated barcode views.</p>
 <h3 id='user' class='heading'>User</h3>
-<h2 id='how-to-run' class='heading'>How To Run</h2>
+
+<p>User includes the typical login flow. When the user is not logged in, other tabs will be hidden, only <code><a href="Structs/SettingsTabView.html">SettingsTabView</a></code> will be shown.</p>
+<h2 id='how-to-generate-documentation' class='heading'>How To Generate Documentation</h2>
+
+<p>The prerequisite here is a working Xcode with Swift 5 toolchain, and <a href="https://github.com/realm/jazzy">jazzy</a> installed.<br>
+From the root path of the <a href="https://github.com/pdjs/sgmp">SGMP</a> repo, execute:</p>
+<pre class="highlight shell"><code><span class="nb">cd </span>mobile/prototype
+./doc.sh
+</code></pre>
+<h2 id='contact' class='heading'>Contact</h2>
+
+<p><a href="mailto:haotian.zheng@sv.cmu.edu">Haotian Zheng</a></p>
 
           </div>
         </section>
@@ -607,7 +608,7 @@ Upon <code><a href="Classes/SgmpAppDelegate.html#/c:@M@SGMP_Mobile@objc(cs)SgmpA
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="https://haotianzheng.com" target="_blank" rel="external noopener">Haotian Zheng</a>. All rights reserved. (Last updated: 2021-11-29)</p>
+      <p>&copy; 2021 <a class="link" href="https://haotianzheng.com" target="_blank" rel="external noopener">Haotian Zheng</a>. All rights reserved. (Last updated: 2021-12-02)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>

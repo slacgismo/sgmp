@@ -27,12 +27,6 @@ struct AnalyticsSelectionCell: View {
             }
             self.loading = false
         }
-//        NetworkManager.shared.getAnalyticsOneshot(houseId: houseId, startDate: .init(timeIntervalSinceNow: -20), endDate: .now, analyticsName: analytics.name) { frame, err in
-//            DispatchQueue.main.async {
-//                value = frame?.value
-//            }
-//            self.loading = false
-//        }
     }
     
     var body: some View {

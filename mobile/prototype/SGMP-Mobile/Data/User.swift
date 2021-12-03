@@ -60,6 +60,8 @@ enum UserException : Identifiable {
 }
 
 // MARK: - User Network
+
+/// Response about the profile from the login and user/profile endpoint that will be embedded  in the `UserLoginResponse` model
 struct ProfileResponse : Codable {
     var email : String
     var name : String
@@ -67,11 +69,15 @@ struct ProfileResponse : Codable {
     var house_id : UInt64
 }
 
+
+/// Request data model for the `//user/login` API
 struct UserLoginRequest : Codable {
     var email : String
     var password : String
 }
 
+
+/// Login response to to `UserLoginRequest`
 struct UserLoginResponse : Codable {
     var status : String
     var message : String?
@@ -82,10 +88,14 @@ struct UserLoginResponse : Codable {
     var houseDescription : String?
 }
 
+
+/// Request data model for refresh the access token. Need to supply a refresh token
 struct RefreshTokenRequest :Codable {
     var refresh_token : String?
 }
 
+
+/// Response data model for the `RefreshTokenRequest` request
 struct RefreshTokenResponse : Codable {
     var status : String
     var message : String?
