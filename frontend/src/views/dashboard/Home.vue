@@ -170,7 +170,7 @@ export default {
       axes: [
         {title: "Grid frequency (Hz)", type: constants.chartTypes.Line},
         {title: "L1 Voltage (V)", type: constants.chartTypes.Line},
-        {title: "L1 Voltage (V)", type: constants.chartTypes.Line}
+        {title: "L2 Voltage (V)", type: constants.chartTypes.Line}
       ],
       powerAxes: [
         {title: "Solar (kW)", type: constants.chartTypes.Column},
