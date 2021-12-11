@@ -1,0 +1,39 @@
+post:
+  summary: Delete device
+  description: |
+    Two methods of looking up device: using device_id or a combination of house_id + name.
+    Either way the user must have access to the house where the device is located.
+  operationId: deviceDelete
+  tags:
+    - device
+  requestBody:
+    content:
+      application/json:
+        schema:
+          oneOf:
+            - type: object
+              properties:
+                device_id:
+                  type: integer
+            - type: object
+              properties:
+                house_id:
+                  type: integer
+                name:
+                  type: string
+  responses:
+    '200':
+      description: Deletion successful
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

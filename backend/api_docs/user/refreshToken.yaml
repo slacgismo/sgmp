@@ -1,0 +1,32 @@
+post:
+  summary: Refresh access token
+  description: Use the refresh token to receive a fresh access token.
+  operationId: userRefreshToken
+  tags:
+    - user
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            refresh_token:
+              type: string
+  responses:
+    '200':
+      description: Access token is refreshed
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              accesstoken:
+                type: string
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

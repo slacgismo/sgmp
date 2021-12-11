@@ -1,0 +1,33 @@
+post:
+  summary: Retrieve single analytics item
+  operationId: analyticsDetails
+  tags:
+    - analytics
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            house_id:
+              type: integer
+            name:
+              type: string
+  responses:
+    '200':
+      description: Analytics item
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              analytics:
+                $ref: "#/components/schemas/Analytics"
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

@@ -1,0 +1,141 @@
+post:
+  summary: Retrieve data
+  operationId: dataRead
+  tags:
+    - data
+  requestBody:
+    content:
+      application/json:
+        schema:
+          oneOf:
+            - type: object
+              properties:
+                start_time:
+                  type: integer
+                  description: Start of the time range, in Unix millisecond timestamp
+                end_time:
+                  type: integer
+                  description: End of the time range, in Unix millisecond timestamp
+                house_id:
+                  type: integer
+                  description: House ID of the device
+                type:
+                  type: string
+                  enum: [device]
+                  description: Read raw device data
+                device_name:
+                  type: string
+                  description: Device name
+              required:
+                - start_time
+                - end_time
+                - house_id
+                - type
+                - device_name
+            - type: object
+              properties:
+                start_time:
+                  type: integer
+                  description: Start of the time range, in Unix millisecond timestamp
+                end_time:
+                  type: integer
+                  description: End of the time range, in Unix millisecond timestamp
+                house_id:
+                  type: integer
+                  description: House ID of the device
+                type:
+                  type: string
+                  enum: [analytics]
+                  description: Read analytics data
+                analytics_name:
+                  type: string
+                  description: Name of an existing analytics item in the house
+                agg_function:
+                  type: string
+                  enum: [min, max, avg, count]
+                  description: Aggregate the result to a single number
+                average:
+                  type: integer
+                  description: Average over a given time period (in milliseconds)
+                fine:
+                  type: boolean
+                  description: Always prefer raw data, even if continuous aggregation exists for the identifiers in the formula
+                  default: false
+              required:
+                - start_time
+                - end_time
+                - house_id
+                - type
+                - analytics_name
+            - type: object
+              properties:
+                start_time:
+                  type: integer
+                  description: Start of the time range, in Unix millisecond timestamp
+                end_time:
+                  type: integer
+                  description: End of the time range, in Unix millisecond timestamp
+                house_id:
+                  type: integer
+                  description: House ID of the device
+                type:
+                  type: string
+                  enum: [analytics]
+                  description: Read analytics data
+                formula:
+                  type: string
+                  description: Custom formula
+                agg_function:
+                  type: string
+                  enum: [min, max, avg, count]
+                  description: Aggregate the result to a single number
+                average:
+                  type: integer
+                  description: Average over a given time period (in milliseconds)
+                fine:
+                  type: boolean
+                  description: Always prefer raw data, even if continuous aggregation exists for the identifiers in the formula
+                  default: false
+              required:
+                - start_time
+                - end_time
+                - house_id
+                - type
+                - formula
+  responses:
+    '200':
+      description: Read result
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/DataDeviceRow"
+              - type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/DataAnalyticsRow"
+              - type: object
+                properties:
+                  status:
+                    type: string
+                  timestamp:
+                    type: integer
+                  value:
+                    type: float
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

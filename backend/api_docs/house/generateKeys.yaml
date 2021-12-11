@@ -1,0 +1,41 @@
+post:
+  summary: Generate credentials
+  description: |
+    The existing credentials will be revoked.
+    Credentials are not stored anywhere in the backend, therefore this is the only chance for client to retrieve the credentials.
+  operationId: houseGenerateKeys
+  tags:
+    - house
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            house_id:
+              type: integer
+  responses:
+    '200':
+      description: New credentials
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              cert:
+                type: string
+                description: AWS IoT Core certificate for the edge device, in PEM format
+              private_key:
+                type: string
+                description: AWS IoT Core private key for the edge device, in PEM format
+              public_key:
+                type: string
+                description: AWS IoT Core public key for the edge device, in PEM format
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

@@ -1,0 +1,37 @@
+name: build-api-docs
+on:
+  push:
+    paths:
+      - '.github/workflows/build-api-docs.yml'
+      - 'backend/api_docs/**'
+jobs:
+  build:
+    defaults:
+      run:
+        shell: bash
+        working-directory: backend/api_docs
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Install redoc
+        run: |
+          npm install -g redoc-cli
+      - name: Build and bundle API documentations
+        run: |
+          redoc-cli bundle swagger.yaml
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@master
+        with:
+          role-to-assume: arn:aws:iam::041414866712:role/gismolab_sgmp_github_actions
+          aws-region: us-west-1
+      - name: Push bundled documentations to S3 bucket
+        run: |
+          aws s3 cp redoc-static.html s3://sgmp-api-docs/${GITHUB_REF#refs/heads/}.html

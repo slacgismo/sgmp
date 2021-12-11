@@ -1,0 +1,144 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: SGMP Smart Grid Management Platform
+  license:
+    name: MIT
+servers:
+  - url: https://api-staging.gismolab-sgmp.cwfang.me/api
+paths:
+  /user/profile:
+    $ref: ./user/profile.yaml
+  /user/information:
+    $ref: ./user/information.yaml
+  /user/list:
+    $ref: ./user/list.yaml
+  /user/create:
+    $ref: ./user/create.yaml
+  /user/updatePassword:
+    $ref: ./user/updatePassword.yaml
+  /user/login:
+    $ref: ./user/login.yaml
+  /user/refreshToken:
+    $ref: ./user/refreshToken.yaml
+  /user/changePassword:
+    $ref: ./user/changePassword.yaml
+  /user/update:
+    $ref: ./user/update.yaml
+  /user/delete:
+    $ref: ./user/delete.yaml
+  /analytics/list:
+    $ref: ./analytics/list.yaml
+  /analytics/details:
+    $ref: ./analytics/details.yaml
+  /analytics/create:
+    $ref: ./analytics/create.yaml
+  /analytics/update:
+    $ref: ./analytics/update.yaml
+  /analytics/delete:
+    $ref: ./analytics/delete.yaml
+  /data/read:
+    $ref: ./data/read.yaml
+  /device/list:
+    $ref: ./device/list.yaml
+  /device/details:
+    $ref: ./device/details.yaml
+  /device/create:
+    $ref: ./device/create.yaml
+  /device/update:
+    $ref: ./device/update.yaml
+  /device/delete:
+    $ref: ./device/delete.yaml
+  /event/read:
+    $ref: ./event/read.yaml
+  /house/list:
+    $ref: ./house/list.yaml
+  /house/details:
+    $ref: ./house/details.yaml
+  /house/create:
+    $ref: ./house/create.yaml
+  /house/update:
+    $ref: ./house/update.yaml
+  /house/delete:
+    $ref: ./house/delete.yaml
+  /house/generateKeys:
+    $ref: ./house/generateKeys.yaml
+  /house/sync:
+    $ref: ./house/sync.yaml
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    AnalyticsItem:
+      type: object
+      properties:
+        analytics_id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        formula:
+          type: string
+    SessionUser:
+      type: object
+      properties:
+        roles:
+          type: array
+          items:
+            type: string
+        email:
+          type: string
+        name:
+          type: string
+        house_id:
+          type: integer
+    Analytics:
+      type: object
+      properties:
+        analytics_id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        formula:
+          type: string
+        continuous_aggregation:
+          type: boolean
+    DataDeviceRow:
+      type: object
+      properties:
+        timestamp:
+          type: integer
+        data:
+          type: object
+    DataAnalyticsRow:
+      type: object
+      properties:
+        timestamp:
+          type: integer
+        value:
+          type: float
+    House:
+      type: object
+      properties:
+        house_id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+
+security:
+  - bearerAuth: []

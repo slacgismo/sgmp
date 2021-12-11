@@ -1,0 +1,42 @@
+post:
+  summary: Retrieve device list for a given house
+  operationId: deviceList
+  tags:
+    - device
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            house_id:
+              type: integer
+  responses:
+    '200':
+      description: Device list
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              analytics:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    device_id:
+                      type: integer
+                    name:
+                      type: string
+                    description:
+                      type: string
+                    type:
+                      type: string
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

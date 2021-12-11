@@ -1,0 +1,36 @@
+name: build-web-image
+on:
+  push:
+    paths:
+      - '.github/workflows/build-web-image.yml'
+      - 'backend/sgmp/**'
+jobs:
+  build:
+    defaults:
+      run:
+        shell: bash
+        working-directory: backend/sgmp
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      # The AWS Role name is hardcoded currently to the gismolab account
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@master
+        with:
+          role-to-assume: arn:aws:iam::041414866712:role/gismolab_sgmp_github_actions
+          aws-region: us-west-1
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      - name: Build, tag, and push image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: sgmp
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG

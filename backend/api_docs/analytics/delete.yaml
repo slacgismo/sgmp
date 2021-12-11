@@ -1,0 +1,33 @@
+post:
+  summary: Delete one or more analytics items
+  operationId: analyticsDelete
+  tags:
+    - analytics
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            house_id:
+              type: integer
+            name:
+              type: array
+              items:
+                type: string
+  responses:
+    '200':
+      description: Deletion successful
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

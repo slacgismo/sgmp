@@ -1,0 +1,14 @@
+region                   = "us-west-1"
+key_name                 = "chihweif"
+cidr                     = "172.20.0.0/16"
+availability_zones       = ["us-west-1a", "us-west-1b"]
+public_subnets           = ["172.20.0.0/20", "172.20.16.0/20"]
+private_subnets          = ["172.20.32.0/20", "172.20.48.0/20"]
+tsdb_cluster_size        = 2
+tsdb_volume_size         = 100
+rds_allocated_storage    = 8
+rds_engine_version       = "8.0.26"
+rds_major_engine_version = "8.0"
+staging_image_uri        = "041414866712.dkr.ecr.us-west-1.amazonaws.com/sgmp:4f063b58d5f0a480678e2aaad18c800a17a805d6"
+production_image_uri     = "041414866712.dkr.ecr.us-west-1.amazonaws.com/sgmp:01c312894762cc7322688f01ad14689ec1ac3bde"
+dns_zone_name            = "gismolab-sgmp.cwfang.me"

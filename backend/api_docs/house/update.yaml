@@ -1,0 +1,32 @@
+post:
+  summary: Update house
+  description: Only description can be modified.
+  operationId: houseUpdate
+  tags:
+    - house
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            house_id:
+              type: integer
+            description:
+              type: string
+  responses:
+    '200':
+      description: Update successful
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

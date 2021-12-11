@@ -1,0 +1,38 @@
+post:
+  summary: Update an existing analytics item
+  description: House ID and name cannot be modified.
+  operationId: analyticsUpdate
+  tags:
+    - analytics
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            house_id:
+              type: integer
+            name:
+              type: string
+            description:
+              type: string
+            formula:
+              type: string
+            continuous_aggregation:
+              type: boolean
+  responses:
+    '200':
+      description: Update successful
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

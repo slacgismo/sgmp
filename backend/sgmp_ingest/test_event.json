@@ -1,0 +1,11 @@
+{
+    "device_id": 4,
+    "client_id": "sgmp_house_1",
+    "device_name": "pf_01",
+    "timestamp": 1,
+    "topic": "event",
+    "data": {
+        "data": {},
+        "type": "EV_START_CHARGING"
+    }
+}

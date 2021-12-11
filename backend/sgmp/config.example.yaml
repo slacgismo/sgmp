@@ -1,0 +1,16 @@
+TSDB_HOST: 127.0.0.1
+TSDB_USER: postgres
+TSDB_PASS: <tsdb_postgres_password>
+TSDB_DATABASE: sgmp
+MYSQL_USER: sgmp
+MYSQL_PASS: <mysql_password>
+MYSQL_HOST: 127.0.0.1
+MYSQL_DATABASE: sgmp
+IOT_CERT_ID: <iot_cert_id>
+IOT_ENDPOINT: <iot_endpoint>
+IOT_KEY_PATH: iot_certs/private.key
+AWS_REGION: us-west-1
+COGNITO_USER_POOL_ID: us-west-1_<id>
+COGNITO_APP_CLIENT_ID: <client_id>
+ENFORCE_AUTHENTICATION: 1
+DEPLOYMENT_NAME: gismolab_sgmp
