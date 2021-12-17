@@ -1,5 +1,5 @@
 export default Object.freeze({
-    server: "https://api.sgmp.slacgismo.io/",
+    server: "https://api.sgmp.slacgismo.io",
     numPerPage: 10,
     timeFormat: {
         month: "short",
