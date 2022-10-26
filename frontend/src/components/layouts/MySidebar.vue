@@ -10,6 +10,8 @@
         bg-red-900
         border-b-2 border-gray-800
         mb-4
+        sticky
+        top-0
       "
     >
       <router-link to="/">
@@ -22,7 +24,7 @@
       </router-link>
     </div>
 
-    <nav class="text-sm">
+    <nav class="text-sm fixed">
       <ul class="flex flex-col">
         <li class="px-4 py-2 text-xs uppercase tracking-wider font-bold">
           Analytics
@@ -500,6 +502,41 @@
             </a>
           </li>
         </router-link>
+
+        <li class="px-4 py-2 text-xs uppercase tracking-wider font-bold">
+          Optimization
+        </li>
+
+        <SwitchGroup>
+          <div class="px-4 py-3 flex items-center">
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              class="h-5 w-5 mr-2"
+              width="24" 
+              height="24" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="#000000" 
+              stroke-width="2" 
+              stroke-linecap="round" 
+              stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M16 12l-4-4-4 4M12 16V9"/>
+            </svg>
+            <SwitchLabel class="mr-4" v-if="this.optimizationEnabled===true">Enabled&nbsp;</SwitchLabel>
+            <SwitchLabel class="mr-4" v-else>Disabled</SwitchLabel>
+            <Switch
+              v-model="this.optimizationEnabled"
+              :class='this.optimizationEnabled ? "bg-blue-600" : "bg-gray-300"'
+              class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            >
+              <span
+                :class='this.optimizationEnabled ? "translate-x-6" : "translate-x-1"'
+                class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform"
+              />
+            </Switch>
+          </div>
+        </SwitchGroup>
       </ul>
     </nav>
   </aside>
@@ -507,7 +544,7 @@
 
 <script>
 import { useRoute } from "vue-router";
-import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
+import { Disclosure, DisclosureButton, DisclosurePanel, Switch } from "@headlessui/vue";
 
 import constants from "@/util/constants";
 import httpReq from "@/util/requestOptions";
@@ -517,6 +554,7 @@ export default {
     Disclosure,
     DisclosureButton,
     DisclosurePanel,
+    Switch
   },
   setup() {
     const route = useRoute();
@@ -528,7 +566,8 @@ export default {
     return {
       ROLE: constants.roles,
       userRoutes: ["users", "createuser", "updateuser", "roles", "createrole"],
-      configRoutes: ["devices", "createdevice", "updatedevice", "analytics", "createanalytics", "updateanalytics"]
+      configRoutes: ["devices", "createdevice", "updatedevice", "analytics", "createanalytics", "updateanalytics"],
+      optimizationEnabled: true
     };
   },
   created() {
