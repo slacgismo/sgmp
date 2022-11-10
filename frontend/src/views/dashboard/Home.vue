@@ -32,18 +32,38 @@
       </div>
       <div class="w-full">
         <table class="w-full my-2">
-          <thead>
+          <thead
+          class="cursor-pointer" 
+          @click="showOutages = !showOutages">
             <tr>
-              <th class="text-left text-gray-700 font-bold">Outage</th>
+              <th class="text-left text-gray-700 font-bold">Outages ({{outages.length}})</th>
+              <th class="">
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  width="24" 
+                  height="24" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="#000000" 
+                  stroke-width="2" 
+                  stroke-linecap="round" 
+                  stroke-linejoin="round">
+                  <path v-if="showOutages" d="M18 15l-6-6-6 6"/>
+                  <path v-else d="M6 9l6 6 6-6"/>
+                </svg>
+              </th>
             </tr>
           </thead>
-          <tbody class="text-gray-500">
+          <tbody 
+            class="text-gray-500"
+            v-if="showOutages===true">
             <tr v-for="outage in outages">
               <td class="w-2/12">{{ outage.device }}</td>
               <td class="w-8/12">{{ outage.message }}</td>
               <td class="w-2/12 text-right pr-4">{{ outage.timestamp }}</td>
             </tr>
           </tbody>
+          <tbody v-else/>
         </table>
       </div>
     </div>
@@ -167,6 +187,7 @@ export default {
       now,
       constants,
       outages: [],
+      showOutages: false,
       axes: [
         {title: "Grid frequency (Hz)", type: constants.chartTypes.Line},
         {title: "L1 Voltage (V)", type: constants.chartTypes.Line},
@@ -179,7 +200,8 @@ export default {
         {title: "Battery Discharging (kW)", type: constants.chartTypes.Column},
         {title: "EV (kW)", type: constants.chartTypes.Line},
         {title: "Grid Import (kW)", type: constants.chartTypes.Line},
-        {title: "Grid Export (kW)", type: constants.chartTypes.Line}
+        {title: "Grid Export (kW)", type: constants.chartTypes.Line},
+        {title: "Emission (mT)", type: constants.chartTypes.Line}
       ]
     };
   },
