@@ -11,6 +11,7 @@
         border-b-2 border-gray-800
         mb-4
         sticky
+        w-52
         top-0
       "
     >
