@@ -545,7 +545,7 @@
 
 <script>
 import { useRoute } from "vue-router";
-import { Disclosure, DisclosureButton, DisclosurePanel, Switch } from "@headlessui/vue";
+import { Disclosure, DisclosureButton, DisclosurePanel, Switch, SwitchGroup, SwitchLabel } from "@headlessui/vue";
 
 import constants from "@/util/constants";
 import httpReq from "@/util/requestOptions";
@@ -555,7 +555,9 @@ export default {
     Disclosure,
     DisclosureButton,
     DisclosurePanel,
-    Switch
+    Switch,
+    SwitchGroup,
+    SwitchLabel
   },
   setup() {
     const route = useRoute();
