@@ -1,0 +1,8 @@
+{
+    "DeviceID": "1", "DeviceInformation":
+    [
+        {"resource": "solar", "payload": "payload"},
+        {"resource": "battery", "payload": {"mode": "manual", "power": [-1.3455643e-10, 5.3454372e-9, -7.1234567e-11]}},
+        {"resource": "ev", "payload": "payload"}
+    ]
+}
