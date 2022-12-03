@@ -37,11 +37,12 @@
           @click="showOutages = !showOutages">
             <tr>
               <th class="text-left text-gray-700 font-bold">Outages ({{outages.length}})</th>
-              <th class="">
+              <th class=""/>
+              <th class="float-right pr-4">
                 <svg 
                   xmlns="http://www.w3.org/2000/svg" 
                   width="24" 
-                  height="24" 
+                  height="24"
                   viewBox="0 0 24 24" 
                   fill="none" 
                   stroke="#000000" 
@@ -58,14 +59,14 @@
             class="text-gray-500"
             v-if="showOutages===true">
             <tr v-for="outage in outages">
-              <td class="w-2/12">{{ outage.device }}</td>
+              <td class=" w-2/12">{{ outage.device }}</td>
               <td class="w-8/12">{{ outage.message }}</td>
               <td class="w-2/12 text-right pr-4">{{ outage.timestamp }}</td>
             </tr>
           </tbody>
           <tbody v-else/>
         </table>
-      </div>
+      </div> 
     </div>
   </div>
 
@@ -147,7 +148,7 @@
 
   <div class="grid grid-cols-1 px-4 gap-4 mt-8 sm:px-8">
     <multi-y-axes-chart
-      title="Power"
+      title="Power and Emission"
       :axes="powerAxes"
       :request="
         getTSRequest([
@@ -201,7 +202,7 @@ export default {
         {title: "EV (kW)", type: constants.chartTypes.Line},
         {title: "Grid Import (kW)", type: constants.chartTypes.Line},
         {title: "Grid Export (kW)", type: constants.chartTypes.Line},
-        {title: "Emission (mT)", type: constants.chartTypes.Line}
+        {title: "Emission (kgCO2/kWh)", type: constants.chartTypes.Line}
       ]
     };
   },

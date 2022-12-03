@@ -30,22 +30,70 @@ export default {
     request: Object
   },
   mounted() {
-    // POST request to fetch data for the 3 y-axis chart
+    // GET request to login to CAISO
     fetch(
-        constants.server + "/api/data/read", // endpoint
-        httpReq.post(this.request) // requestOptions
+        constants.caiso.server + "/login", {
+          method: "GET",
+          headers: { 
+            "Content-Type": "application/json",
+            "Authorization": "Basic " + btoa(constants.caiso.username + ":" + constants.caiso.password)
+          }
+        }
       )
       .then(async response => {
         const data = await response.json();
 
         // check for error response
-        if (!response.ok || !data.results) {
+        if (!response.ok || !data.token) {
           // get error message from body or default to response status
-          const error = (data && data.message) || response.status;
+          const error = response.status;
           return Promise.reject(error);
         }
 
-        this.updateChart(data.results);
+        const token = data.token;
+        const now = new Date();
+        const startTime =  now.getTime() - 86800000;
+        const endTime = now.getTime();
+
+        const emission = fetch(
+           "https://cors-anywhere.herokuapp.com/" + 
+          constants.caiso.server + "/sgipmoer?" + 
+          "ba=" + constants.caiso.ba + 
+          "&version=" + constants.caiso.moerVersion + 
+          "&starttime=" + new Date(startTime).toISOString() +
+          "&endtime=" + new Date(endTime).toISOString(), {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer " + token  
+            }
+          }
+        );
+
+        const power = fetch(
+          constants.server + "/api/data/read", // endpoint
+          httpReq.post(this.request) // requestOptions
+        );
+
+        console.log(emission)
+
+        return Promise.all([emission, power]);
+      })
+      .then(async ([emissionResponse, powerResponse]) => {
+        const emission = await emissionResponse.json();
+        const power = await powerResponse.json();
+
+        console.log(emission);
+        console.log(power);
+
+        // check for error response
+        // if (!powerResponse.ok || !powerResponse.results) {
+        //   // get error message from body or default to response status
+        //   const error = (power && power.message) || powerResponse.status;
+        //   return Promise.reject(error);
+        // }
+
+        this.updateChart(emission, power.results);
       })
       .catch(error => {
         this.errorMessage = error;
@@ -82,18 +130,24 @@ export default {
   data() {
     return {
       loaded: false,
-      constants: constants
+      constants: constants,
     };
   },
   methods: {
-    updateChart(results) {
-      if (!results || results.length < 1) {
+    updateChart(emission, power) {
+      // unified lengths of all 
+      var dataLen = emission.length;
+      for (let i = 0; i < power.length; i++) {
+        dataLen = Math.min(dataLen, power[i].data.length);
+      }
+
+      if (!power || power.length < 1) {
         this.loaded = true;
         return;
       }
 
       let timeLabels = [], series = [], strokes = { width: []};
-      for (let i = 0; i < results.length; i++) {
+      for (let i = 0; i < power.length; i++) {
         series[i] = {
           name: this.axes[i].title,
           type: this.axes[i].type,
@@ -106,14 +160,23 @@ export default {
           strokes.width[i] = 0;
         }
       }
-      
-      for (let i = 0; i < results[0].data.length; i++) {
-        timeLabels.push(new Date(results[0].data[i].timestamp).
-          toLocaleDateString("en", constants.timeFormat));
-        for (let j = 0; j < results.length; j++) {
-          series[j].data.push(results[j].data[i].value.toFixed(2));
-        }
+      series[power.length] = {
+        name: "Emission (kgCO2/kWh)",
+        type: constants.chartTypes.Line,
+        data: []
       }
+      strokes.width[power.length] = 4;
+      
+      for (let i = 0; i < dataLen; i++) {
+        timeLabels.push(new Date(power[0].data[i].timestamp).
+          toLocaleDateString("en", constants.timeFormat));
+        for (let j = 0; j < power.length; j++) {
+          series[j].data.push(power[j].data[i].value.toFixed(2));
+        }
+        series[power.length].data.push(emission[dataLen - i - 1].moer.toFixed(2))
+      }
+
+      console.log(series)
 
       this.options = {
         labels: timeLabels,
@@ -140,12 +203,47 @@ export default {
           },
         },
         labels: timeLabels,
-        yaxis: {
-          title: {
-            text: "Average Power (kW)",
+        yaxis: [
+          {
+            title: {
+              text: "Average Power (kW)",
+            },
+            seriesName: "Solar (kW)",
+            min: 0,
           },
-          min: 0,
-        },
+          {
+            seriesName: "Solar (kW)",
+            show: false
+          },
+          {
+            seriesName: "Solar (kW)",
+            show: false
+          },
+          {
+            seriesName: "Solar (kW)",
+            show: false
+          },
+          {
+            seriesName: "Solar (kW)",
+            show: false
+          },
+          {
+            seriesName: "Solar (kW)",
+            show: false
+          },
+          {
+            seriesName: "Solar (kW)",
+            show: false
+          },
+          {
+            title: {
+              text: "Emission (kgCO2/kWh)",
+            },
+            seriesName: "Emission (kgCO2/kWh)",
+            min: 0,
+            opposite: true
+          }
+        ],
         legend: {
           position: "bottom",
         }
@@ -153,6 +251,10 @@ export default {
 
       this.$refs.multiAxesChart.updateOptions(this.options, true);
       this.loaded = true;
+    },
+    timeStampToFormattedString(timestamp) {
+      const date = new Date(timestamp);
+      const year = date.getFullYear();
     }
   },
 };
