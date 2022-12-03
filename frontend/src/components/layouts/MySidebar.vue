@@ -25,7 +25,7 @@
       </router-link>
     </div>
 
-    <nav class="text-sm fixed">
+    <nav class="text-sm sticky top-12">
       <ul class="flex flex-col">
         <li class="px-4 py-2 text-xs uppercase tracking-wider font-bold">
           Analytics
