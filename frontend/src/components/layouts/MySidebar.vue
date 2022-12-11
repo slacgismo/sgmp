@@ -527,7 +527,14 @@
             <SwitchLabel class="mr-4" v-if="this.optimizationEnabled===true">Enabled&nbsp;</SwitchLabel>
             <SwitchLabel class="mr-4" v-else>Disabled</SwitchLabel>
             <Switch
-              v-model="this.optimizationEnabled"
+              
+              
+              :modelValue="this.optimizationEnabled"
+              @update:modelValue="newValue => {
+                this.optimizationEnabled = newValue;
+                toggleClick();
+              }"
+              
               :class='this.optimizationEnabled ? "bg-blue-600" : "bg-gray-300"'
               class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
@@ -579,20 +586,23 @@ export default {
       constants.server + "/api/device/list", // endpoint
       httpReq.post({ house_id: sessionStorage.getItem("house_id") }) // requestOptions
     )
-      .then(async (response) => {
-        const data = await response.json();
+    .then(async (response) => {
+      const data = await response.json();
 
-        // check for error response
-        if (!response.ok) {
-          // get error message from body or default to response status
-          const error = (data && data.message) || response.status;
-          return Promise.reject(error);
-        }
-      })
-      .catch((error) => {
-        this.errorMessage = error;
-        console.error(error);
-      });
+      // check for error response
+      if (!response.ok) {
+        // get error message from body or default to response status
+        const error = (data && data.message) || response.status;
+        return Promise.reject(error);
+      }
+    })
+    .catch((error) => {
+      this.errorMessage = error;
+      console.error(error);
+    });
+  },
+  mounted() {
+    this.toggleClick();
   },
   methods: {
     isActive(routes) {
@@ -603,6 +613,13 @@ export default {
         return false;
       }
       return true;
+    },
+    toggleClick() {
+      const houseIds = ["houseA", "houseB"];
+      fetch(
+        constants.server + "/api/optimizer/" + (this.optimizationEnabled ? "start" : "terminate"), // endpoint
+        httpReq.post({ house: houseIds[sessionStorage.getItem("house_id")] }) // requestOptions
+      )
     }
   }
 };
