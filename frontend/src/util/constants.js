@@ -1,15 +1,5 @@
 export default Object.freeze({
     server: "https://api.sgmp.slacgismo.io",
-    caiso: Object.freeze({
-        server: "https://sgipsignal.com",
-        username: "gcezar",
-        password: "bits&wattsDemo1",
-        email: "gcezar@stanford.edu",
-        org: "Stanford University",
-        ba: "SGIP_CAISO_PGE",
-        moerVersion: "2.0",
-        horizon: "month"
-    }),
     numPerPage: 10,
     timeFormat: {
         month: "short",

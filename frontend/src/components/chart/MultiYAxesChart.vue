@@ -30,76 +30,100 @@ export default {
     request: Object
   },
   mounted() {
-    // GET request to login to CAISO
+    // POST request to fetch data for the 3 y-axis chart
     fetch(
-        constants.caiso.server + "/login", {
-          method: "GET",
-          headers: { 
-            "Content-Type": "application/json",
-            "Authorization": "Basic " + btoa(constants.caiso.username + ":" + constants.caiso.password)
-          }
-        }
-      )
-      .then(async response => {
-        const data = await response.json();
+      constants.server + "/api/data/read", // endpoint
+      httpReq.post(this.request) // requestOptions
+    )
+    .then(async response => {
+      const data = await response.json();
+      // check for error response
+      if (!response.ok || !data.results) {
+        // get error message from body or default to response status
+        const error = (data && data.message) || response.status;
+        return Promise.reject(error);
+      }
 
-        // check for error response
-        if (!response.ok || !data.token) {
-          // get error message from body or default to response status
-          const error = response.status;
-          return Promise.reject(error);
-        }
+      this.updateChart(data.results);
+    })
+    .catch(error => {
+      this.errorMessage = error;
+      console.error(error);
+      this.loaded = true;
+    });
 
-        const token = data.token;
-        const now = new Date();
-        const startTime =  now.getTime() - 86800000;
-        const endTime = now.getTime();
+    // // GET request to login to CAISO
+    // fetch(
+    //     constants.caiso.server + "/login", {
+    //       method: "GET",
+    //       headers: { 
+    //         "Content-Type": "application/json",
+    //         "Authorization": "Basic " + btoa(constants.caiso.username + ":" + constants.caiso.password)
+    //       }
+    //     }
+    //   )
+    //   .then(async response => {
+    //     const data = await response.json();
 
-        const emission = fetch(
-           "https://cors-anywhere.herokuapp.com/" + 
-          constants.caiso.server + "/sgipmoer?" + 
-          "ba=" + constants.caiso.ba + 
-          "&version=" + constants.caiso.moerVersion + 
-          "&starttime=" + new Date(startTime).toISOString() +
-          "&endtime=" + new Date(endTime).toISOString(), {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": "Bearer " + token  
-            }
-          }
-        );
+    //     // check for error response
+    //     if (!response.ok || !data.token) {
+    //       // get error message from body or default to response status
+    //       const error = response.status;
+    //       return Promise.reject(error);
+    //     }
 
-        const power = fetch(
-          constants.server + "/api/data/read", // endpoint
-          httpReq.post(this.request) // requestOptions
-        );
+    //     const token = data.token;
+    //     const now = new Date();
+    //     const startTime =  now.getTime() - 86800000;
+    //     const endTime = now.getTime();
 
-        console.log(emission)
+    //     const emission = fetch(
+    //       "https://cors-anywhere.herokuapp.com/" + 
+    //       constants.caiso.server + "/sgipmoer?" + 
+    //       "ba=" + constants.caiso.ba + 
+    //       "&version=" + constants.caiso.moerVersion + 
+    //       "&starttime=" + new Date(startTime).toISOString() +
+    //       "&endtime=" + new Date(endTime).toISOString(), {
+    //         method: "GET",
+    //         headers: {
+    //           "Content-Type": "application/json",
+    //           "Authorization": "Bearer " + token  
+    //         }
+    //       }
+    //     );
 
-        return Promise.all([emission, power]);
-      })
-      .then(async ([emissionResponse, powerResponse]) => {
-        const emission = await emissionResponse.json();
-        const power = await powerResponse.json();
+    //     const power = fetch(
+    //       constants.server + "/api/data/read", // endpoint
+    //       httpReq.post(this.request) // requestOptions
+    //     );
 
-        console.log(emission);
-        console.log(power);
+    //     return Promise.all([emission, power]);
+    //   })
+    //   .then(async ([emissionResponse, powerResponse]) => {
+    //     const emission = await emissionResponse.json();
+    //     const power = await powerResponse.json();
 
-        // check for error response
-        // if (!powerResponse.ok || !powerResponse.results) {
-        //   // get error message from body or default to response status
-        //   const error = (power && power.message) || powerResponse.status;
-        //   return Promise.reject(error);
-        // }
+    //     // check for error response
+    //     if (!powerResponse.ok) {
+    //       // get error message from body or default to response status
+    //       const error = (power && power.message) || powerResponse.status;
+    //       return Promise.reject(error);
+    //     }
+    //     if (!emissionResponse.ok) {
+    //       const error = emissionResponse.status;
+    //       return Promise.reject(error);
+    //     }
 
-        this.updateChart(emission, power.results);
-      })
-      .catch(error => {
-        this.errorMessage = error;
-        console.error(error);
-        this.loaded = true;
-      });
+    //     console.log(emission, power);
+    //     this.updateChart(emission, power.results);
+    //   })
+    //   .catch(error => {
+    //     this.errorMessage = error;
+    //     console.error(error);
+    //     this.loaded = true;
+    //   });
+
+
   },
   setup() {
     return {
@@ -134,20 +158,20 @@ export default {
     };
   },
   methods: {
-    updateChart(emission, power) {
-      // unified lengths of all 
-      var dataLen = emission.length;
-      for (let i = 0; i < power.length; i++) {
-        dataLen = Math.min(dataLen, power[i].data.length);
-      }
-
-      if (!power || power.length < 1) {
+    updateChart(results) {
+      if (!results || results.length < 1) {
         this.loaded = true;
         return;
       }
 
+      // unified lengths of all 
+      var dataLen = results[0].data.length;
+      for (let i = 0; i < results.length; i++) {
+        dataLen = Math.min(dataLen, results[i].data.length);
+      }
+
       let timeLabels = [], series = [], strokes = { width: []};
-      for (let i = 0; i < power.length; i++) {
+      for (let i = 0; i < this.axes.length; i++) {
         series[i] = {
           name: this.axes[i].title,
           type: this.axes[i].type,
@@ -160,23 +184,15 @@ export default {
           strokes.width[i] = 0;
         }
       }
-      series[power.length] = {
-        name: "Emission (kgCO2/kWh)",
-        type: constants.chartTypes.Line,
-        data: []
-      }
-      strokes.width[power.length] = 4;
       
       for (let i = 0; i < dataLen; i++) {
-        timeLabels.push(new Date(power[0].data[i].timestamp).
+        timeLabels.push(new Date(results[0].data[i].timestamp).
           toLocaleDateString("en", constants.timeFormat));
-        for (let j = 0; j < power.length; j++) {
-          series[j].data.push(power[j].data[i].value.toFixed(2));
+        for (let j = 0; j < results.length - 1; j++) {
+          series[j].data.push(results[j].data[i].value.toFixed(2));
         }
-        series[power.length].data.push(emission[dataLen - i - 1].moer.toFixed(2))
+        series[results.length - 1].data.push(results[results.length - 1].data[dataLen - i - 1].moer.toFixed(2)) // emission data
       }
-
-      console.log(series)
 
       this.options = {
         labels: timeLabels,
@@ -208,31 +224,30 @@ export default {
             title: {
               text: "Average Power (kW)",
             },
-            seriesName: "Solar (kW)",
-            min: 0,
+            seriesName: "Battery Charging (kW)",
           },
           {
-            seriesName: "Solar (kW)",
+            seriesName: "Battery Charging (kW)",
             show: false
           },
           {
-            seriesName: "Solar (kW)",
+            seriesName: "Battery Charging (kW)",
             show: false
           },
           {
-            seriesName: "Solar (kW)",
+            seriesName: "Battery Charging (kW)",
             show: false
           },
           {
-            seriesName: "Solar (kW)",
+            seriesName: "Battery Charging (kW)",
             show: false
           },
           {
-            seriesName: "Solar (kW)",
+            seriesName: "Battery Charging (kW)",
             show: false
           },
           {
-            seriesName: "Solar (kW)",
+            seriesName: "Battery Charging (kW)",
             show: false
           },
           {
@@ -240,7 +255,6 @@ export default {
               text: "Emission (kgCO2/kWh)",
             },
             seriesName: "Emission (kgCO2/kWh)",
-            min: 0,
             opposite: true
           }
         ],
