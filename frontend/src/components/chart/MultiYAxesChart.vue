@@ -32,26 +32,25 @@ export default {
   mounted() {
     // POST request to fetch data for the 3 y-axis chart
     fetch(
-        constants.server + "/api/data/read", // endpoint
-        httpReq.post(this.request) // requestOptions
-      )
-      .then(async response => {
-        const data = await response.json();
+      constants.server + "/api/data/read", // endpoint
+      httpReq.post(this.request) // requestOptions
+    )
+    .then(async response => {
+      const data = await response.json();
+      // check for error response
+      if (!response.ok || !data.results) {
+        // get error message from body or default to response status
+        const error = (data && data.message) || response.status;
+        return Promise.reject(error);
+      }
 
-        // check for error response
-        if (!response.ok || !data.results) {
-          // get error message from body or default to response status
-          const error = (data && data.message) || response.status;
-          return Promise.reject(error);
-        }
-
-        this.updateChart(data.results);
-      })
-      .catch(error => {
-        this.errorMessage = error;
-        console.error(error);
-        this.loaded = true;
-      });
+      this.updateChart(data.results);
+    })
+    .catch(error => {
+      this.errorMessage = error;
+      console.error(error);
+      this.loaded = true;
+    });
   },
   setup() {
     return {
@@ -82,7 +81,7 @@ export default {
   data() {
     return {
       loaded: false,
-      constants: constants
+      constants: constants,
     };
   },
   methods: {
@@ -92,8 +91,14 @@ export default {
         return;
       }
 
-      let timeLabels = [], series = [], strokes = { width: []};
+      // unified lengths of all 
+      var dataLen = results[0].data.length;
       for (let i = 0; i < results.length; i++) {
+        dataLen = Math.min(dataLen, results[i].data.length);
+      }
+
+      let timeLabels = [], series = [], strokes = { width: []};
+      for (let i = 0; i < this.axes.length; i++) {
         series[i] = {
           name: this.axes[i].title,
           type: this.axes[i].type,
@@ -107,12 +112,13 @@ export default {
         }
       }
       
-      for (let i = 0; i < results[0].data.length; i++) {
+      for (let i = 0; i < dataLen; i++) {
         timeLabels.push(new Date(results[0].data[i].timestamp).
           toLocaleDateString("en", constants.timeFormat));
-        for (let j = 0; j < results.length; j++) {
+        for (let j = 0; j < results.length - 1; j++) {
           series[j].data.push(results[j].data[i].value.toFixed(2));
         }
+        series[results.length - 1].data.push(results[results.length - 1].data[dataLen - i - 1].moer.toFixed(2)) // emission data
       }
 
       this.options = {
@@ -140,12 +146,45 @@ export default {
           },
         },
         labels: timeLabels,
-        yaxis: {
-          title: {
-            text: "Average Power (kW)",
+        yaxis: [
+          {
+            title: {
+              text: "Average Power (kW)",
+            },
+            seriesName: "Battery Charging (kW)",
           },
-          min: 0,
-        },
+          {
+            seriesName: "Battery Charging (kW)",
+            show: false
+          },
+          {
+            seriesName: "Battery Charging (kW)",
+            show: false
+          },
+          {
+            seriesName: "Battery Charging (kW)",
+            show: false
+          },
+          {
+            seriesName: "Battery Charging (kW)",
+            show: false
+          },
+          {
+            seriesName: "Battery Charging (kW)",
+            show: false
+          },
+          {
+            seriesName: "Battery Charging (kW)",
+            show: false
+          },
+          {
+            title: {
+              text: "Emission (kgCO2/kWh)",
+            },
+            seriesName: "Emission (kgCO2/kWh)",
+            opposite: true
+          }
+        ],
         legend: {
           position: "bottom",
         }
@@ -153,6 +192,10 @@ export default {
 
       this.$refs.multiAxesChart.updateOptions(this.options, true);
       this.loaded = true;
+    },
+    timeStampToFormattedString(timestamp) {
+      const date = new Date(timestamp);
+      const year = date.getFullYear();
     }
   },
 };
