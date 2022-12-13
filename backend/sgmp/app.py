@@ -8,6 +8,7 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 
 from routes.data import api_data
+from routes.optimizer import api_optimizer
 from routes.role import api_role
 from routes.user import api_user
 from routes.event import api_event
@@ -63,6 +64,7 @@ app.register_blueprint(api_event, url_prefix='/api/event')
 app.register_blueprint(api_house, url_prefix='/api/house')
 app.register_blueprint(api_device, url_prefix='/api/device')
 app.register_blueprint(api_analytics, url_prefix='/api/analytics')
+app.register_blueprint(api_optimizer, url_prefix='/api/optimizer')
 
 @app.teardown_appcontext
 def close_conn(e):
@@ -93,4 +95,4 @@ def server_error(_):
 
 # Develop server
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', '5000')))
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', '1234')))

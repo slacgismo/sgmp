@@ -67,8 +67,6 @@ class EgaugeInterface():
                 else:
                     power_values[i] = round(((data_end[i] - data_ini[i]) / ts_delta) / 1000, 3)
 
-            # json_dict = json.dumps(power_values)
-            # print('Data Dict: ', json_dict)
             return power_values
         except Exception as e:
             print('Error retrieving data from E-Gauge API: ', e)
@@ -103,7 +101,7 @@ def collect_daily_data(period, mode, user, endpoint, password, filename):
 
     g = g_tick()
     while True:
-        # time.sleep(next(g))
+        time.sleep(next(g))
         try:
             power_values = egauge_obj.processing_egauge_data()
             writer.writerow(power_values.values())  # write a row to the csv file
@@ -122,7 +120,7 @@ if __name__ == "__main__":
     mode = 'web'
     houseB_endpoint = 'egauge47571.egaug.es/'  # house B
     houseA_endpoint = 'egauge47570.egaug.es/'  # house A
-    period = 4
+    period = 60
 
     # thread_houseA = threading.Thread(target=collect_daily_data,
     #                                  args=(period, mode, user, houseA_endpoint, password, 'houseA_input.csv'))
