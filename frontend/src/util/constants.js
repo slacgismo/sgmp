@@ -25,7 +25,8 @@ export default Object.freeze({
         Load: "load",
         Frequency: "l1_frequency",
         Voltage1: "l1_voltage",
-        Voltage2: "l2_voltage"
+        Voltage2: "l2_voltage",
+        Emission: "emission"
     }),
     deviceTypes: Object.freeze(['sonnen', 'egauge', 'powerflex']),
     sources: Object.freeze({ Battery: "sonnen" }),
