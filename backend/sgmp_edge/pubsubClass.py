@@ -51,13 +51,22 @@ def publish2topic(**der_data):
     except Exception as e:
         print('Publish error in sonnen_dc: ', e)
 
-def subscribe(client, topic, method, device_config):
+# Get config of device from devices.json by supplying name
+def get_device_config(device_name):
+    with open('devices.json', 'r') as devices_file:
+        devices = json.loads(devices_file.read())['devices']
+        device_config = [device for device in devices if device["name"] == "sonnen"][0]["config"]
+    return device_config
+
+battery_config = get_device_config("sonnen")
+
+def subscribe(client, topic, method):
     if method == 'sonnen_act':
-        client.subscribe(topic, 1, sonnenCallback, device_config)
+        client.subscribe(topic, 1, sonnenCallback)
     else:
         client.subscribe(topic, 1, customCallback)
 
-def sonnenCallback(client, userdata, message, battery_config):
+def sonnenCallback(client, userdata, message):
     print('sonnen callback function')
     retval = json.loads(message.payload.decode('utf-8'))
     try:
@@ -65,7 +74,7 @@ def sonnenCallback(client, userdata, message, battery_config):
             if device['resource'] == "battery":
                 sonnen_obj = sonnen_local_api.SonnenLocalApi(battery_config)
                 device['payload']['action'] = 'set_mode'
-                latestPowerValue = device['payload']['power'][-1]
+                latestPowerValue = device['payload']['power']
                 device['payload']['power'] = -(round(abs(latestPowerValue) * 1000, 1)) if latestPowerValue < 0 else (round(abs(latestPowerValue) * 1000, 1))
                 sonnen_obj.act(device['payload'])
                 break

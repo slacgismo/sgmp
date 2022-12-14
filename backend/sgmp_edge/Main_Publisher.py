@@ -27,7 +27,7 @@ ENDPOINT = config.ENDPOINT
 PATH_TO_CERT = config.PATH_TO_CERT
 PATH_TO_KEY = config.PATH_TO_KEY
 PATH_TO_ROOT = config.PATH_TO_ROOT
-TOPIC_CONTROL = config.DEPLOYMENT_NAME + '_write/' + CLIENT_ID + '/battery'
+TOPIC_CONTROL = config.DEPLOYMENT_NAME + '_write/' + config.HOUSE_ID + '/battery'
 
 # Initialize client
 mqtt = AWSIoTPyMQTT.AWSIoTMQTTClient(CLIENT_ID)
@@ -148,12 +148,8 @@ def config_update_callback(client, userdata, message):
 
 mqtt.subscribe('%s_config/%s/devices' % (config.DEPLOYMENT_NAME, config.CLIENT_ID), QoS=1, callback=config_update_callback)
 
-def get_device_config(device_name):
-    device_config = [device for device in devices if device["name"] == "sonnen"][0]["config"]
-    return device_config
-
-battery_config = get_device_config("sonnen")
-pubsubClass.subscribe(mqtt, TOPIC_CONTROL, 'sonnen_act', battery_config)
+# Subscribe to MQTT topic for writing power output from the optimizer to Sonnen battery
+pubsubClass.subscribe(mqtt, TOPIC_CONTROL, 'sonnen_act')
 
 terminate = False
 while not terminate:
