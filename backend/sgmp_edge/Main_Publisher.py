@@ -27,7 +27,7 @@ ENDPOINT = config.ENDPOINT
 PATH_TO_CERT = config.PATH_TO_CERT
 PATH_TO_KEY = config.PATH_TO_KEY
 PATH_TO_ROOT = config.PATH_TO_ROOT
-TOPIC_CONTROL = config.DEPLOYMENT_NAME + '_write/' + config.HOUSE_ID + '/battery'
+TOPIC_CONTROL = config.DEPLOYMENT_NAME + '_write/' + config.CLIENT_ID + '/battery'
 
 # Initialize client
 mqtt = AWSIoTPyMQTT.AWSIoTMQTTClient(CLIENT_ID)

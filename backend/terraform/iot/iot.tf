@@ -73,6 +73,11 @@ resource "aws_iot_policy" "edge_policy" {
         "Effect" : "Allow",
         "Action" : "iot:Subscribe",
         "Resource" : "arn:aws:iot:${var.region}:${local.account_id}:topicfilter/${var.resource_prefix}_write/$${iot:Connection.Thing.ThingName}/*"
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : "iot:Receive",
+        "Resource" : "arn:aws:iot:${var.region}:${local.account_id}:topic/${var.resource_prefix}_write/$${iot:Connection.Thing.ThingName}/*"
       }
     ]
   })
