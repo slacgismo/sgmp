@@ -8,7 +8,7 @@ IOT_CLIENT_ID = config.IOT_CLIENT_ID
 IOT_CERT_PATH = config.IOT_CERT_PATH
 IOT_KEY_PATH = config.IOT_KEY_PATH
 IOT_ROOT_PATH = config.IOT_ROOT_PATH
-TOPIC_CONTROL = config.DEPLOYMENT_NAME + '_write/'
+TOPIC_CONTROL = config.DEPLOYMENT_NAME + '_write/' + config.DEPLOYMENT_NAME + '_house_'
 
 def publishPowerValues(publishMessage):
     # initialize client:
