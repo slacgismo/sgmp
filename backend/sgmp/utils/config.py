@@ -8,6 +8,7 @@ try:
 except:
     pass
 
+
 def get_config(key, default=None):
     if key in os.environ:
         return os.environ.get(key)
@@ -15,6 +16,29 @@ def get_config(key, default=None):
         return str(config[key])
 
     return default
+
+
+def get_new_config(key, default=None):
+    try:
+        with open('config.yaml', 'r') as f:
+            new_config = yaml.load(f, Loader=yaml.SafeLoader)
+    except:
+        return default
+    if key in os.environ:
+        return os.environ.get(key)
+    if key in new_config:
+        return new_config[key]
+
+    return default
+
+
+def write_config(key, value):
+    if key in config:
+        config[key] = value
+    with open('config.yaml', 'w') as fp:
+        yaml.dump(config, fp)
+        fp.close()
+
 
 DATABASE_URL = get_config('DATABASE_URL')
 MYSQL_HOST = get_config('MYSQL_HOST')
@@ -35,3 +59,4 @@ COGNITO_USER_POOL_ID = get_config('COGNITO_USER_POOL_ID')
 COGNITO_APP_CLIENT_ID = get_config('COGNITO_APP_CLIENT_ID')
 ENFORCE_AUTHENTICATION = get_config('ENFORCE_AUTHENTICATION', '1')
 DEPLOYMENT_NAME = get_config('DEPLOYMENT_NAME')
+START_OPTIMIZER = get_config('START_OPTIMIZER')
