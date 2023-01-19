@@ -7,6 +7,7 @@ import AWSIoTPythonSDK.MQTTLib as AWSIoTPyMQTT
 import egauge_local_api
 import sonnen_local_api
 import powerflex_remote_api
+import pubsubClass
 import threading
 import logging
 from common import ReadResult, Reading
@@ -26,6 +27,7 @@ ENDPOINT = config.ENDPOINT
 PATH_TO_CERT = config.PATH_TO_CERT
 PATH_TO_KEY = config.PATH_TO_KEY
 PATH_TO_ROOT = config.PATH_TO_ROOT
+TOPIC_CONTROL = config.DEPLOYMENT_NAME + '_write/' + config.CLIENT_ID + '/battery'
 
 # Initialize client
 mqtt = AWSIoTPyMQTT.AWSIoTMQTTClient(CLIENT_ID)
@@ -145,6 +147,9 @@ def config_update_callback(client, userdata, message):
     new_devices_lock.release()
 
 mqtt.subscribe('%s_config/%s/devices' % (config.DEPLOYMENT_NAME, config.CLIENT_ID), QoS=1, callback=config_update_callback)
+
+# Subscribe to MQTT topic for writing power output from the optimizer to Sonnen battery
+pubsubClass.subscribe(mqtt, TOPIC_CONTROL, 'sonnen_act')
 
 terminate = False
 while not terminate:

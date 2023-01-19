@@ -64,7 +64,7 @@ class SonnenLocalApi():
                 raise Exception('Error performing Sonnen action: %s' % err)
 
             if data['mode'] == 'manual':
-                value = 0
+                value = data['power']
                 if 'value' in data['mode']: value = data['mode']
                 self.batt_act(value)
             

@@ -4,7 +4,6 @@ import AWSIoTPythonSDK.MQTTLib as AWSIoTPyMQTT
 import json
 import sonnen_local_api
 import egauge_local_api
-import batt_tests
 
 
 def publish(client, topic, payload, Device_ID):
@@ -52,6 +51,15 @@ def publish2topic(**der_data):
     except Exception as e:
         print('Publish error in sonnen_dc: ', e)
 
+# Get config of device from devices.json by supplying name
+def get_device_config(device_name):
+    with open('devices.json', 'r') as devices_file:
+        devices = json.loads(devices_file.read())['devices']
+        device_config = [device for device in devices if device["name"] == "sonnen"][0]["config"]
+    return device_config
+
+battery_config = get_device_config("sonnen")
+
 def subscribe(client, topic, method):
     if method == 'sonnen_act':
         client.subscribe(topic, 1, sonnenCallback)
@@ -62,10 +70,14 @@ def sonnenCallback(client, userdata, message):
     print('sonnen callback function')
     retval = json.loads(message.payload.decode('utf-8'))
     try:
-        if retval['DeviceInformation']['resource'] == 'sonnen':
-            pulse_info = retval['DeviceInformation']['payload']
-            batt_tests.pulse_train(period=pulse_info[0],width=pulse_info[1],power=pulse_info[2],mode='local',wu=pulse_info[3])
-            print('Success sonnen act')
+        for device in retval['DeviceInformation']:
+            if device['resource'] == "battery":
+                sonnen_obj = sonnen_local_api.SonnenLocalApi(battery_config)
+                device['payload']['action'] = 'set_mode'
+                latestPowerValue = device['payload']['power']
+                device['payload']['power'] = -(round(abs(latestPowerValue) * 1000, 1)) if latestPowerValue < 0 else (round(abs(latestPowerValue) * 1000, 1))
+                sonnen_obj.act(device['payload'])
+                break
         else:
             print('No sonnen resource')
     except Exception as e:

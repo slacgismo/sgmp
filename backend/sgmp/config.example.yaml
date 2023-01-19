@@ -9,6 +9,7 @@ MYSQL_DATABASE: sgmp
 IOT_CERT_ID: <iot_cert_id>
 IOT_ENDPOINT: <iot_endpoint>
 IOT_KEY_PATH: iot_certs/private.key
+IOT_CLIENT_ID: <iot_client_id>
 AWS_REGION: us-west-1
 COGNITO_USER_POOL_ID: us-west-1_<id>
 COGNITO_APP_CLIENT_ID: <client_id>
