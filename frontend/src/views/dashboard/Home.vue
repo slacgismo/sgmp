@@ -137,7 +137,8 @@
           constants.analytics.BatteryDischarging,
           constants.analytics.EV,
           constants.analytics.GridImport,
-          constants.analytics.GridExport
+          constants.analytics.GridExport,
+          constants.analytics.Emission
         ])
       "
     />
